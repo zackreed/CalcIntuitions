@@ -1,0 +1,71 @@
+\documentclass{ximera}
+\input{../../xmpreamble.tex}
+
+\title{Module 6: Double Integrals and Polar Integrals}
+\author{Zack Reed}
+
+\begin{document}
+\begin{abstract}
+These resources provide vital information for your success in this module. There is specific Pearson content you are responsible for reviewing. Please read through all sections before proceeding to the next page and refer back whenever necessary.
+\end{abstract}
+\maketitle
+
+\section{Course Notes: Double Integrals}
+
+In this module, we define the double integral of a function of two variables $f(x,y)$ over a region in the plane as the limit of approximating Riemann sums. The primary way of thinking about definite integrals is unchanged. The integral is the sum of small "bits" of a measurement (i.e., area, volume, mass, energy, etc.). We are merely increasing the complexity of how we build the particular measurement being summed. Simple hydrostatic force on a rectangular dam offers us a perfect means of demonstrating this extension.
+
+In the single-variable setting, we explored the measuring of force that liquids exert on dams of varying dimensions. The simplest case, that of the force exerted by water on a rectangular dam, is depicted in the following GeoGebra application. A 12x5 dam is given on the left side of the screen, and the dam has been separated into small area regions over which force is being calculated bit by bit. You may alter the "Specific Piece of Area" slider to view the small area region on a dam at different depths and view the resulting increase in force from that small region on the curve on the right side of the screen.
+
+\begin{center}
+\geogebra{xebf6ft3}{733}{594}
+\end{center}
+
+Pressure increases with depth, which is why the purple force curve bends upward. As we move bit-by-bit along the depth of the dam, the amount of force generated over each subsequent area region is increasing. Importantly, the hydrostatic force over each region is given by the product of the pressure over that region and the area of the region, $dF=P(A)\cdot dA$. In the single-variable case, we were forced to express the area and pressure in terms of the depth so that we could break apart the depth line into small pieces to sum across. We re-wrote $dA=5\cdot dD$, which is simple enough because of the constant width.
+
+We could then compute the total force from the integral $F=\int dF=\int P(A)\cdot dA=\int_0^{12}P(D)\cdot5\cdot dD$.
+
+Now, we're going to do the same exact calculation, but we'll now incorporate the entire area of the dam into our calculation. The goal is to calculate the hydrostatic force on a small bit of area, $dA$. If we create a grid along the dam, the area is created by the two variables depth $D$ and width $w$. Because the dam is rectangular, the small bit of area $dA$ at any point $(D,w)$ is given by the product $dA=dD\cdot dw$, where $dD$ is a small depth change and $dw$ is a small width change.
+
+What was nice about our hydrostatic force example was that pressure really only changed with depth, which is still true in this case. In the case of water, for instance, the pressure at a depth $D$ is given by $P(D)=9800\cdot D$. This is true at any width, so the pressure at any point $(D,w)$ on the dam is still $P(D,w)=9800\cdot D$, and the resulting small bit of force on a small bit of area is given by $dF=P(A)\cdot dA=9800\cdot D\cdot dD\cdot dw$. In the single-variable case, the integral $\int_0^{12}P(D)\cdot5\cdot dD$ comprised the sum symbol $\int_0^{12}$, which identified the region over which the summation was taking place, and then the differential $P(D)\cdot5\cdot dD$ which represented what was being summed. It is no different in these initial cases of double (and then triple) integrals! Since the depth varies from $0$ to $12$ and the width varies from $0$ to $5$, we can write the force integral as $F=\iint dF=\iint P(A)\cdot dA=\int_0^{12}\int_0^5 9800\cdot D\cdot dw\cdot dD$, which ends up being very easy to compute.
+
+Please proceed to the \textbf{Required Pearson Reading} section.
+
+\subsection{Required Pearson Reading}
+
+Further, explore the details of double integration over general regions of the x-y plane by reading Sections 15.1-15.3 in your book.
+
+Please proceed to the \textbf{Course Notes: Polar Integrals} section.
+
+\section{Course Notes: Polar Integrals}
+
+Double integrals are sometimes easier to evaluate if we change to polar coordinates. One main utility of polar coordinates is the ability to describe curved spaces more easily than is possible in rectangular coordinates. Let's take the region within unit circle as a basic example of this. This region is defined as all points of distance less than or equal to 1 from the origin. In rectangular coordinates, this is described as all points $(x,y)$ such that $\sqrt{x^2+y^2}\leq 1$. This is not too complicated, but if we wanted to integrate the function $f(x,y)=xy$ over the region, we would need to contend with the radical in the integration bounds via the integral $\iint f\cdot dA=\int_{-1}^1\int_{-\sqrt{1-x^2}}^{\sqrt{1-x^2}} x\cdot y\cdot  dy dx$.
+
+In polar coordinates, the unit circle is much more easily described as the points $(r,\theta)$ such that $r\leq 1$. This makes the bounds of integration a little more palatable, running $r$ from 0 to 1 and running $\theta$ from 0 to $2 \pi$. $f(x,y)=xy$ becomes $f(r\cos(\theta),r\sin(\theta))=r^2\sin(\theta)\cos(\theta)$ by the usual polar substitutions, and all that remains is to determine $dA$ in terms of $dr$ and $d\theta$. As seen in the following GeoGebra application, $dA$ becomes the area of a small slice of the area bounded between two circles.
+
+You alter the "Shift Radius" and "Shift $\theta$" sliders to view the area $dA$ over different portions of the unit circle and see the resulting cylinder approximating the volume under $f(x,y)=xy$ along the region $dA$. You may also select or unselect the "Show Volume" box, increase or decrease the grid created by altering the "Change size of dr" or "Change size of $d\theta$" sliders, and may use the buttons to alter your view. If you "Zoom to Unit Circle", you will want to click and drag the screen to look directly into the x-y plane to view the unit circle region of integration and the grid created.
+
+\begin{center}
+\geogebra{uucwvg4g}{740}{481}
+\end{center}
+
+As you can see in the applet, the region $dA$ is bounded between the circles of radius $r\pm \frac{dr}{2}$ and the angle measures $\theta\pm \frac{d\theta}{2}$. Taking the difference in area of the two created circular regions, $dA=\frac{d\theta}{2}(r+\frac{dr}{2})^2-\frac{d\theta}{2}(r-\frac{dr}{2})^2$. A little bit of algebra simplifies this to $dA=r\cdot dr\cdot d\theta$. The volume under $f(x,y)=xy$ when we consider the unit circle domain in the x-y plane then has differential volume $dV=f(r\cos(\theta),r\sin(\theta))\cdot dA=r^2\sin(\theta)\cos(\theta)\cdot r\cdot dr\cdot d\theta$, and the more simple bounds of integration give us a total volume of
+
+$$V=\iint dV=\int_0^{2\pi}\int_0^1r^3\sin(\theta)\cos(\theta)\cdot drd\theta,$$
+
+which is very easily computed under Fubini's Theorem with the power rule for $r$ and a simple u-substitution for $\theta$.
+
+Please proceed to the \textbf{Required Pearson Reading} section.
+
+\subsection{Required Pearson Reading}
+
+Further, explore the details of double integration over general regions of the x-y plane by reading Section 15.4 in your book.
+
+Please proceed to the \textbf{Video Resources} section.
+
+\section{Video Resources}
+
+Visit MyLab Math Multimedia Library and select this module's referenced sections of your Pearson book for Instructional Videos, Interactive Figures, and Animations related to the material.
+
+Visit the Calculus III: Multivariable Calculus playlist by Dr. Trefor Bazett, found on YouTube, for further video resources on the big-picture ideas of multivariable
+
+\end{document}
