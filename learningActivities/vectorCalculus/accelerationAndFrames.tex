@@ -1,0 +1,53 @@
+\documentclass{ximera}
+
+\title{Course Notes: Curvature, Acceleration, and TNB Frames}
+\author{YOUR-NAME-HERE}
+
+\begin{document}
+\begin{abstract}
+These notes introduce curvature of spatial curves, the TNB frame, acceleration in moving frames, and multivariable functions.
+\end{abstract}
+\maketitle
+
+\section{Course Notes: Curvature, Acceleration, and TNB Frames}
+
+We are continuing our study on how a curve turns or bends. We first examined this phenomenon in MATH 241 when we considered a function's second derivative. Thinking about the graph of a function $f$, its first derivative $f'$ tells us the slopes of the lines tangent to the graph at various points, which tells us whether the function increases or decreases. The concavity of $f$ described the bending (upward or downward) of the function's graph, which was determined by the changes to its tangent line slopes. If $f''(x)>0$, then the tangent line slopes of $f$ increased on a small interval near $x$, and $f''(x)<0$ analogously told us when the tangent line slopes for $f$ decreased.
+
+This is succinctly visualized in the following GeoGebra application, where you can progressively play out the implications of having $f''(x)<0$, $f''(x)>0$, or $f''(x)=0$ in terms of the "bending" of the function, whether the tangent line slopes increased or decreased. You simply read the text on the screen and then advance the animation by clicking the buttons (either in red or black text) to view new text, new tangent lines, and new portions of the graph of $f$. There is a reset button at the bottom left of the screen.
+
+\begin{center}
+\geogebra{uervaqau}{757}{611}
+\end{center}
+
+As we can see, when $f''(x)\neq 0$, we can determine whether the graph of $f$ bends upwards or downwards. We make these same kinds of calculations for curves in space. Instead of describing whether the tangent line slopes increase or decrease, we describe the changes to tangent vectors.
+
+As a particle moves along a smooth curve in the plane, we utilize arc length to define the curvature of spatial curves (much like defining concavity in MATH 241). We turn to arc length rather than time because you can define particles to move around curves at any speed that we want. We are looking for ways to define features of the curves independent of a particle's velocity, and arc length provides the means of achieving this.
+
+We first define a speed-independent tangent vector as $\mathbf{T}=\frac{d\mathbf{r}}{ds}=\frac{d\mathbf{r}}{dt}\frac{dt}{ds}=\frac{\vec{v}}{|\vec{v}|}$. Since $\mathbf{T}$ is a unit vector, its length remains constant and only its direction changes as the particle moves along the curve. If we differentiate $\mathbf{T}$ with respect to arc length, then we measure how the tangent vectors are changing as you move along the curve, which is analogous to the concavity measurements found by $f''$ in the single-variable case. $\frac{d\mathbf{T}}{ds}$, then, tells us the direction in which the curve $\mathbf{r}$ bends and how much the curve is bending. The amount of bending is captured by the \emph{curvature, $\kappa=\left|\frac{d\mathbf{T}}{ds}\right|$,} and the direction of the bending is the \emph{normal vector $\mathbf{N}=\frac{1}{\kappa}\frac{d\mathbf{T}}{ds}$.} Notice that we have essentially taken two derivatives of $\mathbf{r}$ to find curvature, which again draws similarities to our concavity measurements in MATH 241.
+
+\section{Course Notes: Moving Frames and Describing Acceleration}
+
+If you are traveling along a curve in space, the Cartesian $\mathbf{i}$, $\mathbf{j}$, and $\mathbf{k}$ coordinate system for representing the vectors describing your motion may not be very relevant. Instead, the vectors that represent your forward direction (the unit tangent vector $\mathbf{T}$), the direction in which your path is turning (the unit normal vector $\mathbf{N}$), and the tendency of your motion to twist out of the plane created by these vectors in the direction perpendicular to the plane (defined by the unit binormal vector $\mathbf{B}=\mathbf{T}\times\mathbf{N}$) are likely to be more important. From these three vectors, we construct what is called a $\mathbf{TNB}$ frame. This $\mathbf{TNB}$ frame allows us to visualize and describe motion as a combination of these three "directions": forward, bending, and twisting, which can be a useful tool for conceiving the motion along a curve. We may similarly talk about acceleration as a combination of our tangent and normal vectors, which allows us to more accurately capture the nature of acceleration as we traverse a curve in space.
+
+We will also derive equations for velocity and acceleration in polar coordinates. These equations are useful for calculating the paths of planets and satellites in space, and we use them to examine Kepler's three laws of planetary motion.
+
+\section{Course Notes: Multivariable Functions}
+
+We will spend a large portion of the course discussing multivariable functions, functions that have multiple variable inputs, and (for now) single-variable outputs. We will eventually discuss both derivatives and integrals of these functions, but currently, we introduce the basic constructions of functions with two or three variables.
+
+The volume of a right circular cylinder is a function $V=\pi r^2h$ of its radius and its height, so it is a function $V(r,h)$ of two variables $r$ and $h$. The speed of sound through seawater is primarily a function of salinity $S$ and temperature $T$. The monthly payment on a home mortgage is a function of the principal borrowed $P$, the interest rate $i$, and the term $t$ of the loan. These are examples of functions that depend on more than one independent variable.
+
+\begin{center}
+\geogebra{vss2d9yc}{733}{520}
+\end{center}
+
+We will extend the idea of single-variable differential calculus to functions of several variables. Their derivatives are more varied and interesting because of the different ways the variables can interact. The applications of these derivatives are also more varied than for single-variable calculus, and in later modules, we will see that the same is true for integrals involving several variables.
+
+Real-valued functions of several independent real variables are defined analogously to functions of a single variable. Points in the domain are now ordered pairs (triples, quadruples, $n$-tuples) of real numbers, and values in the range are real numbers.
+
+\section{Video Resources}
+
+
+Visit the \href{https://www.youtube.com/playlist?list=PLHXZ9OQGMqxc_CvEy7xBKRQr6I214QJcd}{Calculus III: Multivariable Calculus playlist by Dr. Trefor Bazett}, found on YouTube, for further video resources on the big-picture ideas of multivariable calculus.
+
+\end{document}

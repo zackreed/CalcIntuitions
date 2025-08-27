@@ -1,0 +1,51 @@
+\documentclass{ximera}
+
+\title{Course Notes: Triple Integrals and Other Coordinates}
+\author{YOUR-NAME-HERE}
+
+\begin{document}
+\begin{abstract}
+These notes introduce triple integrals, volume calculations, mass applications, and coordinate transformations including cylindrical and spherical coordinates.
+\end{abstract}
+\maketitle
+
+\section{Course Notes: Triple Integrals}
+
+Just as double integrals allow us to deal with more general situations than could be handled by single integrals, triple integrals enable us to solve still more general problems. A very important thing to remember with triple integrals is that we can not easily visualize the output of the function being integrated. Most of the time, we can only visualize the domain of integration.
+
+One basic computation available to us that allows visualization is a volume calculation itself, which will also help us identify how we organize the sum from an integral. An easy way to approximate the volume of an object is to slice the object into small cubes, determine a unit for the cubes, and count how many cubes are contained in the volume. For objects like spheres, such approximations will never be exact for any cube size, but we can see that the volume does approach the true sphere volume when the cube size is small.
+
+This should unsurprisingly lead to the calculation of the true volume by taking a limit of the approximations from cubes, from which we get the volume integral $V=\iiint dV=\iiint dx\ dy\ dz$. Said plainly, we calculate volume by adding up the small volumes $dV=dx\ dy\ dz$ along the interior of the sphere. This is true for any volume calculation.
+
+If we wanted to use a triple integral in some application other than volume, we would need to include some other function in the differential product, which takes the form $F=\iiint f\cdot dV=\iiint f(x,y,z)\cdot dx\ dy\ dz$. As mentioned earlier, we unfortunately lose traditional means of visualizing the output of $f(x,y,z)$ and instead can usually only view the volume over which $f$ is integrated. Mass, however, provides us with an application that accompanies a nice visual.
+
+If we know how dense an object is across a part of its volume, we can calculate mass as the product of the density and the volume, $dM=\rho(x,y,z)\cdot dV$. We can visualize the density of a region using color, as is seen in the following GeoGebra application. You control this in the same way you control the GeoGebra application in the Overview, and again, we have that the color of the small volume element represents its density. Brighter colors represent less dense regions of the object, and darker colors represent more dense regions of the object.
+
+\begin{center}
+\geogebra{yn6dgycn}{740}{481}
+\end{center}
+
+This use of color at least allows us to observe variation in the function $\rho(x,y,z)$ along the object, which results in a mass integral $M=\iiint dM=\iiint \rho(x,y,z)\cdot dV$ simulating the area generated in a single integral $A=\int f(x)\cdot dx$ or the volume generated in a double integral $V=\int f(x,y)\cdot dx\ dy$. As you develop other applications of the triple integral, you can always return to the intuition of a mass integral when trying to make sense of the basic ways that a general triple integral $F=\iiint f\cdot dV=\iiint f(x,y,z)\cdot dx\ dy\ dz$ is calculated.
+
+
+\section{Course Notes: Other Coordinates}
+
+When a calculation in physics, engineering, or geometry involves a cylinder, cone, or sphere, we can often simplify our work by using cylindrical or spherical coordinates, which are extensions of polar coordinates into three dimensions. The basic volume element in rectangular coordinates is $dV=dx\ dy\ dz$, which is taken from the volume of a cube. To better describe various curved volumes, we extend polar coordinates in two ways.
+
+The first way is to take a polar area with radius change $dr$ and angle measure change $d\theta$ and to make it a cylinder by multiplying the resulting area by height $dz$. Since the polar area of a curved region is given by $dA=r \cdot dr\ d\theta$, the resulting cylindrical volume is given by $dV=dA\ dz=r\cdot dr\ d\theta\ dz$. The other way to extend the notion of polar coordinates into a three-dimensional system is to observe that any point in space can be described as having some distance $\rho$ from the origin, some horizontal rotation $\theta$ from the positive x-axis, and some rotation $\phi$ upward or downward. This new coordinate system describes points in space.
+
+You will read about the details of switching between rectangular, cylindrical, and spherical coordinates in the eText, but for now, you can visualize these three coordinate systems in the following GeoGebra application. You may choose to view the cylinder or the sphere at one time. You may zoom to the volume element or back to the global shape, and you may alter the three variables determining the volume's position.
+
+\begin{center}
+\geogebra{xqrs44yg}{750}{675}
+\end{center}
+
+The spherical volume differential is given by $dV=\rho^2\sin(\phi)\cdot d\rho\ d\phi\ d\theta$. While these three coordinate systems form a good foundation for the various ways to represent physical space when computing triple integrals, there are other coordinate systems that we may want to devise on a case-by-case basis. The way to determine the volume elements $dV$ for these new coordinate systems involves mapping from a known coordinate system and generalizing the single-variable u-substitution process by attending to the derivatives of the map using what is called the Jacobian.
+
+
+\section{Video Resources}
+
+
+Visit the \href{https://www.youtube.com/playlist?list=PLHXZ9OQGMqxc_CvEy7xBKRQr6I214QJcd}{Calculus III: Multivariable Calculus playlist by Dr. Trefor Bazett}, found on YouTube, for further video resources on the big picture ideas of multivariable calculus.
+
+\end{document}

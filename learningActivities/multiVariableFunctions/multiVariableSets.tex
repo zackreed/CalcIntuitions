@@ -1,0 +1,66 @@
+\documentclass{ximera}
+
+\title{Course Notes: Polar Coordinates and Multivariable Sets}
+\author{YOUR-NAME-HERE}
+
+\begin{document}
+\begin{abstract}
+These notes introduce the concept of sets in two and three dimensions, motivate the use of polar coordinates, and provide resources for further study.
+\end{abstract}
+\maketitle
+
+\section{Course Notes: Polar Coordinates}
+
+For most of your mathematical careers, you have been asked to coordinate various relationships between two variables and work with a standard graphical representation of those two variables. The standard representation of such relationships (called the Cartesian Coordinate System) sets a horizontal axis against a vertical axis, typically denoted as the $x$ and $y$ axes respectively. This uses "coordinate pairs" $(x,y)$ to represent locations along the 2-dimensional region depending on a horizontal location, $x$, and a vertical location, $y$. This way of locating points on the plane is represented in the following GeoGebra application, where you can click and drag the point $P$ and determine the coordinate pair $(x,y)$ that make up $P$.
+
+\begin{center}
+\geogebra{vhyaeqmy}{739}{613}
+\end{center}
+
+Sets, then, are a collection of points $P$. Given our usual way of writing points in terms of coordinate pairs $(x,y)$, it is often useful to write sets in terms of conditions placed on $x$ and $y$. This can be easy for some sets, such as:
+\begin{itemize}
+    \item The rectangular region of all points $(x,y)$ such that $0 \leq x \leq 3$ and $1 \leq y \leq 3$
+    \item The circle defined by points $(x,y)$ satisfying the condition $x^2 + y^2 = 1$
+    \item The region bounded between the graphs of $y = x$ and $y = x^2$ when $0 \leq x \leq 1$
+\end{itemize}
+
+All of these sets are depicted in the following GeoGebra application, where you can select the boxes to view the sets, and you may drag the point $P$ within the regions specified. There is a fourth set in the application. However, that would be quite tedious to define using our typical representation of $P$ in terms of the Cartesian coordinates $(x,y)$.
+
+\begin{center}
+\geogebra{sucycy28}{689}{563}
+\end{center}
+
+This is one simple way to capture the utility of finding other ways to represent points $P$ in 2 (and later more) dimensions. It can be quite useful for various mathematical and scientific reasons to find multiple ways to represent a region in space. This motivates our initial change of variables from Cartesian into what are called polar coordinates.
+
+Rather than focusing on the horizontal and vertical locations of points in space, we instead consider how far you have to move along a circle (from the horizontal) to reach the point $P$, and what the radius of that circle must be. This is captured in the angle measure $\theta$, and the radius $r$, for a new coordinate representation $(r,\theta)$. Depicted in the following GeoGebra application is the polar representation of the same points $P$ as you saw in the original GeoGebra application, but in reference to the angle measure $\theta$, and the radius $r$.
+
+\begin{center}
+\geogebra{r9g6amrn}{691}{563}
+\end{center}
+
+In this formulation, the fourth mystery region in space can be succinctly described as the points $(r,\theta)$ where $r \leq 2\theta + 1$ and $0 \leq \theta \leq 2\pi$.
+
+
+\section{Course Notes: Quadratic Surfaces and 3-Dimensions}
+
+From previous courses, we have become accustomed to graphically dealing with the relationships between two variables at one time, typically $x$ and $y$. Describing phenomena in our world relies on establishing and analyzing relationships between at least three variables, which the textbook will often refer to as $x$, $y$ and $z$. While it may seem daunting at first, we actually have very efficient ways of handling the co-variation of three variables at once! In this course, we will often analyze the relationships between multiple variables by isolating two variables at a time.
+
+For instance, if we are considering relationships between $x$, $y$ and $z$, we might first look at how $x$ and $y$ are related if we assume a constant value for $z$, as shown in the following GeoGebra application. You may alter the "z=" slider to view the relationship between $x$ and $y$ for the particular constant value of $z$. You may also click and drag to rotate and alter the 3-dimensional view and zoom in and out. Select the "Reset Zoom" button to re-establish the initial zoom window.
+
+\begin{center}
+\geogebra{xypfhkea}{732}{506}
+\end{center}
+
+If you rotate the view to look directly at the flat $x$-$y$ plane, then your view looks like the standard 2-dimensional plane, and you can analyze the curve like you would any curve in your previous classes! We might similarly look at how $x$ and $z$ are related, and then at how $z$ and $y$ are related, as in the following GeoGebra application. You may interact with this GeoGebra application similarly to the previous GeoGebra applications. You may additionally select the "Show x-Slice" or "Show y-slice" to view the surface at a specific fixed $x$ or $y$ value, generating relationships between $z$ and $y$ and between $x$ and $z$ respectively.
+
+\begin{center}
+\geogebra{rf4mpv5m}{732}{506}
+\end{center}
+
+Notice again that if you orient your screen to look directly at the planes, you reduce the complexity to the very familiar 2-dimensional perspective. Isolating these perspectives can often give us a way to decompose the complex relationships of three or more variables systematically. There are often extra assumptions and subtleties that we will need to attend to when making these simplifications. Still, for now, we will start with the basics and gain some graphical insights by dealing with what we are familiar with!
+
+\section{Video Resources}
+
+Visit the \href{https://www.youtube.com/playlist?list=PLHXZ9OQGMqxc_CvEy7xBKRQr6I214QJcd}{Calculus III: Multivariable Calculus playlist by Dr. Trefor Bazett}, found on YouTube, for further video resources on the big picture ideas of multivariable calculus.
+
+\end{document}

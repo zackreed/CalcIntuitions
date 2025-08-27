@@ -1,0 +1,83 @@
+\documentclass{ximera}
+
+\title{Activity: Torty and Harry Rematch}
+\author{YOUR-NAME-HERE}
+
+\begin{document}
+\begin{abstract}
+This activity focuses on applying vector calculus concepts including arc length, curvature, speed, acceleration, and partial derivatives in the context of a race between Torty and Harry on a hilly track.
+\end{abstract}
+\maketitle
+
+\section{Introduction}
+
+The goal of this activity is to not just hone your calculative skills related to vector and multivariable functions but to engage you in interpretation as well and to build some intuition about what the various differential and integral calculations mean in vector contexts. Some of the calculations in these problems will be very messy to carry out by hand. For many (but not all), it will be beneficial to compute a measurement in MATLAB. This will leave space for you to decide which calculations are necessary for the problems at hand for you to interpret the results of various calculations.
+
+This activity focuses on a race between Torty and Harry. Harry decided that he could gain an advantage by racing along a hilly region in the mountains. The hilly region and track are visualized in the provided GeoGebra applet.
+
+Harry has become quite adjusted to racing along inclines and declines. His path in the provided GeoGebra applet is defined by the curve $h(t)=\langle \cos(t), \sin(t), \cos(t)\sin^2(t)\rangle$, for which two laps around the course takes $4 \pi$ seconds.
+
+In their rematch, Torty is less adjusted to running along hilly regions and tires after bursts of speed. His path in the provided GeoGebra applet is defined by the curve $\tau (t)=\langle \cos(t+\sin(t)), \sin(t+\sin(t)), \cos(t+\sin(t))\sin^2(t+\sin(t))\rangle$.
+
+You may alter the "$t$=" slider to view Torty and Harry's positions, velocities, and accelerations at any time during the race. You may also use the "Show Torty's Curve" and "Show Harry's Curve" checkboxes to view either of the racer's curve in isolation.
+
+\begin{center}
+\geogebra{yzxdk5uw}{844}{629}
+\end{center}
+
+\section{Discussion Tasks}
+
+You have three tasks. You must first answer each question based on your intuition or off of what you observe in the GeoGebra app before making a calculation. Then, you will confirm (or alter) your initial conjecture with calculations.
+
+\subsection{Task One}
+
+Answer the following questions about the race depicted in the GeoGebra applet.
+
+\begin{enumerate}
+\item To determine the length of the racetrack, can we use only one of the racers' curves to measure the length, or must we use both curves? Why? Your final justification must include at least one calculation of the racetrack length done in MATLAB, with the input code attached to or pasted within the post.
+
+\item Who wins the race depicted in the GeoGebra application? Justify this using definite integrals.
+
+\item In the moments where Torty and Harry meet, who has the greater speed? Who has a greater acceleration? (Hint: You can fairly intuitively determine where they meet by examining the similarities and differences between their functions. Then, find a way to approximate the values of their speeds and accelerations)
+
+\item What is the curvature difference between Torty and Harry's curves in the moments that they meet? Explain your result. (Hint: Setting up the curvature calculations in MATLAB will be useful; you will need to use a limit as part of these calculations when Torty's speed is 0).
+\end{enumerate}
+
+\subsection{Task Two}
+
+After the first race on this hilly track, Torty and Harry want a rematch. Torty uses his rest periods to store up enough "running energy" to double his speed \emph{during the last stretch of the race} (i.e., he will finish the race doubling his speed). Doubling his speed takes up quite a bit of "running energy," however, and so if Torty speeds ahead too soon, he might not finish the race out of exhaustion. Torty knows this and is trying to strategically determine when to speed ahead. He estimates that, \emph{while doubling his speed}, for every small unit of distance ($ds$) over which his speed is doubled, he uses up $s^{1.3}\cdot ds$ units of energy.
+
+Answer the following questions about the race depicted in the GeoGebra applet.
+
+\begin{enumerate}
+\item How much "running energy" ($RE$) would it take for Torty to double his speed in the final lap? How much $RE$ would it take for Torty to double his speed over the entire race? Note: You can begin the calculation without making an initial brainstorming post in this case.
+
+\item If Torty knows that he stops running out of exhaustion after expending $RE$ equal to half of the $RE$ it would take to double his speed over the entire race, when (accurate to within half of a second) should Torty start to speed ahead to win the race? Note: You want to ultimately find the time at which Torty should double his speed, but this requires attending to arclength. (Hint: Your work will go much faster if you use MATLAB to either carry out a "trial and error" process involving the multiple integral calculations or use MATLAB to solve multiple equations for your desired values.)
+
+\item By how many seconds does Torty win the race?
+\end{enumerate}
+
+\subsection{Task Three}
+
+After Harry's second defeat, he wants to look for ways to make the course even more difficult for Torty. After talking to a landscaper, Harry determined that the terrain around the track (considering the center of the track to be the point $(0,0,0)$) can be defined by the function $f(x,y)=xy^2$. The race track is determined by taking the points $(x,y,f(x,y))$, where $(x,y)$ follow the unit circle.
+
+Harry suspects that making the course more difficult within the first quadrant (of the unit circle) will further hinder Torty's ability to run effectively.
+
+\begin{center}
+\geogebra{xca7zyda}{749}{721}
+\end{center}
+
+Using \textbf{\emph{only partial derivatives, directional derivatives, and/or tangent planes,}} answer the following prompts.
+
+\begin{enumerate}
+\item Estimate the current height change along the course between the points $A=\left(\frac{\sqrt{3}}{2},\frac{1}{2}\right)$ and $B=\left(\frac{1}{2},\frac{\sqrt{3}}{2}\right)$, as depicted in Figures 1 and 2. For your brainstorming post, identify two different ways to estimate this height change. One with derivatives and one without. (Hint: Setting up these calculations in MATLAB will make your life easier when answering the remaining questions, but these can all be done fairly easily by hand if desired).
+
+\item Harry has found potential locations, Point $B^{\prime}$ and $B^{''}$, over which to run the course instead of point $B$, then curving the course around to quickly return to its normal intersection with the y-axis. $B^{\prime}$ lies directly North of point $A$, and $B^{''}$ lies directly East of $A$. Points $B^{\prime}$ and $B^{''}$ are the same distance away from point $A$ as was point $B$, as depicted in Figures 3 and 4. (Note: Consider the positive $x$-axis to be East and the positive $y$-axis to be North)
+
+First, conjecture and then verify whether moving from $A$ to $B$, $B'$, or $B''$ results in the approximate greatest height change over that isolated region of the course.
+
+\item Because of the topography around the course, Harry can only alter the course after the point $A$ by moving Northeast, Northwest, Southeast, or Southwest, and only by the same horizontal distance as the original change from $A$ to $B$. Compare the estimated height changes in each direction to determine the new course that would prove the most difficult journey. (Remember to give an initial conjecture based on the provided applet and Figures.)
+\end{enumerate}
+
+
+\end{document}

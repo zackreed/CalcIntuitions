@@ -1,0 +1,97 @@
+\documentclass{ximera}
+
+\title{Activity: Exploring Applications of Multiple Integrals}
+\author{YOUR-NAME-HERE}
+
+\begin{document}
+\begin{abstract}
+This group discussion activity focuses on applying triple integrals to calculate mass and gravitational attraction, and using line integrals to analyze work done in lifting motions.
+\end{abstract}
+\maketitle
+
+\section{Introduction}
+
+Over the course of MATH 241 and MATH 242, we developed an appreciation for the primary way to understand and utilize the definite integral, that of "Adding Up Pieces." Definite integration allows us to functionally extend multiplication to cases where basic multiplication does not apply. We examined many basic contexts such as motion, area, volume, gravitational attraction, energy, kinetic energy, population distribution, and fluid forces, all of which began with a basic physical model, which we then extended to handle some complexity.
+
+In the case of work, if we have a uniform force applied over a segment of distance, then we can express the work done as $W=F\cdot D$. In the case of compressing a spring inward, the force increases with distance, with linear force functions such as $F(D)=55\cdot D$ Newtons. There is no one force to use over any interval of distance to compute work. Instead, we approximated the work done over small intervals of time spanning $dD$ meters, and let a distance within that small interval give the representative force so that the small work change could be represented by $dW=F(D)\cdot dD$. We then summed together the small work changes $dW$ to give the total work change $\int dW=\int F(D)\cdot dD$.
+
+\textbf{Note:} This notion of "adding up pieces" is made rigorous by taking limits of Riemann Sums.
+
+The following GeoGebra application demonstrates this notion of "adding up pieces" in the context of spring compression. You may alter the "Stopping Distance X=" slider to change the distance to which the spring is compressed inward from rest. You may alter the "View Differential Change Elements" slider to visualize the small bit of energy computed over varying small bits of distance $dD$.
+
+\begin{center}
+\geogebra{amcsb2hz}{650}{461}
+\end{center}
+
+Notice that over each small distance $dD$, the energy is given by $dE=F(D)\cdot dD$, where $F(D)$ is taken as a single force within the interval of distance $dD$. Notice that the force $F(D)$ grows as the spring is pressed further inward, hence the increasing size of the differential change $dE$ relative to the fixed distance interval $dD$. This visualizes the summation process represented by $\int dE=\int_0^X F(D)\cdot dD$.
+
+In more complex scenarios, the process of building small pieces of a quantity to be summed together remained the same! There is always only one way to think about integration, and this same way of thinking will apply in the following discussion. As a more complex scenario, recall the context of gravitational attraction. Two points having masses $m_1$ and $m_2$ separated by a distance $r$ have a gravitational attraction of $F=\frac{Gm_1m_2}{r^2}$ (G is a constant term). If we wanted to extend this to finding the gravitational attraction between a point mass and a uniformly dense rod with mass $M$ and length $\ell$ that extends in a line away from the point mass, we can no longer use the basic model $F=\frac{Gm_1m_2}{r^2}$ because no one distance $r$ separates the point mass from the rod.
+
+Instead, we consider a small segment of the rod with length $dr$ meters (just like we considered a small time segment with motion) and reconstruct the small gravitational force over that small bit of the rod. If $m_1$ is the point's mass and $r$ is one of a representative distance between the point mass and somewhere along the rod within the segment of length $dr$, then we have $dF=\frac{Gm_1dM}{r^2}$, where $dM$ is the mass of the small segment that we chose.
+
+This segmentation is depicted in the following GeoGebra application, where you can increase or decrease N to view large or small rod segments, and may alter "Sample Distance=" to see an approximation of $dF=\frac{Gm_1dM}{r^2}$ over any small segment of the rod.
+
+\begin{center}
+\geogebra{x3amugxh}{850}{305}
+\end{center}
+
+Since the rod is uniformly dense, the density of the rod $\frac{M}{\ell}$ lets us determine the mass of the small segment by considering the segment length $dr$. This gives us $dF=\frac{Gm_1dM}{r^2}=\frac{Gm_1\frac{M}{\ell}dr}{r^2}$, and we can sum the small force pieces along the length of the rod to get $\int dF=\int\frac{Gm_1\frac{M}{\ell}dr}{r^2}$. Again, the details for this example are a bit more involved, but the details are rooted in attention to what the integral represents, a process of summing together small bits of a quantity (distance, force, etc.) by attending to how you construct the quantity over small regions.
+
+\section{Tasks}
+
+Double and Triple integrals are no different. We merely have more tools for constructing the basic quantities over more complicated objects. Often, constructing double and triple integrals depends on working with a small volume element $dV$. Mass, for instance, takes a density $\rho$ so that the total mass of an object can be summed one small element at a time from $dM=\delta\cdot dV$ for a total mass of $\iiint dM=\iiint\delta\cdot dV$. Whether the density is defined in rectangular, cylindrical, or spherical coordinates, the basic construction over any small volume is given by $dM=\delta\cdot dV$.
+
+We will begin by calculating the masses of various objects according to multiple coordinate representations and then will answer more complicated integrals that still require the same basic construction of a quantity as always, only now we will be constructing the quantities along a representative volume element $dV$.
+
+\subsection{Task One}
+
+Much like the basic construction of distance under a variable velocity, we will begin with very basic triple integral constructions and then engage in more complicated modeling.
+
+You are assigned to an initial shape \textbf{by your birth month.}
+
+\begin{itemize}
+\item Shape 1: January-June
+\item Shape 2: July-December
+\end{itemize}
+
+\textit{Shape 1: A 5-meter tall cone with a flat base of radius 4 meters with a density of $3 \frac{\text{kg}}{\text{m}^3}$ at its tip that increases linearly by $2 \frac{\text{kg}}{\text{m}^3}$ for each meter length away from the tip.}
+
+\textit{Shape 2: A sphere with a radius of 5 meters has a density $3 \frac{\text{kg}}{\text{m}^3}$ at its center that increases linearly by $2 \frac{\text{kg}}{\text{m}^3}$ for each meter length away from the center.}
+
+\begin{center}
+\framebox[0.9\textwidth]{\parbox{0.85\textwidth}{
+\textbf{Task:} Your overall goal is to find the gravitational attraction between a point mass and the two shapes below. You will first make a brainstorming post and initial solution to your assigned shape, and then, as a group, you are to develop full solutions for both shapes.
+}}
+\end{center}
+
+The following GeoGebra application allows you to examine the two shapes and specifically observe the variation of a small volume element within the shapes. You may select the "Show Cone" or "Show Sphere" checkboxes to have either shape appear. You may drag the right screen to rotate the 3D view and may zoom in and out by scrolling. You may select the "Zoom Out" button to return to a global view of the object and may select the "Zoom In" button to isolate the current location of the volume element. You may also alter the sliders to change the position of the volume element according to the cylindrical (for the cone) and spherical (for the sphere) coordinates.
+
+\begin{center}
+\geogebra{ssum9mnc}{885}{543}
+\end{center}
+
+As a warm-up, you first want to find the mass of your chosen shape. The basic model for mass is as a density-volume product, $M=\delta\cdot V$, where $\delta$ is the uniform density throughout the volume. Note that for our shapes, the density varies throughout the object, which is why we need to integrate. (Hint: Choose a convenient coordinate system).
+
+You are then to calculate the gravitational attraction between a point mass and your chosen object. The basic model for gravitational attraction between two uniformly dense point masses is given by Newton's Law of Gravitation: $F=\frac{G\cdot m_1\cdot m_2}{D^2}$, where $G\approx 6.6743\times 10^{-11}$, $m_1$ and $m_2$ are the point masses, and $D$ is the distance between the points.
+
+For your problem, the point has mass $m=\frac{M}{10}$, where $M$ is the mass of your chosen object. For \textit{Shape 1}, the point is 10 meters directly below the tip of the cone, and the cone is now \textit{uniformly dense} (meaning that no one volume region is more dense than another). For \textit{Shape 2}, the point is located 15 meters from the center of the sphere. (Note: Technically, with symmetric cases such as these, there is a cancellation of the horizontal gravitational forces; we will ignore this fact for ease of computation).
+
+\subsection{Task Two}
+
+During Module 1, you examined the work done by our backs when we lift a box (using both improper and proper techniques). Because of our available tools at the time, we could only approximate the work done by our backs when improperly lifting a box. With the advent of line integrals within a vector field, we now have the ability to exactly compute the work done by our backs from this motion.
+
+\begin{center}
+\framebox[0.9\textwidth]{\parbox{0.85\textwidth}{
+\textbf{Task:} Your overall goal is to calculate the work done by the lifter's back when she lifts a box under the "Improper Technique."
+}}
+\end{center}
+
+First, define the vector fields that capture the weights of our upper bodies and of the box that are involved in the lifting of the box. Use these vector fields to calculate the work done by simply the motion of moving the box and moving the lifter's upper body along the paths. The orange $\vec r_1(t)$ of the lifter's upper body in orange is simplified to be $\vec r_1(t)=\langle 3 \cos\left(\frac{\pi}{2} t\right), 3\sin\left(\frac{\pi}{2}t\right)\rangle$ on the time interval $[0,1]$. The green path $\vec r_2(t)$ of the box being lifted is given by $\vec r_2(t)=\langle (4-t) \cos\left(\frac{\pi}{2}\cdot 1.7 t-\frac{\pi}{4}\right), (3-\frac{t}{2})\sin\left(\frac{\pi}{3}\cdot 1.7t-\frac{\pi}{4}\right)\rangle$ on the time interval $[0,1]$.
+
+\begin{center}
+\geogebra{byvh3hft}{741}{613}
+\end{center}
+
+Finally, use a line integral to compute the work done by our backs in this lifting motion. The back force $F_B$ is perpendicular to the radius vector function $\vec r_B(t)$, which travels a quarter circular path as shown, with radius $.08$ meters. (Hint: You'll need to calculate a function from the torque of the system at any time $t$ to get a magnitude for the force vector $F_B$. Using MATLAB to make the torque calculations for you will greatly reduce your computational work on this problem. refer to the Module 1-2 Discussion's MATLAB Support for a refresher on vector operations in MATLAB.)
+
+\end{document}

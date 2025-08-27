@@ -1,0 +1,83 @@
+\documentclass{ximera}
+
+\title{Course Notes: Partial Derivatives}
+\author{Zack Reed}
+
+\begin{document}
+\begin{abstract}
+These notes introduce the concept of partial derivatives, the chain rule for multivariable functions, tangent planes, directional derivatives, and gradients.
+\end{abstract}
+\maketitle
+
+\section{Course Notes: Partial Derivatives}
+
+The calculus of several variables is similar to single-variable calculus applied to several variables one at a time. When we hold all but one of the independent variables of a function constant and differentiate with respect to that one variable, we get a "partial" derivative. One affordance of considering only one independent variable at a time is our ability to apply the same derivative rules that we have been familiar with since MATH 241. Considering only one variable at a time leads to the \emph{partial derivatives $f_x(a,b)=\frac{\partial f}{\partial x}\bigg|_{(x,y)=(a,b)}=\lim_{\Delta x\rightarrow 0}\frac{f(a+\Delta x,b)-f(a,b)}{\Delta x}$} and \emph{$f_y(a,b)=\frac{\partial f}{\partial y}\bigg|_{(x,y)=(a,b)}=\lim_{\Delta y\rightarrow 0}\frac{f(a,b+\Delta y)-f(a,b)}{\Delta y}$} at the point $(a,b)$. Notice that we only consider variation in $x$ or variation in $y$ when taking the limit, which creates the isolation of the derivative to a single direction.
+
+This is visualized in the following GeoGebra application, where you can view the tangent line with slope $f_x(a,b)$ or $f_y(a,b)$ at the point $(a,b)$, and view the impact of isolating only the $x$ or $y$ direction. You may use the buttons on the top left of the screen to visualize the tangent lines with slopes $f_x$ or $f_y$ at different points $\left(x,y\right)$. You may also zoom in around the point on the surface to view the tangent line and may hide the surface to only isolate the curves found along the $x$ or $y$ directions.
+
+\begin{center}
+\geogebra{gsdw8ufk}{741}{572}
+\end{center}
+
+While this allows us to immediately carry over most derivative rules from single-variable calculus, composing a multivariable function $f(a,b)$ with a new function $g(t)$ introduces variation in both directions, so we need to account for this variation in all directions when taking the derivative.
+
+The Chain Rule in single-variable calculus says that when $w=f(x)$ is a differentiable function of $x$ and $x=g(t)$ is a differentiable function of $t$, then the differential for $w$ in terms of $t$ is
+
+$$dw=f^{\prime}(x)\cdot dx=f^{\prime}(g(t))\cdot(g^{\prime}(t)dt)$$
+
+This lets us write the derivative of $w$ in terms of $t$ as
+
+$$\frac{dw}{dt}=f^{\prime}(x)\cdot\frac{dx}{dt}=f^{\prime}(g(t))\cdot g^{\prime}(t).$$
+
+For this composite function $w(t)=f(g(t)),$ we can think of $t$ as the independent variable and $x=g(t)$ as the "intermediate variable," because $t$ determines the value of $x$ which in turn gives the value of $w$ from the function $f$.
+
+When working with implicit differentiation or solving related rates problems, we often dealt with equations that relied on multiple variables changing at once, such as the volume equation for a cylinder $V=\pi r^2 h$. We handled the derivatives of these expressions with multiple variables by considering each variable as a function of time and employing the chain rule. For instance, we obtained the differential
+
+$$dV=\pi r^2 \cdot dh+\pi 2rh\cdot dr$$
+
+by considering that the product $r^2 h$ varied both in $r$ and $h$, and hence, required the product rule. The rate of change equation that resulted was 
+
+$$\frac{dV}{dt}=\pi r^2 \cdot \frac{dh}{dt}+\pi 2rh\cdot \frac{dr}{dt}.$$
+
+We now enact this same strategy again when carrying out the chain rule on multivariable functions. If we have a function $f(x,y)$ and consider the compositions $x(t)$ and $y(t)$, then we employ the chain rule by accounting for variation in each variable for the derivative
+
+$$\frac{df}{dt}=\frac{\partial f}{\partial x}\cdot \frac{dx}{dt}+\frac{\partial f}{\partial y}\cdot \frac{dy}{dt}=f_x(x,y)\cdot \frac{dx}{dt}+f_y(x,y)\cdot \frac{dy}{dt}.$$
+
+In the case of our volume function $V(h,r)=\pi r^2 h$, we end up with the same result as before, 
+
+$$\frac{dV}{dt}=\frac{\partial V}{\partial h}\cdot \frac{dh}{dt}+\frac{\partial V}{\partial r}\cdot \frac{dr}{dt}=\pi r^2 \cdot \frac{dh}{dt}+\pi 2rh\cdot \frac{dr}{dt}.$$
+
+As you will read about in further detail in your eText, we will extend this idea to account for the chain rule in many contexts.
+
+\section{Course Notes: Tangent Planes, Directional Derivatives, and Gradients}
+
+For multivariable functions $f(x,y)$, the partial derivatives $f_x(a,b)$ and $f_y(a,b)$ play the same role that $f'(a)$ played in the single-variable case, but only together do they determine the vertical shift along the resulting tangent plane.
+
+This is seen in the following GeoGebra application, where you can specifically view the tangent plane at a point $(a,b,f(a,b))$ and the related derivatives. The vector $\vec u$ determines the direction of the derivative, which you can drag around the point $(a,b)$. (Note: You can only drag the tip of $\vec u$ on the right screen; you may need to hide the surface to do this). You also may alter the point $(a,b)$ along the x-y plane to change the location of the tangent plane (Note: again, only on the right screen).
+
+Altering $\vec u$ shows the slice of the surface given by $f(x,y)$ that determines the tangent line slope given by $\frac{dz}{ds}$, the directional derivative. Checking the "Show Directional Derivative" box visualizes the differentials $dz$ and $ds$ that determine the slope of the line (much like $df$ and $dx$ determining the slope of the line in the single-variable case).
+
+\begin{center}
+\geogebra{y3bnsnbv}{740}{612}
+\end{center}
+
+Checking the "Show Differential Build" box breaks down $ds$ into the horizontal differentials $dx$ and $dy$ along the x-y plane. This shows how we find the differential $dz$ from both partial derivatives.
+
+Notice that both $f_x(a,b)\cdot dx$ and $f_y(a,b)\cdot dy$ partially result in vertical motion and that together, they determine $dz$. This is the new linearization of $f(x,y)$, extended from the single variable case. Rather than the vertical motion in the single variable case determined by $df=f'(a)\cdot dx$, we have the total differential $dz=f_x(a,b)\cdot dx+f_y(a,b)\cdot dy$ now determining motion along the plane away from the point $(a,b,f(a,b))$. The only thing that changed from the single variable case was the need for two differential products to account for the two dimensions of variation in our input. We can now calculate the directional derivative as $\frac{df}{ds}=f_x(a,b)\cdot \frac{dx}{ds}+f_y(a,b)\cdot \frac{dy}{ds}$, where we account for the shifting of $x$ and $y$ with respect to arc length.
+
+Now, view the same applet here, but check the "Show Gradient" box and uncheck the other boxes to remove clutter.
+
+\begin{center}
+\geogebra{y3bnsnbv}{740}{612}
+\end{center}
+
+If we take a unit vector $\vec u=\langle u_1,u_2\rangle$ away from $(a,b)$, then it runs along a line, its derivatives $\frac{dx}{ds}$ and $\frac{dy}{ds}$ are simply its components, $u_1$ and $u_2$. The directional derivative can thus be expressed as $\frac{df}{ds}=f_x(a,b)\cdot u_1+f_y(a,b)\cdot u_2$.
+
+The calculation $f_x(a,b)\cdot u_1+f_y(a,b)\cdot u_2$ also represents the dot product between the vectors $\vec u=\langle u_1,u_2\rangle$ and another vector $\langle f_x(a,b) , f_y(a,b)\rangle$. This is another way to view the directional derivative, as the dot product of the direction vector $\vec u$ and the new (and special) vector $\langle f_x(a,b) , f_y(a,b)\rangle=\nabla f$ that we call the \emph{gradient of $f$.} One special property of $\nabla f$ is that it points in the direction where the function has its greatest increase. You can see this by dragging the unit vector $\vec u$ around, noticing that the directional derivative has the greatest slope when $\vec u$ is in the same direction as $\nabla f$, and that the directional derivative has the least slope when $\vec u$ is in the opposite direction as $\nabla f$. This makes sense since the dot product with a unit vector is greatest when both vectors are aligned.
+
+\section{Video Resources}
+
+
+Visit the \href{https://www.youtube.com/playlist?list=PLHXZ9OQGMqxc_CvEy7xBKRQr6I214QJcd}{Calculus III: Multivariable Calculus playlist by Dr. Trefor Bazett}, found on YouTube, for further video resources on the big-picture ideas of multivariable calculus.
+
+\end{document}
