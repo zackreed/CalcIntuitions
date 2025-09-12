@@ -1,0 +1,269 @@
+\documentclass{ximera}
+\title{Vector Function Applications — Problems with Worked Solutions (interactive)}
+\author{Prepared for Calc III}
+\begin{document}
+\begin{abstract}
+Four worked applications using vector-valued functions. Each solution is presented step-by-step, and final intermediate/final results are provided as interactive inputs (\texttt{\textbackslash answer\{\}}) so students confirm the computations as they read.
+\end{abstract}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Kinematics}
+
+\begin{problem}
+A particle moves in space along the path
+\[
+\vec{r}(t) = \langle t,\, \sin t,\, \cos t\rangle.
+\]
+
+Find the velocity vector $\vec{v}(t)$.
+
+Find the acceleration vector $\vec{a}(t)$.
+
+Compute the speed at $t=\pi/2$.
+
+Find the total distance traveled on $[0,2\pi]$.
+\end{problem}
+
+\begin{solution}
+We differentiate componentwise.
+
+\[
+\vec{v}(t)=\vec r'(t)
+= \langle \,\frac{d}{dt}t,\; \frac{d}{dt}\sin t,\; \frac{d}{dt}\cos t \,\rangle
+= \langle 1,\; \cos t,\; -\sin t\rangle.
+\]
+Enter the velocity vector:
+\[
+\vec{v}(t)=\answer{\langle 1,\;\cos t,\; -\sin t\rangle}.
+\]
+
+Differentiate again for acceleration:
+\[
+\vec{a}(t)=\vec v'(t)=\langle 0,\; -\sin t,\; -\cos t\rangle.
+\]
+Enter the acceleration vector:
+\[
+\vec{a}(t)=\answer{\langle 0,\; -\sin t,\; -\cos t\rangle}.
+\]
+
+Speed is the norm of velocity:
+\[
+\|\vec v(t)\|=\sqrt{1^2+\cos^2 t+(-\sin t)^2}
+=\sqrt{1+\cos^2 t+\sin^2 t}=\sqrt{1+1}=\sqrt{2}.
+\]
+So the speed (constant) is
+\[
+\|\vec v(\tfrac{\pi}{2})\|=\answer{\sqrt{2}}.
+\]
+
+Distance traveled on $[0,2\pi]$ is the arc length:
+\[
+\int_0^{2\pi} \|\vec v(t)\|\,dt = \int_0^{2\pi} \sqrt{2}\,dt
+= 2\pi\sqrt{2}.
+\]
+Enter the total distance:
+\[
+\text{Distance}=\answer{2\pi\sqrt{2}}.
+\]
+
+\bigskip
+\begin{multipleChoice}
+  \choice{The speed is not constant; it depends on \(t\).}
+  \choice[correct]{The speed is constant and equals \(\sqrt{2}\).}
+  \choice{The speed is constant and equals \(1\).}
+\end{multipleChoice}
+\end{solution}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Center of Mass of a Quarter-Circle Wire (variable density)}
+
+\begin{problem}
+A thin wire is bent into a quarter-circle of radius $2$, lying in the first quadrant (center at origin). Its linear density at a point is proportional to the $x$-coordinate (i.e. $\rho(x,y)=x$). Find the coordinates of the center of mass.
+\end{problem}
+
+\begin{solution}
+Parameterize the quarter-circle by angle:
+\[
+\vec r(\theta)=\langle 2\cos\theta,\;2\sin\theta\rangle,\qquad 0\le\theta\le\frac{\pi}{2}.
+\]
+Enter the parameterization:
+\[
+\vec r(\theta)=\answer{\langle 2\cos\theta,\;2\sin\theta\rangle}.
+\]
+
+The density expressed as a function of $\theta$ is
+\[
+\rho(\theta)=x(\theta)=2\cos\theta.
+\]
+The differential arc length is
+\[
+ds=|\vec r'(\theta)|\,d\theta = (2)\,d\theta.
+\]
+
+\textbf{Total mass:}
+\[
+M=\int_0^{\pi/2} \rho(\theta)\,ds
+=\int_0^{\pi/2} (2\cos\theta)\cdot 2\,d\theta
+=4\int_0^{\pi/2}\cos\theta\,d\theta
+=4(\sin\theta)\Big|_0^{\pi/2}=4.
+\]
+Enter the mass:
+\[
+M=\answer{4}.
+\]
+
+\textbf{Moment about the $y$-axis} (for $\bar x$):
+\[
+\int x\,dm = \int_0^{\pi/2} x(\theta)\,\rho(\theta)\,ds
+= \int_0^{\pi/2} (2\cos\theta)\cdot(2\cos\theta)\cdot 2\,d\theta
+=8\int_0^{\pi/2}\cos^2\theta\,d\theta.
+\]
+Use $\cos^2\theta=\frac{1+\cos 2\theta}{2}$:
+\[
+8\int_0^{\pi/2}\cos^2\theta\,d\theta
+=8\cdot\frac{1}{2}\int_0^{\pi/2}(1+\cos 2\theta)\,d\theta
+=4\Big[\theta+\tfrac{1}{2}\sin 2\theta\Big]_0^{\pi/2}
+=4\cdot\frac{\pi}{2}=2\pi.
+\]
+So
+\[
+\bar x=\frac{1}{M}\int x\,dm=\frac{2\pi}{4}=\frac{\pi}{2}.
+\]
+Enter $\bar x$:
+\[
+\bar x=\answer{\tfrac{\pi}{2}}.
+\]
+
+\textbf{Moment about the $x$-axis} (for $\bar y$):
+\[
+\int y\,dm = \int_0^{\pi/2} (2\sin\theta)(2\cos\theta)(2)\,d\theta
+=8\int_0^{\pi/2}\sin\theta\cos\theta\,d\theta.
+\]
+But $\int_0^{\pi/2}\sin\theta\cos\theta\,d\theta = \tfrac12$, so numerator = $8\cdot\tfrac12=4$.
+Thus
+\[
+\bar y=\frac{4}{M}=\frac{4}{4}=1.
+\]
+Enter $\bar y$:
+\[
+\bar y=\answer{1}.
+\]
+
+Therefore the center of mass is
+\[
+(\bar x,\bar y)=\answer{\left(\tfrac{\pi}{2},\,1\right)}.
+\]
+
+\bigskip
+\begin{multipleChoice}
+  \choice{The center lies at the geometric centroid of the quarter circle.}
+  \choice[correct]{The center is shifted toward the positive $x$-side because density depends on $x$.}
+  \choice{The center lies on the circle itself.}
+\end{multipleChoice}
+\end{solution}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Variable Density Rod}
+
+\begin{problem}
+A rod lies on the $x$-axis from $x=0$ to $x=3$ and has linear density $\rho(x)=1+x^2$ (mass per unit length). Find the rod's total mass and its center of mass coordinate $\bar x$.
+\end{problem}
+
+\begin{solution}
+\textbf{Total mass:}
+\[
+M=\int_0^3 \rho(x)\,dx = \int_0^3 (1+x^2)\,dx
+= \Big[x+\tfrac{x^3}{3}\Big]_0^3 = 3 + \tfrac{27}{3} = 3+9 = 12.
+\]
+Enter the mass:
+\[
+M=\answer{12}.
+\]
+
+\textbf{Moment about the origin (first moment):}
+\[
+\int_0^3 x\,\rho(x)\,dx = \int_0^3 x(1+x^2)\,dx
+= \int_0^3 (x + x^3)\,dx
+= \Big[\tfrac{x^2}{2} + \tfrac{x^4}{4}\Big]_0^3
+= \tfrac{9}{2} + \tfrac{81}{4} = \tfrac{18}{4} + \tfrac{81}{4} = \tfrac{99}{4}.
+\]
+
+Thus the center of mass coordinate is
+\[
+\bar x = \frac{1}{M}\int_0^3 x\rho(x)\,dx = \frac{99/4}{12} = \frac{99}{48} = \frac{33}{16}.
+\]
+Enter $\bar x$:
+\[
+\bar x=\answer{\tfrac{33}{16}}.
+\]
+\end{solution}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Economics — Revenue Maximization}
+
+\begin{problem}
+A firm's demand satisfies \(q(p)=100-2p\). Revenue is \(R(p)=p\cdot q(p)\).
+
+Express \(R(p)\) as a function of \(p\).
+
+Compute \(R'(p)\).
+
+Solve \(R'(p)=0\) for the critical price.
+
+Use the second derivative test to classify the critical point.
+
+Compute the maximum revenue.
+\end{problem}
+
+\begin{solution}
+\textbf{Revenue as a single-variable function:}
+\[
+R(p)=p(100-2p)=100p-2p^2.
+\]
+Enter \(R(p)\):
+\[
+R(p)=\answer{100p-2p^2}.
+\]
+
+Differentiate:
+\[
+R'(p)=100-4p.
+\]
+Enter \(R'(p)\):
+\[
+R'(p)=\answer{100-4p}.
+\]
+
+Solve \(R'(p)=0\Rightarrow 100-4p=0\Rightarrow p=25\).
+Enter the critical price:
+\[
+p=\answer{25}.
+\]
+
+Second derivative:
+\[
+R''(p)=-4.
+\]
+Enter \(R''(p)\):
+\[
+R''(p)=\answer{-4}.
+\]
+\begin{multipleChoice}
+  \choice{Since \(R''(25)>0\), \(p=25\) is a local minimum.}
+  \choice[correct]{Since \(R''(25)<0\), \(p=25\) is a local maximum.}
+  \choice{The second derivative test is inconclusive here.}
+\end{multipleChoice}
+
+Finally compute the revenue at \(p=25\):
+\[
+R(25)=100(25)-2(25)^2 = 2500 - 1250 = 1250.
+\]
+Enter the maximum revenue:
+\[
+R_{\max}=\answer{1250}.
+\]
+\end{solution}
+
+\end{document}

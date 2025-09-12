@@ -1,0 +1,228 @@
+\documentclass{ximera}
+
+\title{Applications of Multivariable Calculus: Worked Problems with Interaction}
+\author{YOUR-NAME-HERE}
+
+\begin{document}
+\begin{abstract}
+In this activity set, you will practice applying double and triple integrals, gradients, and density ideas to real scenarios. Each problem is fully worked out, but with interactive checkpoints.
+\end{abstract}
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Temperature distribution on a plate}
+
+A thin square metal plate occupies $0\leq x\leq 2$, $0\leq y\leq 2$. 
+The temperature distribution is $T(x,y)=100-5x^2-3y^2$ (in ${}^\circ$C).
+
+\begin{problem}
+Find the average temperature on the plate.
+
+\begin{solution}
+The average value formula is
+\[
+T_{avg} = \frac{1}{A}\iint_{R} T(x,y)\,dA,
+\]
+where $A=$ area of the region. Here $A=\answer{4}$.
+
+So,
+\[
+T_{avg}=\frac{1}{4}\int_0^2\int_0^2 (100-5x^2-3y^2)\,dy\,dx.
+\]
+
+First integrate with respect to $y$:
+\[
+\int_0^2 (100-5x^2-3y^2)\,dy 
+= (100-5x^2)(2) - \int_0^2 3y^2\,dy.
+\]
+
+\begin{multipleChoice}
+\choice{The second term is $6$.}
+\choice[correct]{The second term is $8$.}
+\choice{The second term is $12$.}
+\end{multipleChoice}
+
+So the inside integral is $200-10x^2-8=192-10x^2$.
+
+Now integrate in $x$:
+\[
+\int_0^2 (192-10x^2)\,dx = 192(2) - \frac{10}{3}(8).
+\]
+
+This equals $384 - \frac{80}{3} = \answer{292}$ (rounded).
+
+Finally divide by $A=4$:
+\[
+T_{avg} = \frac{292}{4} = \answer{73}\,^\circ\text{C}.
+\]
+\end{solution}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Economic production function}
+
+Suppose output $Q(x,y)=50x^{0.6}y^{0.4}$, where $x$ = labor hours, $y$ = machine hours. 
+Compute marginal products $\partial Q/\partial x$ and $\partial Q/\partial y$ at $(x,y)=(25,16)$.
+
+\begin{problem}
+Find $\frac{\partial Q}{\partial x}(25,16)$.
+
+\begin{solution}
+\[
+Q_x = 50\cdot 0.6 x^{-0.4}y^{0.4} = 30x^{-0.4}y^{0.4}.
+\]
+At $(25,16)$: 
+\[
+Q_x = 30 \cdot (25^{-0.4})(16^{0.4}).
+\]
+This evaluates numerically to $\answer{11.4}$.
+\end{solution}
+\end{problem}
+
+\begin{problem}
+Find $\frac{\partial Q}{\partial y}(25,16)$.
+
+\begin{solution}
+\[
+Q_y = 50\cdot 0.4 x^{0.6}y^{-0.6} = 20x^{0.6}y^{-0.6}.
+\]
+At $(25,16)$:
+\[
+Q_y = 20 \cdot (25^{0.6})(16^{-0.6}).
+\]
+This equals $\answer{7.1}$.
+\end{solution}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Pressure in a fluid tank}
+
+A triangular plate (vertices $(0,0),(2,0),(0,2)$) lies vertically in water. Depth is $y$, so $p(y)=1000\cdot 9.8\cdot y$. Find total force.
+
+\begin{problem}
+Set up the integral for the total force.
+
+\begin{solution}
+Region: $0\leq y\leq 2,\; 0\leq x\leq 2-y$. So
+\[
+F=\int_0^2\int_0^{2-y} 9800y\,dx\,dy.
+\]
+The inner integral gives $\answer{19600y-9800y^2}$.
+\end{solution}
+\end{problem}
+
+\begin{problem}
+Evaluate the outer integral.
+
+\begin{solution}
+\[
+\int_0^2 9800(2y-y^2)\,dy=9800\Big[y^2 - \frac{y^3}{3}\Big]_0^2.
+\]
+This equals $9800\left(4-\frac{8}{3}\right) = 9800 \cdot \frac{4}{3} = \answer{13067}\,\text{N}$.
+\end{solution}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Average temperature of a rod}
+
+\begin{problem}
+A rod of length $L=2$ has temperature $T(x)=20+5x$ from $x=0$ to $x=2$. 
+Compute the average temperature.
+
+\begin{solution}
+\[
+T_{avg} = \frac{1}{2}\int_0^2 (20+5x)\,dx.
+\]
+The integral is $\left[20x+\frac{5x^2}{2}\right]_0^2=40+10=50$. 
+
+Dividing by 2: $T_{avg} = \answer{25}$.
+\end{solution}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Probability density function}
+
+\begin{problem}
+A probability density function has the form $f(x,y)=c(x+y)$ on the unit square $0\leq x,y\leq 1$. Find the constant $c$.
+
+\begin{solution}
+We need $\iint f(x,y)\,dA = 1$, so:
+\[
+1=\int_0^1\int_0^1 c(x+y)\,dy\,dx.
+\]
+Inner integral: $\int_0^1 c(x+y)\,dy = c\left[xy + \frac{y^2}{2}\right]_0^1=c\left(x+\frac{1}{2}\right)$.
+
+Outer integral: $\int_0^1 c\left(x+\frac{1}{2}\right)\,dx = c\left[\frac{x^2}{2}+\frac{x}{2}\right]_0^1 = c\left(\frac{1}{2}+\frac{1}{2}\right)=c$.
+
+So $c=\answer{1}$.
+\end{solution}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Center of mass of a lamina}
+
+\begin{problem}
+Find the center of mass of a triangular lamina with vertices $(0,0)$, $(1,0)$, $(0,1)$ and density $\rho(x,y)=x+y$.
+
+\begin{solution}
+The region is defined by $x\ge0$, $y\ge0$, $x+y\le1$.
+
+Mass: $M=\iint (x+y)\,dA = \int_0^1\int_0^{1-x}(x+y)\,dy\,dx$.
+
+Inner integral: $\int_0^{1-x}(x+y)\,dy = x(1-x)+\frac{(1-x)^2}{2}$.
+
+After computation, $M=\answer{0.33}$ (rounded).
+
+By symmetry of the region and density function, the center of mass is at:
+$(x_{cm},y_{cm})=\left(\answer{0.5},\answer{0.5}\right)$.
+\end{solution}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Mass of a solid}
+
+\begin{problem}
+Find the mass of a cube $0\le x,y,z\le 1$ with density $\rho(x,y,z)=x+y+z$.
+
+\begin{solution}
+$M=\iiint (x+y+z)\,dV$. 
+
+By symmetry, each variable contributes equally. We have:
+$\iiint x\,dV = \int_0^1\int_0^1\int_0^1 x\,dz\,dy\,dx = \int_0^1 x\,dx = \frac{1}{2}$.
+
+Therefore: $M = 3 \cdot \frac{1}{2} = \answer{1.5}$.
+\end{solution}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Heat content of a box}
+
+\begin{problem}
+A box occupies $0\leq x,y,z\leq 1$. The temperature is $T(x,y,z)=100(x+y+z)$.
+Find the total heat content $Q=\iiint T\,dV$.
+
+\begin{solution}
+By symmetry: $Q=100\left(\iiint x + \iiint y + \iiint z\right)=100 \cdot 3 \cdot \frac{1}{2} = \answer{150}$.
+\end{solution}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Electric charge in a cylinder}
+
+\begin{problem}
+A solid cylinder has radius 2 and height 3. The charge density is $\rho(r,\theta,z)=r$. In cylindrical coordinates, $dV=r\,dr\,d\theta\,dz$. Find the total charge.
+
+\begin{solution}
+$Q=\int_0^{2\pi}\int_0^3\int_0^2 r \cdot r\,dr\,dz\,d\theta = \int_0^{2\pi}\int_0^3\int_0^2 r^2\,dr\,dz\,d\theta$.
+
+Radial integral: $\int_0^2 r^2\,dr = \left[\frac{r^3}{3}\right]_0^2=\frac{8}{3}$.
+
+$z$ integral: $\int_0^3 dz = 3$.
+
+$\theta$ integral: $\int_0^{2\pi} d\theta = 2\pi$.
+
+Total: $Q = \frac{8}{3} \cdot 3 \cdot 2\pi = \answer{16\pi}$.
+\end{solution}
+\end{problem}
+
+\end{document}

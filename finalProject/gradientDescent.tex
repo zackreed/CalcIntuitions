@@ -1,23 +1,189 @@
 \documentclass{ximera}
+\input{../xmpreamble.tex}
 
-\title{A new Ximera Activity}
-\author{YOUR-NAME-HERE}
+\title{Gradient Descent: Understanding and Application}
+\author{Zack Reed}
 
 \begin{document}
 \begin{abstract}
-    A default abstract of an almost empty course.
+This activity explores the concept of gradient descent through conceptual questions and hands-on gradient calculations.
 \end{abstract}
 \maketitle
 
+\section{Conceptual Understanding of Gradient Descent}
+
+After watching the video, answer the following questions to test your understanding of gradient descent.
 
 \begin{exercise}
-    $2+3=\answer{5}$
+In gradient descent, we take small steps in which space?
+
+\begin{multipleChoice}
+\choice{The output space of the function}
+\choice[correct]{The input space of the function}
+\choice{The tangent plane space}
+\choice{The gradient vector space}
+\end{multipleChoice}
+
+\begin{feedback}
+Gradient descent takes steps in the input space (the domain of the function). The gradient tells us which direction in the input space will produce the steepest change in the output.
+\end{feedback}
 \end{exercise}
 
-\begin{image} % the 'image' environment scales the image, and expands it when clicked
-    \includegraphics{missionPatch.jpg}  %% Images are found in xmPictures
-\end{image}
+\begin{exercise}
+To find a minimum using gradient descent, we move in the direction of:
 
+\begin{multipleChoice}
+\choice{The gradient vector $\nabla f$}
+\choice[correct]{The negative gradient vector $-\nabla f$}
+\choice{The tangent plane}
+\choice{Any random direction}
+\end{multipleChoice}
 
+\begin{feedback}
+To find a minimum, we want to move "downhill," which means moving in the direction opposite to the gradient (the negative gradient direction).
+\end{feedback}
+\end{exercise}
+
+\begin{exercise}
+The movement in the output space during gradient descent follows:
+
+\begin{multipleChoice}
+\choice{The gradient vector}
+\choice{A random path}
+\choice[correct]{The tangent plane at each point}
+\choice{The steepest ascent direction}
+\end{multipleChoice}
+
+\begin{feedback}
+While we choose our direction based on the gradient in the input space, the resulting movement in the output follows the tangent plane, which represents the local linear approximation of the function.
+\end{feedback}
+\end{exercise}
+
+\begin{exercise}
+A potential problem with gradient descent is:
+
+\begin{multipleChoice}
+\choice{It always finds the global minimum}
+\choice{It cannot handle multivariable functions}
+\choice[correct]{It may get trapped in local minima}
+\choice{It only works for linear functions}
+\end{multipleChoice}
+
+\begin{feedback}
+Depending on the starting point and step size, gradient descent may converge to a local minimum rather than the global minimum. This is one of the main limitations of the basic gradient descent algorithm.
+\end{feedback}
+\end{exercise}
+
+\begin{exercise}
+If the step size in gradient descent is too large, what might happen?
+
+\begin{multipleChoice}
+\choice{The algorithm will converge faster}
+\choice{Nothing different will occur}
+\choice[correct]{The algorithm might overshoot and fail to converge}
+\choice{The algorithm will always find the global minimum}
+\end{multipleChoice}
+
+\begin{feedback}
+If the step size is too large, the algorithm might "jump over" the minimum and oscillate or diverge rather than converging to a solution.
+\end{feedback}
+\end{exercise}
+
+\section{Gradient Calculations and Applications}
+
+Now let's practice calculating gradients and identifying critical points.
+
+\begin{exercise}
+Consider the function $f(x,y) = x^2 + y^2 - 4x + 2y + 5$.
+
+Calculate the gradient $\nabla f = \langle f_x, f_y \rangle$:
+
+$\nabla f = \langle \answer{2x-4}, \answer{2y+2} \rangle$
+
+\begin{feedback}
+$f_x = \frac{\partial}{\partial x}(x^2 + y^2 - 4x + 2y + 5) = 2x - 4$
+$f_y = \frac{\partial}{\partial y}(x^2 + y^2 - 4x + 2y + 5) = 2y + 2$
+\end{feedback}
+\end{exercise}
+
+\begin{exercise}
+For the same function $f(x,y) = x^2 + y^2 - 4x + 2y + 5$, find the critical point by setting $\nabla f = \vec{0}$.
+
+The critical point is at $(\answer{2}, \answer{-1})$.
+
+\begin{feedback}
+Setting $\nabla f = \langle 2x-4, 2y+2 \rangle = \langle 0, 0 \rangle$:
+$2x - 4 = 0 \Rightarrow x = 2$
+$2y + 2 = 0 \Rightarrow y = -1$
+\end{feedback}
+\end{exercise}
+
+\begin{exercise}
+At the critical point $(2, -1)$, what is the function value $f(2, -1)$?
+
+$f(2, -1) = \answer{0}$
+
+\begin{feedback}
+$f(2, -1) = (2)^2 + (-1)^2 - 4(2) + 2(-1) + 5 = 4 + 1 - 8 - 2 + 5 = 0$
+\end{feedback}
+\end{exercise}
+
+\begin{exercise}
+Consider the function $g(x,y) = x^3 - 3xy + y^2$. 
+
+Calculate the partial derivatives:
+$g_x = \answer{3x^2 - 3y}$
+$g_y = \answer{-3x + 2y}$
+
+\begin{feedback}
+$g_x = \frac{\partial}{\partial x}(x^3 - 3xy + y^2) = 3x^2 - 3y$
+$g_y = \frac{\partial}{\partial y}(x^3 - 3xy + y^2) = -3x + 2y$
+\end{feedback}
+\end{exercise}
+
+\begin{exercise}
+For $g(x,y) = x^3 - 3xy + y^2$, evaluate the gradient at the point $(1, 2)$:
+
+$\nabla g(1, 2) = \langle \answer{-3}, \answer{1} \rangle$
+
+\begin{feedback}
+$g_x(1, 2) = 3(1)^2 - 3(2) = 3 - 6 = -3$
+$g_y(1, 2) = -3(1) + 2(2) = -3 + 4 = 1$
+\end{feedback}
+\end{exercise}
+
+\begin{exercise}
+If you were at point $(1, 2)$ on the function $g(x,y) = x^3 - 3xy + y^2$ and wanted to use gradient descent to find a minimum, what direction would you move?
+
+The direction vector would be $-\nabla g(1, 2) = \langle \answer{3}, \answer{-1} \rangle$
+
+\begin{feedback}
+For gradient descent (finding a minimum), we move in the direction of the negative gradient: $-\nabla g(1, 2) = -\langle -3, 1 \rangle = \langle 3, -1 \rangle$
+\end{feedback}
+\end{exercise}
+
+\section{Interactive Gradient Descent Application}
+
+Use the following interactive application to practice gradient descent step-by-step. Calculate the gradients at various points and verify whether you've found local maxima or minima.
+
+\begin{center}
+% Interactive applet will be embedded here
+% Students will calculate partial derivatives and take steps
+\end{center}
+
+\begin{exercise}
+After using the interactive application, which of the following best describes your experience with gradient descent?
+
+\begin{multipleChoice}
+\choice{It always led to the same point regardless of starting position}
+\choice[correct]{Different starting positions sometimes led to different final points}
+\choice{The step size didn't affect the final result}
+\choice{It was impossible to get trapped in local minima}
+\end{multipleChoice}
+
+\begin{feedback}
+This exercise should reinforce the key concept that gradient descent can converge to different local minima depending on the starting position and parameters chosen.
+\end{feedback}
+\end{exercise}
 
 \end{document}

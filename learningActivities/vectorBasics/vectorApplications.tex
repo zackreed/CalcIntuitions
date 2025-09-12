@@ -1,0 +1,204 @@
+\documentclass{ximera}
+
+\title{Vector Applications: Collision, Torque, Muscle Force, and Price--Quantity}
+\author{Prepared for Calc III}
+
+\begin{document}
+\begin{abstract}
+Four applied vector problems with interactive questions: (1) elastic collision of two identical masses in 2D, (2) torque from a wrench, (3) static muscle force for a forearm holding a weight, (4) revenue change as a dot product and constrained optimization. Each exercise includes fill-in-the-blank checks and multiple-choice conceptual checks.
+\end{abstract}
+
+\maketitle
+
+\section{Elastic collision of two identical masses}
+
+\begin{problem}
+Two identical smooth spherical masses collide elastically on a frictionless plane. The initial velocities are
+\[
+\vec v_A=(3,2)\ \text{m/s}, \qquad \vec v_B=(-1,0)\ \text{m/s}.
+\]
+After the collision, let \(\vec v_A'=(x,y)\) and \(\vec v_B'=(u,v)\).
+
+Conservation of linear momentum gives us:
+\[
+x+u=\answer{2}
+\]
+\[
+y+v=\answer{2}
+\]
+
+Conservation of kinetic energy gives us:
+\[
+\|\vec v_A'\|^2 + \|\vec v_B'\|^2 = \answer{14}
+\]
+\end{problem}
+
+\begin{solution}
+\textbf{Step 1: Momentum.} Since the masses are identical we cancel \(m\) and obtain
+\[
+\vec v_A+\vec v_B = \vec v_A' + \vec v_B'.
+\]
+Computing components gives \( (3-1,\,2+0)=(x+u,\,y+v)\), so \(x+u=2\) and \(y+v=2\).
+
+\textbf{Step 2: Kinetic energy.} Initial kinetic energy uses \(\|\vec v\|^2\): \(\|\vec v_A\|^2 = 3^2+2^2 =13\), \(\|\vec v_B\|^2 = (-1)^2 + 0^2 = 1\). Thus the right-hand side is \(13+1=14\).
+
+\textbf{Step 3: Reduce to an equation for \(x,y\).} Substitute \(u=2-x\) and \(v=2-y\) into the energy relation:
+\[
+x^2+y^2 + (2-x)^2+(2-y)^2 = 14.
+\]
+Simplifying yields
+\[
+(x-1)^2 + (y-1)^2 = 5.
+\]
+Hence all allowable \(\vec v_A'\) lie on the circle centered at \((1,1)\) with radius \(\sqrt{5}\).
+
+Which additional physical information picks a unique solution from that circle?
+\begin{multipleChoice}
+\choice{Nothing — the circle is the only physical constraint.}
+\choice[correct]{The impact geometry: the line of centers or impact parameter.}
+\choice{The mass value (we need the numeric mass).}
+\choice{The gravitational acceleration during the collision.}
+\end{multipleChoice}
+\end{solution}
+
+\section{Torque from a wrench}
+
+\begin{problem}
+A wrench of length \(0.4\) m is along the \(x\)-axis. A force \(\vec F=(30,40,0)\) N is applied at the end of the wrench located at \(\vec r=(0.4,0,0)\) m.
+
+The torque vector \(\vec\tau=\vec r\times\vec F\) has components:
+\[
+\tau_x = \answer{0}
+\]
+\[
+\tau_y = \answer{0}
+\]
+\[
+\tau_z = \answer{16}
+\]
+
+The torque about the \(z\)-axis equals:
+\[
+\answer{16} \text{ N·m}
+\]
+
+When \(|\vec F|=50\) N, the maximum torque about \(z\) equals:
+\[
+\answer{20} \text{ N·m}
+\]
+
+If the magnitude \(|\vec F|\) is fixed to \(50\) N, the maximum torque occurs when \(\vec F\) is:
+\begin{multipleChoice}
+\choice{directed along the +x-axis}
+\choice[correct]{directed along the +y-axis (perpendicular to the lever arm)}
+\choice{directed along the -x-axis}
+\choice{directed along the -y-axis}
+\end{multipleChoice}
+\end{problem}
+
+\begin{solution}
+\textbf{Compute the cross product.} Using the component formula:
+\[
+\vec\tau = \vec r \times \vec F = (0,0,r_x F_y - r_y F_x).
+\]
+Here \(r_x=0.4\), \(F_y=40\), so \(\tau_z = 0.4 \cdot 40 = 16\) N·m. The other components are zero.
+
+\textbf{Maximization.} With \(|\vec F|=50\), the torque magnitude about \(z\) is \(|\vec r||\vec F|\sin\phi\) where \(\phi\) is the angle between \(\vec r\) and \(\vec F\). Maximum occurs when \(\sin\phi=1\), i.e., \(\vec F \perp \vec r\). Since the lever arm is along \(+\hat\imath\), the perpendicular direction giving positive \(\tau_z\) is \(+\hat\jmath\). Thus \(\tau_{\max}=0.4 \cdot 50 = 20\) N·m.
+\end{solution}
+
+\section{Muscle force for static equilibrium}
+
+\begin{problem}
+A forearm of length \(L=0.35\) m holds a weight \(W=50\) N. The biceps attaches at distance \(d\) from the elbow and pulls at angle \(\alpha=15^\circ\) relative to the forearm.
+
+When \(d=0.04\) m:
+\[
+F_m = \answer{1690.37} \text{ N}
+\]
+
+When \(d=0.05\) m:
+\[
+F_m = \answer{1352.30} \text{ N}
+\]
+
+Increasing the insertion distance \(d\) will:
+\begin{multipleChoice}
+\choice[correct]{decrease the required muscle force}
+\choice{increase the required muscle force}
+\choice{leave the required muscle force unchanged}
+\choice{have an effect only if angle \(\alpha\) changes}
+\end{multipleChoice}
+\end{problem}
+
+\begin{solution}
+\textbf{Torque balance:} \(d \cdot F_m \sin\alpha = L \cdot W\), so
+\[
+F_m = \frac{WL}{d\sin\alpha}.
+\]
+
+Using \(W=50\) N, \(L=0.35\) m, and \(\sin 15^\circ \approx 0.2588\):
+\[
+F_m(d=0.04) = \frac{50 \cdot 0.35}{0.04 \cdot 0.2588} \approx 1690.37 \text{ N}
+\]
+\[
+F_m(d=0.05) = \frac{50 \cdot 0.35}{0.05 \cdot 0.2588} \approx 1352.30 \text{ N}
+\]
+
+Since \(F_m\) is inversely proportional to \(d\), increasing \(d\) reduces the required muscle force.
+\end{solution}
+
+\section{Price--Quantity optimization}
+
+\begin{problem}
+A firm has baseline price \(p_0=20\) dollars/unit and quantity \(q_0=100\) units. Revenue change is
+\[
+\Delta R = q_0 \Delta p + p_0 \Delta q.
+\]
+
+When \(\Delta p = +1\) and \(\Delta q = -5\):
+\[
+\Delta R = \answer{0} \text{ dollars}
+\]
+
+Under constraint \(\Delta p^2 + \Delta q^2 = 25\), the optimal changes are:
+\[
+\Delta p = \answer{4.9029}
+\]
+\[
+\Delta q = \answer{0.9806}
+\]
+
+The maximum revenue change is:
+\[
+\Delta R_{\max} = \answer{509.90} \text{ dollars}
+\]
+
+Which direction maximizes \(\Delta R\)?
+\begin{multipleChoice}
+\choice{Any direction — all give the same \(\Delta R\).}
+\choice{The direction maximizing \(\Delta q\).}
+\choice[correct]{The direction parallel to vector \((100,20)\).}
+\choice{The direction perpendicular to \((100,20)\).}
+\end{multipleChoice}
+\end{problem}
+
+\begin{solution}
+\textbf{Part 1.} Direct substitution: \(\Delta R = 100 \cdot 1 + 20 \cdot (-5) = 0.\)
+
+\textbf{Part 2.} We maximize \(f(\Delta p,\Delta q) = (100,20)\cdot(\Delta p,\Delta q)\) over the circle \(\Delta p^2+\Delta q^2=25\). The maximum occurs when \((\Delta p,\Delta q)\) is parallel to \((100,20)\):
+\[
+(\Delta p,\Delta q) = 5 \cdot \frac{(100,20)}{\sqrt{100^2 + 20^2}} = 5 \cdot \frac{(100,20)}{\sqrt{10400}}
+\]
+
+With \(\sqrt{10400} \approx 101.98\):
+\[
+\Delta p \approx 5 \cdot \frac{100}{101.98} \approx 4.9029
+\]
+\[
+\Delta q \approx 5 \cdot \frac{20}{101.98} \approx 0.9806
+\]
+
+The maximum revenue change is \(\Delta R_{\max} = 5\sqrt{10400} \approx 509.90\).
+\end{solution}
+
+\end{document}
