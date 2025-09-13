@@ -6,19 +6,74 @@
 
 \begin{document}
 \begin{abstract}
-This module provides vital information for understanding vectors in two and three dimensions, including vector operations like dot product and cross product.
+In this activity we ground the basics of vectors within physical processes that we've already encountered in calculus, and will expand the ideas to multiple dimensions.
 \end{abstract}
 \maketitle
 
-\section{Vectors}
+\section*{Grounding Context: Motion, Forces, and Energy}
+Hopefully thus far in calculus you have become accustomed to not just memorizing abstract symbols and formulas, but also interpreting the formulas in contexts relevant to engineering or the sciences. We'll continue to develop this practice in multivariable calculus, starting with motion, forces, and energy to give us intuitions for how and why vectors work the way they do.
 
-The basic mathematical object that we will work with throughout the course is a \emph{vector}. Vectors can be described in many ways, but we have actually implicitly encountered vectors before in both MATH 241 and MATH 242! We might initially think about vectors in terms of changes to quantities, where the change is taken in a particular direction. A change always occurs when you take directed motion between two points in space. For instance, if I begin at the origin and move in a straight line to the point $(3,2)$, I have moved a total distance of $\sqrt{13}$ units, and have moved $3$ units horizontally and $2$ units vertically. This kind of motion is depicted in the following GeoGebra application, where clicking "Animate" shows the vector depicting the change from $P$ to $Q$ occurring.
+First, here's a video that reviews motion, forces, and work.
+%\youtube{}
+
+Let's check our understanding of the basic ideas.
+
+\begin{problem}
+Riley and Taylor push a box across the floor between times $t=1$ and $t=3$, and the box moved from its position $d=5$ ft to a new position at $d=15$ ft. Select all from the following that describe the approximate velocity of the box.
+\begin{selectAll}
+\choice{$v=\frac{d}{t}$}
+\choice[correct]{$v=\frac{10}{2} \text{ feet per second}$}
+\choice{$v=\frac{15}{3} \text{ feet per second}$}
+\choice[correct]{$v=\frac{\Delta v}{\Delta t}$}
+\end{selectAll}
+\begin{feedback}
+Remember that the point of velocity is that it captures an object \emph{in motion}. That is, the object's distance and time quantities \emph{need to change} for a velocity to be quantified. 
+
+The formula $v=\frac{d}{t}$ does not capture change, it just captures the values.
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Riley and Taylor push a box across the floor and exert a constant force of $F=10$ Newtons between distances $D=10$ and $D=30$ meters. Select all from the following that describe the approximate work done by Riley and Taylor on the box.
+
+\begin{selectAll}
+\choice{$W=F\cdot D$}
+\choice[correct]{$10\cdot 20$ Joules}
+\choice[correct]{$\Delta W=F\cdot \Delta D$}
+\choice{$W=10\cdot 10$}
+\choice{$W=10\cdot 30$}
+\end{selectAll}
+\begin{feedback}
+Remember that work is a measure of energy expended, and that energy is expended when a force is applied over a distance. The formula $\Delta W=F\cdot \Delta D$ captures this idea.
+\end{feedback}
+\end{problem}
+
+
+\section{Vectors: Magnitude and Direction}
+
+The quantity we use to describe and measure multi-dimensional phenomena is the \emph{vector}. Vectors can be described in many ways, but we are actually quite familiar with the basic idea: vectors are quantities of directed motion. That is, what matters about a vector is how big it is and in what direction it's going.
+
+Describing change is nothing new to calculus. We have, in fact, been working all along with change amounts, particularly when changes occur along line segments. 
+
+Here's a short video going over this transition from directed change in one dimension to directed change in multiple dimensions.
+
+%\youtube{}
+
+This kind of change is depicted in the following GeoGebra applet. Click "Animate" to show the vector giving the change from $P$ to $Q$.
+
+\begin{center}
+\geogebra{vup8fp9rbw}{790}{434}
+\end{center}
+
+What matters about the vector is \emph{how big it is}, which we can measure with the Pythagorean Theorem, and \emph{in what direction it points}, which we can measure with angles.
+
+Here is the same vector depicted in the GeoGebra applet, showing the length and the angle measure. 
 
 \begin{center}
 \geogebra{zd8jmsz4}{789}{461}
 \end{center}
 
-Describing change is nothing new to calculus. We have, in fact, been working all along with change amounts, particularly when changes occur along line segments. Another way to view a vector describing the change from $P$ to $Q$ is as the motion along the directed line segment connecting $P$ to $Q$, as is depicted in the following GeoGebra application.
+Another way to view a vector describing the change from $P$ to $Q$ is as the motion along the directed line segment connecting $P$ to $Q$, as is depicted in the following GeoGebra application.
 
 \begin{center}
 \geogebra{egprdk2x}{789}{461}
