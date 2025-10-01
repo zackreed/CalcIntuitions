@@ -1,0 +1,163 @@
+\documentclass{ximera}
+\input{../xmPreamble.tex}
+
+\title{Application Walkthrough 3: Gravity Between a Wire and a Point Mass}
+\author{Zack Reed}
+
+\begin{document}
+\begin{abstract}
+In this walkthrough, we extend our ideas of modeling forces along curves to the case of gravitational attraction. We'll start with the simplest point-mass formula, then see how a distributed mass (a wire) requires approximations and integrals.
+\end{abstract}
+\maketitle
+
+\section*{Introduction}
+
+Welcome to another project walkthrough!  
+Here we will explore how to calculate the \emph{gravitational attraction between a wire and a point mass}.  
+
+As before, we'll begin with an idealized case (two point masses), then show how breaking a wire into small pieces naturally leads to a differential model and an integral.
+
+\section*{Context: Point Masses and Gravity}
+
+The gravitational force between two point masses $m_1$ and $m_2$ is given by Newton's Law:
+$$
+F = G \frac{m_1 m_2}{r^2}
+$$
+where $G$ is the universal gravitational constant and $r$ is the distance between the two masses.  
+
+This force vector points along the line connecting the two masses.
+
+\section*{Basic Model: Point Mass vs. Wire}
+
+If the wire were itself a single lumped point mass, the model would be easy:
+\begin{itemize}
+\item Compute the distance from the point mass to the wire's center,
+\item Plug into Newton's formula above.
+\end{itemize}
+
+But a real wire has length. Each small piece of the wire:
+\begin{itemize}
+\item has its own mass,
+\item pulls on the point mass with its own direction and magnitude.
+\end{itemize}
+
+This means we must break the wire into many small pieces, treat each piece as a mini point mass, and then add the vector contributions together.
+
+\section*{Step 1: Approximate with Pieces}
+
+Suppose the wire has total mass $M$ and length $L$. Cutting it into $N$ pieces gives each piece an approximate mass:
+$$
+\Delta m = \tfrac{M}{N}
+$$
+
+For a piece at midpoint location $r_i$, the gravitational force on a point mass $m$ at position $P$ is:
+$$
+\Delta F_i \approx G \frac{m \,\Delta m}{\|P-r_i\|^2}\,\hat{u}_i
+$$
+where $\hat{u}_i = \tfrac{P-r_i}{\|P-r_i\|}$ is the unit vector from the piece to the point mass.  
+
+Adding them up:
+$$
+F \approx \sum_{i=1}^N \Delta F_i
+$$
+
+\begin{expandable}{code}{Show MATLAB Code}
+\begin{verbatim}
+N = 20;
+[midpoints,lengths] = break_into_pieces(r,N);
+dm = M/N;
+forces = zeros(3,N);
+
+for i = 1:N
+    r_i = midpoints(:,i);
+    vec = P - r_i;
+    dist = norm(vec);
+    forces(:,i) = G*m*dm/dist^2 * (vec/dist);
+end
+
+F_approx = sum(forces,2)
+\end{verbatim}
+\end{expandable}
+
+\begin{problem}
+Why do closer pieces of the wire contribute more to the force than farther ones? 
+\end{problem}
+
+\section*{Step 2: Visualizing the Setup}
+
+We can plot the wire, the point mass, and arrows showing approximate gravitational pulls from each piece.  
+
+\begin{expandable}{code}{Show MATLAB Code}
+\begin{verbatim}
+plot_wire_gravity_pieces(r,P,N,M,m)
+\end{verbatim}
+\end{expandable}
+
+This makes clear that contributions vary across the wire.
+
+\section*{Step 3: Exact Model Using Calculus}
+
+To model continuously, let the wire be given by a curve $r(t)$.  
+A small element of arc length is $ds$, with linear density $\lambda$:
+$$
+dm = \lambda \, ds
+$$
+
+Each element contributes:
+$$
+dF = G \frac{m \, dm}{\|P-r(t)\|^2}\,\hat{u}(t)
+= G m \lambda \,\frac{P-r(t)}{\|P-r(t)\|^3}\,ds
+$$
+
+The total force is the vector integral:
+$$
+F = G m \int_C \frac{\lambda \,(P-r(t))}{\|P-r(t)\|^3}\,ds
+$$
+
+\section*{Step 4: Symbolic / Numerical Computation in MATLAB}
+
+\begin{expandable}{code}{Show MATLAB Code}
+\begin{verbatim}
+syms t
+r = [t; 0; 0];           % wire along x-axis
+P = [0; 1; 0];           % point mass at (0,1,0)
+lambda = M/L;            % uniform density
+dr = diff(r,t);
+ds = norm(dr);
+
+vec = P - r;
+dist = norm(vec);
+dF = G*m*lambda*(vec)/(dist^3) * ds;
+
+F_exact = int(dF,t,0,L);
+double(F_exact)
+\end{verbatim}
+\end{expandable}
+
+\section*{Step 5: Compare Approximations}
+
+\begin{expandable}{code}{Show MATLAB Code}
+\begin{verbatim}
+for N = [5 10 50 200]
+    F_approx = approximate_gravity(r,P,M,m,N);
+    disp(F_approx)
+end
+\end{verbatim}
+\end{expandable}
+
+As $N$ increases, the approximations converge to the integral result.
+
+\begin{problem}
+Try different values of $N$. How quickly do the approximations get close to the exact integral?  
+\end{problem}
+
+\section*{Conclusion}
+
+\begin{itemize}
+\item For two point masses, Newton's Law is direct.  
+\item For a wire, each little piece must be treated like a mini point mass.  
+\item Approximations with finite pieces lead naturally to the continuous vector integral.  
+\item MATLAB lets us compare and visualize the two approaches.
+\end{itemize}
+
+\end{document}
