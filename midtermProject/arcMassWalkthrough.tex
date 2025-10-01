@@ -1,0 +1,213 @@
+\documentclass{ximera}
+\input{../xmPreamble.tex}
+
+\title{Application Walkthrough 1: Mass of a Wire}
+\author{Zack Reed}
+
+\begin{document}
+\begin{abstract}
+This walkthrough will give you a good glimpse of some of the main ways we want to think about differentiating and integrating along curves when modeling phenomena using mathematics! This will also give you a rough template and introduce you to the tools that you can use for your mini project.
+\end{abstract}
+\maketitle
+
+\section*{Introduction}
+
+Welcome to your first project walkthrough! This walkthrough will give you a good glimpse of some of the main ways we want to think about differentiating and integrating along curves when modeling phenomena using mathematics! 
+
+This will also give you a rough template and introduce you to the tools that you can use for your mini project, due in Module 3.
+
+\section*{Context: Mass of a Wire}
+
+We're going to look at various vector curves in space and imagine that they are skinny wires. The goal will be to calculate the mass of the wires using derivatives and integrals, but also to gut-check the mass of the wires with approximations.
+
+\section*{Basic Model: Mass = Density $\times$ Length}
+
+Many wires you come across are uniformly dense. That is, no matter how big or small of a piece of wire, the ratio between the mass of the wire and the length of the wire will always be constant (i.e. a constant density).
+
+Let's take a look at a simple wire with constant density.
+
+\begin{expandable}{code}{Show MATLAB Code}
+\begin{verbatim}
+syms t
+r=[cos(3*t)+.3*cos(7*t); sin(2*t)+.3*sin(5*t); .5*sin(4*t)];
+rho=2
+animate_segment_cases(r,rho)
+\end{verbatim}
+\end{expandable}
+
+The first line of code sets up the variable, $t$.  
+The second line of code defines the wire curve. 
+The third line enters the constant density, 
+and the fourth line makes an animation showing the wire being broken up into smaller and smaller pieces but always having the same mass-length ratio between each piece.
+
+If you use the slider to run through the animation, you'll note that there is a constant ratio between the mass and the length no matter what the segment size is.
+
+\begin{problem}
+Verify the constant density by finding the ratio of the mass and length at each scale. Calculate the following ratios:
+
+For the full curve: $\frac{40.1387}{20.193} = \answer{1.988}$ (round to 3 decimal places)
+
+For a medium segment: $\frac{2.019}{1.01} = \answer{2}$ (round to nearest integer)
+
+For a small segment: $\frac{0.808}{0.404} = \answer{2}$ (round to nearest integer)
+
+For the smallest segment: $\frac{0.404}{0.202} = \answer{2}$ (round to nearest integer)
+\end{problem}
+
+Now see what happens if you have a variable density. For this animation, the density increases quadratically along the curve.
+
+\begin{expandable}{code}{Show MATLAB Code}
+\begin{verbatim}
+rho=2+t^2
+animate_segment_cases(r, rho);
+\end{verbatim}
+\end{expandable}
+
+Notice that this time the mass changed as you moved along the curve!
+
+\begin{problem}
+Verify that the density matches the mass-length ratio at a few times given in the animation (up to small errors). Calculate:
+
+$\frac{1.668}{0.202} = \answer{8.3}$ (round to 1 decimal place)
+
+For comparison, at $t = 6.258$: $2 + t^2 = 2 + (6.258)^2 = \answer{41.16}$ (round to 2 decimal places)
+\end{problem}
+
+Notice that, in this case, because the density is always changing, the total mass and total length can't be represented by a single ratio!
+
+So, how do we compute the total length and total mass? That's where integration comes in!
+
+\section*{Integration for Variable Quantities}
+
+Hopefully you remember that we integrate when a quantity is measured by a product in an ideal case, but variation breaks down our ability to use the product in not-ideal cases. 
+
+So, we take cues from the animation and break up the object into small pieces and add up the measures along the small pieces!
+
+\begin{expandable}{code}{Show MATLAB Code}
+\begin{verbatim}
+plot_curve_pieces(r,20,rho)
+plot_curve_mass_pieces(r,1000,rho)
+\end{verbatim}
+\end{expandable}
+
+Now let's try to recreate the mass approximation ourselves. The \texttt{break\_into\_pieces} function will automatically create a midpoint approximation of the curve for you and give you three important pieces of information: 
+\begin{enumerate}
+\item The midpoint times at the center of each partition 
+\item The lengths of each small segment in the partition
+\item The density at the midpoint of each segment
+\end{enumerate}
+
+You need to enter three things: 
+\begin{enumerate}
+\item The function
+\item The number of pieces you want to use
+\item The density (function or value)
+\end{enumerate}
+
+First start small, just break up the segment into 10 pieces and view the information:
+
+\begin{expandable}{code}{Show MATLAB Code}
+\begin{verbatim}
+[midpoint_times, lengths, densities]=break_into_pieces(r,10,rho)
+\end{verbatim}
+\end{expandable}
+
+We should be able to get the same approximation as generated by the plot (up to small error) by adding up the masses given by \texttt{break\_into\_pieces}!
+
+So the basic model is mass = density $\times$ length. For each approximation we want to multiply density by length, and then we get the full approximation by adding up the small mass approximations!
+
+\begin{expandable}{code}{Show MATLAB Code}
+\begin{verbatim}
+masses=densities.*lengths
+mass_approx=sum(masses)
+plot_curve_mass_pieces(r,10,rho)
+\end{verbatim}
+\end{expandable}
+
+Use \texttt{.*} to multiply each entry in densities by the same entry in lengths. This will quickly multiply all of the approximate densities by the approximate lengths. Then get the approximate mass using the \texttt{sum()} command on masses and compare against what the plot generated automatically for verification!
+
+\section*{Mathematical Formulation}
+
+To symbolically write out our approximation, if we call $M$ the approximate mass and $m_i$ the individual small masses, then our approximation was simply $M = \sum m_i$ "the sum of the masses". 
+
+But, we needed to first calculate the masses using the density $\times$ length products, so each $m_i = \rho_i \Delta s_i$, the product of the density and the changes in arc length. So the new approximation becomes $M = \sum \rho_i \Delta s_i$.
+
+Notice that we found all of the masses from the product \texttt{masses=densities.*lengths}, so that checks out! Then, also, we found the total mass using \texttt{sum(masses)}, which agrees with the equation $M = \sum \rho_i \Delta s_i$!
+
+This works at any scale, and by now we're familiar with the basic principle of approximations getting better as we get on smaller scales (increasing $N$).
+
+\begin{expandable}{code}{Show MATLAB Code}
+\begin{verbatim}
+for N=10:50:160
+    [midpoint_times, lengths, densities] = break_into_pieces(r, N, rho);
+    masses = densities .* lengths;
+    mass_approx = sum(masses)
+    plot_curve_mass_pieces(r, N, rho);
+end
+
+for N=100:500:10000
+    [midpoint_times, lengths, densities] = break_into_pieces(r, N, rho);
+    masses = densities .* lengths;
+    mass_approx = sum(masses)
+end
+\end{verbatim}
+\end{expandable}
+
+Try out these calculations on a few different scales of $N$ and see if they agree every time! Then try to get better approximations as $N$ gets really large (more than the plot can handle) and see if you can guess what the true mass should be!
+
+After a while, the approximation stabilizes right around 307.0543.
+
+\section*{Exact Integration}
+
+Let's see if we can use integrals to get a more exact measure, and double check that it's close to our approximations!
+
+The key with integrating is that we're still adding up small bits of mass to get an exact measure of mass, but the "small bits" we're integrating are differential bits that represent the limit of the finite sums. So the approximation equation $M = \sum \rho_i \Delta s_i$ becomes $M = \int \rho \, ds$, but again it's the same "total mass from adding up small bits". 
+
+Just as with the approximations, the small bit of mass comes from the density $\times$ length product on a small bit of arc length along the curve, $dM = \rho \, ds$, so just like before, our equation for mass becomes $M = \int \rho \, ds$.
+
+The main part of computing an integral, though, is we need to use the Fundamental Theorem of Calculus. Since the curve and density are defined by time, we can't immediately use the FTC when we integrate with respect to Mass or Length, but luckily we know how to get arc length from the velocity magnitude! $ds = \|\vec{r}'(t)\| \, dt$.
+
+So, with one final re-write of our equations, we get:
+$$M = \int_a^b \rho(t) \|\vec{r}'(t)\| \, dt$$
+
+\begin{expandable}{code}{Show MATLAB Code}
+\begin{verbatim}
+v=diff(r)
+v_mag=norm(v)
+dM=rho*v_mag
+M=int(dM,0,2*pi)
+int_approx=double(M)
+\end{verbatim}
+\end{expandable}
+
+So, we can use \texttt{diff()} and \texttt{norm()} to find the velocity of our curve, and then use \texttt{int()} plugging in all the values to get an integral of the exact mass!
+
+Likely, $M$ didn't give you an exact number, it just wrote out the integral and the formula is kind of gnarly. That's okay! Many functions don't have nice integrals, we can check our approximation by just using \texttt{double()}.
+
+Hopefully, you get the same approximation (or very close) as we did with our high-$N$ approximations!
+
+\begin{problem}
+Based on this walkthrough, which of the following statements are true? Select all that apply.
+
+\begin{selectAll}
+\choice[correct]{For constant density, the mass-to-length ratio remains the same regardless of segment size}
+\choice{Variable density makes it impossible to calculate total mass}
+\choice[correct]{Integration allows us to find exact mass when density varies along the curve}
+\choice[correct]{The formula $M = \int_a^b \rho(t) \|\vec{r}'(t)\| \, dt$ gives the exact mass of a wire}
+\choice{Approximations never converge to the true value}
+\end{selectAll}
+\end{problem}
+
+\section*{Conclusion}
+
+We've just gone through the similar steps that you'll go through in detail for your projects, but this attention to arc length will give you a head start on your projects, as those integrals will build on the arc length and mass integrals.
+
+The key concepts we've covered are:
+\begin{itemize}
+\item Mass = Density $\times$ Length for uniform density
+\item For variable density, we need integration: $M = \int \rho \, ds$
+\item Converting to parametric form: $M = \int_a^b \rho(t) \|\vec{r}'(t)\| \, dt$
+\item Numerical approximations can verify our analytical results
+\end{itemize}
+
+\end{document}
