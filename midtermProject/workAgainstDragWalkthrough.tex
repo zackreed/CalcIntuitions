@@ -1,0 +1,125 @@
+\documentclass{ximera}
+\input{../xmPreamble.tex}
+
+\title{Application Walkthrough 2: Work Against Drag}
+\author{Zack Reed}
+
+\begin{document}
+\begin{abstract}
+This walkthrough will give you a good glimpse of some of the main ways we want to think about differentiating and integrating along curves when modeling physical forces! This time, we will look at drag forces that oppose motion along a curve. This will also give you a rough template and introduce you to the tools that you can use for your mini project.
+\end{abstract}
+\maketitle
+
+\section*{Introduction}
+
+Welcome to your second project walkthrough! Here we will explore how to calculate the \emph{work done against drag} as an object moves along a parametric curve.
+
+\section*{Context: Drag on a Moving Object}
+
+Whenever something moves through a fluid (like air or water), it experiences drag. Drag points opposite to the velocity vector and resists motion. The general drag force law says:
+
+$$
+\|F_D\| = \tfrac{1}{2}\rho C_D A \|v\|^2
+$$
+
+with drag vector
+
+$$
+F_D = -\tfrac{1}{2}\rho C_D A \|v\| v
+$$
+
+where $\rho$ is fluid density, $C_D$ is a drag coefficient, $A$ is reference area, and $v$ is velocity.
+
+\section*{Basic Model: Work = Force $\cdot$ Distance}
+
+At its simplest, work is the dot product of a force with displacement:
+$$
+W = F \cdot d
+$$
+
+If drag is constant and the object moves along a straight line (like an airplane cruising at the same altitude), then the work is simply
+$$
+W = -\|F_D\|\|d\|
+$$
+which means drag continually removes energy from the system. Flying twice as far doubles the work done against drag.
+
+But in real motion, drag is not constant — it depends on $\|v\|^2$ — so we will need approximations and eventually integrals.
+
+\begin{expandable}{code}{Show MATLAB Code}
+\begin{verbatim}
+syms t
+r = [cos(t); sin(2*t); 0.2*t];
+rho_air = 1.225;  % kg/m^3
+Cd = 0.5;         % drag coefficient
+A = 1.0;          % reference area
+drag_motion_applet(r,'rho',rho_air,'Cd',Cd,'A',A,'Interval',[0,2*pi])
+\end{verbatim}
+\end{expandable}
+
+Use the slider to view the velocity and drag vectors along the path.
+
+\section*{Approximating Work by Pieces}
+
+Just like we did with mass, we can break the curve into small segments and compute work on each piece using midpoint approximations.
+
+For one piece:
+$$
+\Delta W_i \approx F_D(t_i^*) \cdot \Delta r_i
+$$
+
+\begin{expandable}{code}{Show MATLAB Code}
+\begin{verbatim}
+N = 10;
+[midpoints,lengths,velocities] = break_into_pieces(r,N);
+drag_forces = drag_force_values(velocities,rho_air,Cd,A);
+work_segments = dot_each(drag_forces,velocities) .* ((2*pi)/N);
+work_approx = sum(work_segments)
+\end{verbatim}
+\end{expandable}
+
+\begin{problem}
+Verify that drag vectors really point opposite to velocity vectors by checking a few cases in the animation. 
+\end{problem}
+
+\section*{Visualizing Work Along the Curve}
+
+We can color the curve by work contributions:
+
+\begin{expandable}{code}{Show MATLAB Code}
+\begin{verbatim}
+plot_curve_work_pieces(r,20,rho_air,Cd,A)
+\end{verbatim}
+\end{expandable}
+
+\section*{Exact Work with Integration}
+
+The exact formula for total work is:
+$$
+W = \int_a^b F_D \cdot v \, dt = -\int_a^b \tfrac{1}{2}\rho C_D A \|v(t)\|^3 \, dt
+$$
+
+\begin{expandable}{code}{Show MATLAB Code}
+\begin{verbatim}
+v = diff(r);
+v_mag = norm(v);
+dW = -(1/2)*rho_air*Cd*A*v_mag^3;
+W = int(dW,0,2*pi);
+W_num = double(W)
+\end{verbatim}
+\end{expandable}
+
+\begin{problem}
+Compare the integral result with your large-$N$ approximations. Do they agree?
+\end{problem}
+
+\section*{Conclusion}
+
+We've just gone through the same steps we used with mass, but now with drag forces and work. The key concepts are:
+\begin{itemize}
+\item Work = Force $\cdot$ Distance
+\item Drag always opposes velocity
+\item Approximation: $W \approx \sum F_D(t_i^*) \cdot \Delta r_i$
+\item Exact: $W = -\int_a^b \tfrac{1}{2}\rho C_D A \|v(t)\|^3 dt$
+\end{itemize}
+
+\end{document}
