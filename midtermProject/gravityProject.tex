@@ -1,0 +1,214 @@
+\documentclass{ximera}
+
+\title{Mini Project Walkthrough: Gravity Between a Wire and a Point Mass}
+\author{Zack Reed}
+
+\begin{document}
+\begin{abstract}
+In this project we'll explore how to model the gravitational attraction between a wire and a point mass. We'll begin with the idealized point-mass formula, then extend it to piecewise and continuous approximations using calculus.
+\end{abstract}
+\maketitle
+
+\section*{Introduction}
+
+Welcome to the introduction to the ``gravity between a wire and a point'' mini project!  
+As with all integration problems, we'll begin with a simple situation where multiplication suffices, and then build up toward an integral model that accounts for continuous variation.
+
+\section*{Context: Point Masses and Gravity}
+
+Newton's Law of Gravitation states:
+\[
+F = G \frac{m_1 m_2}{r^2},
+\]
+where
+\begin{itemize}
+\item $G$ is the universal gravitational constant,
+\item $r$ is the distance between the two point masses.
+\end{itemize}
+
+This force points along the line connecting the two masses.
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{animate\_two\_masses()}
+\end{expandable}
+
+\begin{problem}
+Verify the formula by computing the gravitational force between $m_1=\answer{}$ and $m_2=\answer{}$ separated by $r=\answer{}$ meters.  
+Round your answer to 3 decimal places.
+\end{problem}
+
+\subsection*{Challenges: A Wire Instead of a Point}
+
+If the wire were treated as a single lumped point mass, we could compute the distance from the point mass to the wire's center and apply Newton's law.  
+But in reality:
+\begin{itemize}
+\item Some parts of the wire are closer and exert stronger forces,
+\item Other parts are farther and exert weaker forces,
+\item Forces do not all point in the same direction.
+\end{itemize}
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{plot\_wire\_gravity\_pieces()}
+\end{expandable}
+
+\begin{problem}
+Observe the vector directions in the plot. How do the closer and farther segments differ? 
+\end{problem}
+
+\section*{Step 1: Approximate with Pieces}
+
+Suppose the wire has total mass $M$ and length $L$. If we cut it into $N$ pieces, each piece has mass
+\[
+\Delta M = \frac{M}{N}.
+\]
+
+For a point mass $m$ at distance $D_i$ from piece $i$, the gravitational contribution is
+\[
+\Delta F_i \approx \frac{G m \Delta M_i}{D_i^2}.
+\]
+
+Summing gives
+\[
+F \approx \sum_{i=1}^N \Delta F_i.
+\]
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{syms t}\\
+\texttt{\% enter your wire's formula, e.g. r=[sin(t),cos(t),t]}\\
+\texttt{\% enter your density, e.g. rho=1+t}\\
+\texttt{\% enter point mass location, e.g. P=[1,1,0]}\\
+\texttt{\% enter point mass m, e.g. m=10}\\
+\texttt{\% enter N, e.g. N=10}
+\end{expandable}
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{plot\_wire\_gravity\_pieces(r,N,rho,P,m)}
+\end{expandable}
+
+\begin{problem}
+Compute the approximate gravitational force reported in the plot with $N=\answer{}$.  
+Now increase $N$ to $50$ or $100$. What happens to the estimate? 
+\end{problem}
+
+\section*{Step 2: Recreate the Approximation}
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{m=10}\\
+\texttt{G=6.67e-11;}\\
+\texttt{N=10}\\
+\texttt{[\~, lengths, densities, \~, \~] = break\_into\_pieces(r,N,rho)}
+\end{expandable}
+
+\begin{problem}
+Use elementwise multiplication to compute the segment masses:  
+\[
+\texttt{masses = lengths .* densities}
+\]  
+Write down the resulting list: 
+\end{problem}
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{distances = compute\_approximate\_distances(r,N,rho,P)}
+\end{expandable}
+
+\begin{problem}
+Using Newton's law, compute the list of forces:
+
+What is the total force? 
+\end{problem}
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{sum(forces)}
+\end{expandable}
+
+Compare with:
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{plot\_wire\_gravity\_pieces(r,N,rho,P,m)}
+\end{expandable}
+
+\begin{problem}
+Do your manual results match the plot output? 
+\end{problem}
+
+\section*{Step 3: Examining Changes}
+
+Try a new density:
+\[
+\rho(t) = \tfrac{1}{2}+t^3.
+\]
+
+\begin{expandable}{code}{Show MATLAB Code}
+\begin{verbatim}
+rho_test = .5+t^3
+plot_wire_gravity_pieces(r,10,rho_test,P,m)
+\end{verbatim}
+\end{expandable}
+
+\begin{problem}
+Explain why the regions of higher force shifted later along the curve using Newton's law. 
+\end{problem}
+
+\section*{Step 4: Refining Approximation}
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{Ns=[5 10 20 50 100]}\\
+\texttt{plot\_multiple\_gravity\_approximations(r,Ns,rho,P,m)}
+\end{expandable}
+
+\begin{problem}
+What trend do you observe as $N$ increases? 
+\end{problem}
+
+Now replicate with a for loop:
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{for N=Ns}\\
+\quad \texttt{\% manual calculations}\\
+\texttt{end}
+\end{expandable}
+
+\begin{problem}
+Pick a large $N$ (say $N=200$). What is your approximation? 
+\end{problem}
+
+\section*{Step 5: Exact Model Using Calculus}
+
+From the sum
+\[
+F \approx \sum_i \frac{G m \Delta M_i}{D_i^2},
+\]
+we move to the exact model:
+\[
+F = Gm \int \frac{dM}{D^2}.
+\]
+
+\begin{problem}
+Rewrite this integral in terms of $t$, $\rho(t)$, and $\vec{r}(t)$ for your setup. 
+\end{problem}
+
+\section*{Step 6: Symbolic Computation in MATLAB}
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{syms t}\\
+\texttt{f = sqrt(exp(t+1)-cos(t))}\\
+\texttt{a=0; b=1;}\\
+\texttt{F\_exact = int(f,a,b)}\\
+\texttt{double(F\_exact)}
+\end{expandable}
+
+\begin{problem}
+Compute the exact gravitational force for your curve and compare with approximations. Do the values match the trend? 
+\end{problem}
+
+\section*{Conclusion}
+
+We have explored how to model gravity between a wire and a point mass:
+\begin{itemize}
+\item Point-mass Newtonian formula,
+\item Piecewise approximations treating wire segments as point masses,
+\item Refinements as $N$ increases,
+\item Exact solution via calculus and symbolic computation.
+\end{itemize}
+
+\end{document}

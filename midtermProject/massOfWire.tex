@@ -1,0 +1,257 @@
+\documentclass{ximera}
+
+\title{Application Walkthrough 1: Mass of a Wire}
+\author{Zack Reed}
+
+\begin{document}
+\begin{abstract}
+This walkthrough gives a first look at how we use derivatives and integrals along curves to model physical quantities. We will focus on computing the mass of a wire by starting from a basic multiplicative model and then moving to piecewise and integral models.
+\end{abstract}
+\maketitle
+
+\section*{Introduction}
+
+Welcome to your first project walkthrough!
+This will give you a template and introduce tools you can reuse for your mini project at the end of the module.
+
+\section*{Context: Mass of a Wire}
+
+We will treat vector curves in space as skinny wires. Our goal is to compute a wire's mass using derivatives and integrals, and to gut-check with numerical approximations.
+
+\subsection*{Basic Model: Mass = Density $\times$ Length}
+
+We always start with a basic multiplicative model. Here:
+\[
+M = \rho \cdot L.
+\]
+A wire has \emph{uniform density} if the ratio mass/length is constant for every piece.
+
+Let's look at a simple wire with constant density and animate how the mass-length ratio stays constant across scales.
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{syms t}\\
+\texttt{r=[\;sin(t),\;cos(t),\;t\;];}\\
+\texttt{rho=2}\\
+\texttt{animate\_segment\_cases(r,\;rho)}
+\end{expandable}
+
+\section*{Checking Constant Mass}
+
+Use the slider in the animation after it finishes. You should see the mass-length ratio remain constant across segment sizes.
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{40.1387/20.193}
+\end{expandable}
+
+\begin{problem}
+Compute the density from the total mass and length: $\dfrac{40.1387}{20.193} = \answer{}$.  
+Now, for each displayed segment, compute $\dfrac{\text{mass of segment}}{\text{length of segment}}$ and record a few values here: , , . Do they agree (up to rounding)?
+\end{problem}
+
+\section*{Variable Density}
+
+Now consider a wire with density increasing along the curve: $\rho(t)=2+t^2$.
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{rho=2+t\^{}2}\\
+\texttt{animate\_segment\_cases(r,\;rho)}
+\end{expandable}
+
+You should see the segment mass change as you move along the wire, indicating non-uniform density.
+
+We can evaluate $\rho$ at specific times using \texttt{subs}:
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{subs(rho,\;t,\;2)}
+\end{expandable}
+
+\begin{problem}
+Compute $\rho(\pi)=\answer{}$ and $\rho(2\pi)=\answer{}$ using either hand calculation or \texttt{subs}. Compare with the animation's mass/length ratios at those times. Do they match up to small numerical error?
+\end{problem}
+
+\section*{Why the Basic Model Breaks}
+
+We would like $M=\rho\cdot L$, but:
+\begin{itemize}
+\item Curves can be complicated, so getting $L$ directly may be nontrivial.
+\item Density may not be uniform, so there is no single $\rho$ for the whole wire.
+\end{itemize}
+We therefore move to integration to ``add up small bits of mass.''
+
+\section*{Step 1: Visualize the Approximate Pieces}
+
+The helper \texttt{plot\_curve\_pieces}:
+\begin{itemize}
+\item takes a curve \(r\), a number of pieces \(N\), and a density \(\rho\),
+\item shows the wire in \(N\) pieces, color-coded by density at each midpoint (a midpoint approximation).
+\end{itemize}
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{plot\_curve\_pieces(r,\;20,\;rho)}
+\end{expandable}
+
+\section*{Midpoint Mass Plot}
+
+\texttt{plot\_curve\_mass\_pieces} uses the same inputs but also reports the midpoint-sum mass approximation in the title.
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{N=20}\\
+\texttt{plot\_curve\_mass\_pieces(r,\;N,\;rho)}
+\end{expandable}
+
+\begin{problem}
+What approximate mass is reported by the 20-piece midpoint plot? 
+\end{problem}
+
+\section*{Step 2: Build the Approximation Manually}
+
+Recall $M \approx \sum_i \rho_i\,\Delta L_i$. If we know the segment lengths and midpoint densities, we can multiply and sum.
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{[\textasciitilde,\;lengths,\;densities,\;\textasciitilde,\;\textasciitilde]\;=\;break\_into\_pieces(r,\;N,\;rho)}\\
+\texttt{masses\;=\;densities\;.\*\;lengths}\\
+\texttt{mass\_approx\;=\;sum(masses)}
+\end{expandable}
+
+\begin{problem}
+Record your \texttt{lengths} and \texttt{densities} (first three entries):  
+\texttt{lengths}: , ,  \quad
+\texttt{densities}: , , \\
+Compute \texttt{mass\_approx} for \(N=20\): .
+\end{problem}
+
+Compare with the plot:
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{plot\_curve\_mass\_pieces(r,\;N,\;rho)}
+\end{expandable}
+
+\begin{problem}
+Do the two approximations match (within small numerical differences)? 
+\end{problem}
+
+\section*{Refining the Approximation}
+
+As \(N\) increases, midpoint approximations typically improve.
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{N=50}\\
+\texttt{[\textasciitilde,\;lengths,\;densities,\;\textasciitilde,\;\textasciitilde]\;=\;break\_into\_pieces(r,\;N,\;rho);}\\
+\texttt{masses\;=\;densities\;.\*\;lengths;}\\
+\texttt{mass\_approx\;=\;sum(masses)}\\
+\texttt{plot\_curve\_mass\_pieces(r,\;N,\;rho);}\\
+\\
+\texttt{N=100}\\
+\texttt{[\textasciitilde,\;lengths,\;densities,\;\textasciitilde,\;\textasciitilde]\;=\;break\_into\_pieces(r,\;N,\;rho);}\\
+\texttt{masses\;=\;densities\;.\*\;lengths;}\\
+\texttt{mass\_approx\;=\;sum(masses)}\\
+\texttt{plot\_curve\_mass\_pieces(r,\;N,\;rho);}\\
+\\
+\texttt{N=150}\\
+\texttt{[\textasciitilde,\;lengths,\;densities,\;\textasciitilde,\;\textasciitilde]\;=\;break\_into\_pieces(r,\;N,\;rho);}\\
+\texttt{masses\;=\;densities\;.\*\;lengths;}\\
+\texttt{mass\_approx\;=\;sum(masses)}\\
+\texttt{plot\_curve\_mass\_pieces(r,\;N,\;rho);}
+\end{expandable}
+
+\begin{problem}
+Record \texttt{mass\_approx} for \(N=50\), \(100\), and \(150\): , , . What trend do you observe?
+\end{problem}
+
+\section*{Very Small Scales}
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{N=1000}\\
+\texttt{[\textasciitilde,\;L1,\;R1,\;\textasciitilde,\;\textasciitilde]\;=\;break\_into\_pieces(r,\;N,\;rho);}\\
+\texttt{sum(R1.\*\;L1)}\\
+\\
+\texttt{N=10000}\\
+\texttt{[\textasciitilde,\;L2,\;R2,\;\textasciitilde,\;\textasciitilde]\;=\;break\_into\_pieces(r,\;N,\;rho);}\\
+\texttt{sum(R2.\*\;L2)}\\
+\\
+\texttt{N=100000}\\
+\texttt{[\textasciitilde,\;L3,\;R3,\;\textasciitilde,\;\textasciitilde]\;=\;break\_into\_pieces(r,\;N,\;rho);}\\
+\texttt{sum(R3.\*\;L3)}
+\end{expandable}
+
+\begin{problem}
+Record the three large-\(N\) approximations: , , . If the last two agree to machine precision, what does that suggest? 
+\end{problem}
+
+\section*{From Sums to an Exact Integral}
+
+We translate the midpoint sum to an integral. The small mass is
+\[
+dM = \rho\,dL.
+\]
+Using arc length $dL = \|\vec v(t)\|\,dt$ with $\vec v(t)=\vec r\,'(t)$, we get
+\[
+M = \int_a^b \rho(t)\,\|\vec v(t)\|\,dt.
+\]
+
+\subsection*{Build and Compute the Integral}
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{v\;=\;diff(r)}\\
+\texttt{v\_mag\;=\;norm(v)}\\
+\texttt{dM\;=\;rho\;*\;v\_mag}\\
+\texttt{M\;=\;int(dM,\;0,\;2*pi)}\\
+\texttt{int\_approx\;=\;double(M)}
+\end{expandable}
+
+\begin{problem}
+Report the exact integral expression \(M\): \\
+Report the numerical value \texttt{double(M)}: \\
+How does it compare with your high-\(N\) approximations? 
+\end{problem}
+
+\section*{Your Turn: Use Your Own Curve}
+
+Follow the same steps for the curve you plan to use in the mini project.
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{\% Define your curve r as [x(t), y(t), z(t)]}\\
+\texttt{\% r = [\;...\;,\;...\;,\;...\;];}\\
+\\
+\texttt{\% Define your density rho(t)}\\
+\texttt{\% rho = ...;}\\
+\\
+\texttt{\% Choose a piece count (e.g., N=50)}\\
+\texttt{\% N = 50;}\\
+\\
+\texttt{\% Visualize pieces}\\
+\texttt{\% plot\_curve\_pieces(r,\;N,\;rho)}
+\end{expandable}
+
+Now reproduce the midpoint approximation:
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{\% [\textasciitilde,\;lengths,\;densities,\;\textasciitilde,\;\textasciitilde]\;=\;break\_into\_pieces(r,\;N,\;rho)}\\
+\texttt{\% masses = densities .\* lengths;}\\
+\texttt{\% mass\_approx = sum(masses);}
+\end{expandable}
+
+And verify by integration:
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{\% v = diff(r);}\\
+\texttt{\% v\_mag = norm(v);}\\
+\texttt{\% dM = rho * v\_mag;}\\
+\texttt{\% M = int(dM,\;a,\;b); \quad double(M)}
+\end{expandable}
+
+\begin{problem}
+Record your final midpoint approximation and integral approximation:  and . Do they agree within a reasonable tolerance? 
+\end{problem}
+
+\section*{Conclusion}
+
+You have:
+\begin{itemize}
+\item used midpoint approximations to estimate mass as a sum of \(\rho \cdot \Delta L\),
+\item refined the approximation by increasing \(N\),
+\item derived and computed the exact integral \(M=\int \rho(t)\,\|\vec r\,'(t)\|\,dt\),
+\item compared numerical and exact approaches for validation.
+\end{itemize}
+
+\end{document}
