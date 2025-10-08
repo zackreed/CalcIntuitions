@@ -42,8 +42,8 @@ Riley and Taylor push a box across the floor and exert a constant force of $F=10
 \choice{$W=F\cdot D$}
 \choice[correct]{$W=10\cdot 20$ Joules}
 \choice[correct]{$\Delta W=F\cdot \Delta D$}
-\choice{$W=10\cdot 10$}
-\choice{$W=10\cdot 30$}
+\choice{$W=10\cdot 10$ Joules}
+\choice{$W=10\cdot 30$ Joules}
 \end{selectAll}
 \begin{feedback}
 Remember that work is a measure of energy expended, and that energy is expended when a force is applied over a distance. The formula $\Delta W=F\cdot \Delta D$ captures this idea.
@@ -53,14 +53,254 @@ Remember that work is a measure of energy expended, and that energy is expended 
 
 \section*{Vectors: Magnitude and Direction}
 
-The quantity we use to describe and measure multi-dimensional phenomena is the \emph{vector}. Vectors can be described in many ways, but we are actually quite familiar with the basic idea: vectors are quantities of directed motion. That is, what matters about a vector is how big it is and in what direction it's going.
+The quantity we use to describe and measure multi-dimensional phenomena is the \emph{vector}. 
+
+Vectors can be described in many ways, but we are actually quite familiar with the basic idea: \emph{vectors are quantities of directed motion}. That is, what matters about a vector is {\bf how big it is} and {\bf in what direction it's going}.
 
 Describing change is nothing new to calculus. We have, in fact, been working all along with change amounts, particularly when changes occur along line segments. 
 
-Here's a short video going over this transition from directed change in one dimension to directed change in multiple dimensions.
+Here's a short video-guided primer on this transition from directed change in one dimension to directed change in multiple dimensions.
 
-%\youtube{}
-(video placeholder)
+(insert video)
+
+\section*{Video Primer: Riley and Taylor Pushing Boxes}
+
+    We continue exploring Riley and Taylor's pushing of a box, freeing up their motion to vary along a plane.
+
+    (insert video)
+
+\begin{problem}
+    Let's check out understanding: According to typical conventions in 1-dimensional motion, a displacement of $-5$m is movement \wordChoice{
+            \choice[correct]{left by 5 meters}
+            \choice{right by 5 meters}
+        }
+\end{problem}
+    
+    Now let's think about movement within a 2D plane.
+
+    (insert video)
+
+\begin{problem}
+    Refer to the end of the video to answer the following question:
+    
+    Suppose Riley is in space, and is pushing the box at a speed of $5$m/s. When will Riley set the box on the target $10$m away?
+        \begin{multipleChoice}
+            \choice{Riley will reach the target in $2$ seconds}
+            \choice[correct]{Riley cannot reach the target following his current direction}
+            \choice{Riley will reach the target in $5$ seconds}
+        \end{multipleChoice}
+    \begin{feedback}
+        Since Riley is not oriented towards the target, he will never reach the target without changing directions.
+        (insert video)
+    \end{feedback}
+\end{problem}
+
+    Now let's continue
+
+    (insert video)
+
+\begin{problem}
+    Suppose Riley is pushing the box horizontally at a speed of $-5$m/s and Taylor is pulling the box vertically at a speed of $2$m/s. When will the box reach teh target, located $100$m left and $40$m up from their location?
+
+    Answer: The box will reach the target in $\answer{20}$ seconds.
+    \begin{feedback}
+    A velocity of $-5$m/s directs the box to the left ("backwards" direction). It takes $20$ seconds to travel left $100$m at a rate of $-5$m/s. How long does it take to travel $40$m upward for Taylor?
+    \end{feedback}
+
+\end{problem}
+
+\subsection*{Vectors and Direction}
+
+    Now let's learn about the notation and geometry of vectors, and then check our understanding.
+
+    (insert video)
+
+\begin{problem}
+
+The vector $\vec{v}=[25, -2]$ represents \begin{multipleChoice}
+    \choice{movement $25$ units upward and $2$ units to the left}
+    \choice{movement $25$ units to the left and $2$ units downward}
+    %finish the problem
+    \choice[correct]{movement $25$ units to the right and $2$ units downward}
+    \choice{movement $25$ units downward and $2$ units to the right}
+\end{multipleChoice}
+
+The vector $\vec{u}=[-3,4]$ is the sum of the vectors $\vec{x}=[-3,\answer{0}]$ and $\vec{y}=[\answer{0},4]$. Symbolically, $\vec{u}=\vec{\answer{x}}+\vec{\answer{y}}$.
+
+The 
+
+\begin{feedback}
+Remember that the first component of a vector represents horizontal movement (negative: left, positive: right), and the second component represents vertical movement (negative: down, positive: up).
+
+Remember that velocity represents a rate of change in a single direction. You can only reach a location with a single vector if it takes the same time to reach the destination in both the horizontal and vertical directions.
+\end{feedback}
+
+\end{problem}
+
+\subsection*{Vector Addition}
+
+Now we extend the idea of vector addition.
+
+(insert video)
+
+\begin{problem}
+(Reference the end of the video to answer the following question.)
+Which of the following best describes the new velocity of the kids holding on to their box? (Just guess for now, based on your intuition.)
+\begin{multipleChoice}
+    \choice{The new velocity orients upwards and to the right.}
+    \choice[correct]{The new velocity orients directly upwards.}
+    \choice{The new velocity orients upwards and to the left.}
+    \choice{The boys and box stop moving.}
+\end{multipleChoice}
+\begin{feedback}
+Think about moving along one vector, and then moving along the other vector starting from the end of the first vector.
+(insert video)
+\end{feedback}
+\end{problem}
+
+\subsection*{Scaling Vectors}
+
+Now let's use the context of momentum to learn about scaling vectors.
+
+(insert video)
+
+\begin{problem}
+    (Reference the end of the video to answer the following question.)
+    
+    If Riley and Taylor have a combined mass of $150$N, and the box has a mass of $200$N, with velocity vectors $\vec{v}_{RT}=[-5,2]$ and $\vec{v}_B=[5,2]$, in which direction will the box and boys move togetehr after the collision?
+    \begin{multipleChoice}
+        \choice{They will move to the left and upwards.}
+        \choice[correct]{They will move directly upwards.}
+        \choice{They will move to the right and upwards.}
+        \choice{They will stop moving.}
+    \end{multipleChoice}
+    \begin{feedback}
+        Remember that momentum is mass times velocity. The box has more mass than the boys, so it will have a greater influence on the direction of their combined motion, even though the direction vectors have the same length but point in opposite horizontal directions.
+        (insert video)
+    \end{feedback}
+\end{problem}
+
+\begin{definition}
+The more formal way to talk about adding and scaling vectors is the idea of \emph{linear combinations}. 
+
+That is, a linear combination of vectors $\vec{u}$ and $\vec{v}$ adds together scaled versions of the vectors. For scalars $r$ and $s$, the linear combination of $\vec{u}$ and $\vec{v}$ is given by $r\vec{u}+s\vec{v}$.
+\end{definition}
+
+\begin{remark}
+    Both vector addition and scalar multiplication can be done component-wise. That is, if $\vec{u}=[u_1,u_2]$ and $\vec{v}=[v_1,v_2]$, then
+    \[\vec{u}+\vec{v}=[u_1+v_1,u_2+v_2]\]
+    and for a scalar $r$,
+    \[r\vec{u}=[ru_1,ru_2].\]
+\end{remark}
+
+\begin{problem}
+    Let's try out computing a few linear combinations of vectors. Compute the following:
+    \begin{enumerate}
+        \item $2[3,4]+3[1,2]=[\answer{15},\answer{20}]$
+        \item $-1[2,5]+4[-1,1]=[\answer{-6},\answer{-1}]$
+        \item $3[0,2]+2[3,0]=[\answer{6},\answer{6}]$
+        \item $-2[1,1]+0.5[4,6]=[\answer{0},\answer{2}]$
+        \item $0[5,7]+3[-2,4]=[\answer{-6},\answer{12}]$
+    \end{enumerate}
+
+    \begin{feedback}
+        A simple comprehensive formula for a linear combination of two vectors is $r[u_1,u_2]+s[v_1,v_2]=[ru_1+sv_1,ru_2+sv_2]$, though we don't recommend memorizing a formula, think about why it works the way it does and remember the general idea. This special formula only works for two 2-dimensional vectors.
+    \end{feedback}
+\end{problem}
+
+
+\subsection*{Magnitude and Direction of Vectors}
+
+While a guiding intuition so far has been that we care about \emph{how big} a vector is and \emph{in what direction} it points, we haven't yet made these ideas precise. Let's use the context of expended energy (work) to explore these ideas.
+
+(insert video)
+
+\begin{problem}
+    (Reference the end of the video to answer the following question.)
+    
+    How long is the vector $\vec{D}=[-100,40]$? 
+
+    \begin{selectAll}
+    \choice[correct]{$||\vec{D}||=\sqrt{(-100)^2+40^2}$}
+    \choice[correct]{$||\vec{D}||=\sqrt{11600}$}
+    \choice{$||\vec{D}||=100+40$}
+    \choice{$||\vec{D}||=140$}
+    \end{selectAll}
+    \begin{feedback}
+        The length of a vector $\vec{v}=[v_1,v_2]$ is given by the Pythagorean Theorem applied to the vector and its components: $||\vec{v}||=\sqrt{v_1^2+v_2^2}$.
+    \end{feedback}
+\end{problem}
+
+Let's break down how vector magnitudes (denoted $||\vec{v}||$) are computed and thought of.
+
+(video)
+
+\begin{problem}
+    (Reference the end of the video to answer the following question.)
+
+    How much force is applied by the force vector $\vec{F}=[-20,8]$?
+
+    $\vec{F}$ applies a force of $\answer{\sqrt{(-20)^2+8^2}}$ Newtons.
+
+    \begin{feedback}
+        Even though force doesn't have a physical length, we still use the vector length to tell us the amount of force applied (the magnitude).
+    \end{feedback}
+\end{problem}
+
+Now we put it all together to compute the energy spent (work) in this ideal case where the force and displacement are in the same direction.
+
+(video)
+
+\begin{problem}
+    (Reference the end of the video to answer the following question.)
+
+    Riley and Taylor push a box with a force of $\vec{F}=[-20,8]$ Newtons over a displacement of $\vec{D}=[-100,40]$ meters. How much work (i.e. energy spent) do they do on the box?
+
+    They do 
+
+    \begin{multipleChoice}
+        \choice{$W=||\vec{F}||+||\vec{D}||$ Joules of work.}
+        \choice{$W=||\vec{F}||-||\vec{D}||$ Joules of work.}
+        \choice[correct]{$W=||\vec{F}||\cdot||\vec{D}||$ Joules of work.}
+        \choice[correct]{$W=2320$ Joules of work.}
+        \choice{$W=\sqrt{12064}$ Joules of work.}
+    \end{multipleChoice}
+
+    \begin{feedback}
+        In this ideal case, the work done is given by $W=||\vec{F}||\cdot||\vec{D}||$.
+    \end{feedback}
+
+\end{problem}
+
+We assumed that the force and displacement were in the same direction, but how could we determine that for sure, to ensure that our ideal assumption was correct?
+
+(video)
+
+\begin{problem}
+    (Reference the end of the video to answer the following question.)
+
+    The force vector $\vec{F}=[-20,8]$ and the displacement vector $\vec{D}=[-100,40]$ \wordChoice{
+        \choice{are not in the same direction}
+        \choice[correct]{are in the same direction}
+} because \wordChoice{
+        \choice{they do not share a direction vector.}
+        \choice[correct]{they share direction vectors.}
+}
+\end{problem}
+
+\subsection*{Vector Projection: Dot Product}
+
+Now we extend this idea of multiplication to cases where the force and displacement are not in the same direction.
+
+(video)
+
+To find out how much work Riley did, we need to look into the idea of vector projection. The easiest place to start is with unit (direction) vectors.
+
+
+
+
+
+
 
 This kind of change is depicted in the following GeoGebra applet. Click ``Animate" to show the vector giving the change from $P$ to $Q$.
 
