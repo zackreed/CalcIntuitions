@@ -1,0 +1,152 @@
+\documentclass{ximera}
+% \input{../../xmpreamble.tex}
+
+\title{Vector Products: Dot Product}
+\author{Zack Reed}
+
+\begin{document}
+\begin{abstract}
+In this activity we continue our grounded exploration of vectors, focusing on vector multiplication: the dot product.
+\end{abstract}
+\maketitle
+
+
+\subsection*{Vector Projection: Dot Product}
+
+Now we extend this idea of multiplication to cases where the force and displacement are not in the same direction.
+
+(video)
+
+To find out how much work Riley did, we need to look into the idea of vector projection. The easiest place to start is with unit (direction) vectors.
+
+Comparing directions between vectors is surprisingly fundamental to many applications of vectors. This includes many machine learning algorithms, such as embedding semantic meaning of words and phrases into a high-dimensional vector space. The basic idea is that words and phrases that are similar in meaning should point in similar directions in the vector space. 
+
+We measure how much vectors point in the same direction through projecting on vector onto another, which can be visualized in the following GeoGebra applet.
+
+(video)
+
+\begin{center}
+\geogebra{hfav5hxt}{786}{384}
+\end{center}
+
+\begin{problem}
+The dot product of $\vec{u}$ and $\vec{v}$ (when $\vec{v}$  and $\vec{u}$ are unit vectors) gives the size of the projection of $\vec{u}$ onto $\vec{v}$ (as a percentage of the length of $\vec{u}$).
+
+Using the applet, what percentage gives the size of the projection of $\vec{u}$ onto $\vec{v}$ with the following pairs of vectors?
+
+\begin{enumerate}
+\item $\text{proj}_u(v)$ is \answer{100} \% of the length of $\vec{u}$ when $\vec{u}=[1,0]$ and $\vec{v}=[1,0]$.
+\item $\text{proj}_u(v)$ is \answer{0} \% of the length of $\vec{u}$ when $\vec{u}=[-1,0]$ and $\vec{v}=[0,1]$.
+\item $\text{proj}_u(v)$ is \answer[tolerance=1]{50} \% of the length of $\vec{u}$ when $\vec{u}=[1,0]$ and $\vec{v}=[.707,.707]$.
+\item $\text{proj}_u(v)$ is \answer[tolerance=1]{-30} \% of the length of $\vec{u}$ when $\vec{u}=[.74,.67]$ and $\vec{v}=[-.86,.51]$.
+\item $\text{proj}_u(v)$ is \answer[tolerance=1]{-83} \% of the length of $\vec{u}$ when $\vec{u}=[-.76,.65]$ and $\vec{v}=[.28,-.96]$.
+\item $\text{proj}_u(v)$ is \answer[tolerance=1]{95} \% of the length of $\vec{u}$ when $\vec{u}=[-.58,-.92]$ and $\vec{v}=[-.29,-.96]$.
+\item $\text{proj}_u(v)$ is \answer[tolerance=1]{-2} \% of the length of $\vec{u}$ when $\vec{u}=[.86,.51]$ and $\vec{v}=[.5,-.87]$.
+\end{enumerate}
+\end{problem}
+
+Now that we've explored vector projection, we turn to the other, more trigonometric interpretation of the dot product, the cosine of the smallest angle between two vectors. This interpretation is behind the common term for the dot product in machine learning: ``cosine similarity.''
+
+(video)
+
+\begin{definition}
+The dot product of two vectors $\vec{u}=[u_1,u_2]$ and $\vec{v}=[v_1,v_2]$ is given by the formula $\vec{u}\cdot\vec{v}=u_1v_1+u_2v_2$.
+\end{definition}
+
+\begin{remark}
+    The multiplication of the coordinates is what gives us the ``percentage'' interpretation of the dot product. We weigh the coordinates of $\vec{v}$ by the coordinates of $\vec{u}$ and add them together.
+\end{remark}
+
+%repeat the above question but with cosine of the angle between the vectors
+\begin{problem}
+The dot product of $\vec{u}$ and $\vec{v}$ (when $\vec{v}$  and $\vec{u}$ are unit vectors) gives the cosine of the angle between $\vec{u}$ and $\vec{v}$.
+Using the applet, what is the cosine of the angle between $\vec{u}$ and $\vec{v}$ with the following pairs of vectors?
+\begin{enumerate}
+\item The cosine of the angle between $\vec{u}$ and $\vec{v}$ is \answer{1} when $\vec{u}=[1,0]$ and $\vec{v}=[1,0]$.
+\item The cosine of the angle between $\vec{u}$ and $\vec{v}$ is \answer{0} when $\vec{u}=[-1,0]$ and $\vec{v}=[0,1]$.
+\item The cosine of the angle between $\vec{u}$ and $\vec{v}$ is \answer[tolerance=.1]{.707} when $\vec{u}=[1,0]$ and $\vec{v}=[.707,.707]$.
+\item The cosine of the angle between $\vec{u}$ and $\vec{v}$ is \answer[tolerance=.1]{-.3} when $\vec{u}=[.74,.67]$ and $\vec{v}=[-.86,.51]$.
+\item The cosine of the angle between $\vec{u}$ and $\vec{v}$ is \answer[tolerance=.1]{-.83} when $\vec{u}=[-.76,.65]$ and $\vec{v}=[.28,-.96]$.
+\item The cosine of the angle between $\vec{u}$ and $\vec{v}$ is \answer[tolerance=.1]{.95} when $\vec{u}=[-.58,-.92]$ and $\vec{v}=[-.29,-.96]$.
+\item The cosine of the angle between $\vec{u}$ and $\vec{v}$ is \answer[tolerance=.1]{-.02} when $\vec{u}=[.86,.51]$ and $\vec{v}=[.5,-.87]$.
+\end{enumerate}
+\end{problem}
+
+\begin{remark}
+    The cosine interpretation of the dot product is the reason for the term ``cosine similarity'' in machine learning. The cosine of the angle between two vectors is a measure of how similar the directions of the vectors are, and is computed by the dot product of the vectors.
+
+    We need to consider non unit vectors as well, however, which means we can't just use the cosine of the angle between the vectors. We will explore this more in the next section.
+\end{remark}
+
+\section*{Multiplication Part 1 - Dot Product}
+
+If we have two vectors, $\vec u$ and $\vec v$, the dot product $\vec u\cdot\vec v$ is given by the above formula $\vec u\cdot\vec v=u_1v_1+u_2v_2$ for 2-dimensional vectors. For higher dimensions, we still apply the same process of multiplying corresponding coordinates and adding the results.
+
+\begin{definition}
+The dot product of two vectors $\vec{u}=[u_1,u_2,\ldots,u_n]$ and $\vec{v}=[v_1,v_2,\ldots,v_n]$ is given by the formula $\vec{u}\cdot\vec{v}=u_1v_1+u_2v_2+\cdots+u_nv_n$.
+\end{definition}
+
+We also want to preserve the cosine interpretation of the dot product for non-unit vectors. We can do this if we scale the cosine of the angle between the vectors by the magnitudes of the vectors. 
+
+This leads to the equivalent definition of the dot product:
+
+\begin{definition}
+The dot product of two vectors $\vec{u}$ and $\vec{v}$ is given by the formula $\vec{u}\cdot\vec{v}=|\vec{u}||\vec{v}|\cos(\theta)$, where $\theta$ is the angle between $\vec{u}$ and $\vec{v}$.
+\end{definition}
+
+With the addition of non-unit vectors, we can no longer interpret the dot product as a percentage or cosine value, however the dot product is still very useful and gives us a way to ``multiply'' vectors together.
+
+In the following GeoGebra applet, you can explore the dot product of two vectors $\vec u$ and $\vec v$.
+
+\begin{center}
+    \geogebra{sm8ucyfw}{519}{330}
+\end{center}
+
+One important and ubiquitous application of the dot product is determining if two vectors are orthogonal (perpendicular). When shapes are joined by right angles they have many nice geometric properties. The same is true for vectors, it is often useful to know if the smallest angle between two vectors is a right angle.
+
+\begin{problem}
+    Using the dot product, determine which of the following pairs of vectors are orthogonal (i.e. the smallest angle between them is a right angle).
+    \begin{enumerate}
+        \item $\vec{u}=[1,0]$ and $\vec{v}=[0,1]$ are \wordChoice{\choice{not orthogonal} \choice[correct]{orthogonal}}.
+        \item $\vec{u}=[-2,-4]$ and $\vec{v}=[5,3]$ are \wordChoice{\choice[correct]{not orthogonal} \choice{orthogonal}}.
+        \item $\vec{u}=[2,5]$ and $\vec{v}=[5,-2]$ are \wordChoice{\choice{not orthogonal} \choice[correct]{orthogonal}}.
+        %now 3D vectors
+        \item $\vec{u}=[1,0,0]$ and $\vec{v}=[0,1,0]$ are \wordChoice{\choice{not orthogonal} \choice[correct]{orthogonal}}.
+        \item $\vec{u}=[1,2,-1]$ and $\vec{v}=[2,-1,0]$ are \wordChoice{\choice{not orthogonal} \choice[correct]{orthogonal}}.
+        \item $\vec{u}=[3,1,-2]$ and $\vec{v}=[1,-1,2]$ are \wordChoice{\choice[correct]{not orthogonal} \choice{orthogonal}}.
+        \item $\vec{u}=[1,-5,2]$ and $\vec{v}=[3,3,6]$ are \wordChoice{\choice{not orthogonal} \choice[correct]{orthogonal}}.
+        \item $\vec{u}=[2,-1,3]$ and $\vec{v}=[1,4,-1]$ are \wordChoice{\choice[correct]{not orthogonal} \choice{orthogonal}}.
+        %now higher dimensions
+        \item $\vec{u}=[1,2,-2,1]$ and $\vec{v}=[2,-1,1/2,1]$ are \wordChoice{\choice{not orthogonal} \choice[correct]{orthogonal}}.
+        \item $\vec{u}=[5,-1,1,-1]$ and $\vec{v}=[1,1,-3,1]$ are \wordChoice{\choice{not orthogonal} \choice[correct]{orthogonal}}.
+        \item $\vec{u}=[1,4,3,4,2]$ and $\vec{v}=[-2,4,-1,2,1]$ are \wordChoice{\choice[correct]{not orthogonal} \choice{orthogonal}}.
+        \item $\vec{u}=[2,1,-1,0,3]$ and $\vec{v}=[1,-2,0,5,2]$ are \wordChoice{\choice[correct]{not orthogonal} \choice{orthogonal}}.
+    \end{enumerate}
+\end{problem}
+
+Now let's return to Riley and Taylor moving the box! We want to know how much work Riley and Taylor individually did while pushing the box. This calculation of work involves the dot product, which isolates how much force was applied in the direction of motion, even if the full force was not in the direction of motion.
+
+(video)
+
+\begin{problem}
+    How much work did Riley do pushing the box if he was exerting a 20N force in the "left" direction?
+
+    Solution: Recalling that the displacement vector was $\vec{D}=[-100,40]$, Riley exerted $\answer{2000}$ Joules of work pushing the box.
+
+    \begin{feedback}
+        Remember that work depends on the amount of force applied in the direction of motion. The dot product calculates the amount of force being applied in the direction of motion.
+    \end{feedback}
+\end{problem}
+
+\begin{problem}
+    How much work did Taylor do pulling the box if he was exerting a 8N force in the "up" direction?
+
+    Solution: Recalling that the displacement vector was $\vec{D}=[-100,40]$, Taylor exerted $\answer{320}$ Joules of work pulling the box.
+
+        \begin{feedback}
+        Remember that work depends on the amount of force applied in the direction of motion. The dot product calculates the amount of force being applied in the direction of motion.
+    \end{feedback}
+\end{problem}
+
+
+\end{document}

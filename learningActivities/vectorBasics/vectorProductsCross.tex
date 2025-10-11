@@ -1,0 +1,98 @@
+\documentclass{ximera}
+% \input{../../xmpreamble.tex}
+
+\title{Vector Products: Cross Product}
+\author{Zack Reed}
+
+\begin{document}
+\begin{abstract}
+In this activity we continue our grounded exploration of vectors, focusing on vector multiplication: the cross product.
+\end{abstract}
+\maketitle
+
+\section{Multiplication Part 2 - Cross Product}
+
+We've come to the end of the journey for Riley and Taylor, who need to put away their box. They are trying to put away their box using a teeter-totter, but having some trouble because the box is too heavy. 
+
+(video)
+
+\begin{definition}
+    As described in the video, the cross product of two vectors $\vec{u}$ and $\vec{v}$, denoted $\vec{u}\times \vec{v}$, is a vector perpendicular to both $\vec{u}$ and $\vec{v}$ with length $|\vec{u}||\vec{v}|\sin(\theta)$, where $\theta$ is the smallest angle between $\vec{u}$ and $\vec{v}$.
+\end{definition}
+
+\begin{definition}
+    The torque created by a force $\vec{F}$ applied at a distance $\vec{r}$ from a fulcrum is given by the length of the cross product vector $\vec{r}\times \vec{F}$.
+\end{definition}
+
+\begin{problem}
+    Riley and Taylor are using an extendable teeter-totter to lift a heavy box. Their combined weight is 150N and the box weights 200N. If the box is fixed at 13m from the fulcrum of the teeter-totter, and the tip of the fulcrum is 5m high, how far from the fulcrum should Riley and Taylor stand to lift the box?
+
+    Part 1: Determine the torque created by the box.
+
+    Since the box is 13m from the fulcrum, the radius vector has a length of $\answer{13}$. The force vector has a length of $\answer{200}$ (its weight). 
+    The box resting at the edge of the pulley sits at the edge of a triangle hypotenuse of length 13m and height 5m (from the fulcrum). The angle between the hypotenuse and the ground is given by $\theta=\arcsin(\frac{\answer{5}}{\answer{13}})\approx \answer{22.62}$. Since the weight vector is vertical, the angle between the radius vector and the force vector is $90+\theta=\answer{112.62}$.
+    Thus, the torque created by the box is $\answer{1000}$Nm.
+    \begin{feedback}
+        Remember that torque is given by the cross product of the applied force and the length of the radius vector (distance from the fulcrum). For the box to be lifted, the torque from Riley and Taylor must be greater than the torque from the box. One way to calculate the length of the cross product vector is with the formula $|r||F|\sin(\theta)$, where $r$ is the radius vector, $F$ is the force vector, and $\theta$ is the angle between them.
+    \end{feedback}
+\end{problem}
+
+Now we determine how far Riley and Taylor need to stand from the fulcrum to lift the box.
+
+(video)
+
+\begin{problem}
+    How far from the fulcrum should Riley and Taylor stand to lift the box?
+
+    Since Riley and Taylor's combined weight is 150N, the force vector has a length of $\answer{150}$. Let $d$ be the distance from the fulcrum that Riley and Taylor stand. The radius vector length is variable, we'll call it $d$. Since the teeter-totter extends in a straight line, Riley and Taylo're weight vector is the height of a similar triangle to the box's triangle. meanining the matching interior angle measures are the same. Thus, the angle between the radius vector and the force vector is $90-\theta=\answer{67.38}$.
+
+    Once the torque created by Riley and Taylor is greater than the torque created by the box, they will be able to lift the box. Thus, to get the torque from Riley and Taylor to be greater than the box torque of $\answer{1000}$Nm (round to the nearest integer), we need a distance $d\approx\answer[tolerance=.1]{6.7576}$Nm (rounded to two decimal places).
+    \begin{feedback}
+        Remember that torque is given by the cross product of the applied force and the length of the radius vector (distance from the fulcrum). For the box to be lifted, the torque from Riley and Taylor must be greater than the torque from the box. One way to calculate the length of the cross product vector is with the formula $|r||F|\sin(\theta)$, where $r$ is the radius vector, $F$ is the force vector, and $\theta$ is the angle between them.
+    \end{feedback}
+\end{problem}
+
+Finally, let's think geometrically for a moment.
+
+\begin{problem}
+    \emph{Technically} the torque we just found is the length of a vector perpendicular to the rotation created by Riley and Taylor following the "right-hand rule." If your computer screen is the $xy$-plane and the positive $z$-axis comes out of the screen towards you, the cross product vector representing Riley and Taylor's torque is the 3D vector $[\answer{0},\answer{0},\answer{1000}]$ (rounded to one decimal place).
+
+    \begin{feedback}
+        Remember that the cross product is perpendicular to the plane created by the two vectors being multiplied. In this case, the radius vector and the force vector move within the $xy$-plane, so the cross product vector is perpendicular to that plane, meaning it points in the $z$-direction. The length of the cross product vector is the torque we calculated above.
+    \end{feedback}
+\end{problem}
+
+\subsection*{Geometric Connections}
+We apply the cross product to "multiply" vectors together by returning to an area-based interpretation of multiplication. We interpret the product $ab$ as the area of a parallelogram with height $a$ and base $b$. 
+
+One nice property of areas is that, even when slanted into parallelograms, if $a$ is the height and $b$ is the base length then the area is still given by $ab$.
+
+As seen in the following GeoGebra applet, the area of parallelograms depends on the base height product, where the height is perpendicular to the base. You may alter the "$\theta$=" slider and the position of the red point to alter the parallelogram.
+
+\begin{center}
+\geogebra{hccaztdd}{789}{461}
+\end{center}
+
+In each case, the area of the parallelogram remains the product of its base and its height. You might imagine this by moving the triangle (created by the vertical height on the left side) to fit in the empty space on the right of the parallelogram, making a rectangle.
+
+If we take the lengths of vectors $u$ and $v$ as giving the sides of the parallelogram, then the product $|u||v|\sin(\theta)$ gives the area of the generated parallelogram and thus preserves the area interpretation of the "vector product" that we call the "cross product".
+
+It is important to remember that the cross product must be defined to 3-dimensional vectors, and that it results in a 3-dimensional vector, despite our heavy focus on the magnitude of the vector, $|u||v|\sin(\theta)$.
+
+\begin{definition}
+    A quick way to find the cross product vector is with the vector formula below, where $\vec{u}=[u_1,u_2,u_3]$ and $\vec{v}=[v_1,v_2,v_3]$: 
+
+    \[\vec{u}\times \vec{v} = 
+    \begin{bmatrix}
+    u_2 v_3 - u_3 v_2 \\
+    u_3 v_1 - u_1 v_3 \\
+    u_1 v_2 - u_2 v_1
+    \end{bmatrix}\]
+\end{definition}
+
+\begin{remark}
+Your textbook will give you a way to compute the cross product using what is called a "determinant." Ignore this method, as it's mostly a trick of notation and can obscure the actual meaning of the determinant. If you're going to memorize something, memorize the formula above.
+\end{remark}
+
+
+\end{document}
