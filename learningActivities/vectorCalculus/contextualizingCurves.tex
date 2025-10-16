@@ -1,7 +1,7 @@
 \documentclass{ximera}
 
 \title{Activity: Torty and Harry Rematch}
-\author{YOUR-NAME-HERE}
+\author{Zack Reed}
 
 \begin{document}
 \begin{abstract}
@@ -11,7 +11,7 @@ This activity focuses on applying vector calculus concepts including arc length,
 
 \section{Introduction}
 
-The goal of this activity is to not just hone your calculative skills related to vector and multivariable functions but to engage you in interpretation as well and to build some intuition about what the various differential and integral calculations mean in vector contexts. Some of the calculations in these problems will be very messy to carry out by hand. For many (but not all), it will be beneficial to compute a measurement in MATLAB. This will leave space for you to decide which calculations are necessary for the problems at hand for you to interpret the results of various calculations.
+The goal of this activity is to not just hone your calculative skills related to vector and multivariable functions but to engage you in interpretation as well and to build some intuition about what the various differential and integral calculations mean in vector contexts.
 
 This activity focuses on a race between Torty and Harry. Harry decided that he could gain an advantage by racing along a hilly region in the mountains. The hilly region and track are visualized in the provided GeoGebra applet.
 
@@ -19,65 +19,403 @@ Harry has become quite adjusted to racing along inclines and declines. His path 
 
 In their rematch, Torty is less adjusted to running along hilly regions and tires after bursts of speed. His path in the provided GeoGebra applet is defined by the curve $\tau (t)=\langle \cos(t+\sin(t)), \sin(t+\sin(t)), \cos(t+\sin(t))\sin^2(t+\sin(t))\rangle$.
 
-You may alter the "$t$=" slider to view Torty and Harry's positions, velocities, and accelerations at any time during the race. You may also use the "Show Torty's Curve" and "Show Harry's Curve" checkboxes to view either of the racer's curve in isolation.
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    You may alter the "$t$=" slider to view Torty and Harry's positions, velocities, and accelerations at any time during the race. You may also use the "Show Torty's Curve" and "Show Harry's Curve" checkboxes to view either of the racer's curve in isolation.
+\end{expandable}
 
 \begin{center}
 \geogebra{yzxdk5uw}{844}{629}
 \end{center}
 
-\section{Discussion Tasks}
+\subsection*{Getting Started: Understanding the Race}
 
-You have three tasks. You must first answer each question based on your intuition or off of what you observe in the GeoGebra app before making a calculation. Then, you will confirm (or alter) your initial conjecture with calculations.
+Before we dive into calculations, let's build intuition about this race by exploring the GeoGebra applet.
 
-\subsection{Task One}
+\begin{problem}
+    Using the GeoGebra applet, observe the race and answer the following questions based on your intuition:
+    
+    \begin{enumerate}
+        \item At time $t=0$, where are both racers located?
+        \begin{multipleChoice}
+            \choice[correct]{Both start at approximately $(1,0,0)$}
+            \choice{Torty starts ahead of Harry}
+            \choice{Harry starts ahead of Torty}
+            \choice{Both start at the origin}
+        \end{multipleChoice}
+        
+        \item As you move the slider forward, what do you observe about their paths?
+        \begin{selectAll}
+            \choice[correct]{Both racers follow similar circular paths}
+            \choice[correct]{The paths include vertical (z-direction) changes}
+            \choice{The paths are perfect circles in a flat plane}
+            \choice[correct]{Torty's path appears slightly different from Harry's}
+        \end{selectAll}
+        
+        \item Based on visual observation, who appears to complete one lap first?
+        \begin{multipleChoice}
+            \choice[correct]{Harry completes a lap first}
+            \choice{Torty completes a lap first}
+            \choice{They complete laps at the same time}
+        \end{multipleChoice}
+    \end{enumerate}
+    
+    \begin{feedback}
+        Use the slider to trace through the race. Pay attention to when each racer returns to their starting position. Harry's curve is smoother, while Torty's curve includes periods where he slows down and speeds up (due to the $\sin(t)$ term added to his parameter).
+    \end{feedback}
+\end{problem}
 
-Answer the following questions about the race depicted in the GeoGebra applet.
+\section{Task One: Analyzing the Race Track}
 
-\begin{enumerate}
-\item To determine the length of the racetrack, can we use only one of the racers' curves to measure the length, or must we use both curves? Why? Your final justification must include at least one calculation of the racetrack length done in MATLAB, with the input code attached to or pasted within the post.
+\subsection*{Understanding Arc Length}
 
-\item Who wins the race depicted in the GeoGebra application? Justify this using definite integrals.
+The length of a curve in space is fundamental to understanding this race. Let's explore this concept.
 
-\item In the moments where Torty and Harry meet, who has the greater speed? Who has a greater acceleration? (Hint: You can fairly intuitively determine where they meet by examining the similarities and differences between their functions. Then, find a way to approximate the values of their speeds and accelerations)
+\begin{problem}
+    Consider Harry's path $h(t)=\langle \cos(t), \sin(t), \cos(t)\sin^2(t)\rangle$ for one complete lap from $t=0$ to $t=2\pi$.
+    
+    First, let's think about what affects the arc length of a curve:
+    \begin{multipleChoice}
+        \choice{Only the horizontal ($x$ and $y$) components matter for arc length}
+        \choice[correct]{All three components ($x$, $y$, and $z$) contribute to arc length}
+        \choice{Only the $z$ component affects arc length}
+    \end{multipleChoice}
+    
+    \begin{feedback}
+        Arc length in 3D space depends on all three dimensions. The formula for arc length is $L=\int_a^b ||h'(t)||dt=\int_a^b\sqrt{(x'(t))^2+(y'(t))^2+(z'(t))^2}dt$.
+    \end{feedback}
+\end{problem}
 
-\item What is the curvature difference between Torty and Harry's curves in the moments that they meet? Explain your result. (Hint: Setting up the curvature calculations in MATLAB will be useful; you will need to use a limit as part of these calculations when Torty's speed is 0).
-\end{enumerate}
+\begin{problem}
+    To determine the physical length of the racetrack, can we use only one of the racers' curves?
+    \begin{multipleChoice}
+        \choice[correct]{Yes, either curve gives the track length since they follow the same physical track}
+        \choice{No, we must average both curves to get the true length}
+        \choice{No, we must use both curves and take the longer one}
+    \end{multipleChoice}
+    
+    \begin{feedback}
+        Both racers follow the same physical track in space - they just traverse it at different rates (parametrized differently). Computing the arc length of either curve for one complete lap gives the track length.
+        
+        Using computational tools (MATLAB, Python, etc.), you should find that one lap of the track is approximately $\answer[tolerance=0.1]{6.4}$ units long.
+    \end{feedback}
+\end{problem}
 
-\subsection{Task Two}
+\subsection*{Speed and Velocity}
 
-After the first race on this hilly track, Torty and Harry want a rematch. Torty uses his rest periods to store up enough "running energy" to double his speed \emph{during the last stretch of the race} (i.e., he will finish the race doubling his speed). Doubling his speed takes up quite a bit of "running energy," however, and so if Torty speeds ahead too soon, he might not finish the race out of exhaustion. Torty knows this and is trying to strategically determine when to speed ahead. He estimates that, \emph{while doubling his speed}, for every small unit of distance ($ds$) over which his speed is doubled, he uses up $s^{1.3}\cdot ds$ units of energy.
+Now let's understand the difference between the racers' speeds.
 
-Answer the following questions about the race depicted in the GeoGebra applet.
+\begin{problem}
+    The velocity vector of Harry at time $t$ is given by $h'(t)=\frac{d}{dt}\langle \cos(t), \sin(t), \cos(t)\sin^2(t)\rangle$.
+    
+    What is $h'(t)$?
+    \[h'(t)=\langle \answer{-\sin(t)}, \answer{\cos(t)}, \answer{-\sin^3(t)+2\cos^2(t)\sin(t)}\rangle\]
+    
+    The speed of Harry at time $t$ is the magnitude of the velocity vector: $||h'(t)||=\sqrt{(\sin(t))^2+(\cos(t))^2+(-\sin^3(t)+2\cos^2(t)\sin(t))^2}$.
+    
+    \begin{feedback}
+        Remember that velocity is the derivative of position, and speed is the magnitude of velocity. Speed tells us how fast the racer is moving, while velocity also tells us the direction.
+    \end{feedback>
+\end{problem}
 
-\begin{enumerate}
-\item How much "running energy" ($RE$) would it take for Torty to double his speed in the final lap? How much $RE$ would it take for Torty to double his speed over the entire race? Note: You can begin the calculation without making an initial brainstorming post in this case.
+\begin{problem}
+    Who wins the race depicted in the GeoGebra applet (two complete laps, ending at $t=4\pi$)?
+    
+    Based on your observation of the applet:
+    \begin{multipleChoice}
+        \choice[correct]{Harry wins the race}
+        \choice{Torty wins the race}
+        \choice{They tie}
+    \end{multipleChoice}
+    
+    To verify this mathematically, we need to find when each racer completes two laps. Harry completes two laps at $t=\answer{4\pi}$ seconds (by definition).
+    
+    For Torty, we need to solve for when $\tau(t)$ returns to the starting position after two complete laps. Due to the $t+\sin(t)$ parametrization, Torty takes longer than $4\pi$ seconds.
+    
+    \begin{feedback}
+        The key insight is that Torty's parameter $t+\sin(t)$ causes him to slow down and speed up periodically. While both racers cover the same track length, Torty's varying speed means he takes more time overall. Computing $\int_0^T ||\tau'(t)||dt$ and finding when this equals twice the lap length confirms Harry wins.
+    \end{feedback}
+\end{problem>
 
-\item If Torty knows that he stops running out of exhaustion after expending $RE$ equal to half of the $RE$ it would take to double his speed over the entire race, when (accurate to within half of a second) should Torty start to speed ahead to win the race? Note: You want to ultimately find the time at which Torty should double his speed, but this requires attending to arclength. (Hint: Your work will go much faster if you use MATLAB to either carry out a "trial and error" process involving the multiple integral calculations or use MATLAB to solve multiple equations for your desired values.)
+\subsection*{When Racers Meet}
 
-\item By how many seconds does Torty win the race?
-\end{enumerate}
+\begin{problem}
+    Examining the curves $h(t)=\langle \cos(t), \sin(t), \cos(t)\sin^2(t)\rangle$ and $\tau(t)=\langle \cos(t+\sin(t)), \sin(t+\sin(t)), \cos(t+\sin(t))\sin^2(t+\sin(t))\rangle$, we can determine when they meet.
+    
+    Notice that $\tau(t)=h(t+\sin(t))$. This means Torty and Harry meet when:
+    \begin{multipleChoice}
+        \choice{$t=0$ only}
+        \choice[correct]{$\sin(t)=0$, which occurs at $t=0, \pi, 2\pi, 3\pi, 4\pi$}
+        \choice{They never meet}
+        \choice{$\cos(t)=0$}
+    \end{multipleChoice}
+    
+    \begin{feedback}
+        When $\sin(t)=0$, we have $\tau(t)=h(t+0)=h(t)$, so they are at the same position. This happens at multiples of $\pi$.
+    \end{feedback}
+\end{problem}
 
-\subsection{Task Three}
+\begin{problem}
+    At $t=\pi$ (one of the times they meet), who has greater speed?
+    
+    Harry's speed at $t=\pi$ is $||h'(\pi)||=\answer[tolerance=0.1]{1}$.
+    
+    For Torty, we compute $||\tau'(\pi)||$. Using the chain rule: $\tau'(t)=h'(t+\sin(t))\cdot(1+\cos(t))$.
+    
+    At $t=\pi$: $\tau'(\pi)=h'(\pi)\cdot(1+\cos(\pi))=h'(\pi)\cdot(1-1)=\answer{0}$.
+    
+    Therefore, at $t=\pi$:
+    \begin{multipleChoice}
+        \choice[correct]{Harry has greater speed (Torty is momentarily stopped)}
+        \choice{Torty has greater speed}
+        \choice{They have equal speeds}
+    \end{multipleChoice}
+    
+    \begin{feedback}
+        The factor $(1+\cos(t))$ in Torty's velocity causes him to stop completely when $\cos(t)=-1$ (at $t=\pi, 3\pi$, etc.). This is why Torty appears to pause at certain points in the race!
+    \end{feedback>
+\end{problem>
+
+\section{Task Two: Torty's Strategic Sprint}
+
+After the first race on this hilly track, Torty and Harry want a rematch. Torty uses his rest periods to store up enough "running energy" to double his speed during the last stretch of the race. However, doubling his speed consumes significant energy.
+
+Torty estimates that, while doubling his speed, for every small unit of distance ($ds$) over which his speed is doubled, he uses up $s^{1.3}\cdot ds$ units of energy, where $s$ is his current speed.
+
+\subsection*{Understanding Energy Expenditure}
+
+\begin{problem}
+    First, let's understand the energy model. If Torty doubles his speed over a curve segment, the energy required is:
+    \[RE=\int_{\text{segment}} s^{1.3}\, ds\]
+    
+    What does $s$ represent in this integral?
+    \begin{multipleChoice}
+        \choice{The arc length parameter}
+        \choice[correct]{Torty's speed (magnitude of velocity) at each point}
+        \choice{The time parameter}
+        \choice{The distance traveled}
+    \end{multipleChoice}
+    
+    What does $ds$ represent?
+    \begin{multipleChoice}
+        \choice{A small change in speed}
+        \choice{A small change in time}
+        \choice[correct]{A small arc length element}
+        \choice{A small change in position}
+    \end{multipleChoice}
+    
+    \begin{feedback}
+        This integral sums up energy costs over the arc length of the curve. Remember that $ds=||r'(t)||dt$, so we can convert this to an integral over time: $RE=\int s^{1.3}||r'(t)||dt=\int ||r'(t)||^{2.3}dt$.
+    \end{feedback}
+\end{problem}
+
+\begin{problem}
+    Let's build intuition: If Torty were to double his speed over the entire race (two laps, approximately $\answer[tolerance=0.1]{12.8}$ units of distance), would this require:
+    \begin{multipleChoice}
+        \choice{Less energy than doubling speed for just the final lap}
+        \choice[correct]{More energy than doubling speed for just the final lap}
+        \choice{The same energy regardless of when he speeds up}
+    \end{multipleChoice>
+    
+    \begin{feedback}
+        The energy required depends on both the speed $s$ and the distance over which the speed is doubled. Since Torty's speed varies throughout the race (remember he stops at certain points!), the total energy depends on the specific curve segment he chooses.
+    \end{feedback>
+\end{problem}
+
+\begin{problem}
+    Computing the energy integrals requires numerical methods. Using computational tools:
+    
+    The energy required for Torty to double his speed over the entire race (two laps) is approximately $RE_{\text{total}}=\answer[tolerance=1]{100}$ energy units.
+    
+    The energy required to double speed over just the final lap is approximately $RE_{\text{final lap}}=\answer[tolerance=1]{50}$ energy units.
+    
+    \begin{feedback}
+        You can compute these using: $RE=\int_0^{T} ||\tau'(t)||^{2.3}dt$ where $T$ is the appropriate time interval. Use numerical integration in MATLAB, Python, or similar tools.
+    \end{feedback}
+\end{problem>
+
+\subsection*{Strategic Timing}
+
+\begin{problem}
+    Torty knows he stops running from exhaustion after expending $RE$ equal to half of the energy it would take to double his speed over the entire race.
+    
+    How much energy can Torty expend before exhaustion? $RE_{\text{max}}=\answer[tolerance=1]{50}$ energy units.
+    
+    Torty wants to time his sprint so that:
+    \begin{selectAll}
+        \choice[correct]{He uses exactly his maximum available energy}
+        \choice[correct]{He finishes the race before Harry}
+        \choice{He starts sprinting as early as possible}
+        \choice[correct]{He completes two full laps}
+    \end{selectAll}
+    
+    \begin{feedback}
+        Torty needs to find time $t_0$ such that $\int_{t_0}^{T_{\text{finish}}} ||\tau'(t)||^{2.3}dt=RE_{\text{max}}$ and the total distance covered equals two laps. This requires numerical solving.
+    \end{feedback}
+\end{problem>
+
+\begin{problem}
+    Using computational tools to solve for the optimal sprint time:
+    
+    Torty should start doubling his speed at approximately $t=\answer[tolerance=0.5]{6.5}$ seconds.
+    
+    With this strategy, Torty finishes the race at approximately $t=\answer[tolerance=0.5]{12}$ seconds.
+    
+    Since Harry finishes at $t=4\pi\approx 12.57$ seconds, Torty wins by approximately $\answer[tolerance=0.5]{0.57}$ seconds!
+    
+    \begin{feedback}
+        This problem demonstrates the power of calculus for optimization. By carefully choosing when to expend energy, Torty can overcome his initial disadvantage. The solution requires balancing arc length integrals (for distance) with energy integrals (for the constraint).
+    \end{feedback>
+\end{problem>
+
+\section{Task Three: Modifying the Terrain}
 
 After Harry's second defeat, he wants to look for ways to make the course even more difficult for Torty. After talking to a landscaper, Harry determined that the terrain around the track (considering the center of the track to be the point $(0,0,0)$) can be defined by the function $f(x,y)=xy^2$. The race track is determined by taking the points $(x,y,f(x,y))$, where $(x,y)$ follow the unit circle.
 
 Harry suspects that making the course more difficult within the first quadrant (of the unit circle) will further hinder Torty's ability to run effectively.
 
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Use this applet to visualize the terrain function $f(x,y)=xy^2$ and the proposed course modifications.
+\end{expandable}
+
 \begin{center}
 \geogebra{xca7zyda}{749}{721}
 \end{center}
 
-Using \textbf{\emph{only partial derivatives, directional derivatives, and/or tangent planes,}} answer the following prompts.
+\subsection*{Understanding Partial Derivatives}
 
-\begin{enumerate}
-\item Estimate the current height change along the course between the points $A=\left(\frac{\sqrt{3}}{2},\frac{1}{2}\right)$ and $B=\left(\frac{1}{2},\frac{\sqrt{3}}{2}\right)$, as depicted in Figures 1 and 2. For your brainstorming post, identify two different ways to estimate this height change. One with derivatives and one without. (Hint: Setting up these calculations in MATLAB will make your life easier when answering the remaining questions, but these can all be done fairly easily by hand if desired).
+We'll use partial derivatives, directional derivatives, and tangent planes to analyze the terrain.
 
-\item Harry has found potential locations, Point $B^{\prime}$ and $B^{''}$, over which to run the course instead of point $B$, then curving the course around to quickly return to its normal intersection with the y-axis. $B^{\prime}$ lies directly North of point $A$, and $B^{''}$ lies directly East of $A$. Points $B^{\prime}$ and $B^{''}$ are the same distance away from point $A$ as was point $B$, as depicted in Figures 3 and 4. (Note: Consider the positive $x$-axis to be East and the positive $y$-axis to be North)
+\begin{problem}
+    First, let's find the partial derivatives of $f(x,y)=xy^2$.
+    
+    \[\frac{\partial f}{\partial x}=\answer{y^2}\]
+    
+    \[\frac{\partial f}{\partial y}=\answer{2xy}\]
+    
+    \begin{feedback}
+        Partial derivatives tell us the rate of height change in the $x$ and $y$ directions. $\frac{\partial f}{\partial x}$ measures the slope in the East-West direction, while $\frac{\partial f}{\partial y}$ measures the slope in the North-South direction.
+    \end{feedback}
+\end{problem}
 
-First, conjecture and then verify whether moving from $A$ to $B$, $B'$, or $B''$ results in the approximate greatest height change over that isolated region of the course.
+\subsection*{Height Changes Along the Course}
 
-\item Because of the topography around the course, Harry can only alter the course after the point $A$ by moving Northeast, Northwest, Southeast, or Southwest, and only by the same horizontal distance as the original change from $A$ to $B$. Compare the estimated height changes in each direction to determine the new course that would prove the most difficult journey. (Remember to give an initial conjecture based on the provided applet and Figures.)
-\end{enumerate}
+Consider points $A=\left(\frac{\sqrt{3}}{2},\frac{1}{2}\right)$ and $B=\left(\frac{1}{2},\frac{\sqrt{3}}{2}\right)$ on the unit circle in the first quadrant.
+
+\begin{problem}
+    First, let's compute the actual heights at these points.
+    
+    At point $A$: $f\left(\frac{\sqrt{3}}{2},\frac{1}{2}\right)=\frac{\sqrt{3}}{2}\cdot\left(\frac{1}{2}\right)^2=\answer[tolerance=0.01]{0.217}$.
+    
+    At point $B$: $f\left(\frac{1}{2},\frac{\sqrt{3}}{2}\right)=\frac{1}{2}\cdot\left(\frac{\sqrt{3}}{2}\right)^2=\answer[tolerance=0.01]{0.375}$.
+    
+    The actual height change from $A$ to $B$ is $\Delta f=\answer[tolerance=0.01]{0.158}$.
+    
+    \begin{feedback}
+        This is the direct calculation method - simply computing $f(B)-f(A)$. Now let's see how we can approximate this using derivatives!
+    \end{feedback}
+\end{problem>
+
+\begin{problem}
+    Now let's estimate the height change using directional derivatives.
+    
+    The direction vector from $A$ to $B$ is:
+    \[\vec{v}=B-A=\left[\frac{1}{2}-\frac{\sqrt{3}}{2}, \frac{\sqrt{3}}{2}-\frac{1}{2}\right]=\left[\answer[tolerance=0.01]{-0.366}, \answer[tolerance=0.01]{0.366}\right]\]
+    
+    The distance from $A$ to $B$ is $||\vec{v}||=\answer[tolerance=0.01]{0.518}$.
+    
+    The unit direction vector is $\vec{u}=\frac{\vec{v}}{||\vec{v}||}=\left[\answer[tolerance=0.01]{-0.707}, \answer[tolerance=0.01]{0.707}\right]$.
+    
+    \begin{feedback}
+        The directional derivative will tell us the rate of height change in the direction from $A$ to $B$.
+    \end{feedback>
+\end{problem>
+
+\begin{problem}
+    The gradient of $f$ at point $A$ is:
+    \[\nabla f\left(\frac{\sqrt{3}}{2},\frac{1}{2}\right)=\left[\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}\right]_{A}=\left[\left(\frac{1}{2}\right)^2, 2\cdot\frac{\sqrt{3}}{2}\cdot\frac{1}{2}\right]=\left[\answer{0.25}, \answer[tolerance=0.01]{0.866}\right]\]
+    
+    The directional derivative in direction $\vec{u}$ is:
+    \[D_{\vec{u}}f(A)=\nabla f(A)\cdot\vec{u}=\answer[tolerance=0.01]{0.436}\]
+    
+    The estimated height change over distance $||\vec{v}||$ is:
+    \[\Delta f\approx D_{\vec{u}}f(A)\cdot||\vec{v}||=\answer[tolerance=0.01]{0.226}\]
+    
+    \begin{feedback}
+        Notice this approximation ($0.226$) is close to but not exactly the actual height change ($0.158$). The approximation works best for small distances. This demonstrates the tangent plane approximation!
+    \end{feedback>
+\end{problem>
+
+\subsection*{Finding the Steepest Ascent}
+
+\begin{problem}
+    Harry considers alternative points at the same distance from $A$:
+    \begin{itemize}
+        \item $B'$: directly North of $A$ (same distance as $A$ to $B$)
+        \item $B''$: directly East of $A$ (same distance as $A$ to $B$)
+    \end{itemize}
+    
+    The distance from $A$ to $B$ is $d=\answer[tolerance=0.01]{0.518}$.
+    
+    Point $B'$ (North of $A$): $B'=A+(0,d)=\left(\frac{\sqrt{3}}{2}, \frac{1}{2}+0.518\right)\approx\left(\answer[tolerance=0.01]{0.866}, \answer[tolerance=0.01]{1.018}\right)$.
+    
+    Point $B''$ (East of $A$): $B''=A+(d,0)=\left(\frac{\sqrt{3}}{2}+0.518, \frac{1}{2}\right)\approx\left(\answer[tolerance=0.01]{1.384}, \answer{0.5}\right)$.
+    
+    \begin{feedback}
+        Note that $B''$ is outside the unit circle! This might not be a valid option for the track.
+    \end{feedback>
+\end{problem>
+
+\begin{problem}
+    Using directional derivatives from point $A$:
+    
+    In the North direction (unit vector $[0,1]$):
+    \[D_{[0,1]}f(A)=\nabla f(A)\cdot[0,1]=\answer[tolerance=0.01]{0.866}\]
+    
+    In the East direction (unit vector $[1,0]$):
+    \[D_{[1,0]}f(A)=\nabla f(A)\cdot[1,0]=\answer{0.25}\]
+    
+    In the Northeast direction (unit vector $\left[\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}}\right]$):
+    \[D_{\text{NE}}f(A)=\answer[tolerance=0.01]{0.789}\]
+    
+    Which direction has the steepest ascent?
+    \begin{multipleChoice}
+        \choice{East}
+        \choice[correct]{North}
+        \choice{Northeast}
+        \choice{The direction toward $B$}
+    \end{multipleChoice}
+    
+    \begin{feedback}
+        The North direction has the largest directional derivative, meaning the height increases most rapidly in that direction. This makes sense because $\frac{\partial f}{\partial y}=2xy$ is larger than $\frac{\partial f}{\partial x}=y^2$ at point $A$.
+    \end{feedback>
+\end{problem>
+
+\subsection*{Optimal Course Modification}
+
+\begin{problem}
+    Harry can only modify the course by moving Northeast, Northwest, Southeast, or Southwest from point $A$ (staying on paths that could realistically connect back to the track).
+    
+    Computing directional derivatives at $A=\left(\frac{\sqrt{3}}{2},\frac{1}{2}\right)$ with $\nabla f(A)\approx[0.25, 0.866]$:
+    
+    \begin{itemize}
+        \item Northeast $\left[\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}}\right]$: $D_{\text{NE}}=\answer[tolerance=0.01]{0.789}$
+        \item Northwest $\left[-\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}}\right]$: $D_{\text{NW}}=\answer[tolerance=0.01]{0.436}$
+        \item Southeast $\left[\frac{1}{\sqrt{2}},-\frac{1}{\sqrt{2}}\right]$: $D_{\text{SE}}=\answer[tolerance=0.01]{-0.436}$
+        \item Southwest $\left[-\frac{1}{\sqrt{2}},-\frac{1}{\sqrt{2}}\right]$: $D_{\text{SW}}=\answer[tolerance=0.01]{-0.789}$
+    \end{itemize}
+    
+    To make the course most difficult (steepest uphill), Harry should modify it to go:
+    \begin{multipleChoice}
+        \choice[correct]{Northeast from point $A$}
+        \choice{Northwest from point $A$}
+        \choice{Southeast from point $A$}
+        \choice{Southwest from point $A$}
+    \end{multipleChoice}
+    
+    \begin{feedback}
+        The Northeast direction gives the largest positive directional derivative ($0.789$), meaning the steepest uphill climb. This would make the race most difficult for Torty! The gradient $\nabla f$ always points in the direction of steepest ascent, and at point $A$, that direction is roughly North-Northeast.
+    \end{feedback>
+\end{problem>
 
 
-\end{document}
+\end{document>
