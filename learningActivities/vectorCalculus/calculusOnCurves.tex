@@ -1,106 +1,533 @@
 \documentclass{ximera}
 
-\title{Course Notes: Curves and Tangent Vectors}
-\author{YOUR-NAME-HERE}
+\title{Activity: Calculus on Curves}
+\author{Zack Reed}
 
 \begin{document}
 \begin{abstract}
-These notes introduce vector functions, tangent vectors, integration of vector functions, and arc length calculations for curves in two and three dimensions.
+In this activity we explore vector functions, tangent vectors, integration of vector functions, and arc length calculations for curves in space. We'll build intuition through interactive problems and visualizations.
 \end{abstract}
 \maketitle
 
-\section{Course Notes: Curves and Tangent Vectors}
+\section*{Introduction: Vector Functions}
 
-As suggested in the overview, a vector function uses three separate functions of time to comprise the coordinates of a vector. These functions usually take the form
+In single-variable calculus, functions took a number as input and produced a number as output. Now we'll work with functions that take a number (time) as input and produce a vector (position) as output.
 
-$$x=f(t), \quad y=g(t), \quad z=h(t), \quad \text{for } t \in [a,b].$$
+\begin{definition}
+A \textbf{vector function} uses separate functions of time to define the coordinates of a position vector:
+$$\vec{r}(t) = \langle x(t), y(t), z(t) \rangle = \langle f(t), g(t), h(t) \rangle, \quad \text{for } t \in [a,b]$$
 
-We will use the notation $\langle x(t),y(t),z(t)\rangle=\langle f(t),g(t),h(t)\rangle$ interchangeably. This construction effectively allows us to work with $\vec{r}(t)$ by working individually with each of its component functions, which is a benefit that we won't quite be able to make use of for more complicated functions in later modules.
+We can work with $\vec{r}(t)$ by working individually with each of its component functions.
+\end{definition}
 
-You may again use the following GeoGebra application to view the three-dimensional curve defined by the vector function $\vec{r}(t)=\langle \cos(t), \sin(t), t\rangle$.
+\begin{problem}
+Before exploring visualizations, let's check understanding. If $\vec{r}(t) = \langle 2t, t^2, 3 \rangle$, what does this vector function represent?
+
+\begin{multipleChoice}
+    \choice{A single point in space}
+    \choice[correct]{A curve in 3D space traced out as $t$ varies}
+    \choice{Three separate unrelated functions}
+    \choice{A plane in 3D space}
+\end{multipleChoice}
+
+\begin{feedback}
+As $t$ varies, the position vector $\vec{r}(t)$ traces out a path (curve) through 3D space. Think of it like a particle moving through space over time!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+For the same function $\vec{r}(t) = \langle 2t, t^2, 3 \rangle$, find the position at specific times:
+
+At $t=0$: $\vec{r}(0) = \langle \answer{0}, \answer{0}, \answer{3} \rangle$
+
+At $t=1$: $\vec{r}(1) = \langle \answer{2}, \answer{1}, \answer{3} \rangle$
+
+At $t=2$: $\vec{r}(2) = \langle \answer{4}, \answer{4}, \answer{3} \rangle$
+
+\begin{feedback}
+Notice that the $z$-coordinate stays constant at 3, while the $x$ and $y$ coordinates change. This means the curve lies entirely in the plane $z=3$!
+\end{feedback}
+\end{problem}
+
+\subsection*{Visualizing a Classic Curve: The Helix}
+
+Now let's explore a famous 3D curve: the helix $\vec{r}(t)=\langle \cos(t), \sin(t), t\rangle$.
+
+\begin{problem}
+Before viewing the applet, predict what this curve looks like:
+
+The $x$ and $y$ components $\langle \cos(t), \sin(t) \rangle$ describe:
+\begin{multipleChoice}
+    \choice{A straight line}
+    \choice[correct]{A circle in the $xy$-plane}
+    \choice{A parabola}
+    \choice{A spiral}
+\end{multipleChoice}
+
+As $t$ increases, the $z$-coordinate:
+\begin{multipleChoice}
+    \choice{Stays constant}
+    \choice[correct]{Increases linearly}
+    \choice{Decreases}
+    \choice{Oscillates}
+\end{multipleChoice}
+
+Combining these, the curve should look like:
+\begin{multipleChoice}
+    \choice{A flat circle}
+    \choice[correct]{A spring or corkscrew shape}
+    \choice{A straight line}
+    \choice{A sphere}
+\end{multipleChoice}
+
+\begin{feedback}
+Excellent prediction! The curve circles around (from the $\cos$ and $\sin$) while simultaneously rising (from the $t$ in the $z$-component), creating a helix shape.
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Now explore the visualization to confirm your prediction.
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Rotate the 3D view by clicking and dragging. Use your scroll wheel to zoom. Observe how the curve spirals upward.
+\end{expandable}
 
 \begin{center}
 \geogebra{yxed8hcu}{730}{510}
 \end{center}
 
-For now, however, because we use the outputs of $f, g,$ and $h$ in tandem for the same values of time, we can break apart $\vec{r}(t)$ into its components, tweak the components (for instance, by differentiating or integrating), and then put the new components back together again.
+After exploring, verify your observations:
+\begin{selectAll}
+    \choice[correct]{The curve spirals upward}
+    \choice[correct]{The curve repeats its circular pattern in each horizontal slice}
+    \choice{The curve stays in a single plane}
+    \choice[correct]{The curve rises at a constant rate}
+\end{selectAll}
+\end{problem}
 
-One way that we use the components of a vector function productively is by differentiating. In 241 and 242, we measured the instantaneous rate of change of a function $f$ by taking the limit of its average rate of change over increasingly small intervals of time. This gave us the derivative function $f'(t)=\frac{df}{dt}$, from which we could build a line tangent to the curve at any particular time, as is depicted in the following GeoGebra application.
+\section*{Task One: Tangent Vectors and Velocity}
 
-You may alter the "X=" slider to see the shifting tangent line (represented as a vector now) and the approximating horizontal and vertical shifts represented by $df$ and $dx$.
+\subsection*{From Single-Variable to Vector Derivatives}
+
+Because we can work with each component separately, differentiating vector functions is straightforward: differentiate each component!
+
+\begin{problem}
+Let's review the single-variable case first. In Calc I and II, we measured instantaneous rate of change by taking derivatives.
+
+For a function $f(x)$, the derivative $f'(x)$ tells us:
+\begin{selectAll}
+    \choice[correct]{The instantaneous rate of change}
+    \choice[correct]{The slope of the tangent line}
+    \choice{The area under the curve}
+    \choice[correct]{How fast the function is changing}
+\end{selectAll}
+
+\begin{feedback}
+The derivative captures instantaneous rate of change. Now we'll extend this idea to vector functions!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Before viewing the next applet, let's explore the 2D case conceptually.
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Alter the "X=" slider to see the tangent line shift along the curve. Notice the approximating horizontal and vertical components represented by $dx$ and $df$.
+\end{expandable}
 
 \begin{center}
 \geogebra{gyh4uhzy}{786}{584}
 \end{center}
 
-Now, with the advent of our new vector functions, we take the derivative of each component to yield a tangent vector. You may again alter the "t=" slider to view the vector given by $\vec{v}(t)=\langle x'(t), y'(t), z'(t)\rangle$.
+What does the tangent line represent?
+\begin{multipleChoice}
+    \choice{The curve itself}
+    \choice[correct]{The direction and rate of change at a specific point}
+    \choice{The average rate of change}
+    \choice{The total change over an interval}
+\end{multipleChoice}
+\end{problem}
+
+\subsection*{Computing Velocity Vectors}
+
+\begin{definition}
+For a vector function $\vec{r}(t) = \langle x(t), y(t), z(t) \rangle$, the \textbf{velocity vector} (or \textbf{tangent vector}) is:
+$$\vec{v}(t) = \vec{r}'(t) = \left\langle \frac{dx}{dt}, \frac{dy}{dt}, \frac{dz}{dt} \right\rangle = \langle x'(t), y'(t), z'(t) \rangle$$
+
+This vector is tangent to the curve and points in the direction of motion.
+\end{definition}
+
+\begin{problem}
+Let's compute some velocity vectors. If $\vec{r}(t) = \langle t^2, 3t, 2t^3 \rangle$, find $\vec{v}(t)$.
+
+$\vec{v}(t) = \langle \answer{2t}, \answer{3}, \answer{6t^2} \rangle$
+
+At $t=1$: $\vec{v}(1) = \langle \answer{2}, \answer{3}, \answer{6} \rangle$
+
+At $t=2$: $\vec{v}(2) = \langle \answer{4}, \answer{3}, \answer{24} \rangle$
+
+\begin{feedback}
+Notice how the velocity vector changes as $t$ changes! At $t=2$, the particle is moving much faster in the $z$-direction than at $t=1$.
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+For the helix $\vec{r}(t) = \langle \cos(t), \sin(t), t \rangle$, compute the velocity vector.
+
+$\vec{v}(t) = \langle \answer{-\sin(t)}, \answer{\cos(t)}, \answer{1} \rangle$
+
+\begin{feedback}
+The $z$-component of velocity is constantly 1, meaning the helix rises at a constant rate. The $x$ and $y$ components oscillate, creating the circular motion.
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Now visualize how the velocity vector moves along the curve in 3D.
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Alter the "t=" slider to view the velocity vector at different points. Click and drag to rotate your view. Notice how the vector is always tangent to the curve.
+\end{expandable}
 
 \begin{center}
 \geogebra{zr86834p}{730}{487}
 \end{center}
 
-As in the single-variable case, the vector given by $\vec{v}(t)$ lies tangent to the curve. We call the vectors given by $\vec{v}(t)$ \emph{tangent vectors} or \emph{velocity vectors}.
+After exploring the visualization, answer:
+\begin{selectAll}
+    \choice[correct]{The velocity vector is always tangent to the curve}
+    \choice[correct]{The velocity vector's direction changes as the particle moves}
+    \choice{The velocity vector is always the same length}
+    \choice[correct]{The velocity vector points in the direction of motion}
+\end{selectAll}
+\end{problem}
 
-\section{Course Notes: Integrating Vector Functions}
+\section*{Task Two: Integrating Vector Functions}
 
-When given information about a function's rate of change, we can reconstruct changes in the original function by adding up the rate-time products in a definite integral. More specific to motion, if we know that an object is moving in a single direction with velocity $v(t)$, then over a small interval of time ($dt$) we can describe how far the object has moved by the product $dD=v(t)\cdot dt$. This lets us calculate a total change in distance using definite integrals, $\Delta D=\int dD=\int v(t)\cdot dt$. Informally, we can think of this as adding up the small distances generated by each small product $dD=v(t)\cdot dt$, akin to what is seen in the following GeoGebra application.
+\subsection*{Reconstructing Position from Velocity}
 
-You may alter the "t=" slider to simultaneously view the rocket's height and velocity at time $t$.
+In single-variable calculus, we learned that integration is the reverse of differentiation. If we know the rate of change, we can find the total change by integrating.
+
+\begin{problem}
+Let's review: In single-variable calculus, if a rocket has velocity $v(t)$ over time interval $[a,b]$, the total change in height is:
+
+\begin{multipleChoice}
+    \choice{$v(b) - v(a)$}
+    \choice[correct]{$\int_a^b v(t) \, dt$}
+    \choice{$v(b) \cdot (b-a)$}
+    \choice{$\frac{dv}{dt}$}
+\end{multipleChoice}
+
+\begin{feedback}
+We integrate velocity to find displacement! Small bits of distance $dD = v(t) \cdot dt$ add up to give total change: $\Delta D = \int_a^b v(t) \, dt$.
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Let's visualize this with a rocket example.
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Alter the "t=" slider to view the rocket's height and velocity simultaneously. Notice how velocity determines the rate at which height accumulates.
+\end{expandable}
 
 \begin{center}
 \geogebra{ysumvptx}{750}{467}
 \end{center}
 
-The rocket's velocity determines its forward motion, and the total height at any one time is the accumulation of distances amassed over previously completed time intervals. For instance, the rocket's total height of $1090.2$ meters was amassed over the 5.57 seconds of its observed flight, which can be calculated by the integral $1090.2=\int_0^{1090.2}dD=\int_0^{5.57}v(t)\cdot dt$.
+The rocket's velocity determines its motion, and total height accumulates over time. For instance, a height of $1090.2$ meters over $5.57$ seconds comes from: $1090.2 = \int_0^{5.57} v(t) \, dt$.
 
-Now, with vector functions, we have multiple ways of measuring the accumulation of change from the velocity function $\vec{v}(t)=\langle x'(t), y'(t), z'(t)\rangle$. If we care about measuring the total change to a vector $\vec{r}(t)=\langle x(t), y(t), z(t)\rangle$ on the time interval $[a,b]$, we simply measure the total change to each component. If we can compute $\int_a^b x'(t) \cdot dt$, $\int_a^b y'(t) \cdot dt$, and $\int_a^b z'(t) \cdot dt$, then we have measured the amount of change for each coordinate of $\vec{r}(t)$ on the time interval $[a,b]$.
+\begin{feedback}
+Watch how the area under the velocity curve corresponds to the height gained. This is the fundamental theorem of calculus in action!
+\end{feedback}
+\end{problem}
 
-We, therefore can measure the change to $\vec{r}(t)$ by the calculation 
-$$\vec{r}(b)-\vec{r}(a)= \int_a^b \vec{v}(t)\cdot dt=\left\langle \int_a^b x'(t)\cdot dt, \int_a^b y'(t)\cdot dt, \int_a^b z'(t)\cdot dt\right\rangle.$$
+\subsection*{Vector Integration: Component by Component}
 
-Notice that it is a vector difference that is measured here, rather than a scalar difference. This can be visualized in the following GeoGebra application. As before, you may alter the "T=" slider to view the progressive building of $\vec{r}$ by integrating each of the component functions to measure a total change in each function.
+\begin{definition}
+For a vector velocity function $\vec{v}(t)=\langle x'(t), y'(t), z'(t)\rangle$, the change in position over $[a,b]$ is:
+$$\vec{r}(b)-\vec{r}(a)= \int_a^b \vec{v}(t)\, dt=\left\langle \int_a^b x'(t)\, dt, \int_a^b y'(t)\, dt, \int_a^b z'(t)\, dt\right\rangle$$
+
+We integrate each component separately!
+\end{definition}
+
+\begin{problem}
+Key insight: When we integrate a vector function, what do we get?
+
+\begin{multipleChoice}
+    \choice{A scalar (number)}
+    \choice[correct]{A vector (displacement)}
+    \choice{The arc length}
+    \choice{The speed}
+\end{multipleChoice}
+
+\begin{feedback}
+Unlike scalar integration which gives a number, vector integration gives us a displacement vector showing the overall change in position!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Let's practice! If $\vec{v}(t) = \langle 2, 3t, 4t^2 \rangle$, find the displacement from $t=0$ to $t=2$.
+
+$\int_0^2 \vec{v}(t) \, dt = \left\langle \int_0^2 \answer{2} \, dt, \int_0^2 \answer{3t} \, dt, \int_0^2 \answer{4t^2} \, dt \right\rangle$
+
+$= \langle \answer{4}, \answer{6}, \answer{32/3} \rangle$
+
+\begin{feedback}
+Remember: $\int_0^2 2 \, dt = 2t \big|_0^2 = 4$, $\int_0^2 3t \, dt = \frac{3t^2}{2} \big|_0^2 = 6$, and $\int_0^2 4t^2 \, dt = \frac{4t^3}{3} \big|_0^2 = \frac{32}{3}$.
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Now visualize this process in 3D.
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Alter the "T=" slider to watch $\vec{r}$ build progressively by integrating each component. Observe how each coordinate changes independently.
+\end{expandable}
 
 \begin{center}
 \geogebra{excy8qtq}{730}{510}
 \end{center}
 
+After exploring, select the true statements:
+\begin{selectAll}
+    \choice[correct]{Each component is integrated separately}
+    \choice[correct]{The result is a displacement vector}
+    \choice{The result tells us the arc length traveled}
+    \choice[correct]{The process reconstructs position from velocity}
+\end{selectAll}
+\end{problem}
 
-\section{Course Notes: Arc Length}
+\section*{Task Three: Arc Length}
 
-While integrating each component function yields a measure of change in the vector's position, we also want to measure the length of the curve $\vec{r}(t)$. Measuring and working with arc length is a crucial component of the ways that we will do calculus on vector functions throughout the remainder of this course.
+\subsection*{Distance vs. Displacement}
 
-Luckily, we have already used integrals to measure the lengths of curves in 242, which gives us a very straightforward generalization into more dimensions. Before, we used the linear approximation of functions to allow us use of the Pythagorean calculation of distance. Defining the $(x,y)$ pairs on a graph in terms of coordinate functions $(x(t), y(t))$, we described this small segment of arc length as $ds=\sqrt{\left(\frac{dx}{dt}\right)^2+\left(\frac{dy}{dt}\right)^2}\cdot dt$, as seen in the following GeoGebra application.
+While integrating components gives us displacement (a vector), we often want to know the actual distance traveled along the curve—the arc length.
 
-You may alter the "x=" slider to view this arc length calculation at various points along the curve.
+\begin{problem}
+Think about the difference between displacement and distance:
+
+If you walk 3 meters east, then 4 meters north, your displacement is:
+\begin{multipleChoice}
+    \choice{7 meters}
+    \choice[correct]{5 meters (by Pythagorean theorem)}
+    \choice{3 meters}
+    \choice{4 meters}
+\end{multipleChoice}
+
+But the actual distance you walked is:
+\begin{multipleChoice}
+    \choice{5 meters}
+    \choice[correct]{7 meters}
+    \choice{3 meters}
+    \choice{4 meters}
+\end{multipleChoice}
+
+\begin{feedback}
+Displacement measures the straight-line change from start to finish. Distance measures the actual path length traveled. For curves, we use arc length to measure distance!
+\end{feedback}
+\end{problem}
+
+\subsection*{Building the Arc Length Formula}
+
+We've already learned about arc length in Calc II! Now we extend it to higher dimensions using the Pythagorean theorem.
+
+\begin{problem}
+Let's review the 2D case first. Explore the visualization below.
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Alter the "x=" slider to see how small segments of the curve can be approximated by straight line segments. Notice the Pythagorean calculation.
+\end{expandable}
 
 \begin{center}
 \geogebra{pd8zaw8v}{786}{584}
 \end{center}
 
-Now, our new language of vector functions and velocities given by the derivatives of coordinate functions $x'(t)$ and $y'(t)$, we can capture a small bit of arc length as $ds=\sqrt{\left(\frac{dx}{dt}\right)^2+\left(\frac{dy}{dt}\right)^2}\cdot dt=\sqrt{x'(t)^2+y'(t)^2}\cdot dt$. We can then find the total arc length by adding up the small pieces of arc length to get a total length $\Delta s=\int ds=\int_a^b\sqrt{\left(\frac{dx}{dt}\right)^2+\left(\frac{dy}{dt}\right)^2}\cdot dt=\int_a^b\sqrt{x'(t)^2+y'(t)^2}\cdot dt$.
+After exploring, what represents a small bit of arc length?
+\begin{multipleChoice}
+    \choice{$dx + dy$}
+    \choice[correct]{$ds = \sqrt{(dx)^2 + (dy)^2}$}
+    \choice{$dx \cdot dy$}
+    \choice{$\frac{dy}{dx}$}
+\end{multipleChoice}
 
-These calculations, in effect, measure the size of the velocity vector $|\vec{v}(t)|=|\langle x'(t), y'(t)\rangle |=\sqrt{x'(t)^2+y'(t)^2}$. The need for the differential $dt$ arises when we consider that the approximating lengths $ds$ must be small for the approximation to generate a definite integral in the limit. In other words, $|\vec{v}(t)|$ itself does not give a small bit of arc length, as velocity vectors can be quite large in size. As such, we need to consider small pieces of arc length from the approximation $ds=|\vec{v}(t)|\cdot dt$.
+\begin{feedback}
+The Pythagorean theorem gives us the length of the small segment: $ds = \sqrt{(dx)^2 + (dy)^2}$!
+\end{feedback}
+\end{problem}
 
-This lets us succinctly measure arc length (in both 2 and 3 dimensions) by integrating the speed-time product $\Delta s=\int ds=\int_a^b|\vec{v}(t)|\cdot dt$. A 3-dimensional representation of this is given in the following application.
+\begin{definition}
+For a 2D curve with coordinate functions $x(t)$ and $y(t)$, a small arc length element is:
+$$ds=\sqrt{\left(\frac{dx}{dt}\right)^2+\left(\frac{dy}{dt}\right)^2} \, dt=\sqrt{x'(t)^2+y'(t)^2} \, dt = |\vec{v}(t)| \, dt$$
 
-You may alter the "t=" slider to view the arc length approximation at various points along the curve. You may click, drag, and scroll to rotate your view and zoom in and out. You may select the "Reset Zoom" and "Zoom to Arc Length" buttons to globally view the curve or to view the arc length approximation up close. You may select the "Show x-y hypotenuse" check box to view the construction in slightly greater detail.
+The total arc length from $t=a$ to $t=b$ is:
+$$L = \int_a^b ds = \int_a^b |\vec{v}(t)| \, dt = \int_a^b \sqrt{x'(t)^2+y'(t)^2} \, dt$$
+\end{definition}
+
+\begin{problem}
+Key insight: What's the difference between $\int_a^b \vec{v}(t) \, dt$ and $\int_a^b |\vec{v}(t)| \, dt$?
+
+$\int_a^b \vec{v}(t) \, dt$ gives:
+\begin{multipleChoice}
+    \choice{Arc length}
+    \choice[correct]{Displacement (a vector)}
+    \choice{Speed}
+    \choice{Distance}
+\end{multipleChoice}
+
+$\int_a^b |\vec{v}(t)| \, dt$ gives:
+\begin{multipleChoice}
+    \choice{Displacement (a vector)}
+    \choice[correct]{Arc length (distance traveled)}
+    \choice{Velocity}
+    \choice{Acceleration}
+\end{multipleChoice}
+
+\begin{feedback}
+Without the magnitude bars, we integrate the vector to get displacement. With the magnitude bars, we integrate speed to get total distance (arc length)!
+\end{feedback}
+\end{problem}
+
+\subsection*{Arc Length in 3D}
+
+The same principle extends beautifully to 3D—we just add the $z$-component!
+
+\begin{definition}
+For a 3D curve $\vec{r}(t) = \langle x(t), y(t), z(t) \rangle$:
+$$L = \int_a^b |\vec{v}(t)| \, dt = \int_a^b \sqrt{x'(t)^2+y'(t)^2+z'(t)^2} \, dt$$
+\end{definition}
+
+\begin{problem}
+Let's compute an arc length! For $\vec{r}(t) = \langle 3t, 4t, 0 \rangle$ from $t=0$ to $t=2$:
+
+First, find $\vec{v}(t) = \langle \answer{3}, \answer{4}, \answer{0} \rangle$
+
+The speed is $|\vec{v}(t)| = \sqrt{9 + 16 + 0} = \answer{5}$
+
+Since speed is constant, the arc length is simply:
+$L = \int_0^2 5 \, dt = \answer{10}$
+
+\begin{feedback}
+When speed is constant, arc length is just speed times time! This curve is actually a straight line in the $xy$-plane moving at constant speed.
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Now for the helix $\vec{r}(t) = \langle \cos(t), \sin(t), t \rangle$ from $t=0$ to $t=2\pi$:
+
+$\vec{v}(t) = \langle \answer{-\sin(t)}, \answer{\cos(t)}, \answer{1} \rangle$
+
+$|\vec{v}(t)| = \sqrt{\sin^2(t) + \cos^2(t) + 1} = \answer{\sqrt{2}}$
+
+The arc length for one complete turn is:
+$L = \int_0^{2\pi} \sqrt{2} \, dt = \answer{2\pi\sqrt{2}}$ (or $\answer[tolerance=0.1]{8.886}$)
+
+\begin{feedback}
+The helix also has constant speed! Even though it's curving and rising, the total speed $\sqrt{2}$ remains constant.
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Visualize the 3D arc length calculation.
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Alter the "t=" slider to see the arc length approximation at various points. Click, drag, and scroll to rotate and zoom. Select "Reset Zoom" or "Zoom to Arc Length" buttons for different views. Check "Show x-y hypotenuse" for more detail.
+\end{expandable}
 
 \begin{center}
 \geogebra{nrnm8k7p}{780}{438}
 \end{center}
 
-If we can construct a small bit of arc length of a curve as $ds=|\vec{v}(t)|\cdot dt$, then we measure the entire arc length by adding up the small bits of arc length over the time interval in which we construct the curve. Hence, $\Delta s=\int ds=\int_a^b|\vec{v}(t)|\cdot dt$.
+After exploring, verify your understanding:
+\begin{selectAll}
+    \choice[correct]{Small arc length elements use the Pythagorean theorem in 3D}
+    \choice[correct]{We integrate speed over time to get arc length}
+    \choice{Arc length is always equal to displacement magnitude}
+    \choice[correct]{Arc length measures actual distance traveled along the curve}
+\end{selectAll}
+\end{problem}
 
-We thus have two ways to use definite integration on vector functions. We can either measure the change along the curve between two different times from the definite integral 
-$$\vec{r}(b)-\vec{r}(a)= \int_a^b \vec{v}(t)\cdot dt=\left\langle \int_a^b x'(t)\cdot dt, \int_a^b y'(t)\cdot dt, \int_a^b z'(t)\cdot dt\right\rangle,$$
-or we can measure the length of the curve by taking the size of the velocity vector and scaling it accordingly to leverage the Pythagorean Theorem, giving 
-$$\Delta s=\int ds=\int_a^b|\vec{v}(t)|\cdot dt=\int_a^b\sqrt{x'(t)^2+y'(t)^2+z'(t)^2}\cdot dt.$$
+\section*{Summary: Two Types of Vector Integration}
 
+We now have powerful tools for analyzing curves!
 
-\section{Video Resources}
+\begin{problem}
+Let's review the two main ways we integrate vector functions:
 
-Visit MyLab Math Multimedia Library and select this module's referenced sections of your Pearson book for Instructional Videos, Interactive Figures, and Animations related to the material.
+\textbf{Type 1: Displacement (Vector Result)}
+$$\vec{r}(b)-\vec{r}(a)= \int_a^b \vec{v}(t)\, dt=\left\langle \int_a^b x'(t)\, dt, \int_a^b y'(t)\, dt, \int_a^b z'(t)\, dt\right\rangle$$
 
-Visit the \href{https://www.youtube.com/playlist?list=PLHXZ9OQGMqxc_CvEy7xBKRQr6I214QJcd}{Calculus III: Multivariable Calculus playlist by Dr. Trefor Bazett}, found on YouTube, for further video resources on the big-picture ideas of multivariable calculus.
+This gives us:
+\begin{multipleChoice}
+    \choice{The distance traveled}
+    \choice[correct]{The net change in position (displacement vector)}
+    \choice{The speed}
+    \choice{The arc length}
+\end{multipleChoice}
+
+\textbf{Type 2: Arc Length (Scalar Result)}
+$$L = \int_a^b |\vec{v}(t)|\, dt=\int_a^b\sqrt{x'(t)^2+y'(t)^2+z'(t)^2}\, dt$$
+
+This gives us:
+\begin{multipleChoice}
+    \choice{The displacement vector}
+    \choice[correct]{The total distance traveled along the curve}
+    \choice{The velocity}
+    \choice{The final position}
+\end{multipleChoice}
+
+\begin{feedback}
+These are fundamentally different! One integrates velocity (vector) to get displacement (vector). The other integrates speed (scalar) to get distance (scalar).
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Let's solidify understanding with a comprehensive example. Consider $\vec{r}(t) = \langle t, t^2, 2t \rangle$ from $t=0$ to $t=1$.
+
+\textbf{Part A: Find the displacement}
+
+$\int_0^1 \vec{v}(t) \, dt = \int_0^1 \langle \answer{1}, \answer{2t}, \answer{2} \rangle \, dt$
+
+$= \langle \answer{1}, \answer{1}, \answer{2} \rangle$
+
+\textbf{Part B: Find the arc length}
+
+$|\vec{v}(t)| = \sqrt{1 + 4t^2 + 4} = \sqrt{\answer{5 + 4t^2}}$
+
+The arc length requires numerical integration (this integral doesn't have a simple closed form):
+$L = \int_0^1 \sqrt{5 + 4t^2} \, dt \approx \answer[tolerance=0.1]{2.46}$
+
+\textbf{Part C: Compare}
+
+The magnitude of the displacement is $|\langle 1, 1, 2 \rangle| = \sqrt{1+1+4} = \answer{\sqrt{6}} \approx 2.45$
+
+Notice that the arc length ($\approx 2.46$) is slightly larger than the displacement magnitude ($\approx 2.45$). This makes sense because:
+\begin{multipleChoice}
+    \choice{Arc length should always be smaller}
+    \choice[correct]{The curve isn't perfectly straight, so the path is slightly longer}
+    \choice{We made a calculation error}
+    \choice{They should be exactly equal}
+\end{multipleChoice}
+
+\begin{feedback}
+The displacement gives the straight-line distance from start to finish. The arc length gives the actual distance traveled along the (slightly curved) path. The arc length is always greater than or equal to the displacement magnitude!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Final check: Select all TRUE statements about vector calculus on curves.
+
+\begin{selectAll}
+    \choice[correct]{Velocity is the derivative of position}
+    \choice[correct]{Velocity vectors are tangent to the curve}
+    \choice[correct]{Integrating velocity gives displacement}
+    \choice[correct]{Integrating speed gives arc length}
+    \choice{Displacement and arc length are always equal}
+    \choice[correct]{Arc length uses the Pythagorean theorem}
+    \choice[correct]{We can work with vector functions component by component}
+    \choice{The magnitude of displacement can exceed arc length}
+\end{selectAll}
+
+\begin{feedback}
+Excellent! You've mastered the fundamentals of calculus on curves. These concepts—tangent vectors, integration, and arc length—are essential for understanding motion in space and will be the foundation for more advanced topics like curvature and TNB frames.
+\end{feedback}
+\end{problem}
 
 \end{document}

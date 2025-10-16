@@ -9,7 +9,7 @@ This activity focuses on applying vector calculus concepts including arc length,
 \end{abstract}
 \maketitle
 
-\section{Introduction}
+\section*{Introduction}
 
 The goal of this activity is to not just hone your calculative skills related to vector and multivariable functions but to engage you in interpretation as well and to build some intuition about what the various differential and integral calculations mean in vector contexts.
 
@@ -64,7 +64,7 @@ Before we dive into calculations, let's build intuition about this race by explo
     \end{feedback}
 \end{problem}
 
-\section{Task One: Analyzing the Race Track}
+\section*{Task One: Analyzing the Race Track}
 
 \subsection*{Understanding Arc Length}
 
@@ -114,7 +114,7 @@ Now let's understand the difference between the racers' speeds.
     
     \begin{feedback}
         Remember that velocity is the derivative of position, and speed is the magnitude of velocity. Speed tells us how fast the racer is moving, while velocity also tells us the direction.
-    \end{feedback>
+    \end{feedback}
 \end{problem}
 
 \begin{problem}
@@ -134,7 +134,7 @@ Now let's understand the difference between the racers' speeds.
     \begin{feedback}
         The key insight is that Torty's parameter $t+\sin(t)$ causes him to slow down and speed up periodically. While both racers cover the same track length, Torty's varying speed means he takes more time overall. Computing $\int_0^T ||\tau'(t)||dt$ and finding when this equals twice the lap length confirms Harry wins.
     \end{feedback}
-\end{problem>
+\end{problem}
 
 \subsection*{When Racers Meet}
 
@@ -172,10 +172,10 @@ Now let's understand the difference between the racers' speeds.
     
     \begin{feedback}
         The factor $(1+\cos(t))$ in Torty's velocity causes him to stop completely when $\cos(t)=-1$ (at $t=\pi, 3\pi$, etc.). This is why Torty appears to pause at certain points in the race!
-    \end{feedback>
-\end{problem>
+    \end{feedback}
+\end{problem}
 
-\section{Task Two: Torty's Strategic Sprint}
+\section*{Task Two: Torty's Strategic Sprint}
 
 After the first race on this hilly track, Torty and Harry want a rematch. Torty uses his rest periods to store up enough "running energy" to double his speed during the last stretch of the race. However, doubling his speed consumes significant energy.
 
@@ -214,11 +214,11 @@ Torty estimates that, while doubling his speed, for every small unit of distance
         \choice{Less energy than doubling speed for just the final lap}
         \choice[correct]{More energy than doubling speed for just the final lap}
         \choice{The same energy regardless of when he speeds up}
-    \end{multipleChoice>
+    \end{multipleChoice}
     
     \begin{feedback}
         The energy required depends on both the speed $s$ and the distance over which the speed is doubled. Since Torty's speed varies throughout the race (remember he stops at certain points!), the total energy depends on the specific curve segment he chooses.
-    \end{feedback>
+    \end{feedback}
 \end{problem}
 
 \begin{problem}
@@ -231,7 +231,7 @@ Torty estimates that, while doubling his speed, for every small unit of distance
     \begin{feedback}
         You can compute these using: $RE=\int_0^{T} ||\tau'(t)||^{2.3}dt$ where $T$ is the appropriate time interval. Use numerical integration in MATLAB, Python, or similar tools.
     \end{feedback}
-\end{problem>
+\end{problem}
 
 \subsection*{Strategic Timing}
 
@@ -251,7 +251,7 @@ Torty estimates that, while doubling his speed, for every small unit of distance
     \begin{feedback}
         Torty needs to find time $t_0$ such that $\int_{t_0}^{T_{\text{finish}}} ||\tau'(t)||^{2.3}dt=RE_{\text{max}}$ and the total distance covered equals two laps. This requires numerical solving.
     \end{feedback}
-\end{problem>
+\end{problem}
 
 \begin{problem}
     Using computational tools to solve for the optimal sprint time:
@@ -264,158 +264,7 @@ Torty estimates that, while doubling his speed, for every small unit of distance
     
     \begin{feedback}
         This problem demonstrates the power of calculus for optimization. By carefully choosing when to expend energy, Torty can overcome his initial disadvantage. The solution requires balancing arc length integrals (for distance) with energy integrals (for the constraint).
-    \end{feedback>
-\end{problem>
-
-\section{Task Three: Modifying the Terrain}
-
-After Harry's second defeat, he wants to look for ways to make the course even more difficult for Torty. After talking to a landscaper, Harry determined that the terrain around the track (considering the center of the track to be the point $(0,0,0)$) can be defined by the function $f(x,y)=xy^2$. The race track is determined by taking the points $(x,y,f(x,y))$, where $(x,y)$ follow the unit circle.
-
-Harry suspects that making the course more difficult within the first quadrant (of the unit circle) will further hinder Torty's ability to run effectively.
-
-\begin{expandable}{stuff}{GeoGebra Instructions}
-    Use this applet to visualize the terrain function $f(x,y)=xy^2$ and the proposed course modifications.
-\end{expandable}
-
-\begin{center}
-\geogebra{xca7zyda}{749}{721}
-\end{center}
-
-\subsection*{Understanding Partial Derivatives}
-
-We'll use partial derivatives, directional derivatives, and tangent planes to analyze the terrain.
-
-\begin{problem}
-    First, let's find the partial derivatives of $f(x,y)=xy^2$.
-    
-    \[\frac{\partial f}{\partial x}=\answer{y^2}\]
-    
-    \[\frac{\partial f}{\partial y}=\answer{2xy}\]
-    
-    \begin{feedback}
-        Partial derivatives tell us the rate of height change in the $x$ and $y$ directions. $\frac{\partial f}{\partial x}$ measures the slope in the East-West direction, while $\frac{\partial f}{\partial y}$ measures the slope in the North-South direction.
     \end{feedback}
 \end{problem}
 
-\subsection*{Height Changes Along the Course}
-
-Consider points $A=\left(\frac{\sqrt{3}}{2},\frac{1}{2}\right)$ and $B=\left(\frac{1}{2},\frac{\sqrt{3}}{2}\right)$ on the unit circle in the first quadrant.
-
-\begin{problem}
-    First, let's compute the actual heights at these points.
-    
-    At point $A$: $f\left(\frac{\sqrt{3}}{2},\frac{1}{2}\right)=\frac{\sqrt{3}}{2}\cdot\left(\frac{1}{2}\right)^2=\answer[tolerance=0.01]{0.217}$.
-    
-    At point $B$: $f\left(\frac{1}{2},\frac{\sqrt{3}}{2}\right)=\frac{1}{2}\cdot\left(\frac{\sqrt{3}}{2}\right)^2=\answer[tolerance=0.01]{0.375}$.
-    
-    The actual height change from $A$ to $B$ is $\Delta f=\answer[tolerance=0.01]{0.158}$.
-    
-    \begin{feedback}
-        This is the direct calculation method - simply computing $f(B)-f(A)$. Now let's see how we can approximate this using derivatives!
-    \end{feedback}
-\end{problem>
-
-\begin{problem}
-    Now let's estimate the height change using directional derivatives.
-    
-    The direction vector from $A$ to $B$ is:
-    \[\vec{v}=B-A=\left[\frac{1}{2}-\frac{\sqrt{3}}{2}, \frac{\sqrt{3}}{2}-\frac{1}{2}\right]=\left[\answer[tolerance=0.01]{-0.366}, \answer[tolerance=0.01]{0.366}\right]\]
-    
-    The distance from $A$ to $B$ is $||\vec{v}||=\answer[tolerance=0.01]{0.518}$.
-    
-    The unit direction vector is $\vec{u}=\frac{\vec{v}}{||\vec{v}||}=\left[\answer[tolerance=0.01]{-0.707}, \answer[tolerance=0.01]{0.707}\right]$.
-    
-    \begin{feedback}
-        The directional derivative will tell us the rate of height change in the direction from $A$ to $B$.
-    \end{feedback>
-\end{problem>
-
-\begin{problem}
-    The gradient of $f$ at point $A$ is:
-    \[\nabla f\left(\frac{\sqrt{3}}{2},\frac{1}{2}\right)=\left[\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}\right]_{A}=\left[\left(\frac{1}{2}\right)^2, 2\cdot\frac{\sqrt{3}}{2}\cdot\frac{1}{2}\right]=\left[\answer{0.25}, \answer[tolerance=0.01]{0.866}\right]\]
-    
-    The directional derivative in direction $\vec{u}$ is:
-    \[D_{\vec{u}}f(A)=\nabla f(A)\cdot\vec{u}=\answer[tolerance=0.01]{0.436}\]
-    
-    The estimated height change over distance $||\vec{v}||$ is:
-    \[\Delta f\approx D_{\vec{u}}f(A)\cdot||\vec{v}||=\answer[tolerance=0.01]{0.226}\]
-    
-    \begin{feedback}
-        Notice this approximation ($0.226$) is close to but not exactly the actual height change ($0.158$). The approximation works best for small distances. This demonstrates the tangent plane approximation!
-    \end{feedback>
-\end{problem>
-
-\subsection*{Finding the Steepest Ascent}
-
-\begin{problem}
-    Harry considers alternative points at the same distance from $A$:
-    \begin{itemize}
-        \item $B'$: directly North of $A$ (same distance as $A$ to $B$)
-        \item $B''$: directly East of $A$ (same distance as $A$ to $B$)
-    \end{itemize}
-    
-    The distance from $A$ to $B$ is $d=\answer[tolerance=0.01]{0.518}$.
-    
-    Point $B'$ (North of $A$): $B'=A+(0,d)=\left(\frac{\sqrt{3}}{2}, \frac{1}{2}+0.518\right)\approx\left(\answer[tolerance=0.01]{0.866}, \answer[tolerance=0.01]{1.018}\right)$.
-    
-    Point $B''$ (East of $A$): $B''=A+(d,0)=\left(\frac{\sqrt{3}}{2}+0.518, \frac{1}{2}\right)\approx\left(\answer[tolerance=0.01]{1.384}, \answer{0.5}\right)$.
-    
-    \begin{feedback}
-        Note that $B''$ is outside the unit circle! This might not be a valid option for the track.
-    \end{feedback>
-\end{problem>
-
-\begin{problem}
-    Using directional derivatives from point $A$:
-    
-    In the North direction (unit vector $[0,1]$):
-    \[D_{[0,1]}f(A)=\nabla f(A)\cdot[0,1]=\answer[tolerance=0.01]{0.866}\]
-    
-    In the East direction (unit vector $[1,0]$):
-    \[D_{[1,0]}f(A)=\nabla f(A)\cdot[1,0]=\answer{0.25}\]
-    
-    In the Northeast direction (unit vector $\left[\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}}\right]$):
-    \[D_{\text{NE}}f(A)=\answer[tolerance=0.01]{0.789}\]
-    
-    Which direction has the steepest ascent?
-    \begin{multipleChoice}
-        \choice{East}
-        \choice[correct]{North}
-        \choice{Northeast}
-        \choice{The direction toward $B$}
-    \end{multipleChoice}
-    
-    \begin{feedback}
-        The North direction has the largest directional derivative, meaning the height increases most rapidly in that direction. This makes sense because $\frac{\partial f}{\partial y}=2xy$ is larger than $\frac{\partial f}{\partial x}=y^2$ at point $A$.
-    \end{feedback>
-\end{problem>
-
-\subsection*{Optimal Course Modification}
-
-\begin{problem}
-    Harry can only modify the course by moving Northeast, Northwest, Southeast, or Southwest from point $A$ (staying on paths that could realistically connect back to the track).
-    
-    Computing directional derivatives at $A=\left(\frac{\sqrt{3}}{2},\frac{1}{2}\right)$ with $\nabla f(A)\approx[0.25, 0.866]$:
-    
-    \begin{itemize}
-        \item Northeast $\left[\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}}\right]$: $D_{\text{NE}}=\answer[tolerance=0.01]{0.789}$
-        \item Northwest $\left[-\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}}\right]$: $D_{\text{NW}}=\answer[tolerance=0.01]{0.436}$
-        \item Southeast $\left[\frac{1}{\sqrt{2}},-\frac{1}{\sqrt{2}}\right]$: $D_{\text{SE}}=\answer[tolerance=0.01]{-0.436}$
-        \item Southwest $\left[-\frac{1}{\sqrt{2}},-\frac{1}{\sqrt{2}}\right]$: $D_{\text{SW}}=\answer[tolerance=0.01]{-0.789}$
-    \end{itemize}
-    
-    To make the course most difficult (steepest uphill), Harry should modify it to go:
-    \begin{multipleChoice}
-        \choice[correct]{Northeast from point $A$}
-        \choice{Northwest from point $A$}
-        \choice{Southeast from point $A$}
-        \choice{Southwest from point $A$}
-    \end{multipleChoice}
-    
-    \begin{feedback}
-        The Northeast direction gives the largest positive directional derivative ($0.789$), meaning the steepest uphill climb. This would make the race most difficult for Torty! The gradient $\nabla f$ always points in the direction of steepest ascent, and at point $A$, that direction is roughly North-Northeast.
-    \end{feedback>
-\end{problem>
-
-
-\end{document>
+\end{document}
