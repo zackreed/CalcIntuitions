@@ -33,6 +33,117 @@ Think about moving along one vector, and then moving along the other vector star
 \end{feedback}
 \end{problem}
 
+
+\begin{problem}
+    Let's practice adding and subtracting vectors component-wise. Compute the following vector sums and differences:
+    \begin{enumerate}
+        \item If $\vec{v}=[3,4]$ and $\vec{u}=[1,2]$, then $\vec{v}+\vec{u}=[\answer{4},\answer{6}]$
+        \item If $\vec{v}=[-2,5]$ and $\vec{u}=[1,-2]$, then $\vec{v}-\vec{u}=[\answer{-3},\answer{7}]$
+        \item If $\vec{v}=[0,7]$ and $\vec{u}=[5,-3]$, then $\vec{v}+\vec{u}=[\answer{5},\answer{4}]$
+        \item If $\vec{v}=[1,2,3]$ and $\vec{u}=[4,5,6]$, then $\vec{v}+\vec{u}=[\answer{5},\answer{7},\answer{9}]$
+        \item If $\vec{v}=[-1,0,2]$ and $\vec{u}=[3,-4,1]$, then $\vec{v}-\vec{u}=[\answer{-4},\answer{4},\answer{1}]$
+        \item If $\vec{v}=[2,-3,5]$ and $\vec{u}=[-2,3,-5]$, then $\vec{v}+\vec{u}=[\answer{0},\answer{0},\answer{0}]$
+    \end{enumerate}
+    
+ // ...existing code...
+    \begin{feedback}
+        Remember that vector addition and subtraction work component-wise. For $\vec{v}=[v_1,v_2]$ and $\vec{u}=[u_1,u_2]$, we have $\vec{v}+\vec{u}=[v_1+u_1,v_2+u_2]$ and $\vec{v}-\vec{u}=[v_1-u_1,v_2-u_2]$. This extends naturally to three dimensions!
+    \end{feedback}
+\end{problem}
+
+
+\begin{problem}
+    Now let's visualize these vector operations using the tip-to-tail method. For each vector operation, select all the diagrams that correctly represent the operation.
+    
+    \begin{enumerate}
+        \item For $\vec{v}=[2,4]$ and $\vec{u}=[3,2]$, select all correct visualizations of the way to build $\vec{v}+\vec{u}$ from $\vec{v}$ and $\vec{u}$:
+        \begin{selectAll}
+            \choice{
+                \begin{tikzpicture}[scale=0.75, thick, >=stealth]
+                    \draw[->] (0,0) -- (2,4) node[midway,left] {$\vec{v}$};
+                    \draw[->] (2,4) -- (4,8) node[midway,left] {$\vec{v}$};
+                    \draw[->] (4,8) -- (7,10) node[midway,right] {$\vec{u}$};
+                    \draw[->,thick,blue] (0,0) -- (7,10) node[midway,below right] {$\vec{v}+\vec{u}$};
+                    \draw[gray,dashed] (-0.5,0) -- (8,0);
+                    \draw[gray,dashed] (0,-0.5) -- (0,11);
+                \end{tikzpicture}
+            }
+            \choice[correct]{
+                \begin{tikzpicture}[scale=0.75, thick, >=stealth]
+                    \draw[->] (0,0) -- (3,2) node[midway,below] {$\vec{u}$};
+                    \draw[->] (3,2) -- (5,6) node[midway,right] {$\vec{v}$};
+                    \draw[->,thick,blue] (0,0) -- (5,6) node[midway,above left] {$\vec{v}+\vec{u}$};
+                    \draw[gray,dashed] (-0.5,0) -- (6,0);
+                    \draw[gray,dashed] (0,-0.5) -- (0,7);
+                \end{tikzpicture}
+            }
+            \choice[correct]{
+                \begin{tikzpicture}[scale=0.75, thick, >=stealth]
+                    \draw[->] (0,0) -- (2,4) node[midway,left] {$\vec{v}$};
+                    \draw[->] (2,4) -- (5,6) node[midway,right] {$\vec{u}$};
+                    \draw[->,thick,blue] (0,0) -- (5,6) node[midway,below right] {$\vec{v}+\vec{u}$};
+                    \draw[gray,dashed] (-0.5,0) -- (6,0);
+                    \draw[gray,dashed] (0,-0.5) -- (0,7);
+                \end{tikzpicture}
+            }
+            \choice{
+                \begin{tikzpicture}[scale=0.75, thick, >=stealth]
+                    \draw[->] (0,0) -- (5,6) node[midway,below right] {$\vec{v}+\vec{u}$};
+                    \draw[->] (5,6) -- (2,4) node[midway,right] {$\vec{u}$};
+                    \draw[->,thick,blue] (0,0) -- (2,4) node[midway,left] {$\vec{v}$};
+                    \draw[gray,dashed] (-0.5,0) -- (6,0);
+                    \draw[gray,dashed] (0,-0.5) -- (0,7);
+                \end{tikzpicture}
+            }
+        \end{selectAll}
+
+        \item For $\vec{v}=[1,6]$ and $\vec{u}=[5,-2]$, select all correct visualizations of the way to build $\vec{v}+\vec{u}$ from $\vec{v}$ and $\vec{u}$:
+        \begin{selectAll}
+            \choice{
+                \begin{tikzpicture}[scale=0.75, thick, >=stealth]
+                    \draw[->] (0,0) -- (6,4) node[midway,above left] {$\vec{v}+\vec{u}$};
+                    \draw[->] (6,4) -- (1,6) node[midway,right] {$\vec{u}$};
+                    \draw[->,thick,blue] (0,0) -- (1,6) node[midway,left] {$\vec{v}$};
+                    \draw[gray,dashed] (-1,0) -- (7,0);
+                    \draw[gray,dashed] (0,-3) -- (0,13);
+                \end{tikzpicture}
+            }
+            \choice[correct]{
+                \begin{tikzpicture}[scale=0.75, thick, >=stealth]
+                    \draw[->] (0,0) -- (5,-2) node[midway,below] {$\vec{u}$};
+                    \draw[->] (5,-2) -- (6,4) node[midway,right] {$\vec{v}$};
+                    \draw[->,thick,blue] (0,0) -- (6,4) node[midway,above left] {$\vec{v}+\vec{u}$};
+                    \draw[gray,dashed] (-1,0) -- (7,0);
+                    \draw[gray,dashed] (0,-3) -- (0,13);
+                \end{tikzpicture}
+            }
+            \choice{
+                \begin{tikzpicture}[scale=0.75, thick, >=stealth]
+                    \draw[->] (0,0) -- (1,6) node[midway,left] {$\vec{v}$};
+                    \draw[->] (1,6) -- (2,12) node[midway,left] {$\vec{v}$};
+                    \draw[->] (2,12) -- (7,10) node[midway,above right] {$\vec{u}$};
+                    \draw[->,thick,blue] (0,0) -- (7,10) node[midway,below right] {$\vec{v}+\vec{u}$};
+                    \draw[gray,dashed] (-1,0) -- (8,0);
+                    \draw[gray,dashed] (0,-3) -- (0,13);
+                \end{tikzpicture}
+            }
+            \choice[correct]{
+                \begin{tikzpicture}[scale=0.75, thick, >=stealth]
+                    \draw[->] (0,0) -- (1,6) node[midway,left] {$\vec{v}$};
+                    \draw[->] (1,6) -- (6,4) node[midway,above right] {$\vec{u}$};
+                    \draw[->,thick,blue] (0,0) -- (6,4) node[midway,below right] {$\vec{v}+\vec{u}$};
+                    \draw[gray,dashed] (-1,0) -- (7,0);
+                    \draw[gray,dashed] (0,-3) -- (0,13);
+                \end{tikzpicture}
+            }
+        \end{selectAll}
+    \end{enumerate}
+    
+    \begin{feedback}
+        Remember the tip-to-tail method: place the tail of the second vector at the tip of the first vector. The sum is the vector from the tail of the first to the tip of the second. For subtraction $\vec{v}-\vec{u}$, think of it as $\vec{v}+(-\vec{u})$, where $-\vec{u}$ points in the opposite direction of $\vec{u}$.
+    \end{feedback}
+\end{problem}
+
 \subsection*{Scaling Vectors}
 
 Now let's use the context of momentum to learn about scaling vectors.
@@ -80,6 +191,67 @@ That is, a linear combination of vectors $\vec{u}$ and $\vec{v}$ adds together s
 
     \begin{feedback}
         A simple comprehensive formula for a linear combination of two vectors is $r[u_1,u_2]+s[v_1,v_2]=[ru_1+sv_1,ru_2+sv_2]$, though we don't recommend memorizing a formula, think about why it works the way it does and remember the general idea. This special formula only works for two 2-dimensional vectors.
+    \end{feedback}
+\end{problem}
+
+\begin{problem}
+    Now, write out the arithmetic formula that creates the following vector sums.
+
+    \begin{expandable}{stuff}{Hint for negative numbers}
+        Negative scalars reverse the direction of the vector.
+    \end{expandable}
+    
+    \begin{enumerate}
+        \item 
+        \begin{tikzpicture}[scale=0.75, thick, >=stealth]
+            \draw[->] (0,0) -- (2,4) node[midway,left] {$\vec{v}$};
+            \draw[->] (2,4) -- (-4,0) node[midway,above] {$-2\vec{u}$};
+            \draw[->,thick,blue] (0,0) -- (-4,0) node[midway,below] {result};
+            \draw[gray,dashed] (-5,0) -- (3,0);
+            \draw[gray,dashed] (0,-1) -- (0,5);
+        \end{tikzpicture}
+        
+        This figure represents the vector sum $\answer{1}\vec{v}+\answer{-2}\vec{u}$.
+        
+        \item 
+        \begin{tikzpicture}[scale=0.75, thick, >=stealth]
+            \draw[->] (0,0) -- (6,3) node[midway,below] {$2\vec{v}$};
+            \draw[->] (6,3) -- (8,4) node[midway,above right] {$\vec{u}$};
+            \draw[->,thick,blue] (0,0) -- (8,4) node[midway,above left] {result};
+            \draw[gray,dashed] (-1,0) -- (9,0);
+            \draw[gray,dashed] (0,-1) -- (0,5);
+        \end{tikzpicture}
+        
+        This figure represents the vector sum $\answer{2}\vec{v}+\answer{1}\vec{u}$.
+        
+        \item 
+        \begin{tikzpicture}[scale=0.75, thick, >=stealth]
+            \draw[->] (0,0) -- (-3,-2) node[midway,below] {$-\vec{u}$};
+            \draw[->] (-3,-2) -- (0,2) node[midway,left] {$\vec{v}$};
+            \draw[->,thick,blue] (0,0) -- (0,2) node[midway,right] {result};
+            \draw[gray,dashed] (-4,0) -- (1,0);
+            \draw[gray,dashed] (0,-3) -- (0,3);
+        \end{tikzpicture}
+        
+        This figure represents the vector sum $\answer{1}\vec{v}+\answer{-1}\vec{u}$.
+        
+        \item 
+        \begin{tikzpicture}[scale=0.75, thick, >=stealth]
+            \draw[->] (0,0) -- (4,2) node[midway,below] {$\vec{u}$};
+            \draw[->] (4,2) -- (1,8) node[midway,right] {$2\vec{v}$};
+            \draw[->] (1,8) -- (5,10) node[midway,above] {$\vec{u}$};
+            \draw[->,thick,blue] (0,0) -- (5,10) node[midway,left] {result};
+            \draw[gray,dashed] (-1,0) -- (6,0);
+            \draw[gray,dashed] (0,-1) -- (0,11);
+        \end{tikzpicture}
+        
+        This figure represents the vector sum $\answer{1}\vec{u}+\answer{2}\vec{v}+\answer{1}\vec{u}$.
+    \end{enumerate}
+    
+    \begin{feedback}
+        Remember that vector addition works by following one of the vectors, then following the next vector starting from the tip of the first vector, and continuing until you've followed all vectors in the sum. 
+
+        Also remember that multiplying a vector by a number scales the vector, and multiplying by a negative number reverses the vector's direction.
     \end{feedback}
 \end{problem}
 
