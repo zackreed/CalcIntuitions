@@ -9,13 +9,11 @@ We extend our understanding of derivatives from single-variable curves to multiv
 \end{abstract}
 \maketitle
 
-\section{From Single Variables to Multiple Variables}
-
-TESTING DEPLOYMENT
+\section*{From Single Variables to Multiple Variables}
 
 In single-variable calculus, we studied functions $f(x)$ that created curves in 2D space. Now we're moving to functions $f(x,y)$ that create surfaces in 3D space. But here's the key insight: **we can still think about curves, but now these curves come from slicing through surfaces**.
 
-\section{The Domain Perspective}
+\section*{The Domain Perspective}
 
 Consider a function $z = f(x,y) = x^2 + y^2$. The domain is the $xy$-plane, and the output is a height $z$ above each point $(x,y)$.
 
@@ -45,7 +43,7 @@ Consider a function $z = f(x,y) = x^2 + y^2$. The domain is the $xy$-plane, and 
 
 When we draw a line through the domain (like the red line above), we're essentially choosing a path $(x(t), y(t))$ through the $xy$-plane.
 
-\section{Creating Curves from Surfaces}
+\section*{Creating Curves from Surfaces}
 
 Now here's the magic: when we follow that red line through the domain and look at the corresponding function values, we get a curve in 3D space!
 
@@ -65,7 +63,7 @@ Since $f(x,y) = x^2 + y^2$, we have $f(t, 2t) = t^2 + (2t)^2 = t^2 + 4t^2 = 5t^2
 \end{feedback}
 \end{exercise}
 
-\section{Derivatives Along These Curves}
+\section*{Derivatives Along These Curves}
 
 Now we can take derivatives of these curves just like we did in vector calculus! For the curve $\vec{C}(t) = \langle x(t), y(t), f(x(t), y(t)) \rangle$:
 
@@ -89,7 +87,7 @@ $y'(t) = \answer{2}$
 Therefore: $\frac{d}{dt}[f(x(t), y(t))] = 2x \cdot 1 + 2y \cdot 2 = 2t + 4(2t) = \answer{10t}$
 \end{exercise}
 
-\section{The Directional Derivative Emerges}
+\section*{The Directional Derivative Emerges}
 
 The expression $\frac{\partial f}{\partial x} \cdot x'(t) + \frac{\partial f}{\partial y} \cdot y'(t)$ can be written as a dot product:
 
@@ -97,7 +95,7 @@ $$\langle \frac{\partial f}{\partial x}, \frac{\partial f}{\partial y} \rangle \
 
 This is the **directional derivative** of $f$ in the direction $\vec{r}'(t)$!
 
-\section{Why Partial Derivatives Make Sense}
+\section*{Why Partial Derivatives Make Sense}
 
 Instead of parametrizing arbitrary curves through the domain, we can choose special curves that align with our coordinate system. This gives us partial derivatives naturally:
 
@@ -152,7 +150,7 @@ $\frac{\partial f}{\partial y} = 3x^2 + 3y^2$, so at $(2,1)$: $3(4) + 3(1) = 15$
 \end{feedback}
 \end{exercise}
 
-\section{Any Direction You Want}
+\section*{Any Direction You Want}
 
 The beautiful thing is that once we know the partial derivatives, we can find the rate of change in **any direction** through the domain:
 
@@ -175,7 +173,7 @@ Hmm, $\frac{96}{5} = 19.2$, but the answer shows 24. Let me check: $12 \cdot \fr
 \end{feedback}
 \end{exercise}
 
-\section{The Big Picture}
+\section*{The Big Picture}
 
 We've just seen how multivariable calculus naturally extends single-variable ideas:
 

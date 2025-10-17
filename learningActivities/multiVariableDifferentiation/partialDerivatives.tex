@@ -1,82 +1,409 @@
 \documentclass{ximera}
+% \input{../../xmpreamble.tex}
 
-\title{Course Notes: Partial Derivatives}
+\title{Activity: Partial Derivatives}
 \author{Zack Reed}
 
 \begin{document}
 \begin{abstract}
-These notes introduce the concept of partial derivatives, the chain rule for multivariable functions, tangent planes, directional derivatives, and gradients.
+In this activity we extend our knowledge of derivatives to functions of multiple variables, exploring partial derivatives, tangent planes, directional derivatives, and gradients.
 \end{abstract}
 \maketitle
 
-\section{Course Notes: Partial Derivatives}
+\section*{Introduction: From Single-Variable to Multivariable Derivatives}
 
-The calculus of several variables is similar to single-variable calculus applied to several variables one at a time. When we hold all but one of the independent variables of a function constant and differentiate with respect to that one variable, we get a "partial" derivative. One affordance of considering only one independent variable at a time is our ability to apply the same derivative rules that we have been familiar with since MATH 241. Considering only one variable at a time leads to the \emph{partial derivatives $f_x(a,b)=\frac{\partial f}{\partial x}\bigg|_{(x,y)=(a,b)}=\lim_{\Delta x\rightarrow 0}\frac{f(a+\Delta x,b)-f(a,b)}{\Delta x}$} and \emph{$f_y(a,b)=\frac{\partial f}{\partial y}\bigg|_{(x,y)=(a,b)}=\lim_{\Delta y\rightarrow 0}\frac{f(a,b+\Delta y)-f(a,b)}{\Delta y}$} at the point $(a,b)$. Notice that we only consider variation in $x$ or variation in $y$ when taking the limit, which creates the isolation of the derivative to a single direction.
+We've studied multivariable functions $z = f(x, y)$ where we input two values and get one output. Now we ask: how do these functions change?
 
-This is visualized in the following GeoGebra application, where you can view the tangent line with slope $f_x(a,b)$ or $f_y(a,b)$ at the point $(a,b)$, and view the impact of isolating only the $x$ or $y$ direction. You may use the buttons on the top left of the screen to visualize the tangent lines with slopes $f_x$ or $f_y$ at different points $\left(x,y\right)$. You may also zoom in around the point on the surface to view the tangent line and may hide the surface to only isolate the curves found along the $x$ or $y$ directions.
+\subsection*{Review: Single-Variable Derivatives}
+
+\begin{problem}
+Recall that for a single-variable function $y = f(x)$, the derivative $f'(a)$ represents:
+
+\begin{selectAll}
+    \choice[correct]{The instantaneous rate of change at $x = a$}
+    \choice[correct]{The slope of the tangent line at the point $(a, f(a))$}
+    \choice{The area under the curve}
+    \choice[correct]{How much $y$ changes per unit change in $x$ near $x = a$}
+\end{selectAll}
+
+\begin{feedback}
+The derivative captures how the function changes locally. We'll extend this concept to multiple variables!
+\end{feedback}
+\end{problem}
+
+\subsection*{The Challenge with Multiple Variables}
+
+\begin{problem}
+For a multivariable function $z = f(x, y)$, both $x$ and $y$ can change. If we want to find the "rate of change," what challenge do we face?
+
+\begin{multipleChoice}
+    \choice{The function doesn't change}
+    \choice{We can't use calculus on multivariable functions}
+    \choice[correct]{The function can change in infinitely many directions}
+    \choice{We need more than one derivative}
+\end{multipleChoice}
+
+\begin{feedback}
+Unlike the single-variable case where we only move left or right along a curve, in multiple variables we can move in any direction on the $xy$-plane! We need a strategy to handle this complexity.
+\end{feedback}
+\end{problem}
+
+\section*{Task One: Understanding Partial Derivatives}
+
+The key insight: we can study change in one variable at a time by holding the other variables constant.
+
+\begin{definition}
+For a function $f(x, y)$, the \textbf{partial derivative with respect to $x$} at the point $(a, b)$ is:
+$$f_x(a,b)=\frac{\partial f}{\partial x}\bigg|_{(x,y)=(a,b)}=\lim_{\Delta x\rightarrow 0}\frac{f(a+\Delta x,b)-f(a,b)}{\Delta x}$$
+
+Similarly, the \textbf{partial derivative with respect to $y$} is:
+$$f_y(a,b)=\frac{\partial f}{\partial y}\bigg|_{(x,y)=(a,b)}=\lim_{\Delta y\rightarrow 0}\frac{f(a,b+\Delta y)-f(a,b)}{\Delta y}$$
+
+Notice we only vary one variable at a time!
+\end{definition}
+
+\begin{problem}
+Before computing, predict: For $f(x, y) = x^2 + y^2$, which statement is true?
+
+\begin{multipleChoice}
+    \choice{$f_x$ and $f_y$ are always equal}
+    \choice[correct]{$f_x$ depends on $x$ but not $y$; $f_y$ depends on $y$ but not $x$}
+    \choice{$f_x$ depends on both $x$ and $y$}
+    \choice{$f_x$ is always zero}
+\end{multipleChoice}
+
+\begin{feedback}
+When taking $\frac{\partial f}{\partial x}$, we treat $y$ as a constant. So $\frac{\partial}{\partial x}(x^2 + y^2) = 2x + 0 = 2x$.
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Now let's explore partial derivatives visually with this interactive applet.
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Use the buttons on the top left to visualize the tangent lines with slopes $f_x$ or $f_y$ at different points $(x,y)$. You may zoom in around the point on the surface to view the tangent line. You may also hide the surface to isolate the curves found along the $x$ or $y$ directions.
+\end{expandable}
 
 \begin{center}
 \geogebra{gsdw8ufk}{741}{572}
 \end{center}
 
-While this allows us to immediately carry over most derivative rules from single-variable calculus, composing a multivariable function $f(a,b)$ with a new function $g(t)$ introduces variation in both directions, so we need to account for this variation in all directions when taking the derivative.
+After exploring, answer: What does $f_x(a, b)$ represent geometrically?
 
-The Chain Rule in single-variable calculus says that when $w=f(x)$ is a differentiable function of $x$ and $x=g(t)$ is a differentiable function of $t$, then the differential for $w$ in terms of $t$ is
+\begin{multipleChoice}
+    \choice{The slope of the surface in all directions}
+    \choice[correct]{The slope of the curve when we slice the surface parallel to the $x$-axis}
+    \choice{The slope of the curve when we slice the surface parallel to the $y$-axis}
+    \choice{The height of the surface at $(a, b)$}
+\end{multipleChoice}
 
-$$dw=f^{\prime}(x)\cdot dx=f^{\prime}(g(t))\cdot(g^{\prime}(t)dt)$$
+\begin{feedback}
+$f_x(a,b)$ is the slope of the tangent line when we move only in the $x$-direction, holding $y$ constant at $b$. Similarly, $f_y(a,b)$ is the slope when moving only in the $y$-direction!
+\end{feedback}
+\end{problem}
 
-This lets us write the derivative of $w$ in terms of $t$ as
+\subsection*{Computing Partial Derivatives}
 
-$$\frac{dw}{dt}=f^{\prime}(x)\cdot\frac{dx}{dt}=f^{\prime}(g(t))\cdot g^{\prime}(t).$$
+The great news: we use the same derivative rules from single-variable calculus!
 
-For this composite function $w(t)=f(g(t)),$ we can think of $t$ as the independent variable and $x=g(t)$ as the "intermediate variable," because $t$ determines the value of $x$ which in turn gives the value of $w$ from the function $f$.
+\begin{problem}
+For $f(x, y) = x^2 + 3xy + y^2$, compute the partial derivatives:
 
-When working with implicit differentiation or solving related rates problems, we often dealt with equations that relied on multiple variables changing at once, such as the volume equation for a cylinder $V=\pi r^2 h$. We handled the derivatives of these expressions with multiple variables by considering each variable as a function of time and employing the chain rule. For instance, we obtained the differential
+$f_x(x, y) = \answer{2x + 3y}$
 
-$$dV=\pi r^2 \cdot dh+\pi 2rh\cdot dr$$
+$f_y(x, y) = \answer{3x + 2y}$
 
-by considering that the product $r^2 h$ varied both in $r$ and $h$, and hence, required the product rule. The rate of change equation that resulted was 
+At the point $(1, 2)$:
+$f_x(1, 2) = \answer{8}$
 
-$$\frac{dV}{dt}=\pi r^2 \cdot \frac{dh}{dt}+\pi 2rh\cdot \frac{dr}{dt}.$$
+$f_y(1, 2) = \answer{7}$
 
-We now enact this same strategy again when carrying out the chain rule on multivariable functions. If we have a function $f(x,y)$ and consider the compositions $x(t)$ and $y(t)$, then we employ the chain rule by accounting for variation in each variable for the derivative
+\begin{feedback}
+For $f_x$: treat $y$ as a constant, differentiate with respect to $x$.
+For $f_y$: treat $x$ as a constant, differentiate with respect to $y$.
+\end{feedback}
+\end{problem}
 
-$$\frac{df}{dt}=\frac{\partial f}{\partial x}\cdot \frac{dx}{dt}+\frac{\partial f}{\partial y}\cdot \frac{dy}{dt}=f_x(x,y)\cdot \frac{dx}{dt}+f_y(x,y)\cdot \frac{dy}{dt}.$$
+\begin{problem}
+For $g(x, y) = e^{xy}$, compute:
 
-In the case of our volume function $V(h,r)=\pi r^2 h$, we end up with the same result as before, 
+$g_x(x, y) = \answer{ye^{xy}}$
 
-$$\frac{dV}{dt}=\frac{\partial V}{\partial h}\cdot \frac{dh}{dt}+\frac{\partial V}{\partial r}\cdot \frac{dr}{dt}=\pi r^2 \cdot \frac{dh}{dt}+\pi 2rh\cdot \frac{dr}{dt}.$$
+$g_y(x, y) = \answer{xe^{xy}}$
 
-As you will read about in further detail in your eText, we will extend this idea to account for the chain rule in many contexts.
+At $(0, 5)$:
+$g_x(0, 5) = \answer{5}$
 
-\section{Course Notes: Tangent Planes, Directional Derivatives, and Gradients}
+$g_y(0, 5) = \answer{0}$
 
-For multivariable functions $f(x,y)$, the partial derivatives $f_x(a,b)$ and $f_y(a,b)$ play the same role that $f'(a)$ played in the single-variable case, but only together do they determine the vertical shift along the resulting tangent plane.
+\begin{feedback}
+Remember: $\frac{\partial}{\partial x}(e^{xy}) = e^{xy} \cdot \frac{\partial}{\partial x}(xy) = e^{xy} \cdot y$ (using chain rule, treating $y$ as constant).
+\end{feedback}
+\end{problem}
 
-This is seen in the following GeoGebra application, where you can specifically view the tangent plane at a point $(a,b,f(a,b))$ and the related derivatives. The vector $\vec u$ determines the direction of the derivative, which you can drag around the point $(a,b)$. (Note: You can only drag the tip of $\vec u$ on the right screen; you may need to hide the surface to do this). You also may alter the point $(a,b)$ along the x-y plane to change the location of the tangent plane (Note: again, only on the right screen).
+\begin{problem}
+For $h(x, y) = \sin(x)\cos(y)$, compute:
 
-Altering $\vec u$ shows the slice of the surface given by $f(x,y)$ that determines the tangent line slope given by $\frac{dz}{ds}$, the directional derivative. Checking the "Show Directional Derivative" box visualizes the differentials $dz$ and $ds$ that determine the slope of the line (much like $df$ and $dx$ determining the slope of the line in the single-variable case).
+$h_x(x, y) = \answer{\cos(x)\cos(y)}$
+
+$h_y(x, y) = \answer{-\sin(x)\sin(y)}$
+
+\begin{feedback}
+Product rule still applies! But only differentiate with respect to the variable you're focusing on.
+\end{feedback}
+\end{problem}
+
+\section*{Task Two: The Multivariable Chain Rule}
+
+When we compose multivariable functions with paths, we need to account for how all variables change together.
+
+\subsection*{Motivation: Related Rates Revisited}
+
+\begin{problem}
+Consider the volume of a cylinder: $V = \pi r^2 h$. If both $r$ and $h$ change with time, what affects $\frac{dV}{dt}$?
+
+\begin{selectAll}
+    \choice[correct]{How fast the radius is changing: $\frac{dr}{dt}$}
+    \choice[correct]{How fast the height is changing: $\frac{dh}{dt}$}
+    \choice[correct]{The partial derivative $\frac{\partial V}{\partial r}$}
+    \choice[correct]{The partial derivative $\frac{\partial V}{\partial h}$}
+    \choice{Only the current values of $r$ and $h$}
+\end{selectAll}
+
+\begin{feedback}
+Both variables contribute to the total change! We need to account for variation in each direction.
+\end{feedback}
+\end{problem}
+
+\begin{definition}
+The \textbf{multivariable chain rule}: If $z = f(x, y)$ where $x = x(t)$ and $y = y(t)$ are functions of $t$, then:
+$$\frac{dz}{dt}=\frac{\partial f}{\partial x}\cdot \frac{dx}{dt}+\frac{\partial f}{\partial y}\cdot \frac{dy}{dt}$$
+
+Or using subscript notation:
+$$\frac{df}{dt}=f_x(x,y)\cdot \frac{dx}{dt}+f_y(x,y)\cdot \frac{dy}{dt}$$
+\end{definition}
+
+\begin{problem}
+For the cylinder volume $V(r, h) = \pi r^2 h$, compute the partial derivatives:
+
+$\frac{\partial V}{\partial r} = \answer{2\pi rh}$
+
+$\frac{\partial V}{\partial h} = \answer{\pi r^2}$
+
+If $r = 3$ cm and $h = 5$ cm, and $\frac{dr}{dt} = 0.2$ cm/s and $\frac{dh}{dt} = 0.5$ cm/s, then:
+
+$\frac{dV}{dt} = \frac{\partial V}{\partial r}\cdot \frac{dr}{dt}+\frac{\partial V}{\partial h}\cdot \frac{dh}{dt}$
+
+$= 2\pi(\answer{3})(\answer{5})(0.2) + \pi(\answer{3})^2(0.5)$
+
+$= \answer[tolerance=0.1]{32.67}$ cm³/s
+
+\begin{feedback}
+Each partial derivative tells us how sensitive $V$ is to changes in that variable. We multiply by the rate of change of that variable, then sum the contributions!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+For $f(x, y) = x^2y$ where $x(t) = t^2$ and $y(t) = t^3$, find $\frac{df}{dt}$ at $t = 1$.
+
+First compute partial derivatives:
+$f_x(x, y) = \answer{2xy}$
+
+$f_y(x, y) = \answer{x^2}$
+
+Then compute rates of change:
+$\frac{dx}{dt} = \answer{2t}$
+
+$\frac{dy}{dt} = \answer{3t^2}$
+
+At $t = 1$: $x(1) = \answer{1}$, $y(1) = \answer{1}$, $\frac{dx}{dt}\bigg|_{t=1} = \answer{2}$, $\frac{dy}{dt}\bigg|_{t=1} = \answer{3}$
+
+So: $\frac{df}{dt}\bigg|_{t=1} = f_x(1, 1) \cdot 2 + f_y(1, 1) \cdot 3 = \answer{2}(2) + \answer{1}(3) = \answer{7}$
+
+\begin{feedback}
+The chain rule lets us track how $f$ changes as we move along a path in the $xy$-plane!
+\end{feedback}
+\end{problem}
+
+\section*{Task Three: Tangent Planes and Linearization}
+
+Just as the tangent line approximates a single-variable function, the tangent plane approximates a multivariable function.
+
+\begin{problem}
+For a single-variable function $y = f(x)$, the tangent line at $x = a$ is:
+$$y = f(a) + f'(a)(x - a)$$
+
+For a multivariable function $z = f(x, y)$, predict the equation of the tangent plane at $(a, b)$:
+
+\begin{multipleChoice}
+    \choice{$z = f(a, b) + f_x(a, b)(x - a)$}
+    \choice{$z = f(a, b) + f_y(a, b)(y - b)$}
+    \choice[correct]{$z = f(a, b) + f_x(a, b)(x - a) + f_y(a, b)(y - b)$}
+    \choice{$z = f_x(a, b) + f_y(a, b)$}
+\end{multipleChoice}
+
+\begin{feedback}
+We need both partial derivatives to capture how the function changes in all directions on the plane!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+For $f(x, y) = x^2 + y^2$, find the equation of the tangent plane at $(1, 2)$.
+
+First compute:
+$f(1, 2) = \answer{5}$
+
+$f_x(x, y) = \answer{2x}$, so $f_x(1, 2) = \answer{2}$
+
+$f_y(x, y) = \answer{2y}$, so $f_y(1, 2) = \answer{4}$
+
+Tangent plane: $z = \answer{5} + \answer{2}(x - 1) + \answer{4}(y - 2)$
+
+Simplified: $z = 2x + 4y - \answer{5}$
+
+\begin{feedback}
+The tangent plane is the best linear approximation to the surface near the point!
+\end{feedback}
+\end{problem}
+
+\section*{Task Four: Directional Derivatives and Gradients}
+
+Partial derivatives tell us about change in the $x$ or $y$ directions. What about other directions?
+
+\begin{problem}
+Now explore directional derivatives with this powerful interactive applet.
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    You can view the tangent plane at point $(a,b,f(a,b))$. The vector $\vec u$ determines the direction of the derivative—drag its tip on the right screen. Alter point $(a,b)$ to change locations. Check "Show Directional Derivative" to visualize the differentials $dz$ and $ds$ that determine the slope. Check "Show Differential Build" to see how $ds$ breaks into $dx$ and $dy$.
+\end{expandable}
 
 \begin{center}
 \geogebra{y3bnsnbv}{740}{612}
 \end{center}
 
-Checking the "Show Differential Build" box breaks down $ds$ into the horizontal differentials $dx$ and $dy$ along the x-y plane. This shows how we find the differential $dz$ from both partial derivatives.
+After exploring, answer: How is the directional derivative related to partial derivatives?
 
-Notice that both $f_x(a,b)\cdot dx$ and $f_y(a,b)\cdot dy$ partially result in vertical motion and that together, they determine $dz$. This is the new linearization of $f(x,y)$, extended from the single variable case. Rather than the vertical motion in the single variable case determined by $df=f'(a)\cdot dx$, we have the total differential $dz=f_x(a,b)\cdot dx+f_y(a,b)\cdot dy$ now determining motion along the plane away from the point $(a,b,f(a,b))$. The only thing that changed from the single variable case was the need for two differential products to account for the two dimensions of variation in our input. We can now calculate the directional derivative as $\frac{df}{ds}=f_x(a,b)\cdot \frac{dx}{ds}+f_y(a,b)\cdot \frac{dy}{ds}$, where we account for the shifting of $x$ and $y$ with respect to arc length.
+\begin{multipleChoice}
+    \choice{It's completely independent of partial derivatives}
+    \choice[correct]{It's a weighted combination: $f_x \cdot \frac{dx}{ds} + f_y \cdot \frac{dy}{ds}$}
+    \choice{It equals $f_x + f_y$}
+    \choice{It only depends on $f_x$}
+\end{multipleChoice}
 
-Now, view the same applet here, but check the "Show Gradient" box and uncheck the other boxes to remove clutter.
+\begin{feedback}
+The directional derivative combines both partial derivatives, weighted by how much we move in each direction!
+\end{feedback}
+\end{problem}
+
+\begin{definition}
+The \textbf{directional derivative} of $f$ at $(a, b)$ in the direction of unit vector $\vec{u} = \langle u_1, u_2 \rangle$ is:
+$$\frac{df}{ds} = f_x(a,b) \cdot u_1 + f_y(a,b) \cdot u_2$$
+
+This is the dot product: $\frac{df}{ds} = \langle f_x(a,b), f_y(a,b) \rangle \cdot \vec{u}$
+\end{definition}
+
+\begin{problem}
+For $f(x, y) = x^2 + 2y^2$, compute the directional derivative at $(1, 1)$ in the direction $\vec{u} = \langle \frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}} \rangle$.
+
+First find partial derivatives:
+$f_x(1, 1) = \answer{2}$
+
+$f_y(1, 1) = \answer{4}$
+
+Then: $\frac{df}{ds} = \answer{2} \cdot \frac{1}{\sqrt{2}} + \answer{4} \cdot \frac{1}{\sqrt{2}} = \frac{\answer{6}}{\sqrt{2}} = \answer[tolerance=0.1]{4.24}$
+
+\begin{feedback}
+The directional derivative tells us the instantaneous rate of change as we move in the direction of $\vec{u}$!
+\end{feedback}
+\end{problem}
+
+\subsection*{The Gradient Vector}
+
+\begin{problem}
+Now explore the gradient with the same applet. Check the "Show Gradient" box and uncheck others.
 
 \begin{center}
 \geogebra{y3bnsnbv}{740}{612}
 \end{center}
 
-If we take a unit vector $\vec u=\langle u_1,u_2\rangle$ away from $(a,b)$, then it runs along a line, its derivatives $\frac{dx}{ds}$ and $\frac{dy}{ds}$ are simply its components, $u_1$ and $u_2$. The directional derivative can thus be expressed as $\frac{df}{ds}=f_x(a,b)\cdot u_1+f_y(a,b)\cdot u_2$.
+As you drag $\vec{u}$ around, when is the directional derivative largest?
 
-The calculation $f_x(a,b)\cdot u_1+f_y(a,b)\cdot u_2$ also represents the dot product between the vectors $\vec u=\langle u_1,u_2\rangle$ and another vector $\langle f_x(a,b) , f_y(a,b)\rangle$. This is another way to view the directional derivative, as the dot product of the direction vector $\vec u$ and the new (and special) vector $\langle f_x(a,b) , f_y(a,b)\rangle=\nabla f$ that we call the \emph{gradient of $f$.} One special property of $\nabla f$ is that it points in the direction where the function has its greatest increase. You can see this by dragging the unit vector $\vec u$ around, noticing that the directional derivative has the greatest slope when $\vec u$ is in the same direction as $\nabla f$, and that the directional derivative has the least slope when $\vec u$ is in the opposite direction as $\nabla f$. This makes sense since the dot product with a unit vector is greatest when both vectors are aligned.
+\begin{multipleChoice}
+    \choice{When $\vec{u}$ is perpendicular to $\nabla f$}
+    \choice[correct]{When $\vec{u}$ points in the same direction as $\nabla f$}
+    \choice{When $\vec{u}$ points opposite to $\nabla f$}
+    \choice{The directional derivative is always the same}
+\end{multipleChoice}
 
-\section{Video Resources}
+\begin{feedback}
+The gradient $\nabla f = \langle f_x, f_y \rangle$ points in the direction of steepest increase!
+\end{feedback}
+\end{problem}
 
+\begin{definition}
+The \textbf{gradient} of $f$ at $(a, b)$ is the vector:
+$$\nabla f(a, b) = \langle f_x(a, b), f_y(a, b) \rangle$$
+
+Key properties:
+\begin{itemize}
+    \item $\nabla f$ points in the direction of steepest increase
+    \item $||\nabla f||$ gives the maximum rate of increase
+    \item $-\nabla f$ points in the direction of steepest decrease
+    \item The directional derivative is: $\frac{df}{ds} = \nabla f \cdot \vec{u}$
+\end{itemize}
+\end{definition}
+
+\begin{problem}
+For $f(x, y) = x^2 - y^2$, find the gradient at $(2, 1)$.
+
+$f_x(x, y) = \answer{2x}$, so $f_x(2, 1) = \answer{4}$
+
+$f_y(x, y) = \answer{-2y}$, so $f_y(2, 1) = \answer{-2}$
+
+Therefore: $\nabla f(2, 1) = \langle \answer{4}, \answer{-2} \rangle$
+
+The magnitude is: $||\nabla f(2, 1)|| = \sqrt{(\answer{4})^2 + (\answer{-2})^2} = \answer[tolerance=0.1]{4.47}$
+
+\begin{feedback}
+This gradient vector points toward $(4, -2)$ direction—that's where $f$ increases most rapidly from the point $(2, 1)$!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+In which direction from $(2, 1)$ does $f(x, y) = x^2 - y^2$ decrease most rapidly?
+
+\begin{multipleChoice}
+    \choice{In the direction $\langle 4, -2 \rangle$}
+    \choice[correct]{In the direction $\langle -4, 2 \rangle$ (opposite the gradient)}
+    \choice{In the direction $\langle 2, 4 \rangle$}
+    \choice{In the direction $\langle 0, 1 \rangle$}
+\end{multipleChoice}
+
+\begin{feedback}
+The steepest descent is always opposite the gradient: $-\nabla f$!
+\end{feedback}
+\end{problem}
+
+\section*{Summary}
+
+\begin{problem}
+Select all TRUE statements about partial derivatives and gradients:
+
+\begin{selectAll}
+    \choice[correct]{Partial derivatives measure change in one variable at a time}
+    \choice[correct]{The tangent plane requires both $f_x$ and $f_y$}
+    \choice[correct]{The gradient points in the direction of steepest increase}
+    \choice[correct]{The directional derivative is $\nabla f \cdot \vec{u}$}
+    \choice{The gradient is always zero}
+    \choice[correct]{The chain rule accounts for change in all variables}
+\end{selectAll}
+
+\begin{feedback}
+You've mastered the fundamentals of multivariable calculus! Next, we'll use these tools to find maxima and minima of multivariable functions.
+\end{feedback}
+\end{problem}
+
+\section*{Video Resources}
 
 Visit the \href{https://www.youtube.com/playlist?list=PLHXZ9OQGMqxc_CvEy7xBKRQr6I214QJcd}{Calculus III: Multivariable Calculus playlist by Dr. Trefor Bazett}, found on YouTube, for further video resources on the big-picture ideas of multivariable calculus.
 

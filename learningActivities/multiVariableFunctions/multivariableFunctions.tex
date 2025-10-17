@@ -10,72 +10,143 @@ In this activity we explore functions with multiple variable inputs and single-v
 \end{abstract}
 \maketitle
 
-\section*{Introduction: From One Variable to Many}
+\section*{Introduction: From Vector Functions to Multivariable Functions}
 
-In single-variable calculus, you worked with functions that took a single number as input and produced a single number as output. Now we expand to functions that take \emph{multiple} numbers as inputs!
+After analyzing vector functions (where we input one variable and output a vector), we now examine scalar functions that have multiple input variables. These \emph{multivariate} (or \emph{multivariable}) functions are fundamental to conceptualizing the complexities of the world around us. We will extend our experience with single-variable scalar functions to account for more complex relationships between variables.
+
+\subsection*{Review: What is a Function?}
+
+Recall that we previously defined functions as relationships between variables that have an input-output (or dependent-independent) relationship. Let's review this carefully before extending to multiple variables.
+
+\begin{definition}
+For a single-variable function $y = f(x)$, at each $x$-value we have a \textbf{single} assigned $y$-value. We say:
+\begin{itemize}
+    \item $x$ is the \textbf{input} (independent variable)
+    \item $y = f(x)$ is the \textbf{output} (dependent variable)
+    \item The graph comprises points $(x, y) = (x, f(x))$
+\end{itemize}
+
+The variable $y$ \emph{depends on} $x$ because you can alter the $y$-value by altering the $x$-value.
+\end{definition}
 
 \begin{problem}
-Before diving in, let's reflect on what you already know. In single-variable calculus, which of the following is true about a function $f(x)$?
+Let's make sure we understand the single-variable case first. For a function $y = f(x)$, which statements are true?
 
 \begin{selectAll}
-    \choice[correct]{$f$ takes one input (the variable $x$)}
-    \choice[correct]{$f$ produces one output}
-    \choice{$f$ can have multiple independent variables}
-    \choice[correct]{The graph of $f$ is a curve in 2D}
+    \choice[correct]{Each $x$-value produces exactly one $y$-value}
+    \choice{Each $y$-value comes from exactly one $x$-value}
+    \choice[correct]{Multiple $x$-values can produce the same $y$-value}
+    \choice[correct]{$y$ depends on $x$}
+    \choice[correct]{Changing $x$ changes $y$}
 \end{selectAll}
 
 \begin{feedback}
-Single-variable functions map one input to one output, and their graphs are curves in the $xy$-plane. Now we'll extend this to functions with multiple inputs!
+The key property of a function is that each input produces exactly one output. However, multiple inputs can produce the same output! For example, $f(x) = x^2$ gives $f(-2) = f(2) = 4$.
 \end{feedback}
 \end{problem}
 
-\section*{Task One: Real-World Examples of Multivariable Functions}
+\begin{problem}
+Now let's visualize this concept with an interactive example.
 
-\subsection*{Understanding Multiple Inputs}
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Alter the "x=" slider to view different points on the graph of $f(x) = \sin(x) + \frac{x}{5}$. Notice how the input $x$ gives the horizontal component and the output $f(x)$ gives the vertical component of each point $(x,y)$.
+\end{expandable}
+
+\begin{center}
+\geogebra{mvpqg764}{739}{456}
+\end{center}
+
+After exploring the applet, answer: As you move the slider, what primarily controls the change in $y$?
+
+\begin{multipleChoice}
+    \choice{The $y$-value changes randomly}
+    \choice[correct]{The $y$-value changes because we slide the $x$-value}
+    \choice{The $y$-value stays constant}
+    \choice{Both $x$ and $y$ are independent}
+\end{multipleChoice}
+
+\begin{feedback}
+This is the essence of a function: we change $y$ by first changing $x$. The output depends on the input!
+\end{feedback}
+\end{problem}
+
+\subsection*{Extending to Multiple Inputs}
+
+Now we create relationships between three or more variables and require that one variable \emph{depends on} the other variables, making a function in the same way we defined single-variable functions.
+
+\begin{problem}
+Before seeing the definition, predict: If we have a function of two variables $x$ and $y$, how should we think about the output?
+
+\begin{multipleChoice}
+    \choice{The output is a pair of numbers}
+    \choice[correct]{The output is a single number that depends on both $x$ and $y$}
+    \choice{The output is a vector}
+    \choice{The output is a curve}
+\end{multipleChoice}
+
+\begin{feedback}
+Just like single-variable functions produce a single output from one input, multivariable functions produce a single output from multiple inputs!
+\end{feedback}
+\end{problem}
 
 \begin{definition}
-A \textbf{multivariable function} takes multiple independent variables as input and produces a single output. We write this as:
-$$z = f(x, y) \quad \text{or} \quad w = f(x, y, z)$$
+For a function $z = f(x, y)$ of two variables:
+\begin{itemize}
+    \item We can freely change both $x$ and $y$ (independent variables)
+    \item For each pair $(x, y)$ we get a \textbf{single} $z$-value: $z = f(x, y)$ (dependent variable)
+    \item The graph comprises points $(x, y, z) = (x, y, f(x, y))$
+    \item Any one $z$-value might be associated with multiple $(x, y)$ pairs
+\end{itemize}
 
-The inputs are ordered pairs, triples, or $n$-tuples of real numbers, and the output is a real number.
+The values of $f$ can be visually interpreted as a height (hence $z$) defined at any point on the $xy$-plane.
 \end{definition}
 
-Let's explore real-world examples to build intuition.
+\begin{problem}
+Now visualize a multivariable function with this interactive applet.
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    The left screen shows the $xy$-plane, and the right screen shows the surface $z = f(x,y)$. Click and drag the point $(x,y)$ on either screen. You can also click and drag to rotate the 3D view and scroll to zoom. Use "Reset 3D Zoom" to return to the global view.
+\end{expandable}
+
+\begin{center}
+\geogebra{krfy4jsw}{751}{652}
+\end{center}
+
+After exploring, identify what you observed:
+
+\begin{selectAll}
+    \choice[correct]{Both $x$ and $y$ can be changed independently}
+    \choice[correct]{Changing either $x$ or $y$ changes the $z$-value}
+    \choice{Only one variable can change at a time}
+    \choice[correct]{The graph is a surface in 3D, not a curve}
+    \choice[correct]{Each $(x,y)$ pair produces exactly one $z$-value}
+\end{selectAll}
+
+\begin{feedback}
+Just as in the single-variable case, we have a dependent-independent relationship. The primary difference is that we now have two separate variables, $x$ and $y$, that can both be altered to change the value of $z = f(x,y)$.
+
+This forms the foundation of the rest of our study of multivariable calculus!
+\end{feedback}
+\end{problem}
+
+\section*{Task One: Real-World Examples}
+
+Let's explore concrete examples of multivariable functions.
 
 \subsection*{Example 1: Volume of a Cylinder}
 
 \begin{problem}
-Consider the volume of a right circular cylinder. What information do you need to calculate the volume?
+The volume formula is $V = \pi r^2 h$, a function: $V(r, h) = \answer{\pi r^2 h}$
 
-\begin{selectAll}
-    \choice[correct]{The radius $r$ of the base}
-    \choice[correct]{The height $h$ of the cylinder}
-    \choice{The surface area}
-    \choice{Only the radius (height doesn't matter)}
-\end{selectAll}
-
-The volume formula is $V = \pi r^2 h$, which we can write as a function: $V(r, h) = \answer{\pi r^2 h}$
-
-This is a function of \wordChoice{\choice{one variable}\choice[correct]{two variables}\choice{three variables}}.
-
-\begin{feedback}
-Both radius $r$ and height $h$ are needed to determine the volume. Changing either one changes the volume, so $V$ depends on both variables!
-\end{feedback}
-\end{problem}
-
-\begin{problem}
-Let's practice evaluating this function. If a cylinder has radius $r = 3$ cm and height $h = 5$ cm:
-
+If a cylinder has radius $r = 3$ cm and height $h = 5$ cm:
 $V(3, 5) = \pi \cdot (\answer{3})^2 \cdot \answer{5} = \answer{45}\pi$ cubic cm
 
-If we double the radius but keep the height the same:
+If we double the radius: $V(6, 5) = \answer{180}\pi$ cubic cm
 
-$V(6, 5) = \pi \cdot (\answer{6})^2 \cdot \answer{5} = \answer{180}\pi$ cubic cm
-
-Notice that doubling the radius \wordChoice{\choice{doubles the volume}\choice{triples the volume}\choice[correct]{quadruples the volume}} because radius is squared in the formula!
+Doubling the radius \wordChoice{\choice{doubles the volume}\choice{triples the volume}\choice[correct]{quadruples the volume}} because radius is squared.
 
 \begin{feedback}
-When you evaluate a multivariable function, you substitute values for all the input variables. Here, $V(3,5)$ means "evaluate $V$ when $r=3$ and $h=5$."
+To evaluate $V(3,5)$, substitute $r=3$ and $h=5$. Both variables are needed to determine volume.
 \end{feedback}
 \end{problem}
 
@@ -114,100 +185,76 @@ The volume is proportional to $r^2$ (quadratic in $r$) but proportional to $h$ (
 \subsection*{Example 2: Speed of Sound in Seawater}
 
 \begin{problem}
-The speed of sound through seawater is primarily a function of salinity $S$ (salt concentration) and temperature $T$.
+The speed of sound $c(S, T)$ depends on salinity $S$ and temperature $T$.
 
-Before looking up the formula, predict: As temperature increases, the speed of sound in water:
+As temperature increases, sound speed:
 \begin{multipleChoice}
-    \choice[correct]{Increases (sound travels faster in warmer water)}
-    \choice{Decreases (sound travels slower in warmer water)}
+    \choice[correct]{Increases (faster in warmer water)}
+    \choice{Decreases (slower in warmer water)}
     \choice{Stays the same}
 \end{multipleChoice}
 
-As salinity increases, the speed of sound in water:
+As salinity increases, sound speed:
 \begin{multipleChoice}
-    \choice[correct]{Increases (sound travels faster in saltier water)}
-    \choice{Decreases (sound travels slower in saltier water)}
+    \choice[correct]{Increases (faster in saltier water)}
+    \choice{Decreases (slower in saltier water)}
     \choice{Stays the same}
 \end{multipleChoice}
 
 \begin{feedback}
-Both higher temperature and higher salinity increase the speed of sound in seawater! This is important for sonar and underwater acoustics. We can model this with a function $c(S, T)$ where $c$ is the speed of sound.
+Both higher temperature and salinity increase sound speed—important for sonar and underwater acoustics!
 \end{feedback}
 \end{problem}
 
 \subsection*{Example 3: Mortgage Payments}
 
 \begin{problem}
-The monthly payment on a home mortgage depends on three variables:
-\begin{itemize}
-    \item $P$: the principal borrowed (loan amount)
-    \item $i$: the annual interest rate
-    \item $t$: the term of the loan (in years)
-\end{itemize}
+Monthly payment $M(P, i, t)$ depends on principal $P$, interest rate $i$, and loan term $t$.
 
-This is a function $M(P, i, t)$ of \wordChoice{\choice{one variable}\choice{two variables}\choice[correct]{three variables}}.
-
-Predict: If you increase the principal $P$ while keeping interest rate and term fixed, the monthly payment:
+If you increase principal (keeping others fixed), the payment:
 \begin{multipleChoice}
     \choice[correct]{Increases}
     \choice{Decreases}
-    \choice{Stays the same}
 \end{multipleChoice}
 
-If you increase the term $t$ (taking longer to pay off the loan) while keeping principal and interest fixed, the monthly payment:
+If you increase the term (longer payoff), the monthly payment:
 \begin{multipleChoice}
     \choice{Increases}
     \choice[correct]{Decreases}
-    \choice{Stays the same}
 \end{multipleChoice}
 
 \begin{feedback}
-Borrowing more money increases your payment, but spreading payments over a longer time decreases the monthly amount (though you pay more total interest!). This shows how multivariable functions model complex real-world relationships.
+Borrowing more increases payments, but longer terms decrease monthly amounts (though total interest paid increases).
 \end{feedback}
 \end{problem}
 
 \section*{Task Two: Notation and Evaluation}
 
-\subsection*{Function Notation}
-
 \begin{problem}
-Let's establish notation. For a function $f(x, y) = x^2 + 3xy - y^2$:
+For $f(x, y) = x^2 + 3xy - y^2$, evaluate:
 
-Evaluate at the point $(2, 1)$:
-$f(2, 1) = (\answer{2})^2 + 3(\answer{2})(\answer{1}) - (\answer{1})^2 = 4 + 6 - 1 = \answer{9}$
+At $(2, 1)$: $f(2, 1) = (\answer{2})^2 + 3(\answer{2})(\answer{1}) - (\answer{1})^2 = \answer{9}$
 
-Evaluate at the point $(1, 3)$:
-$f(1, 3) = (\answer{1})^2 + 3(\answer{1})(\answer{3}) - (\answer{3})^2 = 1 + 9 - 9 = \answer{1}$
-
-Evaluate at the point $(-1, 2)$:
-$f(-1, 2) = (\answer{-1})^2 + 3(\answer{-1})(\answer{2}) - (\answer{2})^2 = 1 - 6 - 4 = \answer{-9}$
+At $(-1, 2)$: $f(-1, 2) = (\answer{-1})^2 + 3(\answer{-1})(\answer{2}) - (\answer{2})^2 = \answer{-9}$
 
 \begin{feedback}
-To evaluate $f(x,y)$ at a point $(a,b)$, substitute $x=a$ and $y=b$ into the formula. The order matters: the first coordinate is for $x$, the second for $y$!
+To evaluate $f(x,y)$ at $(a,b)$, substitute $x=a$ and $y=b$. Order matters!
 \end{feedback}
 \end{problem}
 
 \begin{problem}
-Now try with a three-variable function. Let $g(x, y, z) = xy + yz + xz$.
+For three variables, let $g(x, y, z) = xy + yz + xz$. Evaluate:
 
-Evaluate at the point $(1, 2, 3)$:
-$g(1, 2, 3) = (\answer{1})(\answer{2}) + (\answer{2})(\answer{3}) + (\answer{1})(\answer{3})$
-$= 2 + 6 + 3 = \answer{11}$
+At $(1, 2, 3)$: $g(1, 2, 3) = (\answer{1})(\answer{2}) + (\answer{2})(\answer{3}) + (\answer{1})(\answer{3}) = \answer{11}$
 
-Evaluate at the point $(0, 5, 10)$:
-$g(0, 5, 10) = (\answer{0})(\answer{5}) + (\answer{5})(\answer{10}) + (\answer{0})(\answer{10})$
-$= 0 + 50 + 0 = \answer{50}$
+At $(0, 5, 10)$: $g(0, 5, 10) = \answer{50}$
 
 \begin{feedback}
-For three-variable functions, you need an ordered triple $(x, y, z)$ to specify a point in the domain. Each variable gets its own value!
+For three-variable functions, use ordered triples $(x, y, z)$.
 \end{feedback}
 \end{problem}
 
-\subsection*{Domain and Range}
-
 \begin{problem}
-Just like single-variable functions, multivariable functions have domains and ranges.
-
 For $f(x, y) = \sqrt{x + y}$, which points are in the domain?
 
 \begin{selectAll}
@@ -215,177 +262,111 @@ For $f(x, y) = \sqrt{x + y}$, which points are in the domain?
     \choice[correct]{$(0, 0)$ because $0 + 0 = 0 \geq 0$}
     \choice{$(-5, 3)$ because $-5 + 3 = -2 < 0$}
     \choice[correct]{$(-2, 5)$ because $-2 + 5 = 3 \geq 0$}
-    \choice{$(-10, -1)$ because $-10 + (-1) = -11 < 0$}
 \end{selectAll}
 
-The domain consists of all points $(x, y)$ where:
+The domain is all points $(x, y)$ where:
 \begin{multipleChoice}
     \choice{$x \geq 0$ and $y \geq 0$}
     \choice[correct]{$x + y \geq 0$}
     \choice{$x \geq 0$ or $y \geq 0$}
-    \choice{All real numbers}
 \end{multipleChoice}
 
 \begin{feedback}
-We need $x + y \geq 0$ to take the square root. This means the domain is a half-plane in the $xy$-plane, not just the first quadrant!
+We need $x + y \geq 0$ for the square root. This is a half-plane, not just the first quadrant!
 \end{feedback}
 \end{problem}
 
-\section*{Task Three: Visualizing Multivariable Functions}
-
-\subsection*{The Challenge of Visualization}
+\section*{Task Three: Visualizing Functions}
 
 \begin{problem}
-In single-variable calculus, we graphed $y = f(x)$ as a curve in 2D (the $xy$-plane). For two-variable functions $z = f(x,y)$, where do we graph them?
-
+For two-variable functions $z = f(x,y)$, the graph is:
 \begin{multipleChoice}
-    \choice{In the $xy$-plane (2D)}
-    \choice[correct]{In 3D space (need $x$, $y$, and $z$ axes)}
-    \choice{In 4D space}
-    \choice{We cannot visualize them}
-\end{multipleChoice}
-
-The graph of $z = f(x, y)$ is:
-\begin{multipleChoice}
-    \choice{A curve in 3D}
+    \choice{A curve in 2D}
     \choice[correct]{A surface in 3D}
-    \choice{A point in 3D}
     \choice{A volume in 3D}
 \end{multipleChoice}
 
 \begin{feedback}
-For each point $(x, y)$ in the domain, we get a height $z = f(x, y)$. This creates a surface in 3D space! Think of it like a landscape where height depends on your location.
+Each point $(x, y)$ gives a height $z = f(x, y)$, creating a surface—like a landscape!
 \end{feedback}
 \end{problem}
 
-\subsection*{Common Function Surfaces}
-
 \begin{problem}
-Consider the function $f(x, y) = x^2 + y^2$. 
+Consider $f(x, y) = x^2 + y^2$. Evaluate at key points: 
+$(0, 0)$: $f(0, 0) = \answer{0}$;  $(1, 1)$: $f(1, 1) = \answer{2}$;  $(2, 2)$: $f(2, 2) = \answer{8}$
 
-At the point $(0, 0)$: $f(0, 0) = \answer{0}$
-
-At the point $(1, 0)$: $f(1, 0) = \answer{1}$
-
-At the point $(0, 1)$: $f(0, 1) = \answer{1}$
-
-At the point $(1, 1)$: $f(1, 1) = \answer{2}$
-
-At the point $(2, 2)$: $f(2, 2) = \answer{8}$
-
-What shape do you think this surface resembles?
+This surface resembles:
 \begin{multipleChoice}
     \choice{A plane}
     \choice{A saddle}
-    \choice[correct]{A paraboloid (bowl shape) opening upward}
+    \choice[correct]{A paraboloid (bowl) opening upward}
     \choice{A sphere}
 \end{multipleChoice}
 
 \begin{feedback}
-Since $f(x,y) = x^2 + y^2$ is always non-negative and increases as you move away from the origin, it forms a bowl shape (paraboloid) with its minimum at the origin!
+Since $f(x,y) = x^2 + y^2 \geq 0$ and increases away from the origin, it forms a bowl (paraboloid).
 \end{feedback}
 \end{problem}
 
 \begin{problem}
-Now consider $g(x, y) = x^2 - y^2$.
+Now consider $g(x, y) = x^2 - y^2$. Evaluate:
 
-At the point $(0, 0)$: $g(0, 0) = \answer{0}$
+$(0, 0)$: $g(0, 0) = \answer{0}$;  $(1, 0)$: $g(1, 0) = \answer{1}$;  $(0, 1)$: $g(0, 1) = \answer{-1}$
 
-At the point $(1, 0)$: $g(1, 0) = \answer{1}$
-
-At the point $(0, 1)$: $g(0, 1) = \answer{-1}$
-
-At the point $(1, 1)$: $g(1, 1) = \answer{0}$
-
-Notice something interesting: $g$ is positive along the $x$-axis but negative along the $y$-axis. This creates:
+Notice: $g$ is positive along the $x$-axis but negative along the $y$-axis. This creates:
 \begin{multipleChoice}
-    \choice{A bowl shape}
-    \choice[correct]{A saddle shape (curves up in one direction, down in another)}
+    \choice{A bowl}
+    \choice[correct]{A saddle (curves up in one direction, down in another)}
     \choice{A plane}
-    \choice{A cone}
 \end{multipleChoice}
 
 \begin{feedback}
-Saddle points are fascinating! The function curves upward in the $x$-direction but downward in the $y$-direction, creating a saddle shape. This will be important when we study critical points!
+Saddle points will be important when studying critical points!
 \end{feedback}
 \end{problem}
 
-\section*{Task Four: Extending to Higher Dimensions}
-
-\subsection*{Functions of Three or More Variables}
+\section*{Task Four: Higher Dimensions}
 
 \begin{problem}
-Can we have functions with even more variables?
-
-\begin{selectAll}
-    \choice[correct]{Yes, we can have $f(x, y, z)$ (three variables)}
-    \choice[correct]{Yes, we can have $f(x_1, x_2, \ldots, x_n)$ ($n$ variables)}
-    \choice[correct]{Yes, though visualization becomes harder}
-    \choice{No, three variables is the maximum}
-\end{selectAll}
-
-For a function $f(x, y, z, w)$ of four variables, the domain consists of:
+Functions can have any number of variables! For $f(x, y, z, w)$ of four variables, the domain consists of:
 \begin{multipleChoice}
     \choice{Points in 3D space}
-    \choice[correct]{Ordered 4-tuples $(x, y, z, w)$ of real numbers}
+    \choice[correct]{Ordered 4-tuples $(x, y, z, w)$}
     \choice{Surfaces in 3D}
-    \choice{Volumes in 3D}
 \end{multipleChoice}
 
 \begin{feedback}
-There's no limit to the number of variables! In machine learning, functions often have thousands or millions of variables. We can't visualize them geometrically, but the mathematical concepts remain the same.
+In machine learning, functions often have thousands of variables. We can't visualize them, but the math works the same!
 \end{feedback}
 \end{problem}
 
 \begin{problem}
-Let $h(x, y, z) = x + 2y + 3z$. Evaluate:
+For $h(x, y, z) = x + 2y + 3z$, evaluate:
 
-$h(1, 2, 3) = \answer{1} + 2(\answer{2}) + 3(\answer{3}) = 1 + 4 + 9 = \answer{14}$
+$h(1, 2, 3) = \answer{1} + 2(\answer{2}) + 3(\answer{3}) = \answer{14}$
 
-$h(0, 0, 5) = \answer{0} + 2(\answer{0}) + 3(\answer{5}) = \answer{15}$
-
-$h(-1, 3, 2) = \answer{-1} + 2(\answer{3}) + 3(\answer{2}) = -1 + 6 + 6 = \answer{11}$
+$h(-1, 3, 2) = \answer{-1} + 2(\answer{3}) + 3(\answer{2}) = \answer{11}$
 
 \begin{feedback}
-The process is the same regardless of how many variables you have: substitute each variable with its corresponding value and calculate!
+Same process: substitute and calculate!
 \end{feedback}
 \end{problem}
 
-\section*{Summary and Looking Ahead}
+\section*{Summary}
 
 \begin{problem}
-Let's review the key concepts. Select all TRUE statements about multivariable functions:
+Select all TRUE statements:
 
 \begin{selectAll}
-    \choice[correct]{Multivariable functions take multiple inputs}
-    \choice[correct]{The domain consists of ordered pairs, triples, or $n$-tuples}
-    \choice[correct]{The output (range) is still a single real number}
+    \choice[correct]{Multivariable functions take multiple inputs, produce one output}
     \choice[correct]{The graph of $z = f(x,y)$ is a surface in 3D}
-    \choice{We cannot do calculus on multivariable functions}
     \choice[correct]{Real-world quantities often depend on multiple variables}
-    \choice{Multivariable functions are too complex to be useful}
-    \choice[correct]{We evaluate them by substituting values for all variables}
+    \choice[correct]{We evaluate by substituting values for all variables}
+    \choice{Curvature depends on how fast a particle moves}
 \end{selectAll}
 
 \begin{feedback}
-Excellent! Multivariable functions extend single-variable calculus to more realistic scenarios where outcomes depend on multiple factors. Next, we'll learn how to take derivatives of these functions (partial derivatives) and integrate them!
-\end{feedback}
-\end{problem}
-
-\begin{problem}
-Final reflection: Why do we need multivariable functions?
-
-\begin{multipleChoice}
-    \choice{They're harder, so they're more impressive}
-    \choice{Single-variable functions are boring}
-    \choice[correct]{Real-world phenomena usually depend on multiple factors simultaneously}
-    \choice{They're not actually useful}
-\end{multipleChoice}
-
-\begin{feedback}
-Most real-world phenomena depend on multiple variables! Temperature depends on location (3 variables), profit depends on production costs and sales prices (2+ variables), and flight paths depend on position and velocity (6 variables). Multivariable calculus is essential for engineering, physics, economics, and data science.
-
-We will extend differential calculus to functions of several variables, exploring how derivatives work when functions have multiple inputs. Their derivatives are more varied and interesting because of the different ways variables can interact!
+Next, we'll learn partial derivatives to analyze how multivariable functions change!
 \end{feedback}
 \end{problem}
 
