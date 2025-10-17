@@ -43,7 +43,6 @@ Think about moving along one vector, and then moving along the other vector star
         \item If $\vec{v}=[0,7]$ and $\vec{u}=[5,-3]$, then $\vec{v}+\vec{u}=[\answer{5},\answer{4}]$
         \item If $\vec{v}=[1,2,3]$ and $\vec{u}=[4,5,6]$, then $\vec{v}+\vec{u}=[\answer{5},\answer{7},\answer{9}]$
         \item If $\vec{v}=[-1,0,2]$ and $\vec{u}=[3,-4,1]$, then $\vec{v}-\vec{u}=[\answer{-4},\answer{4},\answer{1}]$
-        \item If $\vec{v}=[2,-3,5]$ and $\vec{u}=[-2,3,-5]$, then $\vec{v}+\vec{u}=[\answer{0},\answer{0},\answer{0}]$
     \end{enumerate}
 
     \begin{feedback}
@@ -97,11 +96,11 @@ Think about moving along one vector, and then moving along the other vector star
             }
         \end{selectAll}
 
-        \item For $\vec{v}=[1,6]$ and $\vec{u}=[5,-2]$, select all correct visualizations of the way to build $\vec{v}+\vec{u}$ from $\vec{v}$ and $\vec{u}$:
+        \item For $\vec{v}=[1,6]$ and $\vec{u}=[5,-2]$, select all correct visualizations of the way to build $\vec{v}-\vec{u}$ from $\vec{v}$ and $\vec{u}$:
         \begin{selectAll}
             \choice{
                 \begin{tikzpicture}[scale=0.75, thick, >=stealth]
-                    \draw[->] (0,0) -- (6,4) node[midway,above left] {$\vec{v}+\vec{u}$};
+                    \draw[->] (0,0) -- (6,4) node[midway,above left] {$\vec{v}-\vec{u}$};
                     \draw[->] (6,4) -- (1,6) node[midway,right] {$\vec{u}$};
                     \draw[->,thick,blue] (0,0) -- (1,6) node[midway,left] {$\vec{v}$};
                     \draw[gray,dashed] (-1,0) -- (7,0);
@@ -112,7 +111,7 @@ Think about moving along one vector, and then moving along the other vector star
                 \begin{tikzpicture}[scale=0.75, thick, >=stealth]
                     \draw[->] (0,0) -- (5,-2) node[midway,below] {$\vec{u}$};
                     \draw[->] (5,-2) -- (6,4) node[midway,right] {$\vec{v}$};
-                    \draw[->,thick,blue] (0,0) -- (6,4) node[midway,above left] {$\vec{v}+\vec{u}$};
+                    \draw[->,thick,blue] (0,0) -- (6,4) node[midway,above left] {$\vec{v}-\vec{u}$};
                     \draw[gray,dashed] (-1,0) -- (7,0);
                     \draw[gray,dashed] (0,-3) -- (0,13);
                 \end{tikzpicture}
@@ -122,7 +121,7 @@ Think about moving along one vector, and then moving along the other vector star
                     \draw[->] (0,0) -- (1,6) node[midway,left] {$\vec{v}$};
                     \draw[->] (1,6) -- (2,12) node[midway,left] {$\vec{v}$};
                     \draw[->] (2,12) -- (7,10) node[midway,above right] {$\vec{u}$};
-                    \draw[->,thick,blue] (0,0) -- (7,10) node[midway,below right] {$\vec{v}+\vec{u}$};
+                    \draw[->,thick,blue] (0,0) -- (7,10) node[midway,below right] {$\vec{v}-\vec{u}$};
                     \draw[gray,dashed] (-1,0) -- (8,0);
                     \draw[gray,dashed] (0,-3) -- (0,13);
                 \end{tikzpicture}
@@ -130,10 +129,10 @@ Think about moving along one vector, and then moving along the other vector star
             \choice[correct]{
                 \begin{tikzpicture}[scale=0.75, thick, >=stealth]
                     \draw[->] (0,0) -- (1,6) node[midway,left] {$\vec{v}$};
-                    \draw[->] (1,6) -- (6,4) node[midway,above right] {$\vec{u}$};
-                    \draw[->,thick,blue] (0,0) -- (6,4) node[midway,below right] {$\vec{v}+\vec{u}$};
-                    \draw[gray,dashed] (-1,0) -- (7,0);
-                    \draw[gray,dashed] (0,-3) -- (0,13);
+                    \draw[->] (1,6) -- (-4,8) node[midway,above right] {$\vec{u}$};
+                    \draw[->,thick,blue] (0,0) -- (-4,8) node[midway,below right] {$\vec{v}-\vec{u}$};
+                    \draw[gray,dashed] (-5,0) -- (2,0);
+                    \draw[gray,dashed] (0,-1) -- (0,10);
                 \end{tikzpicture}
             }
         \end{selectAll}
@@ -153,7 +152,7 @@ Now let's use the context of momentum to learn about scaling vectors.
 \begin{problem}
     (Reference the end of the video to answer the following question.)
     
-    If Riley and Taylor have a combined mass of $150$N, and the box has a mass of $200$N, with velocity vectors $\vec{v}_{RT}=[-5,2]$ and $\vec{v}_B=[5,2]$, in which direction will the box and boys move togetehr after the collision?
+    If Riley and Taylor have a combined mass of $60$kg, and the box has a mass of $80$kg, with velocity vectors $\vec{v}_{RT}=[-5,2]$ and $\vec{v}_B=[5,2]$, in which direction will the box and boys move together after the collision?
     \begin{multipleChoice}
         \choice{They will move to the left and upwards.}
         \choice[correct]{They will move directly upwards.}
@@ -161,13 +160,13 @@ Now let's use the context of momentum to learn about scaling vectors.
         \choice{They will stop moving.}
     \end{multipleChoice}
     \begin{feedback}
-        Remember that momentum is mass times velocity. The box has more mass than the boys, so it will have a greater influence on the direction of their combined motion, even though the direction vectors have the same length but point in opposite horizontal directions.
+        Remember that momentum is mass times velocity. The box has more mass than the boys, so it will have a greater influence on the direction of their combined motion, even though the velocity vectors have the same length but point in opposite horizontal directions.
         \youtube{yPR897jIfdk}
     \end{feedback}
 \end{problem}
 
 \begin{definition}
-The more formal way to talk about adding and scaling vectors is the idea of \emph{linear combinations}. 
+The more formal way to talk about adding and scaling vectors is the idea of \emph{linear combination}. 
 
 That is, a linear combination of vectors $\vec{u}$ and $\vec{v}$ adds together scaled versions of the vectors. For scalars $r$ and $s$, the linear combination of $\vec{u}$ and $\vec{v}$ is given by $r\vec{u}+s\vec{v}$.
 \end{definition}
@@ -182,10 +181,10 @@ That is, a linear combination of vectors $\vec{u}$ and $\vec{v}$ adds together s
 \begin{problem}
     Let's try out computing a few linear combinations of vectors. Compute the following:
     \begin{enumerate}
-        \item $2[3,4]+3[1,2]=[\answer{15},\answer{20}]$
+        \item $2[3,4]+3[1,2]=[\answer{9},\answer{14}]$
         \item $-1[2,5]+4[-1,1]=[\answer{-6},\answer{-1}]$
         \item $3[0,2]+2[3,0]=[\answer{6},\answer{6}]$
-        \item $-2[1,1]+0.5[4,6]=[\answer{0},\answer{2}]$
+        \item $-2[1,1]+0.5[4,6]=[\answer{0},\answer{1}]$
         \item $0[5,7]+3[-2,4]=[\answer{-6},\answer{12}]$
     \end{enumerate}
 
@@ -285,7 +284,7 @@ Now let's progressively solve the problem at the end of the previous video.
 
     How much force is applied by the vector $\vec{F}=[-20,8]$?
 
-    $\vec{F}$ applies a force of $\answer{\sqrt{(-20)^2+8^2}}$ Newtons.
+    $\vec{F}$ applies a force of $\answer[tolerance=1]{\sqrt{(-20)^2+8^2}}$ Newtons.
 
     \begin{feedback}
         Even though force doesn't have a physical length, we still use the vector length to tell us the amount of force applied (the magnitude).
@@ -302,13 +301,13 @@ Now we put it all together to compute the energy spent (work) in this ideal case
 
     They do:
 
-    \begin{multipleChoice}
+    \begin{selectAll}
         \choice{$W=||\vec{F}||+||\vec{D}||$ Joules of work.}
         \choice{$W=||\vec{F}||-||\vec{D}||$ Joules of work.}
         \choice[correct]{$W=||\vec{F}||\cdot||\vec{D}||$ Joules of work.}
         \choice[correct]{$W=2320$ Joules of work.}
         \choice{$W=\sqrt{12064}$ Joules of work.}
-    \end{multipleChoice}
+    \end{selectAll}
 
     \begin{feedback}
         In this ideal case, the work done is given by $W=||\vec{F}||\cdot||\vec{D}||$.
@@ -333,7 +332,7 @@ We assumed that the force and displacement were in the same direction. Is this a
         \choice[correct]{they share direction vectors.}
 }
 
-The direction vector for $\vec{F}$ is $[\answer[tolerance=.01]{-.93},\answer{.37}]$ and the direction vector for $\vec{D}$ is $[\answer[tolerance=.01]{-.93},\answer{.37}]$ (Round to 3 decimal places).
+The direction vector for $\vec{F}$ is $[\answer[tolerance=.01]{-.928},\answer{.371}]$ and the direction vector for $\vec{D}$ is $[\answer[tolerance=.01]{-.928},\answer{.371}]$ (Round to 3 decimal places).
 
     \begin{feedback}
         To find the direction vector of a vector $\vec{v}$, we scale the vector to have length $1$ by dividing by its magnitude: $\text{direction vector}=\frac{1}{||\vec{v}||}\vec{v}$.

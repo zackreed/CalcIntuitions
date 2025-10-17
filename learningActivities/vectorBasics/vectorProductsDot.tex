@@ -23,7 +23,7 @@ Comparing directions between vectors is surprisingly fundamental to many applica
 
 (video)
 
-We measure how much vectors point in the same direction through projecting on vector onto another, which can be visualized in the following GeoGebra applet.
+We measure how much vectors point in the same direction through projecting one vector onto another, which can be visualized in the following GeoGebra applet.
 
 \begin{expandable}{stuff}{GeoGebra Instructions}
     Click and drag the dot at the end of either vector to rotate the vector position. The applet will visualize either the angle measure between the vectors, or give the percentage size of the projection of $\vec{v}$ onto $\vec{u}$.
@@ -43,11 +43,11 @@ Using the applet, what percentage gives the size of the projection of $\vec{u}$ 
 \begin{enumerate}
 \item $\text{proj}_u(v)$ is $\answer{100}$ $\%$ of the length of $\vec{u}$ when $\vec{u}=[1,0]$ and $\vec{v}=[1,0]$.
 \item $\text{proj}_u(v)$ is $\answer{0}$ $\%$ of the length of $\vec{u}$ when $\vec{u}=[-1,0]$ and $\vec{v}=[0,1]$.
-\item $\text{proj}_u(v)$ is $\answer[tolerance=1]{50}$ $\%$ of the length of $\vec{u}$ when $\vec{u}=[1,0]$ and $\vec{v}=[.707,.707]$.
+\item $\text{proj}_u(v)$ is $\answer[tolerance=1]{70}$ $\%$ of the length of $\vec{u}$ when $\vec{u}=[1,0]$ and $\vec{v}=[.707,.707]$.
 \item $\text{proj}_u(v)$ is $\answer[tolerance=1]{-30}$ $\%$ of the length of $\vec{u}$ when $\vec{u}=[.74,.67]$ and $\vec{v}=[-.86,.51]$.
 \item $\text{proj}_u(v)$ is $\answer[tolerance=1]{-83}$ $\%$ of the length of $\vec{u}$ when $\vec{u}=[-.76,.65]$ and $\vec{v}=[.28,-.96]$.
-\item $\text{proj}_u(v)$ is $\answer[tolerance=1]{95}$ $\%$ of the length of $\vec{u}$ when $\vec{u}=[-.58,-.92]$ and $\vec{v}=[-.29,-.96]$.
-\item $\text{proj}_u(v)$ is $\answer[tolerance=1]{-2}$ $\%$ of the length of $\vec{u}$ when $\vec{u}=[.86,.51]$ and $\vec{v}=[.5,-.87]$.
+% \item $\text{proj}_u(v)$ is $\answer[tolerance=1]{95}$ $\%$ of the length of $\vec{u}$ when $\vec{u}=[-.58,-.92]$ and $\vec{v}=[-.29,-.96]$.
+% \item $\text{proj}_u(v)$ is $\answer[tolerance=1]{-2}$ $\%$ of the length of $\vec{u}$ when $\vec{u}=[.86,.51]$ and $\vec{v}=[.5,-.87]$.
 \end{enumerate}
 \end{problem}
 
@@ -64,25 +64,30 @@ The dot product of two vectors $\vec{u}=[u_1,u_2]$ and $\vec{v}=[v_1,v_2]$ is gi
 \end{remark}
 
 %repeat the above question but with cosine of the angle between the vectors
+
+\begin{center}
+\geogebra{hfav5hxt}{786}{384}
+\end{center}
+
 \begin{problem}
 The dot product of $\vec{u}$ and $\vec{v}$ (when $\vec{v}$  and $\vec{u}$ are unit vectors) gives the cosine of the angle between $\vec{u}$ and $\vec{v}$.
 Using the applet, what is the cosine of the angle between $\vec{u}$ and $\vec{v}$ with the following pairs of vectors?
 \begin{enumerate}
 \item The cosine of the angle between $\vec{u}$ and $\vec{v}$ is $\answer{1}$ when $\vec{u}=[1,0]$ and $\vec{v}=[1,0]$.
 \item The cosine of the angle between $\vec{u}$ and $\vec{v}$ is $\answer{0}$ when $\vec{u}=[-1,0]$ and $\vec{v}=[0,1]$.
-\item The cosine of the angle between $\vec{u}$ and $\vec{v}$ is $\answer[tolerance=.1]{.707}$ when $\vec{u}=[1,0]$ and $\vec{v}=[.707,.707]$.
-\item The cosine of the angle between $\vec{u}$ and $\vec{v}$ is $\answer[tolerance=.1]{-.3}$ when $\vec{u}=[.74,.67]$ and $\vec{v}=[-.86,.51]$.
-\item The cosine of the angle between $\vec{u}$ and $\vec{v}$ is $\answer[tolerance=.1]{-.83}$ when $\vec{u}=[-.76,.65]$ and $\vec{v}=[.28,-.96]$.
-\item The cosine of the angle between $\vec{u}$ and $\vec{v}$ is $\answer[tolerance=.1]{.95}$ when $\vec{u}=[-.58,-.92]$ and $\vec{v}=[-.29,-.96]$.
-\item The cosine of the angle between $\vec{u}$ and $\vec{v}$ is $\answer[tolerance=.1]{-.02}$ when $\vec{u}=[.86,.51]$ and $\vec{v}=[.5,-.87]$.
+\item The cosine of the angle between $\vec{u}$ and $\vec{v}$ is $\answer[tolerance=.1]{-1}$ when $\vec{u}=[1,0]$ and $\vec{v}=[-1,0]$.
+% \item The cosine of the angle between $\vec{u}$ and $\vec{v}$ is $\answer[tolerance=.1]{-.3}$ when $\vec{u}=[.74,.67]$ and $\vec{v}=[-.86,.51]$.
+% \item The cosine of the angle between $\vec{u}$ and $\vec{v}$ is $\answer[tolerance=.1]{-.83}$ when $\vec{u}=[-.76,.65]$ and $\vec{v}=[.28,-.96]$.
+% \item The cosine of the angle between $\vec{u}$ and $\vec{v}$ is $\answer[tolerance=.1]{.95}$ when $\vec{u}=[-.58,-.92]$ and $\vec{v}=[-.29,-.96]$.
+% \item The cosine of the angle between $\vec{u}$ and $\vec{v}$ is $\answer[tolerance=.1]{-.02}$ when $\vec{u}=[.86,.51]$ and $\vec{v}=[.5,-.87]$.
 \end{enumerate}
 \end{problem}
 
 \begin{remark}
     The cosine interpretation of the dot product is the reason for the term ``cosine similarity'' in machine learning. The cosine of the angle between two vectors is a measure of how similar the directions of the vectors are, and is computed by the dot product of the vectors.
-
-    We need to consider non unit vectors as well, however, which means we can't just use the cosine of the angle between the vectors. We will explore this more in the next section.
 \end{remark}
+
+Now we need to consider non unit vectors as well, however, which means we can't just use the cosine of the angle between the vectors. We will explore this more in the next section.
 
 \section*{Multiplication Part 1 - Dot Product}
 
@@ -114,8 +119,12 @@ In the following GeoGebra applet, you can explore the dot product of two vectors
 
 One important and ubiquitous application of the dot product is determining if two vectors are orthogonal (perpendicular). When shapes are joined by right angles they have many nice geometric properties. The same is true for vectors, it is often useful to know if the smallest angle between two vectors is a right angle.
 
+\begin{definition}
+    Two vectors $\vec{u}$ and $\vec{v}$ are \textit{orthogonal} if the smallest angle between them is a right angle ($\pi/2$ radians). This occurs exactly when their dot product is zero, i.e. $\vec{u}\cdot\vec{v}=0$.
+\end{definition}
+
 \begin{problem}
-    Using the dot product, determine which of the following pairs of vectors are orthogonal (i.e. the smallest angle between them is a right angle).
+    Using the dot product formulas, determine which of the following pairs of vectors are orthogonal (i.e. the smallest angle between them is a right angle).
     \begin{enumerate}
         \item $\vec{u}=[1,0]$ and $\vec{v}=[0,1]$ are \wordChoice{\choice{not orthogonal} \choice[correct]{orthogonal}}.
         \item $\vec{u}=[-2,-4]$ and $\vec{v}=[5,3]$ are \wordChoice{\choice[correct]{not orthogonal} \choice{orthogonal}}.
@@ -125,19 +134,19 @@ One important and ubiquitous application of the dot product is determining if tw
         \item $\vec{u}=[1,2,-1]$ and $\vec{v}=[2,-1,0]$ are \wordChoice{\choice{not orthogonal} \choice[correct]{orthogonal}}.
         \item $\vec{u}=[3,1,-2]$ and $\vec{v}=[1,-1,2]$ are \wordChoice{\choice[correct]{not orthogonal} \choice{orthogonal}}.
         \item $\vec{u}=[1,-5,2]$ and $\vec{v}=[3,3,6]$ are \wordChoice{\choice{not orthogonal} \choice[correct]{orthogonal}}.
-        \item $\vec{u}=[2,-1,3]$ and $\vec{v}=[1,4,-1]$ are \wordChoice{\choice[correct]{not orthogonal} \choice{orthogonal}}.
-        %now higher dimensions
-        \item $\vec{u}=[1,2,-2,1]$ and $\vec{v}=[2,-1,1/2,1]$ are \wordChoice{\choice{not orthogonal} \choice[correct]{orthogonal}}.
-        \item $\vec{u}=[5,-1,1,-1]$ and $\vec{v}=[1,1,-3,1]$ are \wordChoice{\choice{not orthogonal} \choice[correct]{orthogonal}}.
-        \item $\vec{u}=[1,4,3,4,2]$ and $\vec{v}=[-2,4,-1,2,1]$ are \wordChoice{\choice[correct]{not orthogonal} \choice{orthogonal}}.
-        \item $\vec{u}=[2,1,-1,0,3]$ and $\vec{v}=[1,-2,0,5,2]$ are \wordChoice{\choice[correct]{not orthogonal} \choice{orthogonal}}.
+        % \item $\vec{u}=[2,-1,3]$ and $\vec{v}=[1,4,-1]$ are \wordChoice{\choice[correct]{not orthogonal} \choice{orthogonal}}.
+        % %now higher dimensions
+        % \item $\vec{u}=[1,2,-2,1]$ and $\vec{v}=[2,-1,1/2,1]$ are \wordChoice{\choice{not orthogonal} \choice[correct]{orthogonal}}.
+        % \item $\vec{u}=[5,-1,1,-1]$ and $\vec{v}=[1,1,-3,1]$ are \wordChoice{\choice{not orthogonal} \choice[correct]{orthogonal}}.
+        % \item $\vec{u}=[1,4,3,4,2]$ and $\vec{v}=[-2,4,-1,2,1]$ are \wordChoice{\choice[correct]{not orthogonal} \choice{orthogonal}}.
+        % \item $\vec{u}=[2,1,-1,0,3]$ and $\vec{v}=[1,-2,0,5,2]$ are \wordChoice{\choice[correct]{not orthogonal} \choice{orthogonal}}.
     \end{enumerate}
 \end{problem}
 
 Now let's return to Riley and Taylor moving the box! We want to know how much work Riley and Taylor individually did while pushing the box. This calculation of work involves the dot product, which isolates how much force was applied in the direction of motion, even if the full force was not in the direction of motion.
 
 \begin{problem}
-    How much work did Riley do pushing the box if he was exerting a 20N force in the "left" direction?
+    How much work did Riley do pushing the box if he was exerting a 20N force in the ``left'' direction?
 
     Solution: Recalling that the displacement vector was $\vec{D}=[-100,40]$, Riley exerted $\answer{2000}$ Joules of work pushing the box.
 
