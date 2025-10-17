@@ -47,36 +47,15 @@ Let's see the first option in action.
     Solution: The pivot should be located farther than $\answer[tolerance=.1]{8/7}$ m from their position.
 \end{problem}
 
+Now we wrap up the section by looking more generally at the \emph{cross product} of two vectors, which is a third vector whose magnitude represents the torque created by the two vectors.
+
+\begin{center}
+ \youtube{ID2dVcps9q8}
+\end{center}
+
 \begin{definition}
-    As described in the video, the cross product of two vectors $\vec{u}$ and $\vec{v}$, denoted $\vec{u}\times \vec{v}$, is a vector perpendicular to both $\vec{u}$ and $\vec{v}$ with length $|\vec{u}||\vec{v}|\sin(\theta)$, where $\theta$ is the smallest angle between $\vec{u}$ and $\vec{v}$.
+    As described in the video, the cross product of two vectors $\vec{u}$ and $\vec{v}$, denoted $\vec{u}\times \vec{v}$, is a vector perpendicular to both $\vec{u}$ and $\vec{v}$ with length $|\vec{u}||\vec{v}|\sin(\theta)$, where $\theta$ is the smallest angle between $\vec{u}$ and $\vec{v}$. The direction of the cross product vector is determined by the "right-hand rule."
 \end{definition}
-
-
-
-Now we determine how far Riley and Taylor need to stand from the fulcrum to lift the box.
-
-(video)
-
-\begin{problem}
-    How far from the fulcrum should Riley and Taylor stand to lift the box?
-
-    Since Riley and Taylor's combined weight is 150N, the force vector has a length of $\answer{150}$. Let $d$ be the distance from the fulcrum that Riley and Taylor stand. The radius vector length is variable, we'll call it $d$. Since the teeter-totter extends in a straight line, Riley and Taylo're weight vector is the height of a similar triangle to the box's triangle. meanining the matching interior angle measures are the same. Thus, the angle between the radius vector and the force vector is $90-\theta=\answer{67.38}$.
-
-    Once the torque created by Riley and Taylor is greater than the torque created by the box, they will be able to lift the box. Thus, to get the torque from Riley and Taylor to be greater than the box torque of $\answer{1000}$Nm (round to the nearest integer), we need a distance $d\approx\answer[tolerance=.1]{6.7576}$Nm (rounded to two decimal places).
-    \begin{feedback}
-        Remember that torque is given by the cross product of the applied force and the length of the radius vector (distance from the fulcrum). For the box to be lifted, the torque from Riley and Taylor must be greater than the torque from the box. One way to calculate the length of the cross product vector is with the formula $|r||F|\sin(\theta)$, where $r$ is the radius vector, $F$ is the force vector, and $\theta$ is the angle between them.
-    \end{feedback}
-\end{problem}
-
-Finally, let's think geometrically for a moment.
-
-\begin{problem}
-    \emph{Technically} the torque we just found is the length of a vector perpendicular to the rotation created by Riley and Taylor following the "right-hand rule." If your computer screen is the $xy$-plane and the positive $z$-axis comes out of the screen towards you, the cross product vector representing Riley and Taylor's torque is the 3D vector $[\answer{0},\answer{0},\answer{1000}]$ (rounded to one decimal place).
-
-    \begin{feedback}
-        Remember that the cross product is perpendicular to the plane created by the two vectors being multiplied. In this case, the radius vector and the force vector move within the $xy$-plane, so the cross product vector is perpendicular to that plane, meaning it points in the $z$-direction. The length of the cross product vector is the torque we calculated above.
-    \end{feedback}
-\end{problem}
 
 \subsection*{Geometric Connections}
 We apply the cross product to "multiply" vectors together by returning to an area-based interpretation of multiplication. We interpret the product $ab$ as the area of a parallelogram with height $a$ and base $b$. 
@@ -95,8 +74,6 @@ As seen in the following GeoGebra applet, the area of parallelograms depends on 
 
 In each case, the area of the parallelogram remains the product of its base and its height. You might imagine this by moving the triangle (created by the vertical height on the left side) to fit in the empty space on the right of the parallelogram, making a rectangle.
 
-If we take the lengths of vectors $u$ and $v$ as giving the sides of the parallelogram, then the product $|u||v|\sin(\theta)$ gives the area of the generated parallelogram and thus preserves the area interpretation of the "vector product" that we call the "cross product".
-
 It is important to remember that the cross product must be defined to 3-dimensional vectors, and that it results in a 3-dimensional vector, despite our heavy focus on the magnitude of the vector, $|u||v|\sin(\theta)$.
 
 \begin{definition}
@@ -114,5 +91,42 @@ It is important to remember that the cross product must be defined to 3-dimensio
 Your textbook will give you a way to compute the cross product using what is called a "determinant." Ignore this method, as it's mostly a trick of notation and can obscure the actual meaning of the determinant. If you're going to memorize something, memorize the formula above.
 \end{remark}
 
+Now let's finish with some practice computing cross products. Remember to just use the simple formula above, don't bother with the ``determinant'' method.
+
+\begin{problem}
+    Compute the cross product $\vec{u}\times\vec{v}$ for each of the following pairs of vectors. Give both the coordinates of the resulting vector and its magnitude.
+    
+    \begin{enumerate}
+        \item $\vec{u}=[1,0,0]$ and $\vec{v}=[0,1,0]$
+        
+        $\vec{u}\times\vec{v}=[\answer{0},\answer{0},\answer{1}]$ with magnitude $|\vec{u}\times\vec{v}|=\answer{1}$
+        
+        \item $\vec{u}=[2,1,0]$ and $\vec{v}=[1,2,0]$
+        
+        $\vec{u}\times\vec{v}=[\answer{0},\answer{0},\answer{3}]$ with magnitude $|\vec{u}\times\vec{v}|=\answer{3}$
+        
+        \item $\vec{u}=[1,2,3]$ and $\vec{v}=[4,5,6]$
+        
+        $\vec{u}\times\vec{v}=[\answer{-3},\answer{6},\answer{-3}]$ with magnitude $|\vec{u}\times\vec{v}|=\answer[tolerance=.1]{7.35}$
+        
+        \item $\vec{u}=[3,0,1]$ and $\vec{v}=[1,2,0]$
+        
+        $\vec{u}\times\vec{v}=[\answer{-2},\answer{1},\answer{6}]$ with magnitude $|\vec{u}\times\vec{v}|=\answer[tolerance=.1]{6.40}$
+        
+        \item $\vec{u}=[2,-1,3]$ and $\vec{v}=[1,4,-2]$
+        
+        $\vec{u}\times\vec{v}=[\answer{-10},\answer{7},\answer{9}]$ with magnitude $|\vec{u}\times\vec{v}|=\answer[tolerance=.1]{13.93}$
+        
+        \item $\vec{u}=[1,1,1]$ and $\vec{v}=[2,2,2]$
+        
+        $\vec{u}\times\vec{v}=[\answer{0},\answer{0},\answer{0}]$ with magnitude $|\vec{u}\times\vec{v}|=\answer{0}$
+        
+        \begin{feedback}
+            When two vectors are parallel (one is a scalar multiple of the other), their cross product is the zero vector.
+
+            Remember to use the formula for the cross product given above, and that the magnitude of the vector can be found either using the norm formula or by finding the torque, $|\vec{u}||\vec{v}|\sin(\theta)$.
+        \end{feedback}
+    \end{enumerate}
+\end{problem}
 
 \end{document}
