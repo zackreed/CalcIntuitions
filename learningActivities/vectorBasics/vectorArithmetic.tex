@@ -22,7 +22,7 @@ Now we extend the idea of vector addition.
 
 \begin{problem}
 (Reference the end of the video to answer the following question.)
-Which of the following best describes the new velocity of the kids holding on to their box? (Just guess for now, based on your intuition.)
+Which of the following best describes the new velocity of the kids holding on to their box?
 \begin{multipleChoice}
     \choice{The new velocity orients upwards and to the right.}
     \choice[correct]{The new velocity orients directly upwards.}
@@ -31,7 +31,6 @@ Which of the following best describes the new velocity of the kids holding on to
 \end{multipleChoice}
 \begin{feedback}
 Think about moving along one vector, and then moving along the other vector starting from the end of the first vector.
-(insert video)
 \end{feedback}
 \end{problem}
 
@@ -46,8 +45,7 @@ Think about moving along one vector, and then moving along the other vector star
         \item If $\vec{v}=[-1,0,2]$ and $\vec{u}=[3,-4,1]$, then $\vec{v}-\vec{u}=[\answer{-4},\answer{4},\answer{1}]$
         \item If $\vec{v}=[2,-3,5]$ and $\vec{u}=[-2,3,-5]$, then $\vec{v}+\vec{u}=[\answer{0},\answer{0},\answer{0}]$
     \end{enumerate}
-    
- // ...existing code...
+
     \begin{feedback}
         Remember that vector addition and subtraction work component-wise. For $\vec{v}=[v_1,v_2]$ and $\vec{u}=[u_1,u_2]$, we have $\vec{v}+\vec{u}=[v_1+u_1,v_2+u_2]$ and $\vec{v}-\vec{u}=[v_1-u_1,v_2-u_2]$. This extends naturally to three dimensions!
     \end{feedback}
@@ -150,7 +148,7 @@ Think about moving along one vector, and then moving along the other vector star
 
 Now let's use the context of momentum to learn about scaling vectors.
 
-(insert video)
+\youtube{XaODRAvQBUs}
 
 \begin{problem}
     (Reference the end of the video to answer the following question.)
@@ -164,7 +162,7 @@ Now let's use the context of momentum to learn about scaling vectors.
     \end{multipleChoice}
     \begin{feedback}
         Remember that momentum is mass times velocity. The box has more mass than the boys, so it will have a greater influence on the direction of their combined motion, even though the direction vectors have the same length but point in opposite horizontal directions.
-        (insert video)
+        \youtube{yPR897jIfdk}
     \end{feedback}
 \end{problem}
 
@@ -262,10 +260,10 @@ That is, a linear combination of vectors $\vec{u}$ and $\vec{v}$ adds together s
 
 While a guiding intuition so far has been that we care about \emph{how big} a vector is and \emph{in what direction} it points, we haven't yet made these ideas precise. Let's use the context of expended energy (work) to explore these ideas.
 
-(insert video)
+\youtube{41sysjTBUXE}
 
 \begin{problem}
-    (Reference the end of the video to answer the following question.)
+    (Reference the previous video to answer the following question.)
     
     How long is the vector $\vec{D}=[-100,40]$? 
 
@@ -280,12 +278,10 @@ While a guiding intuition so far has been that we care about \emph{how big} a ve
     \end{feedback}
 \end{problem}
 
-Let's break down how vector magnitudes (denoted $||\vec{v}||$) are computed and thought of.
-
-(video)
+Now let's progressively solve the problem at the end of the previous video.
 
 \begin{problem}
-    (Reference the end of the video to answer the following question.)
+    (Reference the end of the video for context in the following question.)
 
     How much force is applied by the vector $\vec{F}=[-20,8]$?
 
@@ -298,14 +294,13 @@ Let's break down how vector magnitudes (denoted $||\vec{v}||$) are computed and 
 
 Now we put it all together to compute the energy spent (work) in this ideal case where the force and displacement are in the same direction.
 
-(video)
 
 \begin{problem}
-    (Reference the end of the video to answer the following question.)
+    (Reference the end of the previous video for context in the following question.)
 
     Riley and Taylor push a box with a force of $\vec{F}=[-20,8]$ Newtons over a displacement of $\vec{D}=[-100,40]$ meters. How much work (i.e. energy spent) do they do on the box?
 
-    They do 
+    They do:
 
     \begin{multipleChoice}
         \choice{$W=||\vec{F}||+||\vec{D}||$ Joules of work.}
@@ -323,10 +318,12 @@ Now we put it all together to compute the energy spent (work) in this ideal case
 
 We assumed that the force and displacement were in the same direction. Is this assumption valid? What might we check to see if the force and displacement are truly in the same direction?
 
-(video)
+\begin{center}
+    \youtube{bwCFneIWQwg}
+\end{center}
 
 \begin{problem}
-    (Reference the end of the video to answer the following question.)
+    (Reference the end of the previous video to answer the following question.)
 
     The force vector $\vec{F}=[-20,8]$ and the displacement vector $\vec{D}=[-100,40]$ \wordChoice{
         \choice{are not in the same direction}
@@ -335,7 +332,16 @@ We assumed that the force and displacement were in the same direction. Is this a
         \choice{they do not share a direction vector.}
         \choice[correct]{they share direction vectors.}
 }
+
+The direction vector for $\vec{F}$ is $[\answer[tolerance=.01]{-.93},\answer{.37}]$ and the direction vector for $\vec{D}$ is $[\answer[tolerance=.01]{-.93},\answer{.37}]$ (Round to 3 decimal places).
+
+    \begin{feedback}
+        To find the direction vector of a vector $\vec{v}$, we scale the vector to have length $1$ by dividing by its magnitude: $\text{direction vector}=\frac{1}{||\vec{v}||}\vec{v}$.
+    \end{feedback}
 \end{problem}
 
+Let's wrap up the question of direction and preview the next activity, which will focus on the dot product and vector projection.
+
+\youtube{u5GDL_IF93s}
 
 \end{document}
