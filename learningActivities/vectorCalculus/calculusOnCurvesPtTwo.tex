@@ -1,0 +1,199 @@
+\documentclass{ximera}
+
+\title{Activity: Calculus on Curves}
+\author{Zack Reed}
+
+\begin{document}
+\begin{abstract}
+In this activity we extend single-variable calculus ideas to vector functions.
+\end{abstract}
+\maketitle
+
+\section*{Tangent Vectors and Velocity}
+
+\subsection*{From Single-Variable to Vector Derivatives}
+
+While computing derivatives of vector functions is straightforward (we differentiate each component function), it is important to spend some time understanding what the derivative represents.
+
+\begin{problem}
+In single-variable calculus, the derivative let you treat the function as if it were a line in small neighborhoods.
+
+In the spirit of working with vectors, the following applet visualizes not just the tangent approximation, but uses a vector to represent the direction and the rate of change given by the derivative.
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Alter the "X=" slider to see the tangent line shift along the curve. Notice the approximating horizontal and vertical components represented by $dx$ and $df$.
+\end{expandable}
+
+\begin{center}
+\geogebra{gyh4uhzy}{786}{584}
+\end{center}
+
+Which of the following vectors represents the derivative at $x=\frac{\pi}{2}$?
+\begin{multipleChoice}
+    \choice{$[.55, 1]$}
+    \choice[correct]{$[1, -.55]$}
+    \choice{$[.55, -1]$}
+    \choice{$[-1, .55]$}
+\end{multipleChoice}
+\begin{feedback}
+The derivative represents the rate of change, which can be thought of as how much to change vertically for a unit change horizontally. This is not too different from how to think about a vector.
+\end{feedback}
+\end{problem}
+
+Motion is a very useful context to keep in mind when performing calculus on curves. The intuition of a ``velocity'' determining the direction and speed of motion is a very helpful way to conceptualize local linearity for both derivative and integral calculations.
+
+\subsection*{Velocity Vectors One Component at a Time}
+
+Let's return to the helix $\vec{r}(t) = [ \cos(t), \sin(t), t ]$. We compute the derivatives of each component function and put them together to make a velocity vector.
+
+\begin{problem}
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Alter the "t=" slider to view the velocity vector at different points. Click and drag to rotate your view. Notice how the vector is always tangent to the curve.
+\end{expandable}
+
+\begin{center}
+\geogebra{zr86834p}{730}{487}
+\end{center}
+
+The derivative of the $x$-component $\cos(t)$ is: $\answer{-\sin(t)}$.
+
+The derivative of the $y$-component $\sin(t)$ is: $\answer{\cos(t)}$.
+
+The derivative of the $z$-component $t$ is: $\answer{1}$.
+
+The three derivatives together form the velocity vector: $\vec{v}(t) = [\answer{-\sin(t)}, \answer{\cos(t)}, \answer{1}]$.
+
+In the applet, the velocity vector is shown \wordChoice{\choice{at the origin}\choice[correct]{at the point on the curve}}\  corresponding to the current value of $t$ and represents \begin{selectAll}
+    \choice{the next location of the particle after a little time $dt$ has passed.}
+    \choice[correct]{the direction towards which the curve is moving after time $t$.}
+    \choice{the acceleration of the particle at time $t$.}
+    \choice[correct]{the direction and speed that a particle will move as time changes by $dt$.}
+\end{selectAll}
+\end{problem}
+
+\begin{definition}
+For a vector function $\vec{r}(t) = [x(t), y(t), z(t) ]$, the \textbf{velocity vector} (or \textbf{tangent vector}) is:
+$$\vec{v}(t) = \vec{r}'(t) = [ \frac{dx}{dt}, \frac{dy}{dt}, \frac{dz}{dt} ] = [ x'(t), y'(t), z'(t) ]$$
+
+This vector is tangent to the curve and points in the direction of motion.
+\end{definition}
+
+\begin{problem}
+Let's compute some velocity vectors. If $\vec{r}(t) = \langle t^2, 3t, 2t^3 \rangle$, find $\vec{v}(t)$.
+
+$\vec{v}(t) = \langle \answer{2t}, \answer{3}, \answer{6t^2} \rangle$
+
+At $t=1$: $\vec{v}(1) = [ \answer{2}, \answer{3}, \answer{6} ]$
+
+At $t=2$: $\vec{v}(2) = [ \answer{4}, \answer{3}, \answer{24} ]$
+\end{problem}
+
+\begin{problem}
+After exploring the helix applet, select all true statements about velocity vectors:
+\begin{selectAll}
+    \choice[correct]{The velocity vector is always tangent to the curve}
+    \choice[correct]{The velocity vector's direction changes as the particle moves}
+    \choice{The velocity vector is always the same length}
+    \choice[correct]{The velocity vector points in the direction of motion}
+\end{selectAll}
+\end{problem}
+
+\section*{Same Curve Different Speeds - Torty and Harry}
+
+We can carry the velocity analogy even further. If you consider a vector curve as a path, you can run along a path at various speeds without changing the path. Likewise, you can have different velocities along the same curve without changing fundamental features of the curves.
+
+To explore this, let's return to the race between Torty and Harry from Calculus 1! After Torty's victory, Harry is attempting to use a hilly terrain to his advantage.
+
+Harry has become quite adjusted to racing along inclines and declines. His path in the provided GeoGebra applet is defined by the curve $h(t)=\langle \cos(t), \sin(t), \cos(t)\sin^2(t)\rangle$, for which two laps around the course takes $4 \pi$ seconds.
+
+In their rematch, Torty is less adjusted to running along hilly regions and tires after bursts of speed. His path in the provided GeoGebra applet is defined by the curve $\tau (t)=\langle \cos(t+\sin(t)), \sin(t+\sin(t)), \cos(t+\sin(t))\sin^2(t+\sin(t))\rangle$.
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    You may alter the "$t$=" slider to view Torty and Harry's positions, velocities, and accelerations at any time during the race. You may also use the "Show Torty's Curve" and "Show Harry's Curve" checkboxes to view either of the racer's curve in isolation.
+\end{expandable}
+
+\begin{center}
+\geogebra{yzxdk5uw}{844}{629}
+\end{center}
+
+\begin{problem}
+    As depicted in the applet, both racers follow \wordChoice{\choice{different}\choice[correct]{the same}} path(s). They also move along the path(s) at \wordChoice{\choice[correct]{different}\choice{the same}} speed(s).
+\end{problem}
+
+\subsection*{Speed and Velocity}
+
+Now let's understand the difference between the racers' speeds.
+
+\begin{problem}
+    The velocity vector of Harry at time $t$ is given by $h'(t)=\frac{d}{dt}\langle \cos(t), \sin(t), \cos(t)\sin^2(t)\rangle$.
+    
+    What is $h'(t)$?
+    \[h'(t)=\langle \answer{-\sin(t)}, \answer{\cos(t)}, \answer{-\sin^3(t)+2\cos^2(t)\sin(t)}\rangle\]
+    
+    The speed of Harry at time $t$ is the magnitude of the velocity vector: $||h'(t)||=\sqrt{(\sin(t))^2+(\cos(t))^2+(-\sin^3(t)+2\cos^2(t)\sin(t))^2}$.
+    
+    \begin{feedback}
+        Remember that velocity is the derivative of position, and speed is the magnitude of velocity. Speed tells us how fast the racer is moving, while velocity also tells us the direction.
+    \end{feedback}
+\end{problem}
+
+\begin{problem}
+    Who wins the race depicted in the GeoGebra applet (two complete laps, ending at $t=4\pi$)?
+    
+    Based on your observation of the applet:
+    \begin{multipleChoice}
+        \choice[correct]{Harry wins the race}
+        \choice{Torty wins the race}
+        \choice{They tie}
+    \end{multipleChoice}
+    
+    To verify this mathematically, we need to find when each racer completes two laps. Harry completes two laps at $t=\answer{4\pi}$ seconds (by definition).
+    
+    For Torty, we need to solve for when $\tau(t)$ returns to the starting position after two complete laps. Due to the $t+\sin(t)$ parametrization, Torty takes longer than $4\pi$ seconds.
+    
+    \begin{feedback}
+        The key insight is that Torty's parameter $t+\sin(t)$ causes him to slow down and speed up periodically. While both racers cover the same track length, Torty's varying speed means he takes more time overall. Computing $\int_0^T ||\tau'(t)||dt$ and finding when this equals twice the lap length confirms Harry wins.
+    \end{feedback}
+\end{problem}
+
+\subsection*{When Racers Meet}
+
+\begin{problem}
+    As seen in the applet, the racers meet at certain locations during the race, as Torty speeds up and slows down.
+    
+    Notice that $\tau(t)=h(t+\sin(t))$. This means Torty and Harry meet when:
+    \begin{multipleChoice}
+        \choice{$t=0$ only}
+        \choice[correct]{$\sin(t)=0$, which occurs at $t=0, \pi, 2\pi, 3\pi, 4\pi$}
+        \choice{They never meet}
+        \choice{$\cos(t)=0$}
+    \end{multipleChoice}
+    
+    \begin{feedback}
+        When $\sin(t)=0$, we have $\tau(t)=h(t+0)=h(t)$, so they are at the same position. This happens at multiples of $\pi$.
+    \end{feedback}
+\end{problem}
+
+\begin{problem}
+    At $t=\pi$ (one of the times they meet), who has greater speed?
+    
+    Harry's speed at $t=\pi$ is $||h'(\pi)||=\answer[tolerance=0.1]{1}$.
+    
+    For Torty, we compute $||\tau'(\pi)||$. Using the chain rule: $\tau'(t)=h'(t+\sin(t))\cdot(1+\cos(t))$.
+    
+    At $t=\pi$: $\tau'(\pi)=h'(\pi)\cdot(1+\cos(\pi))=h'(\pi)\cdot(1-1)=\answer{0}$.
+    
+    Therefore, at $t=\pi$:
+    \begin{multipleChoice}
+        \choice[correct]{Harry has greater speed (Torty is momentarily stopped)}
+        \choice{Torty has greater speed}
+        \choice{They have equal speeds}
+    \end{multipleChoice}
+    
+    \begin{feedback}
+        The factor $(1+\cos(t))$ in Torty's velocity causes him to stop completely when $\cos(t)=-1$ (at $t=\pi, 3\pi$, etc.). This is why Torty appears to pause at certain points in the race!
+    \end{feedback}
+\end{problem}
+
+\end{document}
