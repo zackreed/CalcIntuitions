@@ -80,9 +80,9 @@ This vector is tangent to the curve and points in the direction of motion.
 \end{definition}
 
 \begin{problem}
-Let's compute some velocity vectors. If $\vec{r}(t) = \langle t^2, 3t, 2t^3 \rangle$, find $\vec{v}(t)$.
+Let's compute some velocity vectors. If $\vec{r}(t) = [ t^2, 3t, 2t^3 ]$, find $\vec{v}(t)$.
 
-$\vec{v}(t) = \langle \answer{2t}, \answer{3}, \answer{6t^2} \rangle$
+$\vec{v}(t) = [ \answer{2t}, \answer{3}, \answer{6t^2} ]$
 
 At $t=1$: $\vec{v}(1) = [ \answer{2}, \answer{3}, \answer{6} ]$
 
@@ -105,9 +105,9 @@ We can carry the velocity analogy even further. If you consider a vector curve a
 
 To explore this, let's return to the race between Torty and Harry from Calculus 1! After Torty's victory, Harry is attempting to use a hilly terrain to his advantage.
 
-Harry has become quite adjusted to racing along inclines and declines. His path in the provided GeoGebra applet is defined by the curve $h(t)=\langle \cos(t), \sin(t), \cos(t)\sin^2(t)\rangle$, for which two laps around the course takes $4 \pi$ seconds.
+Harry has become quite adjusted to racing along inclines and declines. His path in the provided GeoGebra applet is defined by the curve $h(t)=[ \cos(t), \sin(t), \cos(t)\sin^2(t)]$, for which two laps around the course takes $4 \pi$ seconds.
 
-In their rematch, Torty is less adjusted to running along hilly regions and tires after bursts of speed. His path in the provided GeoGebra applet is defined by the curve $\tau (t)=\langle \cos(t+\sin(t)), \sin(t+\sin(t)), \cos(t+\sin(t))\sin^2(t+\sin(t))\rangle$.
+In their rematch, Torty is less adjusted to running along hilly regions and tires after bursts of speed. His path in the provided GeoGebra applet is defined by the curve $\tau (t)=[ \cos(t+\sin(t)), \sin(t+\sin(t)), \cos(t+\sin(t))\sin^2(t+\sin(t))]$.
 
 \begin{expandable}{stuff}{GeoGebra Instructions}
     You may alter the "$t$=" slider to view Torty and Harry's positions, velocities, and accelerations at any time during the race. You may also use the "Show Torty's Curve" and "Show Harry's Curve" checkboxes to view either of the racer's curve in isolation.
@@ -119,23 +119,45 @@ In their rematch, Torty is less adjusted to running along hilly regions and tire
 
 \begin{problem}
     As depicted in the applet, both racers follow \wordChoice{\choice{different}\choice[correct]{the same}} path(s). They also move along the path(s) at \wordChoice{\choice[correct]{different}\choice{the same}} speed(s).
+
+    \begin{feedback}
+        The only difference between the racers' positions is the parameterization of time. Altering the passing of time alters the speed at which the positions along the path are met, but does not alter the path itself (as long as time only moves forward).
+    \end{feedback}
 \end{problem}
+
+\begin{remark}
+    The key difference between the two racers is the parameterization of time. Harry's position at time $t$ is given by $h(t)$, while Torty's position at time $t$ is given by $\tau(t)=h(t+\sin(t))$. The additional $\sin(t)$ term in Torty's parameterization causes him to speed up and slow down periodically, affecting his overall speed along the same path.
+\end{remark}
 
 \subsection*{Speed and Velocity}
 
-Now let's understand the difference between the racers' speeds.
+Now let's understand the difference between the racers' velocities. 
 
 \begin{problem}
-    The velocity vector of Harry at time $t$ is given by $h'(t)=\frac{d}{dt}\langle \cos(t), \sin(t), \cos(t)\sin^2(t)\rangle$.
+    Remember that the velocity vector is found by taking the derivative of each component function to form a new vector function. 
     
-    What is $h'(t)$?
-    \[h'(t)=\langle \answer{-\sin(t)}, \answer{\cos(t)}, \answer{-\sin^3(t)+2\cos^2(t)\sin(t)}\rangle\]
+    \begin{expandable}{stuff}{Formula Answer Boxes}
+        These answers require you to put in mathematical expressions like $\sin(t)$, $\cos(t)$, $sin^2(t)$, etc. Type them in as you would in a math editor, do not use latex formatting or backslashes. For example, type ``sin(t)'' for $\sin(t)$ and ``sin\^2(t)'' for $\sin^2(t)$.
+    \end{expandable}
+
+    The velocity vector of Harry at time $t$ is given by $h'(t)=\frac{d}{dt}[ \answer{\cos(t)}, \answer{\sin(t)}, \answer{\cos(t)*\sin^2(t)}]$.
     
-    The speed of Harry at time $t$ is the magnitude of the velocity vector: $||h'(t)||=\sqrt{(\sin(t))^2+(\cos(t))^2+(-\sin^3(t)+2\cos^2(t)\sin(t))^2}$.
+    Taking each of these derivatives, we get:
+
+    \[h'(t)=[ \answer{-\sin(t)}, \answer{\cos(t)}, \answer{-\sin^3(t)+2\cos^2(t)\sin(t)}]\]
+\end{problem}
+
+We can use the same process to find Torty's velocity vector, which gives us an opportunity to use the chain rule in this setting.
+
+\begin{problem}
+    Since $\tau(t)=h(t+\sin(t))$, we can simply find $\tau'(t)$ using the chain rule if we find $\frac{d}{dt}[t+\sin(t)]$ first. Then we just multiply this derivative by each component of Harry's velocity, and we compose Harry's velocity with $t+\sin(t)$.
+
+    We have $\frac{d}{dt}[t+\sin(t)]=\answer{1+\cos(t)}$.
     
     \begin{feedback}
-        Remember that velocity is the derivative of position, and speed is the magnitude of velocity. Speed tells us how fast the racer is moving, while velocity also tells us the direction.
+        Notice how each component of Torty's velocity vector includes the factor $(1+\cos(t))$ due to the chain rule applied to the inner function $t+\sin(t)$.
     \end{feedback}
+
 \end{problem}
 
 \begin{problem}
