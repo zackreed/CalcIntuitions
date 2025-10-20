@@ -30,7 +30,28 @@ Then, some variation in an object forces us to use integration instead of multip
 
 Many wires you come across are \emph{uniformly dense}. That is, no matter how big or small of a piece of wire, the ratio between the mass of the wire and the length of the wire will always be constant (i.e. a constant density).
 
-Let's take a look at a simple wire with constant density using the code found in the MATLAB script. We'll use the curve $\vec{r}(t) = [\sin(t), \cos(t), t]$ with constant density $\rho = 2$.
+Let's take a look at a simple wire with constant density using the code found in the MATLAB script.
+
+\begin{expandable}{instructions}{MATLAB Instructions}
+\textit{The first line of code in the following cell sets up the variable, t.}
+
+\textit{The second line of code defines the wire curve as a vector function.}
+
+\textit{The third line enters the constant density.}
+
+\textit{The fourth line makes an animation showing the wire being broken up into smaller and smaller pieces but always having the same mass-length ratio between each piece.}
+
+When you're ready, delete the percent sign in front of \texttt{animate\_segment\_cases(r,rho)} to show the animation.
+\end{expandable}
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{syms t}\\
+\texttt{r=[sin(t), cos(t), t];}\\
+\texttt{rho=2}\\
+\texttt{animate\_segment\_cases(r,rho)}
+\end{expandable}
+
+We'll use the curve $\vec{r}(t) = [\sin(t), \cos(t), t]$ with constant density $\rho = 2$.
 
 The animation shows the wire being broken up into smaller and smaller pieces but always having the same mass-length ratio between each piece.
 
@@ -43,6 +64,10 @@ The density found from the total mass and total length is $\dfrac{40.1387}{20.19
 
 Now, for each displayed segment in the animation, you should find the masses and lengths of the smaller segments. Use these measures to verify that across these instances the wire density was indeed constant (within small numerical error).
 
+\begin{feedback}
+Find the other densities by dividing the segment masses by the segment lengths for each mass-segment pair in the animation.
+\end{feedback}
+
 Do the mass-to-length ratios for individual segments agree with the overall density (up to rounding)? \wordChoice{\choice[correct]{Yes}\choice{No}}
 \end{problem}
 
@@ -52,18 +77,52 @@ Now see what happens if you have a variable density. We will set the density of 
 
 Since $t$ is already defined as a variable in MATLAB, it does not need to be re-defined. We simply need to define a function that gives us the density along the wire.
 
+\begin{remark}
+To define the function in MATLAB, use the syntax \texttt{[function\_name]=[formula]}.
+
+\textit{Example:} \texttt{g=x\^{}2} defines the function $g(x)=x^2$.
+\end{remark}
+
+\begin{expandable}{instructions}{MATLAB Instructions}
+The function called ``rho'' is defined with the formula $2+t^2$.
+
+Now again use \texttt{animate\_segment\_cases}, using \texttt{r} as the first argument and then \texttt{rho} as the second argument.
+\end{expandable}
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{rho=2+t\^{}2}\\
+\\
+\texttt{animate\_segment\_cases(r, rho)}
+\end{expandable}
+
 The animation again uses \texttt{animate\_segment\_cases(r, rho)}, but now you should see that the mass changes as you move along the curve. This means that the density of this wire is not uniform.
 
 \subsection*{Variable Mass Along the Wire}
 
+You should see that the mass changes as you move along the curve. This means that the density of this wire is not uniform.
+
 The formula $\rho(t) = 2 + t^2$ should provide the density at any time $t$. 
 
-You can use the \texttt{subs()} command to verify the density values from $\rho$. For example, evaluating $\rho$ at time $t=2$ can be done using the command \texttt{subs(rho, t, 2)}, which means ``substitute into $\rho$, replacing the value $t$ with $2$.''
+As before, slide through the animation and determine what the density is at $t=\pi$ and $t=2\pi$ (within the different scales in the animation). Verify (up to a little error) that $\rho$ determined the density at those times by dividing the mass by the length of the segments at those times.
+
+You can use the \texttt{subs()} command to verify the density values from $\rho$. 
+
+\begin{remark}
+\textit{Example:} Evaluating $\rho$ at time $t=2$ can be done using the command \texttt{subs(rho, t, 2)}, which means ``substitute into $\rho$, replacing the value $t$ with $2$.''
+\end{remark}
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{subs(rho,t,2)}\\
+\\
+\texttt{\% Now use subs() to verify the density values at time=pi and time=2*pi.}\\
+\texttt{\% Within a small error the density calculations from the animation and from}\\
+\texttt{\% the density function should agree.}
+\end{expandable}
 
 \begin{problem}
-Compute $\rho(\pi) = \answer[tolerance=0.01]{11.87}$ and $\rho(2\pi) = \answer[tolerance=0.01]{41.48}$ using either hand calculation or \texttt{subs}. 
+If you need a gut-check, you can also just hand-calculate the density.
 
-As you slide through the animation, determine what the density is at $t=\pi$ and $t=2\pi$ (within the different scales in the animation). Verify (up to a little error) that $\rho$ determined the density at these times by dividing the mass by the length of the segments at those times.
+Compute $\rho(\pi) = \answer[tolerance=0.01]{11.87}$ and $\rho(2\pi) = \answer[tolerance=0.01]{41.48}$ using either hand calculation or \texttt{subs}. 
 
 Within a small error, do the density calculations from the animation and from the density function agree? \wordChoice{\choice[correct]{Yes}\choice{No}}
 \end{problem}
@@ -97,27 +156,31 @@ The \texttt{plot\_curve\_pieces} course MATLAB function will:
 \end{itemize}
 and will show you a plot of the wire pieces color-coded by density.
 
+\begin{remark}
+The plot called in the next cell is the example wire and density broken up into 20 pieces.
+\end{remark}
+
 \begin{expandable}{code}{Show MATLAB Code}
-\texttt{plot\_curve\_pieces(r, 20, rho)}
+\texttt{plot\_curve\_pieces(r,20,rho)}
 \end{expandable}
 
 You should see the wire broken up into 20 pieces, each piece having a slightly different color, noting the density of the midpoint of the piece (as an approximation for the density of the whole piece).
 
-This effectively sets up a \emph{midpoint approximation} of the mass. That is, the density at the midpoint of the segment is treated as the uniform density of the entire wire.
+This effectively sets up a \emph{midpoint approximation} of the mass. That is, the density at the midpoint of the segment is treated as the uniform density of the entire segment.
 
 \subsection*{Midpoint Mass Plot}
 
 The function \texttt{plot\_curve\_mass\_pieces} will also use the same arguments (\texttt{r}, \texttt{N}, \texttt{rho}) but the plot will tell you the mass approximated by the midpoint sum in the title.
 
 \begin{expandable}{code}{Show MATLAB Code}
-\texttt{N = 20}\\
-\texttt{plot\_curve\_mass\_pieces(r, N, rho)}
+\texttt{N=20}\\
+\texttt{plot\_curve\_mass\_pieces(r,N,rho)}
 \end{expandable}
 
 \begin{problem}
 If everything is set up correctly, what approximate mass is reported by the 20-piece midpoint plot? 
 
-$\answer[tolerance=0.01]{134.354}$ grams
+A 20-piece sample midpoint approximation of the mass should measure $\answer[tolerance=0.01]{134.354}$ grams.
 \end{problem}
 
 \section*{Step 2: Build the Approximation Manually}
@@ -129,6 +192,10 @@ Remember that mass is approximated by the product $M = \rho \cdot L$, ``density 
 So, if we had the lengths and densities of our wire after breaking it up into $N$ pieces, we could just multiply those densities and lengths to get the mass of each individual piece.
 
 This is exactly what the course function \texttt{break\_into\_pieces()} does!
+
+\begin{remark}
+If you've defined \texttt{r}, \texttt{N}, and \texttt{rho}, the following cell should give you lists (called arrays) of the densities at the midpoints of the N wire segments as well as the segment lengths, called ``densities'' and ``lengths''.
+\end{remark}
 
 \begin{expandable}{code}{Show MATLAB Code}
 \texttt{[\textasciitilde, lengths, densities, \textasciitilde, \textasciitilde] = break\_into\_pieces(r, N, rho)}
@@ -146,17 +213,29 @@ One really nice feature of MATLAB is that it can do many many calculations at on
 Remember that the index, $i$ of a list or of a sum, is just the number telling how far in the list (or sum) to look. So the 2nd element of ``densities'' is the second number in the densities list, the 4th element of ``lengths'' is the fourth number in the list, etc.
 \end{remark}
 
+\begin{expandable}{instructions}{MATLAB Instructions}
+The following cell uses \texttt{.*} to multiply each entry in densities by the same entry in lengths. This will quickly multiply all of the approximate densities by the approximate lengths.
+\end{expandable}
+
 \begin{expandable}{code}{Show MATLAB Code}
-\texttt{masses = densities .* lengths}
+\texttt{masses=densities.*lengths}
 \end{expandable}
 
 You should see a 20-length list of masses whose entries are the products of the corresponding entries in \texttt{lengths} and \texttt{densities}.
 
+\begin{expandable}{instructions}{MATLAB Instructions}
+The next cell uses \texttt{sum()} to add the entries in ``masses'' to find the approximate mass of the 20-piece wire.
+\end{expandable}
+
 \begin{expandable}{code}{Show MATLAB Code}
-\texttt{mass\_approx = sum(masses)}
+\texttt{mass\_approx=sum(masses)}
 \end{expandable}
 
 The result of the sum should closely match the approximation from the plot!
+
+\begin{expandable}{code}{Show MATLAB Code}
+\texttt{plot\_curve\_mass\_pieces(r,N,rho)}
+\end{expandable}
 
 \begin{problem}
 Record the first three entries from your \texttt{lengths} array: $\answer[tolerance=0.01]{1.01}$, $\answer[tolerance=0.01]{1.01}$, $\answer[tolerance=0.01]{1.01}$
@@ -194,6 +273,10 @@ The following code re-creates the approximation for a few different values of $N
 
 \begin{remark}
 At the end of each line except for \texttt{mass\_approx}, there is a semi-colon ``\texttt{;}''. This hides the output in your live script so that you're not overwhelmed by lots of calculations at once. This is a common trick when making many calculations.
+
+The plots may take a while to generate.
+
+If you want, you can do this in a for-loop instead, but you don't have to if you're unfamiliar with loops.
 \end{remark}
 
 \begin{expandable}{code}{Show MATLAB Code}
@@ -312,7 +395,7 @@ We can use \texttt{diff()} and \texttt{norm()} to find the velocity of our curve
 First, we get the velocity of the curve using \texttt{diff()}:
 
 \begin{expandable}{code}{Show MATLAB Code}
-\texttt{v = diff(r)}
+\texttt{v=diff(r)}
 \end{expandable}
 
 You should see a vector representing the derivatives of the coordinate functions for $\vec{r}$.
@@ -320,7 +403,7 @@ You should see a vector representing the derivatives of the coordinate functions
 Now we use \texttt{norm()} to take the magnitude of the velocity function:
 
 \begin{expandable}{code}{Show MATLAB Code}
-\texttt{v\_mag = norm(v)}
+\texttt{v\_mag=norm(v)}
 \end{expandable}
 
 The differential $dM = \rho \cdot dL = \rho \cdot \|\vec{v}\| \cdot dt$, so we enter the differential in MATLAB.
@@ -330,7 +413,7 @@ We don't put $dt$ into MATLAB, it is incorporated already when we use \texttt{in
 \end{remark}
 
 \begin{expandable}{code}{Show MATLAB Code}
-\texttt{dM = rho * v\_mag}
+\texttt{dM=rho*v\_mag}
 \end{expandable}
 
 Now we're ready to integrate!
@@ -349,7 +432,7 @@ It will then give you either:
 \end{itemize}
 
 \begin{expandable}{code}{Show MATLAB Code}
-\texttt{M = int(dM, 0, 2*pi)}
+\texttt{M=int(dM,0,2*pi)}
 \end{expandable}
 
 \subsection*{Checking Our Results!}
@@ -361,7 +444,7 @@ That's okay! Many functions don't have nice integrals (and often it's impossible
 We can get a numerical approximation of the value using \texttt{double()}:
 
 \begin{expandable}{code}{Show MATLAB Code}
-\texttt{int\_approx = double(M)}
+\texttt{int\_approx=double(M)}
 \end{expandable}
 
 \begin{problem}
@@ -383,6 +466,16 @@ Now you try! Go through the steps yourself, for your own curve, which will mirro
 
 Define your curve $\vec{r}$ that you will use in the Module 3 mini project, then define the density to be the $\rho$ function you were provided (the wire density or the air density depending on your application) and then select a number of pieces (not too big) to break up your wire.
 
+\begin{expandable}{instructions}{MATLAB Instructions}
+\textit{Define your vector curve using} \texttt{r = [x(t), y(t), z(t)]}\textit{, filling in the blanks.}
+
+\textit{Define your density using} \texttt{rho = \_\_\_\_}\textit{, filling in the blank with the formula for your ``density''.}
+
+\textit{Define the number of pieces you want to see, like} \texttt{N=50}.
+
+\textit{View the broken wire using} \texttt{plot\_curve\_pieces(r,N,rho)}.
+\end{expandable}
+
 \begin{expandable}{code}{Show MATLAB Code}
 \texttt{\% Define your vector curve using r = [x(t), y(t), z(t)]}\\
 \texttt{\% r = [\; ...\; , \; ...\; , \; ...\; ];}\\
@@ -399,6 +492,14 @@ Define your curve $\vec{r}$ that you will use in the Module 3 mini project, then
 
 Now manually compute the approximation:
 
+\begin{expandable}{instructions}{MATLAB Instructions}
+\textit{Recreate the mass approximations using} \texttt{break\_into\_pieces} \textit{and the steps earlier in the script.}
+
+\textit{Do so at a few scales and check that the approximations agree with the prompts.}
+
+\textit{Well-approximate the mass of your curve with high-N calculations.}
+\end{expandable}
+
 \begin{expandable}{code}{Show MATLAB Code}
 \texttt{\% Recreate the mass approximations using break\_into\_pieces}\\
 \texttt{\% [\textasciitilde, lengths, densities, \textasciitilde, \textasciitilde] = break\_into\_pieces(r, N, rho);}\\
@@ -411,6 +512,12 @@ Now manually compute the approximation:
 \end{expandable}
 
 Now use integrals to verify your measures:
+
+\begin{expandable}{instructions}{MATLAB Instructions}
+\textit{Use} \texttt{diff()}\textit{,} \texttt{norm()} \textit{and} \texttt{int()} \textit{to generate the integral measure of the mass.}
+
+\textit{Use a} \texttt{double()} \textit{approximation to compare with your midpoint approximations.}
+\end{expandable}
 
 \begin{expandable}{code}{Show MATLAB Code}
 \texttt{\% Use diff(), norm() and int() to generate the integral measure}\\
