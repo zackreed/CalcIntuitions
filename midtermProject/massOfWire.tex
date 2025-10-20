@@ -41,8 +41,9 @@ Let's take a look at a simple wire with constant density using the code found in
 
 \textit{The fourth line makes an animation showing the wire being broken up into smaller and smaller pieces but always having the same mass-length ratio between each piece.}
 
-When you're ready, delete the percent sign in front of \texttt{animate\_segment\_cases(r,rho)} to show the animation.
 \end{expandable}
+
+When you're ready, delete the percent sign in front of \texttt{animate\_segment\_cases(r,rho)} to show the animation in the following video.
 
 \begin{expandable}{code}{Show MATLAB Code}
 \texttt{syms t}\\
@@ -53,6 +54,10 @@ When you're ready, delete the percent sign in front of \texttt{animate\_segment\
 
 We'll use the curve $\vec{r}(t) = [\sin(t), \cos(t), t]$ with constant density $\rho = 2$.
 
+% \begin{center}
+% \youtube{fKjpdnlIlIE}
+% \end{center}
+
 The animation shows the wire being broken up into smaller and smaller pieces but always having the same mass-length ratio between each piece.
 
 \subsection*{Checking Constant Mass}
@@ -60,15 +65,19 @@ The animation shows the wire being broken up into smaller and smaller pieces but
 Use the slider to run through the animation after it finishes. You'll note that there is a constant ratio between the mass and the length no matter what the segment size is.
 
 \begin{problem}
-The density found from the total mass and total length is $\dfrac{40.1387}{20.193} = \answer[tolerance=0.01]{1.988}$.  
+The density found from the total mass and total length is $\dfrac{17.772}{\answer[tolerance=.01]{8.886}} \approx \answer[tolerance=0.1]{2}$.  
 
 Now, for each displayed segment in the animation, you should find the masses and lengths of the smaller segments. Use these measures to verify that across these instances the wire density was indeed constant (within small numerical error).
 
+The length of the segment with a mass of $0.178$ is $\answer[tolerance=0.01]{0.089}$, making the density approximately $\answer[tolerance=0.1]{2}$.
+
+The mass of the segment with length $.178$ is $\answer[tolerance=0.01]{0.355}$, making the density approximately $\answer[tolerance=0.1]{2}$.
+
 \begin{feedback}
-Find the other densities by dividing the segment masses by the segment lengths for each mass-segment pair in the animation.
+Check the animation to get the mass-length pairs at the scales visualized.
 \end{feedback}
 
-Do the mass-to-length ratios for individual segments agree with the overall density (up to rounding)? \wordChoice{\choice[correct]{Yes}\choice{No}}
+The mass-to-length ratios for individual segments \wordChoice{\choice[correct]{agree}\choice{disagree}} with the overall density (up to rounding).
 \end{problem}
 
 \subsection*{Variable Density}
@@ -83,17 +92,19 @@ To define the function in MATLAB, use the syntax \texttt{[function\_name]=[formu
 \textit{Example:} \texttt{g=x\^{}2} defines the function $g(x)=x^2$.
 \end{remark}
 
+Now again use \texttt{animate\_segment\_cases}, using \texttt{r} as the first argument and then \texttt{rho} as the second argument.
+
 \begin{expandable}{instructions}{MATLAB Instructions}
 The function called ``rho'' is defined with the formula $2+t^2$.
 
-Now again use \texttt{animate\_segment\_cases}, using \texttt{r} as the first argument and then \texttt{rho} as the second argument.
-\end{expandable}
-
-\begin{expandable}{code}{Show MATLAB Code}
 \texttt{rho=2+t\^{}2}\\
 \\
 \texttt{animate\_segment\_cases(r, rho)}
 \end{expandable}
+
+% \begin{center}
+% \youtube{FIFZBi8JPFU}
+% \end{center}
 
 The animation again uses \texttt{animate\_segment\_cases(r, rho)}, but now you should see that the mass changes as you move along the curve. This means that the density of this wire is not uniform.
 
@@ -164,7 +175,11 @@ The plot called in the next cell is the example wire and density broken up into 
 \texttt{plot\_curve\_pieces(r,20,rho)}
 \end{expandable}
 
-You should see the wire broken up into 20 pieces, each piece having a slightly different color, noting the density of the midpoint of the piece (as an approximation for the density of the whole piece).
+You should see the wire broken up into 20 pieces, each piece having a slightly different color, noting the density of the midpoint of the piece (as an approximation for the density of the whole piece). (As exemplified in the following figure.)
+
+% \begin{center}
+% \includegraphics[width=0.5\textwidth]{20_seg_wire.png}
+% \end{center}
 
 This effectively sets up a \emph{midpoint approximation} of the mass. That is, the density at the midpoint of the segment is treated as the uniform density of the entire segment.
 
@@ -181,9 +196,16 @@ The function \texttt{plot\_curve\_mass\_pieces} will also use the same arguments
 If everything is set up correctly, what approximate mass is reported by the 20-piece midpoint plot? 
 
 A 20-piece sample midpoint approximation of the mass should measure $\answer[tolerance=0.01]{134.354}$ grams.
+
+    \begin{feedback}
+    You should see the following figure with the mass in the title.
+        % \begin{center}
+        % \includegraphics[width=0.5\textwidth]{20_mass_approx.png}
+        % \end{center}
+    \end{feedback}
 \end{problem}
 
-\section*{Step 2: Build the Approximation Manually}
+\section*{Step 2: Approximate the Wire Mass}
 
 Let's make this approximation ourselves!
 
@@ -233,9 +255,9 @@ The next cell uses \texttt{sum()} to add the entries in ``masses'' to find the a
 
 The result of the sum should closely match the approximation from the plot!
 
-\begin{expandable}{code}{Show MATLAB Code}
-\texttt{plot\_curve\_mass\_pieces(r,N,rho)}
-\end{expandable}
+    % \begin{center}
+    % \includegraphics[width=0.5\textwidth]{20_mass_approx.png}
+    % \end{center}
 
 \begin{problem}
 Record the first three entries from your \texttt{lengths} array: $\answer[tolerance=0.01]{1.01}$, $\answer[tolerance=0.01]{1.01}$, $\answer[tolerance=0.01]{1.01}$
@@ -300,11 +322,11 @@ If you want, you can do this in a for-loop instead, but you don't have to if you
 \end{expandable}
 
 \begin{problem}
-Record \texttt{mass\_approx} for $N=50$: $\answer[tolerance=0.01]{135.58}$
+Record \texttt{mass\_approx} for $N=50$: $\answer[tolerance=0.01]{134.648}$
 
-Record \texttt{mass\_approx} for $N=100$: $\answer[tolerance=0.01]{135.89}$
+Record \texttt{mass\_approx} for $N=100$: $\answer[tolerance=0.01]{134.690}$
 
-Record \texttt{mass\_approx} for $N=150$: $\answer[tolerance=0.01]{135.97}$
+Record \texttt{mass\_approx} for $N=150$: $\answer[tolerance=0.01]{134.697}$
 
 What trend do you observe? \begin{multipleChoice}
 \choice[correct]{The approximations are increasing and converging to a value}
@@ -312,6 +334,15 @@ What trend do you observe? \begin{multipleChoice}
 \choice{The approximations are oscillating}
 \choice{No clear trend}
 \end{multipleChoice}
+
+\begin{feedback}
+    The following plots should appear for each $N$ value.
+        % \begin{center}
+        % \includegraphics[width=0.5\textwidth]{50_mass_approx.png}
+        % \includegraphics[width=0.5\textwidth]{100_mass_approx.png}
+        % \includegraphics[width=0.5\textwidth]{150_mass_approx.png}
+        % \end{center}
+\end{feedback}
 \end{problem}
 
 \subsection*{Very Small Scales}
