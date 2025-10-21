@@ -1,270 +1,216 @@
 \documentclass{ximera}
 
-\title{Activity: Torty and Harry Rematch}
+\title{Polar Coordinates and Multivariable Sets}
 \author{Zack Reed}
 
 \begin{document}
 \begin{abstract}
-This activity centers on applying vector calculus concepts including arc length, curvature, speed, acceleration, and partial derivatives in the context of a race between Torty and Harry on a hilly track.
+In this activity we explore sets in two and three dimensions, learn about polar coordinates as an alternative coordinate system, and develop skills for working with multivariable functions.
 \end{abstract}
 \maketitle
 
-\section*{Introduction}
+\section*{Why Change Coordinate Systems?}
 
-The goal of this activity is to not just hone your calculative skills related to vector and multivariable functions but to engage you in interpretation as well and to build some intuition about what the various differential and integral calculations mean in vector contexts.
-
-This activity focuses on a race between Torty and Harry. Harry decided that he could gain an advantage by racing along a hilly region in the mountains. The hilly region and track are visualized in the provided GeoGebra applet.
-
-Harry has become quite adjusted to racing along inclines and declines. His path in the provided GeoGebra applet is defined by the curve $h(t)=\langle \cos(t), \sin(t), \cos(t)\sin^2(t)\rangle$, for which two laps around the course takes $4 \pi$ seconds.
-
-In their rematch, Torty is less adjusted to running along hilly regions and tires after bursts of speed. His path in the provided GeoGebra applet is defined by the curve $\tau (t)=\langle \cos(t+\sin(t)), \sin(t+\sin(t)), \cos(t+\sin(t))\sin^2(t+\sin(t))\rangle$.
-
-\begin{expandable}{stuff}{GeoGebra Instructions}
-    You may alter the ``t='' slider to view Torty and Harry's positions, velocities, and accelerations at any time during the race. You may also use the ``Show Torty's Curve'' and ``Show Harry's Curve'' checkboxes to view either of the racer's curve in isolation.
-\end{expandable}
+For most of your mathematical career, you've used the Cartesian coordinate system with horizontal $x$-axis and vertical $y$-axis. Points are represented as coordinate pairs $(x,y)$.
 
 \begin{center}
-\geogebra{yzxdk5uw}{844}{629}
+\geogebra{vhyaeqmy}{739}{613}
 \end{center}
 
-\subsection*{Getting Started: Understanding the Race}
+\begin{problem}
+    Using the GeoGebra applet above, drag point $P$ to the location $(3,2)$.
+    
+    The point $P=(3,2)$ means you move $\answer{3}$ units \wordChoice{\choice[correct]{right}\choice{left}} and $\answer{2}$ units \wordChoice{\choice[correct]{up}\choice{down}} from the origin.
+\end{problem}
 
-Before we dive into calculations, let's build intuition about this race by exploring the GeoGebra applet.
+\section*{Describing Sets in Cartesian Coordinates}
+
+A \emph{set} is a collection of points $P$. We can describe sets using conditions on $x$ and $y$.
+
+\begin{center}
+\geogebra{sucycy28}{689}{563}
+\end{center}
 
 \begin{problem}
-    Using the GeoGebra applet, observe the race and answer the following questions based on your intuition:
+    Using the GeoGebra applet above, explore the different sets by selecting the checkboxes.
     
     \begin{enumerate}
-        \item At time $t=0$, where are both racers located?
-        \begin{multipleChoice}
-            \choice[correct]{Both start at approximately $(1,0,0)$}
-            \choice{Torty starts ahead of Harry}
-            \choice{Harry starts ahead of Torty}
-            \choice{Both start at the origin}
-        \end{multipleChoice}
+        \item The rectangular region is described by points $(x,y)$ where $\answer{0} \leq x \leq \answer{3}$ and $\answer{1} \leq y \leq \answer{3}$.
         
-        \item As you move the slider forward, what do you observe about their paths?
-        \begin{selectAll}
-            \choice[correct]{Both racers follow similar circular paths}
-            \choice[correct]{The paths include vertical (z-direction) changes}
-            \choice{The paths are perfect circles in a flat plane}
-            \choice[correct]{Torty's path appears slightly different from Harry's}
-        \end{selectAll}
+        \item The circle is described by the equation $x^2 + y^2 = \answer{1}$.
         
-        \item Based on visual observation, who appears to complete one lap first?
+        \item Which set would be most difficult to describe using only conditions on $x$ and $y$?
         \begin{multipleChoice}
-            \choice[correct]{Harry completes a lap first}
-            \choice{Torty completes a lap first}
-            \choice{They complete laps at the same time}
+            \choice{The rectangular region}
+            \choice{The circle}
+            \choice{The region between $y=x$ and $y=x^2$}
+            \choice[correct]{The spiral region (Set 4)}
         \end{multipleChoice}
     \end{enumerate}
     
     \begin{feedback}
-        Use the slider to trace through the race. Pay attention to when each racer returns to their starting position. Harry's curve is smoother, while Torty's curve includes periods where he slows down and speeds up (due to the $\sin(t)$ term added to his parameter).
+        The spiral region is very difficult to describe using Cartesian coordinates! This motivates finding a different coordinate system.
     \end{feedback}
 \end{problem}
 
-\section*{Task One: Analyzing the Race Track}
+\section*{Introducing Polar Coordinates}
 
-\subsection*{Understanding Arc Length}
+Instead of describing a point by its horizontal and vertical distances from the origin, we can describe it by:
+\begin{itemize}
+    \item How far it is from the origin: the radius $r$
+    \item What angle we rotate from the positive $x$-axis: the angle $\theta$
+\end{itemize}
 
-The length of a curve in space is fundamental to understanding this race. Let's explore this concept.
+This gives us polar coordinates $(r,\theta)$.
 
-\begin{problem}
-    Consider Harry's path $h(t)=\langle \cos(t), \sin(t), \cos(t)\sin^2(t)\rangle$ for one complete lap from $t=0$ to $t=2\pi$.
-    
-    First, let's think about what affects the arc length of a curve:
-    \begin{multipleChoice}
-        \choice{Only the horizontal ($x$ and $y$) components matter for arc length}
-        \choice[correct]{All three components ($x$, $y$, and $z$) contribute to arc length}
-        \choice{Only the $z$ component affects arc length}
-    \end{multipleChoice}
-    
-    \begin{feedback}
-        Arc length in 3D space depends on all three dimensions. The formula for arc length is $L=\int_a^b ||h'(t)||dt=\int_a^b\sqrt{(x'(t))^2+(y'(t))^2+(z'(t))^2}dt$.
-    \end{feedback}
-\end{problem}
+\begin{center}
+\geogebra{r9g6amrn}{691}{563}
+\end{center}
 
 \begin{problem}
-    To determine the physical length of the racetrack, can we use only one of the racers' curves?
-    \begin{multipleChoice}
-        \choice[correct]{Yes, either curve gives the track length since they follow the same physical track}
-        \choice{No, we must average both curves to get the true length}
-        \choice{No, we must use both curves and take the longer one}
-    \end{multipleChoice}
+    Using the polar coordinate GeoGebra applet above, drag point $P$ to explore how $r$ and $\theta$ change.
     
-    \begin{feedback}
-        Both racers follow the same physical track in space - they just traverse it at different rates (parametrized differently). Computing the arc length of either curve for one complete lap gives the track length.
+    \begin{enumerate}
+        \item When point $P$ is at Cartesian coordinates $(1,0)$, the polar coordinates are $(r,\theta) = (\answer{1},\answer{0})$.
         
-        Using computational tools (MATLAB, Python, etc.), you should find that one lap of the track is approximately $\answer[tolerance=0.1]{6.4}$ units long.
-    \end{feedback}
-\end{problem}
-
-\subsection*{Speed and Velocity}
-
-Now let's understand the difference between the racers' speeds.
-
-\begin{problem}
-    The velocity vector of Harry at time $t$ is given by $h'(t)=\frac{d}{dt}\langle \cos(t), \sin(t), \cos(t)\sin^2(t)\rangle$.
-    
-    What is $h'(t)$?
-    \[h'(t)=\langle \answer{-\sin(t)}, \answer{\cos(t)}, \answer{-\sin^3(t)+2\cos^2(t)\sin(t)}\rangle\]
-    
-    The speed of Harry at time $t$ is the magnitude of the velocity vector: $||h'(t)||=\sqrt{(\sin(t))^2+(\cos(t))^2+(-\sin^3(t)+2\cos^2(t)\sin(t))^2}$.
-    
-    \begin{feedback}
-        Remember that velocity is the derivative of position, and speed is the magnitude of velocity. Speed tells us how fast the racer is moving, while velocity also tells us the direction.
-    \end{feedback}
+        \item When point $P$ is at Cartesian coordinates $(0,1)$, the polar coordinates are $(r,\theta) = (\answer{1},\answer[tolerance=0.01]{\pi/2})$.
+        
+        \item As you move $P$ further from the origin, the value of $r$ \wordChoice{\choice[correct]{increases}\choice{decreases}\choice{stays the same}}.
+        
+        \item As you move $P$ counterclockwise around the origin (at constant distance), the value of $\theta$ \wordChoice{\choice[correct]{increases}\choice{decreases}\choice{stays the same}}.
+    \end{enumerate}
 \end{problem}
 
 \begin{problem}
-    Who wins the race depicted in the GeoGebra applet (two complete laps, ending at $t=4\pi$)?
+    Now let's describe that mysterious fourth set from earlier!
     
-    Based on your observation of the applet:
+    In polar coordinates, the spiral region can be described as:
     \begin{multipleChoice}
-        \choice[correct]{Harry wins the race}
-        \choice{Torty wins the race}
-        \choice{They tie}
-    \end{multipleChoice}
-    
-    To verify this mathematically, we need to find when each racer completes two laps. Harry completes two laps at $t=\answer{4\pi}$ seconds (by definition).
-    
-    For Torty, we need to solve for when $\tau(t)$ returns to the starting position after two complete laps. Due to the $t+\sin(t)$ parametrization, Torty takes longer than $4\pi$ seconds.
-    
-    \begin{feedback}
-        The key insight is that Torty's parameter $t+\sin(t)$ causes him to slow down and speed up periodically. While both racers cover the same track length, Torty's varying speed means he takes more time overall. Computing $\int_0^T ||\tau'(t)||dt$ and finding when this equals twice the lap length confirms Harry wins.
-    \end{feedback}
-\end{problem}
-
-\subsection*{When Racers Meet}
-
-\begin{problem}
-    Examining the curves $h(t)=\langle \cos(t), \sin(t), \cos(t)\sin^2(t)\rangle$ and $\tau(t)=\langle \cos(t+\sin(t)), \sin(t+\sin(t)), \cos(t+\sin(t))\sin^2(t+\sin(t))\rangle$, we can determine when they meet.
-    
-    Notice that $\tau(t)=h(t+\sin(t))$. This means Torty and Harry meet when:
-    \begin{multipleChoice}
-        \choice{$t=0$ only}
-        \choice[correct]{$\sin(t)=0$, which occurs at $t=0, \pi, 2\pi, 3\pi, 4\pi$}
-        \choice{They never meet}
-        \choice{$\cos(t)=0$}
+        \choice{$r = 2$ and $0 \leq \theta \leq 2\pi$}
+        \choice[correct]{$r \leq 2\theta + 1$ and $0 \leq \theta \leq 2\pi$}
+        \choice{$\theta = 2r + 1$ and $0 \leq r \leq 2\pi$}
+        \choice{$r^2 + \theta^2 = 1$}
     \end{multipleChoice}
     
     \begin{feedback}
-        When $\sin(t)=0$, we have $\tau(t)=h(t+0)=h(t)$, so they are at the same position. This happens at multiples of $\pi$.
+        The condition $r \leq 2\theta + 1$ means the radius grows linearly with the angle, creating a spiral! This is much simpler than trying to describe this region using $x$ and $y$.
+    \end{feedback}
+\end{problem}
+
+\section*{Converting Between Coordinate Systems}
+
+\begin{problem}
+    The relationship between Cartesian $(x,y)$ and polar $(r,\theta)$ coordinates comes from right triangle trigonometry.
+    
+    Given polar coordinates $(r,\theta)$, the Cartesian coordinates are:
+    \begin{align*}
+        x &= \answer{r\cos(\theta)} \\
+        y &= \answer{r\sin(\theta)}
+    \end{align*}
+    
+    Given Cartesian coordinates $(x,y)$, the polar coordinates are:
+    \begin{align*}
+        r &= \sqrt{x^2 + \answer{y^2}} \\
+        \theta &= \arctan\left(\frac{\answer{y}}{\answer{x}}\right) \text{ (with adjustments for quadrant)}
+    \end{align*}
+    
+    \begin{feedback}
+        These formulas come directly from the definitions of sine, cosine, and the Pythagorean theorem!
     \end{feedback}
 \end{problem}
 
 \begin{problem}
-    At $t=\pi$ (one of the times they meet), who has greater speed?
+    Let's practice converting between coordinate systems.
     
-    Harry's speed at $t=\pi$ is $||h'(\pi)||=\answer[tolerance=0.1]{1}$.
+    \begin{enumerate}
+        \item Convert the polar coordinates $(r,\theta) = (2, \pi/4)$ to Cartesian coordinates.
+        
+        $x = \answer[tolerance=0.01]{\sqrt{2}}$ and $y = \answer[tolerance=0.01]{\sqrt{2}}$
+        
+        \item Convert the Cartesian coordinates $(x,y) = (3,4)$ to polar coordinates.
+        
+        $r = \answer{5}$ and $\theta = \answer[tolerance=0.01]{\arctan(4/3)}$ radians
+        
+        \item Convert the polar coordinates $(r,\theta) = (5, 0)$ to Cartesian coordinates.
+        
+        $x = \answer{5}$ and $y = \answer{0}$
+    \end{enumerate}
+\end{problem}
+
+\section*{Working in Three Dimensions}
+
+Now we extend our thinking to three dimensions, where we have three variables: $x$, $y$, and $z$.
+
+\begin{problem}
+    A key strategy for understanding 3D relationships is to \emph{fix one variable and see what happens with the other two}.
     
-    For Torty, we compute $||\tau'(\pi)||$. Using the chain rule: $\tau'(t)=h'(t+\sin(t))\cdot(1+\cos(t))$.
+    This creates a \emph{cross-section} or \emph{slice} of the 3D object.
+\end{problem}
+
+\begin{center}
+\geogebra{xypfhkea}{732}{506}
+\end{center}
+
+\begin{problem}
+    Using the GeoGebra applet above, experiment with the $z$ slider.
     
-    At $t=\pi$: $\tau'(\pi)=h'(\pi)\cdot(1+\cos(\pi))=h'(\pi)\cdot(1-1)=\answer{0}$.
-    
-    Therefore, at $t=\pi$:
-    \begin{multipleChoice}
-        \choice[correct]{Harry has greater speed (Torty is momentarily stopped)}
-        \choice{Torty has greater speed}
-        \choice{They have equal speeds}
-    \end{multipleChoice}
+    \begin{enumerate}
+        \item When $z = 0$, you see a slice of the surface in the $x$-$y$ plane. This slice is a \wordChoice{\choice[correct]{circle}\choice{parabola}\choice{line}\choice{point}}.
+        
+        \item As you increase $z$, the slices \wordChoice{\choice{get larger}\choice[correct]{get smaller}\choice{stay the same size}}.
+        
+        \item What 3D shape does this surface represent?
+        \begin{multipleChoice}
+            \choice{A cylinder}
+            \choice[correct]{A cone}
+            \choice{A sphere}
+            \choice{A paraboloid}
+        \end{multipleChoice}
+    \end{enumerate}
     
     \begin{feedback}
-        The factor $(1+\cos(t))$ in Torty's velocity causes him to stop completely when $\cos(t)=-1$ (at $t=\pi, 3\pi$, etc.). This is why Torty appears to pause at certain points in the race!
+        By looking at slices, we can understand complex 3D shapes by breaking them down into familiar 2D curves!
     \end{feedback}
 \end{problem}
 
-\section*{Task Two: Torty's Strategic Sprint}
-
-After the first race on this hilly track, Torty and Harry want a rematch. Torty uses his rest periods to store up enough ``running energy'' to double his speed during the last stretch of the race. However, doubling his speed consumes significant energy.
-
-Torty estimates that, while doubling his speed, for every small unit of distance ($ds$) over which his speed is doubled, he uses up $s^{1.3}\cdot ds$ units of energy, where $s$ is his current speed.
-
-\subsection*{Understanding Energy Expenditure}
+\begin{center}
+\geogebra{rf4mpv5m}{732}{506}
+\end{center}
 
 \begin{problem}
-    First, let's understand the energy model. If Torty doubles his speed over a curve segment, the energy required is:
-    \[RE=\int_{\text{segment}} s^{1.3}\, ds\]
+    Using the second GeoGebra applet, explore slices in different directions.
     
-    What does $s$ represent in this integral?
-    \begin{multipleChoice}
-        \choice{The arc length parameter}
-        \choice[correct]{Torty's speed (magnitude of velocity) at each point}
-        \choice{The time parameter}
-        \choice{The distance traveled}
-    \end{multipleChoice}
-    
-    What does $ds$ represent?
-    \begin{multipleChoice}
-        \choice{A small change in speed}
-        \choice{A small change in time}
-        \choice[correct]{A small arc length element}
-        \choice{A small change in position}
-    \end{multipleChoice}
-    
-    \begin{feedback}
-        This integral sums up energy costs over the arc length of the curve. Remember that $ds=||r'(t)||dt$, so we can convert this to an integral over time: $RE=\int s^{1.3}||r'(t)||dt=\int ||r'(t)||^{2.3}dt$.
-    \end{feedback}
+    \begin{enumerate}
+        \item Select "Show x-Slice" and move the slider. When we fix $x$ and look at the $y$-$z$ plane, we see the relationship between \wordChoice{\choice{$x$ and $y$}\choice{$x$ and $z$}\choice[correct]{$y$ and $z$}}.
+        
+        \item Select "Show y-Slice" and move the slider. When we fix $y$ and look at the $x$-$z$ plane, we see the relationship between \wordChoice{\choice{$x$ and $y$}\choice[correct]{$x$ and $z$}\choice{$y$ and $z$}}.
+        
+        \item By rotating the view to look directly at each slice, you reduce the problem to a familiar \wordChoice{\choice[correct]{2-dimensional}\choice{1-dimensional}\choice{4-dimensional}} perspective.
+    \end{enumerate}
 \end{problem}
 
-\begin{problem}
-    Let's build intuition: If Torty were to double his speed over the entire race (two laps, approximately $\answer[tolerance=0.1]{12.8}$ units of distance), would this require:
-    \begin{multipleChoice}
-        \choice{Less energy than doubling speed for just the final lap}
-        \choice[correct]{More energy than doubling speed for just the final lap}
-        \choice{The same energy regardless of when he speeds up}
-    \end{multipleChoice}
-    
-    \begin{feedback}
-        The energy required depends on both the speed $s$ and the distance over which the speed is doubled. Since Torty's speed varies throughout the race (remember he stops at certain points!), the total energy depends on the specific curve segment he chooses.
-    \end{feedback}
-\end{problem}
+\section*{Summary and Reflection}
 
 \begin{problem}
-    Computing the energy integrals requires numerical methods. Using computational tools:
+    Reflect on what you've learned:
     
-    The energy required for Torty to double his speed over the entire race (two laps) is approximately $RE_{\text{total}}=\answer[tolerance=1]{100}$ energy units.
-    
-    The energy required to double speed over just the final lap is approximately $RE_{\text{final lap}}=\answer[tolerance=1]{50}$ energy units.
-    
-    \begin{feedback}
-        You can compute these using: $RE=\int_0^{T} ||\tau'(t)||^{2.3}dt$ where $T$ is the appropriate time interval. Use numerical integration in MATLAB, Python, or similar tools.
-    \end{feedback}
-\end{problem}
-
-\subsection*{Strategic Timing}
-
-\begin{problem}
-    Torty knows he stops running from exhaustion after expending $RE$ equal to half of the energy it would take to double his speed over the entire race.
-    
-    How much energy can Torty expend before exhaustion? $RE_{\text{max}}=\answer[tolerance=1]{50}$ energy units.
-    
-    Torty wants to time his sprint so that:
-    \begin{selectAll}
-        \choice[correct]{He uses exactly his maximum available energy}
-        \choice[correct]{He finishes the race before Harry}
-        \choice{He starts sprinting as early as possible}
-        \choice[correct]{He completes two full laps}
-    \end{selectAll}
-    
-    \begin{feedback}
-        Torty needs to find time $t_0$ such that $\int_{t_0}^{T_{\text{finish}}} ||\tau'(t)||^{2.3}dt=RE_{\text{max}}$ and the total distance covered equals two laps. This requires numerical solving.
-    \end{feedback}
-\end{problem}
-
-\begin{problem}
-    Using computational tools to solve for the optimal sprint time:
-    
-    Torty should start doubling his speed at approximately $t=\answer[tolerance=0.5]{6.5}$ seconds.
-    
-    With this strategy, Torty finishes the race at approximately $t=\answer[tolerance=0.5]{12}$ seconds.
-    
-    Since Harry finishes at $t=4\pi\approx 12.57$ seconds, Torty wins by approximately $\answer[tolerance=0.5]{0.57}$ seconds!
-    
-    \begin{feedback}
-        This problem demonstrates the power of calculus for optimization. By carefully choosing when to expend energy, Torty can overcome his initial disadvantage. The solution requires balancing arc length integrals (for distance) with energy integrals (for the constraint).
-    \end{feedback}
+    \begin{enumerate}
+        \item Why might you choose polar coordinates over Cartesian coordinates?
+        \begin{selectAll}
+            \choice[correct]{To describe circular or spiral patterns more easily}
+            \choice{To make all problems simpler}
+            \choice[correct]{When the natural description involves distances and angles}
+            \choice{Because they're always better than Cartesian coordinates}
+        \end{selectAll}
+        
+        \item The key strategy for understanding 3D relationships is:
+        \begin{multipleChoice}
+            \choice{Always convert to polar coordinates}
+            \choice{Memorize formulas for every possible surface}
+            \choice[correct]{Fix one variable at a time and analyze 2D slices}
+            \choice{Avoid 3D problems whenever possible}
+        \end{multipleChoice}
+    \end{enumerate}
 \end{problem}
 
 \end{document}

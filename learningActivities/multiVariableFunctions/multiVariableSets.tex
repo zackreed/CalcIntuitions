@@ -1,66 +1,216 @@
 \documentclass{ximera}
 
-\title{Course Notes: Polar Coordinates and Multivariable Sets}
+\title{Polar Coordinates and Multivariable Sets}
 \author{Zack Reed}
 
 \begin{document}
 \begin{abstract}
-These notes introduce the concept of sets in two and three dimensions, motivate the use of polar coordinates, and provide resources for further study.
+In this activity we explore sets in two and three dimensions, learn about polar coordinates as an alternative coordinate system, and develop skills for working with multivariable functions.
 \end{abstract}
 \maketitle
 
-\section{Course Notes: Polar Coordinates}
+\section*{Why Change Coordinate Systems?}
 
-For most of your mathematical careers, you have been asked to coordinate various relationships between two variables and work with a standard graphical representation of those two variables. The standard representation of such relationships (called the Cartesian Coordinate System) sets a horizontal axis against a vertical axis, typically denoted as the $x$ and $y$ axes respectively. This uses ``coordinate pairs'' $(x,y)$ to represent locations along the 2-dimensional region depending on a horizontal location, $x$, and a vertical location, $y$. This way of locating points on the plane is represented in the following GeoGebra application, where you can click and drag the point $P$ and determine the coordinate pair $(x,y)$ that make up $P$.
+For most of your mathematical career, you've used the Cartesian coordinate system with horizontal $x$-axis and vertical $y$-axis. Points are represented as coordinate pairs $(x,y)$.
 
 \begin{center}
 \geogebra{vhyaeqmy}{739}{613}
 \end{center}
 
-Sets, then, are a collection of points $P$. Given our usual way of writing points in terms of coordinate pairs $(x,y)$, it is often useful to write sets in terms of conditions placed on $x$ and $y$. This can be easy for some sets, such as:
-\begin{itemize}
-    \item The rectangular region of all points $(x,y)$ such that $0 \leq x \leq 3$ and $1 \leq y \leq 3$
-    \item The circle defined by points $(x,y)$ satisfying the condition $x^2 + y^2 = 1$
-    \item The region bounded between the graphs of $y = x$ and $y = x^2$ when $0 \leq x \leq 1$
-\end{itemize}
+\begin{problem}
+    Using the GeoGebra applet above, drag point $P$ to the location $(3,2)$.
+    
+    The point $P=(3,2)$ means you move $\answer{3}$ units \wordChoice{\choice[correct]{right}\choice{left}} and $\answer{2}$ units \wordChoice{\choice[correct]{up}\choice{down}} from the origin.
+\end{problem}
 
-All of these sets are depicted in the following GeoGebra application, where you can select the boxes to view the sets, and you may drag the point $P$ within the regions specified. There is a fourth set in the application. However, that would be quite tedious to define using our typical representation of $P$ in terms of the Cartesian coordinates $(x,y)$.
+\section*{Describing Sets in Cartesian Coordinates}
+
+A \emph{set} is a collection of points $P$. We can describe sets using conditions on $x$ and $y$.
 
 \begin{center}
 \geogebra{sucycy28}{689}{563}
 \end{center}
 
-This is one simple way to capture the utility of finding other ways to represent points $P$ in 2 (and later more) dimensions. It can be quite useful for various mathematical and scientific reasons to find multiple ways to represent a region in space. This motivates our initial change of variables from Cartesian into what are called polar coordinates.
+\begin{problem}
+    Using the GeoGebra applet above, explore the different sets by selecting the checkboxes.
+    
+    \begin{enumerate}
+        \item The rectangular region is described by points $(x,y)$ where $\answer{0} \leq x \leq \answer{3}$ and $\answer{1} \leq y \leq \answer{3}$.
+        
+        \item The circle is described by the equation $x^2 + y^2 = \answer{1}$.
+        
+        \item Which set would be most difficult to describe using only conditions on $x$ and $y$?
+        \begin{multipleChoice}
+            \choice{The rectangular region}
+            \choice{The circle}
+            \choice{The region between $y=x$ and $y=x^2$}
+            \choice[correct]{The spiral region (Set 4)}
+        \end{multipleChoice}
+    \end{enumerate}
+    
+    \begin{feedback}
+        The spiral region is very difficult to describe using Cartesian coordinates! This motivates finding a different coordinate system.
+    \end{feedback}
+\end{problem}
 
-Rather than focusing on the horizontal and vertical locations of points in space, we instead consider how far you have to move along a circle (from the horizontal) to reach the point $P$, and what the radius of that circle must be. This is captured in the angle measure $\theta$, and the radius $r$, for a new coordinate representation $(r,\theta)$. Depicted in the following GeoGebra application is the polar representation of the same points $P$ as you saw in the original GeoGebra application, but in reference to the angle measure $\theta$, and the radius $r$.
+\section*{Introducing Polar Coordinates}
+
+Instead of describing a point by its horizontal and vertical distances from the origin, we can describe it by:
+\begin{itemize}
+    \item How far it is from the origin: the radius $r$
+    \item What angle we rotate from the positive $x$-axis: the angle $\theta$
+\end{itemize}
+
+This gives us polar coordinates $(r,\theta)$.
 
 \begin{center}
 \geogebra{r9g6amrn}{691}{563}
 \end{center}
 
-In this formulation, the fourth mystery region in space can be succinctly described as the points $(r,\theta)$ where $r \leq 2\theta + 1$ and $0 \leq \theta \leq 2\pi$.
+\begin{problem}
+    Using the polar coordinate GeoGebra applet above, drag point $P$ to explore how $r$ and $\theta$ change.
+    
+    \begin{enumerate}
+        \item When point $P$ is at Cartesian coordinates $(1,0)$, the polar coordinates are $(r,\theta) = (\answer{1},\answer{0})$.
+        
+        \item When point $P$ is at Cartesian coordinates $(0,1)$, the polar coordinates are $(r,\theta) = (\answer{1},\answer[tolerance=0.01]{\pi/2})$.
+        
+        \item As you move $P$ further from the origin, the value of $r$ \wordChoice{\choice[correct]{increases}\choice{decreases}\choice{stays the same}}.
+        
+        \item As you move $P$ counterclockwise around the origin (at constant distance), the value of $\theta$ \wordChoice{\choice[correct]{increases}\choice{decreases}\choice{stays the same}}.
+    \end{enumerate}
+\end{problem}
 
+\begin{problem}
+    Now let's describe that mysterious fourth set from earlier!
+    
+    In polar coordinates, the spiral region can be described as:
+    \begin{multipleChoice}
+        \choice{$r = 2$ and $0 \leq \theta \leq 2\pi$}
+        \choice[correct]{$r \leq 2\theta + 1$ and $0 \leq \theta \leq 2\pi$}
+        \choice{$\theta = 2r + 1$ and $0 \leq r \leq 2\pi$}
+        \choice{$r^2 + \theta^2 = 1$}
+    \end{multipleChoice}
+    
+    \begin{feedback}
+        The condition $r \leq 2\theta + 1$ means the radius grows linearly with the angle, creating a spiral! This is much simpler than trying to describe this region using $x$ and $y$.
+    \end{feedback}
+\end{problem}
 
-\section{Course Notes: Quadratic Surfaces and 3-Dimensions}
+\section*{Converting Between Coordinate Systems}
 
-From previous courses, we have become accustomed to graphically dealing with the relationships between two variables at one time, typically $x$ and $y$. Describing phenomena in our world relies on establishing and analyzing relationships between at least three variables, which the textbook will often refer to as $x$, $y$ and $z$. While it may seem daunting at first, we actually have very efficient ways of handling the co-variation of three variables at once! In this course, we will often analyze the relationships between multiple variables by isolating two variables at a time.
+\begin{problem}
+    The relationship between Cartesian $(x,y)$ and polar $(r,\theta)$ coordinates comes from right triangle trigonometry.
+    
+    Given polar coordinates $(r,\theta)$, the Cartesian coordinates are:
+    \begin{align*}
+        x &= \answer{r\cos(\theta)} \\
+        y &= \answer{r\sin(\theta)}
+    \end{align*}
+    
+    Given Cartesian coordinates $(x,y)$, the polar coordinates are:
+    \begin{align*}
+        r &= \sqrt{x^2 + \answer{y^2}} \\
+        \theta &= \arctan\left(\frac{\answer{y}}{\answer{x}}\right) \text{ (with adjustments for quadrant)}
+    \end{align*}
+    
+    \begin{feedback}
+        These formulas come directly from the definitions of sine, cosine, and the Pythagorean theorem!
+    \end{feedback}
+\end{problem}
 
-For instance, if we are considering relationships between $x$, $y$ and $z$, we might first look at how $x$ and $y$ are related if we assume a constant value for $z$, as shown in the following GeoGebra application. You may alter the ``z='' slider to view the relationship between $x$ and $y$ for the particular constant value of $z$. You may also click and drag to rotate and alter the 3-dimensional view and zoom in and out. Select the ``Reset Zoom'' button to re-establish the initial zoom window.
+\begin{problem}
+    Let's practice converting between coordinate systems.
+    
+    \begin{enumerate}
+        \item Convert the polar coordinates $(r,\theta) = (2, \pi/4)$ to Cartesian coordinates.
+        
+        $x = \answer[tolerance=0.01]{\sqrt{2}}$ and $y = \answer[tolerance=0.01]{\sqrt{2}}$
+        
+        \item Convert the Cartesian coordinates $(x,y) = (3,4)$ to polar coordinates.
+        
+        $r = \answer{5}$ and $\theta = \answer[tolerance=0.01]{\arctan(4/3)}$ radians
+        
+        \item Convert the polar coordinates $(r,\theta) = (5, 0)$ to Cartesian coordinates.
+        
+        $x = \answer{5}$ and $y = \answer{0}$
+    \end{enumerate}
+\end{problem}
+
+\section*{Working in Three Dimensions}
+
+Now we extend our thinking to three dimensions, where we have three variables: $x$, $y$, and $z$.
+
+\begin{problem}
+    A key strategy for understanding 3D relationships is to \emph{fix one variable and see what happens with the other two}.
+    
+    This creates a \emph{cross-section} or \emph{slice} of the 3D object.
+\end{problem}
 
 \begin{center}
 \geogebra{xypfhkea}{732}{506}
 \end{center}
 
-If you rotate the view to look directly at the flat $x$-$y$ plane, then your view looks like the standard 2-dimensional plane, and you can analyze the curve like you would any curve in your previous classes! We might similarly look at how $x$ and $z$ are related, and then at how $z$ and $y$ are related, as in the following GeoGebra application. You may interact with this GeoGebra application similarly to the previous GeoGebra applications. You may additionally select the ``Show x-Slice'' or ``Show y-slice'' to view the surface at a specific fixed $x$ or $y$ value, generating relationships between $z$ and $y$ and between $x$ and $z$ respectively.
+\begin{problem}
+    Using the GeoGebra applet above, experiment with the $z$ slider.
+    
+    \begin{enumerate}
+        \item When $z = 0$, you see a slice of the surface in the $x$-$y$ plane. This slice is a \wordChoice{\choice[correct]{circle}\choice{parabola}\choice{line}\choice{point}}.
+        
+        \item As you increase $z$, the slices \wordChoice{\choice{get larger}\choice[correct]{get smaller}\choice{stay the same size}}.
+        
+        \item What 3D shape does this surface represent?
+        \begin{multipleChoice}
+            \choice{A cylinder}
+            \choice[correct]{A cone}
+            \choice{A sphere}
+            \choice{A paraboloid}
+        \end{multipleChoice}
+    \end{enumerate}
+    
+    \begin{feedback}
+        By looking at slices, we can understand complex 3D shapes by breaking them down into familiar 2D curves!
+    \end{feedback}
+\end{problem}
 
 \begin{center}
 \geogebra{rf4mpv5m}{732}{506}
 \end{center}
 
-Notice again that if you orient your screen to look directly at the planes, you reduce the complexity to the very familiar 2-dimensional perspective. Isolating these perspectives can often give us a way to decompose the complex relationships of three or more variables systematically. There are often extra assumptions and subtleties that we will need to attend to when making these simplifications. Still, for now, we will start with the basics and gain some graphical insights by dealing with what we are familiar with!
+\begin{problem}
+    Using the second GeoGebra applet, explore slices in different directions.
+    
+    \begin{enumerate}
+        \item Select "Show x-Slice" and move the slider. When we fix $x$ and look at the $y$-$z$ plane, we see the relationship between \wordChoice{\choice{$x$ and $y$}\choice{$x$ and $z$}\choice[correct]{$y$ and $z$}}.
+        
+        \item Select "Show y-Slice" and move the slider. When we fix $y$ and look at the $x$-$z$ plane, we see the relationship between \wordChoice{\choice{$x$ and $y$}\choice[correct]{$x$ and $z$}\choice{$y$ and $z$}}.
+        
+        \item By rotating the view to look directly at each slice, you reduce the problem to a familiar \wordChoice{\choice[correct]{2-dimensional}\choice{1-dimensional}\choice{4-dimensional}} perspective.
+    \end{enumerate}
+\end{problem}
 
-\section{Video Resources}
+\section*{Summary and Reflection}
 
-Visit the \href{https://www.youtube.com/playlist?list=PLHXZ9OQGMqxc_CvEy7xBKRQr6I214QJcd}{Calculus III: Multivariable Calculus playlist by Dr. Trefor Bazett}, found on YouTube, for further video resources on the big picture ideas of multivariable calculus.
+\begin{problem}
+    Reflect on what you've learned:
+    
+    \begin{enumerate}
+        \item Why might you choose polar coordinates over Cartesian coordinates?
+        \begin{selectAll}
+            \choice[correct]{To describe circular or spiral patterns more easily}
+            \choice{To make all problems simpler}
+            \choice[correct]{When the natural description involves distances and angles}
+            \choice{Because they're always better than Cartesian coordinates}
+        \end{selectAll}
+        
+        \item The key strategy for understanding 3D relationships is:
+        \begin{multipleChoice}
+            \choice{Always convert to polar coordinates}
+            \choice{Memorize formulas for every possible surface}
+            \choice[correct]{Fix one variable at a time and analyze 2D slices}
+            \choice{Avoid 3D problems whenever possible}
+        \end{multipleChoice}
+    \end{enumerate}
+\end{problem}
 
 \end{document}
