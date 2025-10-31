@@ -13,11 +13,41 @@ In this activity we extend single-variable calculus ideas to vector functions.
 
 In single-variable settings, functions take numbers as inputs and produce numbers as outputs. 
 
+\begin{center}
+\begin{tikzpicture}[scale=1.2]
+    % Draw axes
+    \draw[->] (-0.5,0) -- (4.5,0) node[right] {$x$ (input)};
+    \draw[->] (0,-0.5) -- (0,3.5) node[above] {$y$ (output)};
+    
+    % Draw the function curve y = 0.3(x-1)^2 + 0.5
+    \draw[thick, blue, domain=0.5:4.2, samples=100] plot (\x, {0.3*(\x-1)^2 + 0.5});
+    
+    % Mark several input points
+    \foreach \x/\y in {1/0.5, 2/0.8, 3/1.7, 3.5/2.375} {
+        % Point on x-axis (input)
+        \fill[red] (\x,0) circle (2pt);
+        % Dashed line from x-axis to curve
+        \draw[dashed, gray] (\x,0) -- (\x,\y);
+        % Point on curve
+        \fill[purple] (\x,\y) circle (2pt);
+        % Dashed line from curve to y-axis
+        \draw[dashed, gray] (\x,\y) -- (0,\y);
+        % Point on y-axis (output)
+        \fill[green!60!black] (0,\y) circle (2pt);
+    }
+    
+    % Label the function
+    \node[blue] at (4,3) {$y=f(x)$};
+    
+    % Add labels for one example
+    \node[below, red, font=\small] at (2,-0.1) {input};
+    \node[left, green!60!black, font=\small] at (-0.1,0.8) {output};
+\end{tikzpicture}
+\end{center}
+
 In multivariable calculus, there are multiple variables as outputs, or multiple variables as inputs, or both!
 
 Let's start with vector functions. These take in a single variable as input and produce a vector as output.
-
-Let's start by visualizing some vector functions and building some intuitions about how they behave.
 
 \begin{problem}
 The geogebra applet breaks down a vector function that produces a simple helix, spiraling upward in 3D space.
@@ -34,7 +64,7 @@ The geogebra applet breaks down a vector function that produces a simple helix, 
 
 There's no $t$ axis on the curve itself, but let's track what each component function is doing as $t$ changes.
 
-Let's break down the curve by isolating each component with respect to time, but then also along each plane in 3D space.
+Break down the curve by isolating each component with respect to time, but then also along each plane in 3D space.
 
 \begin{enumerate}
 
@@ -72,12 +102,54 @@ The vector function for the helix in the applet is $\vec{r}(t) = [ \cos(t), \sin
 \begin{problem}
 Let's practice working with vector functions one component at a time. 
 
-Answer the following questions about the vector functions below: 
+Answer the following questions about the vector functions. Note that these are functions of time, meaning that if we evaluate the vector function at a specific time $t$, we get a vector.
 
 \begin{enumerate}
     \item For $\vec{r}(t) = [ t, t^2, t^3 ]$,
     \begin{itemize}
         \item $\vec{r}(1)$ is a \wordChoice{\choice{scalar}\choice[correct]{vector}\choice{graph}\choice{function}}.
+        \item Which diagram correctly shows the vector $\vec{r}(1)$?
+        \begin{multipleChoice}
+            \choice[correct]{
+                \begin{tikzpicture}[scale=0.6, thick, >=stealth]
+                    \draw[->] (0,0,0) -- (1,1,1) node[above right] {$[1,1,1]$};
+                    \draw[gray,dashed] (0,0,0) -- (2,0,0) node[right] {$x$};
+                    \draw[gray,dashed] (0,0,0) -- (0,2,0) node[above] {$y$};
+                    \draw[gray,dashed] (0,0,0) -- (0,0,2) node[below left] {$z$};
+                    \fill (1,1,1) circle (2pt);
+                \end{tikzpicture}
+            }
+            \choice{
+                \begin{tikzpicture}[scale=0.6, thick, >=stealth]
+                    \draw[->] (0,0,0) -- (1,0,1) node[above right] {$[1,0,1]$};
+                    \draw[gray,dashed] (0,0,0) -- (2,0,0) node[right] {$x$};
+                    \draw[gray,dashed] (0,0,0) -- (0,2,0) node[above] {$y$};
+                    \draw[gray,dashed] (0,0,0) -- (0,0,2) node[below left] {$z$};
+                    \fill (1,0,1) circle (2pt);
+                \end{tikzpicture}
+            }
+            \choice{
+                \begin{tikzpicture}[scale=0.6, thick, >=stealth]
+                    \draw[->] (0,0,0) -- (1,-1,1) node[above right] {$[1,-1,1]$};
+                    \draw[gray,dashed] (0,0,0) -- (2,0,0) node[right] {$x$};
+                    \draw[gray,dashed] (0,0,0) -- (0,2,0) node[above] {$y$};
+                    \draw[gray,dashed] (0,0,0) -- (0,0,2) node[below left] {$z$};
+                    \fill (1,-1,1) circle (2pt);
+                \end{tikzpicture}
+            }
+            \choice{
+                \begin{tikzpicture}[scale=0.6, thick, >=stealth]
+                    \draw[->] (0,0,0) -- (1,1,0) node[above right] {$[1,1,0]$};
+                    \draw[gray,dashed] (0,0,0) -- (2,0,0) node[right] {$x$};
+                    \draw[gray,dashed] (0,0,0) -- (0,2,0) node[above] {$y$};
+                    \draw[gray,dashed] (0,0,0) -- (0,0,2) node[below left] {$z$};
+                    \fill (1,1,0) circle (2pt);
+                \end{tikzpicture}
+            }
+        \end{multipleChoice}
+        \begin{feedback}
+            Remember to evaluate each component of the vector function at $t=1$: $\vec{r}(1) = [1, 1^2, 1^3] = [1, 1, 1]$.
+        \end{feedback}
         \item $\vec{r}(2) =  [ \answer{2}, \answer{4}, \answer{8}]$
         \item The $y$-component of $\vec{r}(3)$ is a \wordChoice{\choice[correct]{scalar}\choice{vector}\choice{graph}\choice{function}} with a value of $\answer{9}$.
     \end{itemize}
@@ -98,9 +170,105 @@ You can also do vector operations on vector functions!
 
 \begin{problem}
     Let's do some vector products on the vector functions $\vec{r}(t) = [ 2t, t^2, 3 ]$ and $\vec{s}(t) = [ \sin(t^2), e^t, \sqrt{t} ]$.
+    
+    First, let's evaluate at $t=2$:
+    \begin{itemize}
+        \item $\vec{r}(2) = [\answer{4}, \answer{4}, \answer{3}]$
+        \item $\vec{s}(2) = [\sin(4), e^2, \sqrt{2}] \approx [-0.757, 7.389, 1.414]$
+    \end{itemize}
+    
     \begin{enumerate}
-        \item $\vec{r}(2)\times \vec{s}(2) = \answer[tolerance=1]{2\sin(4) + 4e^2 + 8\sqrt{2}}$
-        \item $\vec{r}(1) \cdot \vec{s}(1) = \answer[tolerance=1]{\sin(1) + e + 1}$
+        \item Now compute the cross product $\vec{r}(2) \times \vec{s}(2)$ using the cross product formula:
+        
+        For $\vec{r}(2) = [4, 4, 3]$ and $\vec{s}(2) = [\sin(4), e^2, \sqrt{2}]$:
+        
+        $$\vec{r}(2) \times \vec{s}(2) = 
+        \begin{bmatrix}
+        r_2 s_3 - r_3 s_2 \\
+        r_3 s_1 - r_1 s_3 \\
+        r_1 s_2 - r_2 s_1
+        \end{bmatrix}$$
+        
+        The $x$-component is: $r_2 s_3 - r_3 s_2 = \answer[tolerance=0.1]{4\sqrt{2} - 3e^2}$ (or approximately $\answer[tolerance=0.5]{-16.5}$)
+        
+        The $y$-component is: $r_3 s_1 - r_1 s_3 = \answer[tolerance=0.1]{3\sin(4) - 4\sqrt{2}}$ (or approximately $\answer[tolerance=0.5]{-8.4}$)
+        
+        The $z$-component is: $r_1 s_2 - r_2 s_1 = \answer[tolerance=0.1]{4e^2 - 4\sin(4)}$ (or approximately $\answer[tolerance=0.5]{32.6}$)
+        
+        \begin{feedback}
+            Remember the cross product formula for $\vec{a} = [a_1, a_2, a_3]$ and $\vec{b} = [b_1, b_2, b_3]$:
+            $$\vec{a} \times \vec{b} = 
+            \begin{bmatrix}
+            a_2 b_3 - a_3 b_2 \\
+            a_3 b_1 - a_1 b_3 \\
+            a_1 b_2 - a_2 b_1
+            \end{bmatrix}$$
+        \end{feedback}
+        
+        \item The cross product $\vec{r}(2)\times \vec{s}(2)$ produces a vector that is perpendicular to both $\vec{r}(2)$ and $\vec{s}(2)$. Which diagram correctly shows the cross product vector?
+        \begin{multipleChoice}
+            \choice{
+                \begin{tikzpicture}[scale=0.5, thick, >=stealth]
+                    % Input vectors
+                    \draw[->, red] (0,0,0) -- (2,2,1.5) node[above] {$\vec{r}(2)$};
+                    \draw[->, blue] (0,0,0) -- (-0.4,3.7,0.7) node[right] {$\vec{s}(2)$};
+                    % Wrong result - parallel to xy-plane
+                    \draw[->, green!60!black, very thick] (0,0,0) -- (3,0,0) node[below] {$\vec{r}\times\vec{s}$};
+                    % Axes
+                    \draw[gray,dashed] (0,0,0) -- (4,0,0) node[right] {$x$};
+                    \draw[gray,dashed] (0,0,0) -- (0,4,0) node[above] {$y$};
+                    \draw[gray,dashed] (0,0,0) -- (0,0,3) node[below left] {$z$};
+                \end{tikzpicture}
+            }
+            \choice[correct]{
+                \begin{tikzpicture}[scale=0.5, thick, >=stealth]
+                    % Input vectors
+                    \draw[->, red] (0,0,0) -- (2,2,1.5) node[above] {$\vec{r}(2)$};
+                    \draw[->, blue] (0,0,0) -- (-0.4,3.7,0.7) node[right] {$\vec{s}(2)$};
+                    % Correct result - perpendicular to both
+                    \draw[->, green!60!black, very thick] (0,0,0) -- (-2.5,-2,8) node[right] {$\vec{r}\times\vec{s}$};
+                    % Axes
+                    \draw[gray,dashed] (0,0,0) -- (4,0,0) node[right] {$x$};
+                    \draw[gray,dashed] (0,0,0) -- (0,4,0) node[above] {$y$};
+                    \draw[gray,dashed] (0,0,0) -- (0,0,3) node[below left] {$z$};
+                \end{tikzpicture}
+            }
+            \choice{
+                \begin{tikzpicture}[scale=0.5, thick, >=stealth]
+                    % Input vectors
+                    \draw[->, red] (0,0,0) -- (2,2,1.5) node[above] {$\vec{r}(2)$};
+                    \draw[->, blue] (0,0,0) -- (-0.4,3.7,0.7) node[right] {$\vec{s}(2)$};
+                    % Wrong result - along one of the input vectors
+                    \draw[->, green!60!black, very thick] (0,0,0) -- (3,3,2.25) node[above] {$\vec{r}\times\vec{s}$};
+                    % Axes
+                    \draw[gray,dashed] (0,0,0) -- (4,0,0) node[right] {$x$};
+                    \draw[gray,dashed] (0,0,0) -- (0,4,0) node[above] {$y$};
+                    \draw[gray,dashed] (0,0,0) -- (0,0,3) node[below left] {$z$};
+                \end{tikzpicture}
+            }
+            \choice{
+                \begin{tikzpicture}[scale=0.5, thick, >=stealth]
+                    % Input vectors
+                    \draw[->, red] (0,0,0) -- (2,2,1.5) node[above] {$\vec{r}(2)$};
+                    \draw[->, blue] (0,0,0) -- (-0.4,3.7,0.7) node[right] {$\vec{s}(2)$};
+                    % Wrong result - in the plane of the two vectors
+                    \draw[->, green!60!black, very thick] (0,0,0) -- (1,4,1.5) node[above right] {$\vec{r}\times\vec{s}$};
+                    % Axes
+                    \draw[gray,dashed] (0,0,0) -- (4,0,0) node[right] {$x$};
+                    \draw[gray,dashed] (0,0,0) -- (0,4,0) node[above] {$y$};
+                    \draw[gray,dashed] (0,0,0) -- (0,0,3) node[below left] {$z$};
+                \end{tikzpicture}
+            }
+        \end{multipleChoice}
+        \begin{feedback}
+            The cross product $\vec{a} \times \vec{b}$ produces a vector perpendicular to both $\vec{a}$ and $\vec{b}$. The correct result has negative $x$ and $y$ components but a large positive $z$ component: approximately $[-16.5, -8.4, 32.6]$.
+        \end{feedback}
+        
+        \item Now compute the dot product: $\vec{r}(1) \cdot \vec{s}(1) = \answer[tolerance=1]{2\sin(1) + e + 3}$
+        
+        \begin{feedback}
+            For the dot product, evaluate each vector at $t=1$: $\vec{r}(1) = [2, 1, 3]$ and $\vec{s}(1) = [\sin(1), e, 1]$. Then compute: $2\sin(1) + 1 \cdot e + 3 \cdot 1 \approx 6.40$.
+        \end{feedback}
     \end{enumerate}
     \begin{feedback}
     Remember to evaluate each vector function at the specified $t$ value before performing the vector operations! You treat the outputs of the functions as regular vectors.
@@ -130,7 +298,7 @@ The derivative captures instantaneous rate of change. Now we'll extend this idea
 \end{problem}
 
 \begin{problem}
-Before viewing the next applet, let's explore the 2D case conceptually.
+Before viewing the next applet, let's explore the 2D case.
 
 \begin{expandable}{stuff}{GeoGebra Instructions}
     Alter the ``X='' slider to see the tangent line shift along the curve. Notice the approximating horizontal and vertical components represented by $dx$ and $df$.
@@ -206,7 +374,9 @@ After exploring the visualization, answer:
 
 \subsection*{Reconstructing Position from Velocity}
 
-In single-variable calculus, we learned that integration is the reverse of differentiation. If we know the rate of change, we can find the total change by integrating.
+In single-variable calculus, we learned that integration adds up little bits of products, such as rate-time products $r\cdot dt$ to accumulate a quantity, like distance. We did this using the Fundamental Theorem of Calculus, which leverages \emph{antiderivatives}.
+
+The same is true for integrating vector functions, but you can choose to set up the adding up pieces in a few ways. The first, and easiest, is to add up pieces within each component, meaning we use the FTC on each component individually.
 
 \begin{problem}
 Let's review: In single-variable calculus, if a rocket has velocity $v(t)$ over time interval $[a,b]$, the total change in height is:
@@ -255,18 +425,18 @@ Key insight: When we integrate a vector function, what do we get?
 
 \begin{multipleChoice}
     \choice{A scalar (number)}
-    \choice[correct]{A vector (displacement)}
+    \choice[correct]{A vector representing the net change in position}
     \choice{The arc length}
     \choice{The speed}
 \end{multipleChoice}
 
 \begin{feedback}
-Unlike scalar integration which gives a number, vector integration gives us a displacement vector showing the overall change in position!
+Unlike scalar integration which gives a number, vector integration gives us a vector resulting from the accumulated displacements from the velocities across the time interval, showing the overall change in position!
 \end{feedback}
 \end{problem}
 
 \begin{problem}
-Let's practice! If $\vec{v}(t) = \langle 2, 3t, 4t^2 \rangle$, find the displacement from $t=0$ to $t=2$.
+Let's practice! If $\vec{v}(t) = \langle 2, 3t, 4t^2 \rangle$, find the net position after starting at $\vec{r}(0) = \langle 0, 0, 0 \rangle$ and accumulating displacements from $t=0$ to $t=2$.
 
 $\int_0^2 \vec{v}(t) \, dt = \left\langle \int_0^2 \answer{2} \, dt, \int_0^2 \answer{3t} \, dt, \int_0^2 \answer{4t^2} \, dt \right\rangle$
 
@@ -301,7 +471,7 @@ After exploring, select the true statements:
 
 \subsection*{Distance vs. Displacement}
 
-While integrating components gives us displacement (a vector), we often want to know the actual distance traveled along the curve—the arc length.
+While integrating components gives us a function showing the resulting vectors from displacement up to a certain time, we often want to know the actual distance traveled along the curve—the arc length.
 
 \begin{problem}
 Think about the difference between displacement and distance:
