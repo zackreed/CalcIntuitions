@@ -1,0 +1,528 @@
+\documentclass{ximera}
+
+\title{Jacobians and Transformations}
+\author{Zack Reed}
+
+\begin{document}
+\begin{abstract}
+In this activity we learn how to compute the Jacobian determinant for coordinate transformations and understand its geometric meaning as a scaling factor for area and volume.
+\end{abstract}
+\maketitle
+
+\section*{Introduction: What is a Jacobian?}
+
+The Jacobian is the multivariable calculus tool that tells us how areas and volumes change under coordinate transformations.
+
+\begin{problem}
+In single-variable u-substitution, we have:
+$$\int f(g(x)) g'(x)\,dx = \int f(u)\,du$$
+
+The derivative $g'(x)$ measures:
+\begin{multipleChoice}
+    \choice{The value of the function}
+    \choice[correct]{How $dx$ stretches or compresses to become $du$}
+    \choice{The area under the curve}
+    \choice{Nothing important}
+\end{multipleChoice}
+
+For transformations in multiple dimensions, we need to measure how:
+\begin{selectAll}
+    \choice[correct]{Areas change in 2D}
+    \choice[correct]{Volumes change in 3D}
+    \choice{Functions change}
+    \choice[correct]{Small regions stretch, compress, rotate, or shear}
+\end{selectAll}
+
+\begin{feedback}
+The Jacobian determinant is the multidimensional analog of the derivative $g'(x)$!
+\end{feedback}
+\end{problem}
+
+\section*{The Jacobian Matrix}
+
+\begin{definition}
+For a transformation from $(u,v)$ to $(x,y)$:
+\begin{align*}
+x &= x(u,v)\\
+y &= y(u,v)
+\end{align*}
+
+The \textbf{Jacobian matrix} is:
+$$\mathbf{J} = \begin{bmatrix} 
+\frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\[8pt]
+\frac{\partial y}{\partial u} & \frac{\partial y}{\partial v}
+\end{bmatrix}$$
+
+This matrix contains all first-order partial derivatives of the transformation.
+\end{definition}
+
+\begin{problem}
+The Jacobian matrix tells us how:
+\begin{selectAll}
+    \choice[correct]{Small displacements in the $uv$-plane map to the $xy$-plane}
+    \choice[correct]{The transformation behaves locally (at each point)}
+    \choice{The function values change}
+    \choice[correct]{Vectors transform under the change of coordinates}
+\end{selectAll}
+
+For a transformation $(u,v) \to (x,y)$, the Jacobian matrix has:
+\begin{itemize}
+    \item $\answer{2}$ rows
+    \item $\answer{2}$ columns
+    \item $\answer{4}$ entries (partial derivatives)
+\end{itemize}
+
+\begin{feedback}
+The Jacobian matrix is a linear approximation to the transformation at each point!
+\end{feedback}
+\end{problem}
+
+\section*{The Jacobian Determinant}
+
+\begin{definition}
+The \textbf{Jacobian determinant} (or just "the Jacobian") is:
+$$J = \det(\mathbf{J}) = \frac{\partial(x,y)}{\partial(u,v)} = \frac{\partial x}{\partial u}\frac{\partial y}{\partial v} - \frac{\partial x}{\partial v}\frac{\partial y}{\partial u}$$
+
+The absolute value $|J|$ gives the area scaling factor.
+\end{definition}
+
+\begin{problem}
+For a $2 \times 2$ matrix $\begin{bmatrix} a & b \\ c & d \end{bmatrix}$, the determinant is:
+
+$$\det = ad - bc = \answer{ad - bc}$$
+
+This is the formula we use for the Jacobian determinant!
+
+Why do we use $|J|$ (absolute value) in integrals?
+\begin{multipleChoice}
+    \choice{Because determinants are always negative}
+    \choice{To make the math easier}
+    \choice[correct]{Because we want the magnitude of scaling, not the sign (which indicates orientation)}
+    \choice{It's a random convention}
+\end{multipleChoice}
+
+\begin{feedback}
+The absolute value ensures we get a positive area scaling factor. The sign of $J$ tells us about orientation (which way the transformation "flips" things).
+\end{feedback}
+\end{problem}
+
+\section*{Computing Jacobians: Step by Step}
+
+\begin{problem}
+Let's compute the Jacobian for polar coordinates:
+\begin{align*}
+x &= r\cos\theta\\
+y &= r\sin\theta
+\end{align*}
+
+\textbf{Step 1: Compute partial derivatives}
+
+$$\frac{\partial x}{\partial r} = \answer{\cos\theta}$$
+
+$$\frac{\partial x}{\partial \theta} = \answer{-r\sin\theta}$$
+
+$$\frac{\partial y}{\partial r} = \answer{\sin\theta}$$
+
+$$\frac{\partial y}{\partial \theta} = \answer{r\cos\theta}$$
+
+\textbf{Step 2: Form the Jacobian matrix}
+
+$$\mathbf{J} = \begin{bmatrix}
+\cos\theta & -r\sin\theta\\
+\sin\theta & r\cos\theta
+\end{bmatrix}$$
+
+\textbf{Step 3: Compute the determinant}
+
+$$J = (\cos\theta)(r\cos\theta) - (-r\sin\theta)(\sin\theta)$$
+$$= r\cos^2\theta + r\sin^2\theta = r(\cos^2\theta + \sin^2\theta) = \answer{r}$$
+
+Therefore, $|J| = r$ (assuming $r \geq 0$).
+
+This confirms: $dA = dx\,dy = \answer{r}\,dr\,d\theta$
+
+\begin{feedback}
+We derived the polar area element from first principles using the Jacobian!
+\end{feedback}
+\end{problem}
+
+\section*{Example: Linear Transformation}
+
+\begin{problem}
+Compute the Jacobian for:
+\begin{align*}
+x &= 3u - 2v\\
+y &= u + 4v
+\end{align*}
+
+\textbf{Partial derivatives:}
+
+$$\frac{\partial x}{\partial u} = \answer{3}, \quad \frac{\partial x}{\partial v} = \answer{-2}$$
+
+$$\frac{\partial y}{\partial u} = \answer{1}, \quad \frac{\partial y}{\partial v} = \answer{4}$$
+
+\textbf{Jacobian determinant:}
+
+$$J = (3)(4) - (-2)(1) = 12 + 2 = \answer{14}$$
+
+Since this is a linear transformation, $|J| = \answer{14}$ is constant everywhere.
+
+This means:
+\begin{itemize}
+    \item A region with area $A$ in the $uv$-plane maps to area $\answer{14A}$ in the $xy$-plane
+    \item The unit square ($1 \times 1$) maps to a parallelogram with area $\answer{14}$
+\end{itemize}
+
+\begin{feedback}
+Linear transformations have constant Jacobians! The transformation uniformly scales all areas by the same factor.
+\end{feedback}
+\end{problem}
+
+\section*{Example: Nonlinear Transformation}
+
+\begin{problem}
+Compute the Jacobian for:
+\begin{align*}
+x &= u^2 - v^2\\
+y &= 2uv
+\end{align*}
+
+(This is related to the complex function $z \mapsto z^2$!)
+
+\textbf{Partial derivatives:}
+
+$$\frac{\partial x}{\partial u} = \answer{2u}, \quad \frac{\partial x}{\partial v} = \answer{-2v}$$
+
+$$\frac{\partial y}{\partial u} = \answer{2v}, \quad \frac{\partial y}{\partial v} = \answer{2u}$$
+
+\textbf{Jacobian determinant:}
+
+$$J = (2u)(2u) - (-2v)(2v) = 4u^2 + 4v^2 = \answer{4(u^2 + v^2)}$$
+
+Therefore: $|J| = 4(u^2 + v^2)$
+
+This Jacobian:
+\begin{multipleChoice}
+    \choice{Is constant}
+    \choice[correct]{Depends on position $(u,v)$}
+    \choice{Is always zero}
+    \choice{Is always one}
+\end{multipleChoice}
+
+Where is the scaling factor largest?
+\begin{multipleChoice}
+    \choice{At the origin}
+    \choice[correct]{Far from the origin (large $u^2+v^2$)}
+    \choice{It's the same everywhere}
+\end{multipleChoice}
+
+\begin{feedback}
+Nonlinear transformations have variable Jacobians—the scaling changes from point to point!
+\end{feedback}
+\end{problem}
+
+\section*{Geometric Interpretation}
+
+\begin{problem}
+The Jacobian determinant $|J|$ represents:
+
+The factor by which \wordChoice{\choice{length}\choice[correct]{area}\choice{volume}\choice{angle}} is scaled locally.
+
+Consider a small rectangle in the $uv$-plane with area $\Delta u \cdot \Delta v$.
+
+After transformation to the $xy$-plane, the area becomes approximately:
+$$\Delta A \approx \answer{|J|} \cdot \Delta u \cdot \Delta v$$
+
+As $\Delta u, \Delta v \to 0$, this becomes exact:
+$$dA = dx\,dy = |J|\,du\,dv$$
+
+The Jacobian captures:
+\begin{selectAll}
+    \choice[correct]{Local stretching}
+    \choice[correct]{Local compression}
+    \choice{Global behavior}
+    \choice[correct]{How small areas transform}
+    \choice{The function values}
+\end{selectAll}
+
+\begin{feedback}
+Think of the Jacobian as the "magnification factor" for infinitesimal areas under the transformation!
+\end{feedback}
+\end{problem}
+
+\section*{Three Dimensions: Triple Integrals}
+
+\begin{definition}
+For a transformation from $(u,v,w)$ to $(x,y,z)$, the Jacobian matrix is:
+$$\mathbf{J} = \begin{bmatrix}
+\frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} & \frac{\partial x}{\partial w}\\[8pt]
+\frac{\partial y}{\partial u} & \frac{\partial y}{\partial v} & \frac{\partial y}{\partial w}\\[8pt]
+\frac{\partial z}{\partial u} & \frac{\partial z}{\partial v} & \frac{\partial z}{\partial w}
+\end{bmatrix}$$
+
+The Jacobian determinant is computed using the $3 \times 3$ determinant formula.
+\end{definition}
+
+\begin{problem}
+For a $3 \times 3$ matrix, the determinant calculation is more complex.
+
+The transformation rule for triple integrals is:
+$$\iiint_R f(x,y,z)\,dx\,dy\,dz = \iiint_S f(x(u,v,w), y(u,v,w), z(u,v,w)) \cdot \answer{|J|}\,du\,dv\,dw$$
+
+The Jacobian $|J|$ measures:
+\begin{multipleChoice}
+    \choice{Area scaling}
+    \choice[correct]{Volume scaling}
+    \choice{Length scaling}
+    \choice{Angle changes}
+\end{multipleChoice}
+
+\begin{feedback}
+In 3D, the Jacobian tells us how volumes (not areas) scale under the transformation!
+\end{feedback}
+\end{problem}
+
+\section*{Cylindrical Coordinates Jacobian}
+
+\begin{problem}
+Verify the Jacobian for cylindrical coordinates:
+\begin{align*}
+x &= r\cos\theta\\
+y &= r\sin\theta\\
+z &= z
+\end{align*}
+
+\textbf{Jacobian matrix:}
+$$\mathbf{J} = \begin{bmatrix}
+\frac{\partial x}{\partial r} & \frac{\partial x}{\partial \theta} & \frac{\partial x}{\partial z}\\[8pt]
+\frac{\partial y}{\partial r} & \frac{\partial y}{\partial \theta} & \frac{\partial y}{\partial z}\\[8pt]
+\frac{\partial z}{\partial r} & \frac{\partial z}{\partial \theta} & \frac{\partial z}{\partial z}
+\end{bmatrix} = \begin{bmatrix}
+\answer{\cos\theta} & \answer{-r\sin\theta} & \answer{0}\\[8pt]
+\answer{\sin\theta} & \answer{r\cos\theta} & \answer{0}\\[8pt]
+\answer{0} & \answer{0} & \answer{1}
+\end{bmatrix}$$
+
+Computing the $3 \times 3$ determinant (expand along the third row for simplicity):
+$$J = 1 \cdot \begin{vmatrix} \cos\theta & -r\sin\theta \\ \sin\theta & r\cos\theta \end{vmatrix}$$
+
+We already know this $2 \times 2$ determinant from polar coordinates:
+$$J = 1 \cdot r = \answer{r}$$
+
+Therefore: $dV = dx\,dy\,dz = \answer{r}\,dr\,d\theta\,dz$
+
+This makes sense because:
+\begin{multipleChoice}
+    \choice{It's a random result}
+    \choice[correct]{Cylindrical = polar ($r\,dr\,d\theta$) in the $xy$-plane times height ($dz$)}
+    \choice{All Jacobians equal $r$}
+\end{multipleChoice}
+
+\begin{feedback}
+The cylindrical Jacobian is just the polar Jacobian, extended by the trivial $z$ direction!
+\end{feedback}
+\end{problem}
+
+\section*{Spherical Coordinates Jacobian}
+
+\begin{problem}
+For spherical coordinates:
+\begin{align*}
+x &= \rho\sin\phi\cos\theta\\
+y &= \rho\sin\phi\sin\theta\\
+z &= \rho\cos\phi
+\end{align*}
+
+The Jacobian matrix is:
+$$\mathbf{J} = \begin{bmatrix}
+\sin\phi\cos\theta & \rho\cos\phi\cos\theta & -\rho\sin\phi\sin\theta\\
+\sin\phi\sin\theta & \rho\cos\phi\sin\theta & \rho\sin\phi\cos\theta\\
+\cos\phi & -\rho\sin\phi & 0
+\end{bmatrix}$$
+
+Computing this $3 \times 3$ determinant (details omitted) gives:
+$$J = \rho^2\sin\phi$$
+
+Therefore: $dV = dx\,dy\,dz = \answer{\rho^2\sin\phi}\,d\rho\,d\phi\,d\theta$
+
+The factors in the Jacobian represent:
+\begin{selectAll}
+    \choice[correct]{$\rho^2$: shells expand quadratically with radius}
+    \choice[correct]{$\sin\phi$: circles shrink near the poles}
+    \choice{Random mathematical constants}
+    \choice[correct]{Geometric properties of the sphere}
+\end{selectAll}
+
+\begin{feedback}
+The spherical Jacobian $\rho^2\sin\phi$ captures the beautiful geometry of spherical coordinates!
+\end{feedback}
+\end{problem}
+
+\section*{Using Jacobians in Practice}
+
+\begin{problem}
+To evaluate $\displaystyle\iint_R e^{(x-y)/(x+y)}\,dA$ where $R$ is the square with vertices $(0,0)$, $(1,1)$, $(2,0)$, $(0,2)$.
+
+This region is a rotated square. Let's try:
+\begin{align*}
+u &= x + y\\
+v &= x - y
+\end{align*}
+
+Solve for $x$ and $y$:
+$$x = \frac{u+v}{2} = \answer{(u+v)/2}$$
+$$y = \frac{u-v}{2} = \answer{(u-v)/2}$$
+
+\textbf{Compute the Jacobian:}
+
+$$\frac{\partial x}{\partial u} = \answer{1/2}, \quad \frac{\partial x}{\partial v} = \answer{1/2}$$
+
+$$\frac{\partial y}{\partial u} = \answer{1/2}, \quad \frac{\partial y}{\partial v} = \answer{-1/2}$$
+
+$$J = \left(\frac{1}{2}\right)\left(-\frac{1}{2}\right) - \left(\frac{1}{2}\right)\left(\frac{1}{2}\right) = -\frac{1}{4} - \frac{1}{4} = -\frac{1}{2}$$
+
+Therefore: $|J| = \answer{1/2}$
+
+The function becomes:
+$$e^{(x-y)/(x+y)} = e^{v/u}$$
+
+The vertices transform:
+\begin{itemize}
+    \item $(0,0) \to (u,v) = (0,0)$
+    \item $(1,1) \to (u,v) = (\answer{2}, \answer{0})$
+    \item $(2,0) \to (u,v) = (\answer{2}, \answer{2})$
+    \item $(0,2) \to (u,v) = (\answer{2}, \answer{-2})$
+\end{itemize}
+
+The rotated square in the $xy$-plane maps to a rectangle in the $uv$-plane!
+
+The integral becomes:
+$$\iint_R e^{(x-y)/(x+y)}\,dA = \int_{-2}^{2}\int_0^2 e^{v/u} \cdot \frac{1}{2}\,du\,dv$$
+
+Much easier to set up with nice rectangular bounds!
+
+\begin{feedback}
+Choosing the right transformation can turn a difficult region into a simple rectangle!
+\end{feedback}
+\end{problem}
+
+\section*{When is the Jacobian Zero?}
+
+\begin{problem}
+If $J = 0$ at a point, the transformation is:
+\begin{multipleChoice}
+    \choice{Perfect}
+    \choice{One-to-one}
+    \choice[correct]{Degenerate (collapses dimensions)}
+    \choice{Conformal}
+\end{multipleChoice}
+
+Example: $x = u^2$, $y = u^2$
+
+This maps the entire $uv$-plane onto:
+\begin{multipleChoice}
+    \choice{The entire $xy$-plane}
+    \choice{A circle}
+    \choice[correct]{A line ($y = x$)}
+    \choice{A parabola}
+\end{multipleChoice}
+
+The Jacobian is:
+$$J = \frac{\partial x}{\partial u}\frac{\partial y}{\partial v} - \frac{\partial x}{\partial v}\frac{\partial y}{\partial u} = (2u)(0) - (0)(2u) = \answer{0}$$
+
+When $J = 0$:
+\begin{selectAll}
+    \choice[correct]{The transformation is not one-to-one}
+    \choice[correct]{Area is collapsed}
+    \choice{We can still use the transformation}
+    \choice[correct]{We need to be careful about the domain}
+\end{selectAll}
+
+\begin{feedback}
+A zero Jacobian indicates that the transformation collapses higher-dimensional regions onto lower-dimensional sets!
+\end{feedback}
+\end{problem}
+
+\section*{Inverse Transformations}
+
+\begin{problem}
+If we have $x = x(u,v)$ and $y = y(u,v)$, sometimes we can invert to get $u = u(x,y)$ and $v = v(x,y)$.
+
+The Jacobians of a transformation and its inverse are related:
+$$J_{uv \to xy} \cdot J_{xy \to uv} = \answer{1}$$
+
+Or: $J_{xy \to uv} = \frac{1}{J_{uv \to xy}}$
+
+For polar coordinates:
+\begin{itemize}
+    \item Forward: $(r,\theta) \to (x,y)$ has $J = r$
+    \item Inverse: $(x,y) \to (r,\theta)$ has $J = \answer{1/r}$
+\end{itemize}
+
+This relationship means:
+\begin{multipleChoice}
+    \choice{Both Jacobians are always 1}
+    \choice[correct]{If one transformation expands, the inverse contracts}
+    \choice{Jacobians are independent}
+\end{multipleChoice}
+
+\begin{feedback}
+The inverse transformation "undoes" the scaling—if one expands by factor $r$, the other contracts by factor $1/r$!
+\end{feedback}
+\end{problem}
+
+\section*{Summary and Key Formulas}
+
+\begin{problem}
+Complete the Jacobian summary:
+
+\textbf{Definition (2D):}
+$$J = \frac{\partial(x,y)}{\partial(u,v)} = \frac{\partial x}{\partial u}\frac{\partial y}{\partial v} - \answer{\frac{\partial x}{\partial v}\frac{\partial y}{\partial u}}$$
+
+\textbf{In integrals:}
+$$\iint_R f(x,y)\,dx\,dy = \iint_S f(x(u,v), y(u,v)) \cdot \answer{|J|}\,du\,dv$$
+
+\textbf{Standard Jacobians:}
+\begin{itemize}
+    \item Polar: $|J| = \answer{r}$
+    \item Cylindrical: $|J| = \answer{r}$
+    \item Spherical: $|J| = \answer{\rho^2\sin\phi}$
+\end{itemize}
+
+\textbf{The Jacobian measures:}
+\begin{selectAll}
+    \choice[correct]{How areas scale (in 2D)}
+    \choice[correct]{How volumes scale (in 3D)}
+    \choice[correct]{Local magnification factor}
+    \choice{Function values}
+    \choice[correct]{The determinant of the transformation's derivative matrix}
+\end{selectAll}
+
+\begin{feedback}
+The Jacobian determinant is essential for any change of variables in multiple integrals!
+\end{feedback}
+\end{problem}
+
+\section*{Final Check}
+
+\begin{problem}
+Select all TRUE statements about Jacobians:
+
+\begin{selectAll}
+    \choice[correct]{The Jacobian matrix contains all first partial derivatives}
+    \choice[correct]{The Jacobian determinant gives the scaling factor}
+    \choice{The Jacobian is always positive}
+    \choice[correct]{We use $|J|$ in integrals to ensure positive scaling}
+    \choice[correct]{Linear transformations have constant Jacobians}
+    \choice{The Jacobian is the same as the gradient}
+    \choice[correct]{A zero Jacobian indicates a degenerate transformation}
+    \choice[correct]{Polar, cylindrical, and spherical Jacobians should be memorized}
+    \choice[correct]{The Jacobian extends the concept of $g'(x)$ from u-substitution}
+\end{selectAll}
+
+\begin{feedback}
+Perfect! You now understand how to compute and use Jacobians for any coordinate transformation in multiple integrals!
+\end{feedback}
+\end{problem}
+
+\end{document}

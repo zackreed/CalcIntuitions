@@ -1,243 +1,159 @@
-%[text] # Application Walkthrough 1: Mass of a Wire
-%[text] ## Introduction
-%[text] Welcome to your first project walkthrough! 
-%[text] This walkthrough will give you a good glimpse of some of the main ways we want to think about differentiating and integrating along curves when modeling phenomena using mathematics! 
-%[text] This will also give you a rough template and introduce you to the tools that you can use for your mini project, due at the end of this module.
-%[text] ## Context: Mass of a Wire
-%[text] We're going to look at various vector curves in space and imagine that they are skinny wires. The goal will be to calculate the mass of the wires using derivatives and integrals, but also to gut-check the mass of the wires with approximations.
-%[text] ### Basic Model: Mass=Density\*Length
-%[text] As with all things integral, you start with a basic model (typically involving multiplciation) for quantifying something about a mathematical object. In this case, the basic model is mass=density\*length. Then, some variation in an object forces us to use integration instead of multiplication, adding up lots of small approximate pieces formed from the basic model.
-%[text] Many wires you come across are *uniformly dense*. That is, no matter how big or small of a piece of wire, the ratio between the mass of the wire and the length of the wire will always be constant (i.e. a constant density).
-%[text] Let's take a look at a simple wire with constant density using the code found in the next cell.
-%[text] *The first line of code in the following cell sets up the variable, t.* 
-%[text] *The second line of code defines the wire curve as a vector function.*
-%[text] *The third line enters the constant density.*
-%[text] *The fourth line makes an animation showing the wire being broken up into smaller and smaller pieces but always having the same mass-length ratio between each piece.*
-%[text] When you're ready, delete the percent sign in front of animate\_segment\_cases(r,rho) to show the animation.
-syms t
-r=[sin(t), cos(t), t];
-rho=2
-animate_segment_cases(r,rho)
-%%
-%[text] #### Checking Constant Mass
-%[text] Use the slider to run through the animation after it finishes. 
-%[text] You'll note that there is a constant ratio between the mass and the length no matter what the segment size is.
-%[text] The density found from the total mass and total length is given below, you then should find the masses and lengths of the smaller segments. Use these measures to verify that across these instances the wire density was indeed constant.
-40.1387/20.193
-%find the other densities by dividng the segment masses by the segment
-%lengths for each mass-segment pair in the animation.
-%%
-%[text] #### Variable Density
-%[text] Now see what happens if you have a variable density. We will set the density of the wire as the increasing function $\\rho =2+t^2${"editStyle":"visual"}.
-%[text] Since *t* is already defined as a variable in MATLAB, it does not need to be re-defined. We simply need to define a function that gives us the density along the wire.
-%[text] To define the function in MATLAB, use the syntax
-%[text] *\[function\_name\]=\[formula\].*
-%[text] *Example: g=x^2 defines the function* $g\\left(x\\right)=x^2${"editStyle":"visual"}*.*
-%The function called "rho" is defined with the formula 2+t^2.
-rho=2+t^2
-
-%Now again use animate_segment_cases, using r as the first argument and
-%then rho as the second argument.
-animate_segment_cases(r, rho)
-%%
-%[text] #### Variable Mass along the Wire
-%[text] You should see that the mass changes as you move along the curve.
-%[text] This means that the density of this wire is not uniform.
-%[text] The formula $\\rho =2+t^2${"editStyle":"visual"} should provide the density at any time t. 
-%[text] As before, slide through the animation and determine what the density is at $t=\\pi \\;${"editStyle":"visual"}and $t=2\\pi${"editStyle":"visual"} (within the different scales in the animation).
-%Verify (up to a little error) that rho determined the density
-%at time=pi and at time=2*pi by dividing the mass by the length of the segments at
-%those times.
-
-%If you need a gut-check, you can also just hand-calculate the density.
-%[text] You should also use the subs() command to verify the density values from $\\rho${"editStyle":"visual"}.
-%[text] *Example: Evaluating* $\\rho \\;${"editStyle":"visual"}*at time* $t=2${"editStyle":"visual"} *can be done using the command subs(rho,t,2) "substitute into* $\\rho${"editStyle":"visual"}*, replacing the value* $t${"editStyle":"visual"} *with* $2${"editStyle":"visual"}*".*
-subs(rho,t,2)
-
-%Now use subs() to verify the density values at time=pi and time=2*pi.
-%Within a small error the density calcualtions from the animation and from
-%the density function should agree.
-%%
-%[text] ### **Challenges to the Basic Model: Variable Density**
-%[text] We want to calculate the mass of a wire just using multiplication, $M=\\rho \\cdot L${"editStyle":"visual"}, where 
-%[text] - $M${"editStyle":"visual"} is the mass of the wire,
-%[text] - $\\rho \\;${"editStyle":"visual"}is the uniform density,
-%[text] - $L${"editStyle":"visual"} is the length of the wire. \
-%[text] Unfortunately, we can't use this basic model for many wires because: 
-%[text] - many wires have strange shapes and we don't want to stretch them out to measure their length,
-%[text] - not all wires have uniform densities, so there is no one density that will work in the basic model. \
-%[text] So, how do we compute the total length and total mass? We integrate to "add up small mass pieces" together.
-%%
-%[text] ### **Step 1: Visualize the Approximate Pieces**
-%[text] Let's visualize the approximation process first. 
-%[text] The *plot\_curve\_pieces* course MATLAB function will:
-%[text] - *take in a wire as the first argument,*
-%[text] - *a number of pieces (N) as the second argument,*
-%[text] - *a density function as the third argument,* \
-%[text] *and will show you:*
-%[text] - *a plot of the wire pieces color-coded by density* \
-%[text] The plot called in the next cell is the example wire and density broken up into 20 pieces.
-plot_curve_pieces(r,20,rho)
-%[text] You should see the wire broken up into 20 pieces, each piece having a slightly different color, noting the density of the midpoint of the piece (as an approximation for the density of the whole piece).
-%[text] This effectively sets up a *midpoint approximation* of the mass. That is, the density at the midpoint of the segment is treated as the uniform density of the entire wire.
-%%
-%[text] The function *plot\_curve\_mass\_pieces* will also use the same arguments (r, N, rho) but the plot will t*ell you the mass approximated by the midpoint sum*. 
-N=20
-plot_curve_mass_pieces(r,N,rho)
-%[text] If everything is set up correctly, a 20-piece sample midpoint approximation of the mass should measure 134.354 grams.
-%%
-%[text] ### Step 2: Approximate the Wire Mass
-%[text] Let's make this approximation ourselves!
-%[text] Remember that mass is approximated by the product $M=\\rho \\cdot L${"editStyle":"visual"}, "density times the length".
-%[text] So, if we had the lengths and densities of our wire after breaking it up into N pieces, we chould just multiply those densities and lengths to get the mass of each individual piece.
-%[text] This is exactly what the course function break\_into\_pieces() does!
-%[text] If you've defind r, N, and rho, the following cell should give you lists (called arrays) of the densities at the midpoints of the N wire segments as well as the segment lengths, called "densities" and "lengths"
-[~, lengths, densities, ~, ~] = break_into_pieces(r, N, rho)
-%[text] In your output, you should see two 1x20 lists, "lengths" and "densities". The numbers in each are the lengths of the broken wire and the densities of the broken wire.
-%%
-%[text] #### 20-Piece Approximation of Mass
-%[text] Now we're going to use lengths and densities to do some quick approximations. 
-%[text] One really nice feature of MATLAB is that it can do many many calculations at once!
-%[text] For instance, ".\*" will multiply the entries of two arrays at matching index values.
-%[text] ***(Remember that the index, i of a list or of a sum, is just the number telling how far in the list (or sum) to look. So the 2nd element of "densities" is the second number in the densities list, the 4th element of "lengths" is the fourth number in the list, etc.)***
-%[text] The following cell uses .\* to multiply each entry in densities by the same entry in lengths. this will quickly multiply all of the approximate densities by the approximate lengths.
-masses=densities.*lengths
-%[text] You should see a 20-length list of masses whose entries are the products of the corresponding entries in lengths and masses.
-%%
-%[text] The next cell uses sum() to add the entries in "masses" to find the approximate mass of the 20-piece wire.
-mass_approx=sum(masses)
-%[text] The result of the sum should closely match the approximation from the plot!
-plot_curve_mass_pieces(r,N,rho)
-%%
-%[text] #### Symbolizing: Midpoint Sum Approximation
-%[text] Hopefully you see the same number in mass\_approx and in the figure!
-%[text] As you've seen in previous courses, especially with Riemann Sums, to symbolically write out our approximation: 
-%[text] - we call $M${"editStyle":"visual"} the approximate mass and $\\Delta \\;M${"editStyle":"visual"} the individual small masses,
-%[text] - our approximation was simply $M\\approx \\;\\Sigma\_{i\\;} \\Delta M\_i${"editStyle":"visual"} "M is approximately the sum of the small masses".  \
-%[text] In this case, we measured the masses using the density\*length products. So:
-%[text] - each $\\Delta M\_i =\\rho\_i \\;\\Delta L\_i${"editStyle":"visual"}, the product of the density and the changes in mass,
-%[text] - the new approximation becomes $M\\approx \\;\\Sigma\_i \\;\\Delta M\_i =\\Sigma\_i \\;\\rho\_i \\;\\Delta L\_i${"editStyle":"visual"}. \
-%[text] Notice that we found all of the masses from the product masses=densities.\*lengths and then summed the list of products, so the symbols match our approximation process!
-%%
-%[text] #### Refining the Approximation Using Smaller Scales
-%[text] This approximation works at any scale, and by now we're familiar with the basic principle of approximations getting better as we get on smaller scales (increasing N).
-%[text] The following cells re-create the approximation for a few different values of N, making more refined approximations each time. 
-%[text] *NOTE: At the end of each line except for mass\_approx, there is a semi-colon " ; ". This hides the output in your live script so that you're not overwhelmed by lots of calculations at once. This is a common trick when making many calculations.* 
-%[text] The plots may take a while to generate.
-%If you want, you can do this in a for-loop instead, but you don't have to
-%if you're unfamiliar with loops
-N=50
-[~, lengths, densities, ~, ~] = break_into_pieces(r, N, rho);
-masses = densities .* lengths;
-mass_approx = sum(masses)
-plot_curve_mass_pieces(r, N, rho);
-
-N=100
-[~, lengths, densities, ~, ~] = break_into_pieces(r, N, rho);
-masses = densities .* lengths;
-mass_approx = sum(masses)
-plot_curve_mass_pieces(r, N, rho);
-
-N=150
-[~, lengths, densities, ~, ~] = break_into_pieces(r, N, rho);
-masses = densities .* lengths;
-mass_approx = sum(masses)
-plot_curve_mass_pieces(r, N, rho);
-%%
-%[text] #### Very Small Scales
-%[text] Now we do the calculations again but for larger values of N. 
-%[text] This will get the approximation within the standard double precision in MATLAB.
-N=1000
-[~, lengths, densities, ~, ~] = break_into_pieces(r, N, rho);
-masses = densities .* lengths;
-mass_approx = sum(masses)
-
-N=10000
-[~, lengths, densities, ~, ~] = break_into_pieces(r, N, rho);
-masses = densities .* lengths;
-mass_approx = sum(masses)
-
-N=100000
-[~, lengths, densities, ~, ~] = break_into_pieces(r, N, rho);
-masses = densities .* lengths;
-mass_approx = sum(masses)
-%[text] Notice that the last two N-values gave the same approximation. This does not mean we found the exact mass, it simply means we surpassed the default precision of MATLAB.
-%%
-%[text] ## Generating Exact Measures: Integration
-%[text] Let's see if we can use integrals to get a more exact measure, and double check that it's close to our approximations!
-%[text] The key with integrating is that we're still adding up small bits of mass to get an exact measure of mass:
-%[text] The "small bits" we're integrating are differential bits whose total sum represent the limit of the finite sums. 
-%[text] #### Symbolizing
-%[text] Let's translate our finite approximations into integrals to get an idea of how we want to set up the integral for computation.
-%[text] - The approximation equation $M\\approx \\;\\Sigma \\Delta \\;M${"editStyle":"visual"} becomes $M=\\int \\;dM${"editStyle":"visual"}, "add up tiny bits of mass to get the total mass".
-%[text] - The small bit of mass comes from the density\*length products on a small bit of arc length along the curve, $\\textrm{dL}${"editStyle":"visual"}, so our equation for mass becomes $M=\\int \\;dM=\\int \\rho \\;\\textrm{dL}${"editStyle":"visual"}. "The total mass comes from adding up small density\*length products along the wire". \
-%[text] #### New Need: Using the Fundamental Theorem of Calculus
-%[text] The main trick when computing integrals is using the Fundamental Theorem of Calculus (FTC):
-%[text] - The FTC is useable for differential products of the form $\\textrm{dF}=f\\cdot \\;\\textrm{dt}${"editStyle":"visual"} so that we can make use of antiderivatives to find explicit formulas for $F${"editStyle":"visual"}. \
-%[text] Since the curve and density are defined by time, without doing some kind of substitution we can't immediately use the FTC when we integrate with respect to Mass or Length:
-%[text] Luckily, we know how to differentially represent the arc length differential from a curve's velocity magnitude!
-%[text] $\\textrm{dL}=||\\vec{v} ||\\;\\cdot \\;\\textrm{dt}\\;${"editStyle":"visual"}
-%[text] So, with one final re-write of our equations, we get
-%[text] $M=\\int \\;dM=\\int \\rho \\;\\textrm{dL}=\\int\_a^b \\rho \\left(t\\right)||\\vec{v} ||\\textrm{dt}\\;${"editStyle":"visual"}
-%[text] and we have a representation of our sum with which we can use the FTC!
-%%
-%[text] #### Building and Computing the Integral
-%[text] We can use diff() and norm() to find the velocity of our curve, and then use int() plugging in all the values to get an integral of the exact mass!
-%[text] First, we get the velocity of the curve using diff(). You should see a vectro representing the derivatives of the coordinate functions for *r*.
-v=diff(r)
-%[text] Now we use norm() to take the magnitude of the velocity function.
-v_mag=norm(v)
-%[text] The differential $\\mathrm{dM}=\\rho \\cdot \\mathrm{dL}=\\rho \\cdot ||\\vec{v} ||\\;\\cdot \\;\\textrm{dt}${"editStyle":"visual"}, so we enter the differential in MATLAB.
-%[text] NOTE: We don't put dt into MATLAB, it is incorporated already when we use int().
-dM=rho*v_mag
-%%
-%[text] Now we're ready to integrate!
-%[text] *int() takes in:*
-%[text] - *the function to be integrated*
-%[text] - *the starting value for integrating (i.e. the "a" value).*
-%[text] - *the ending value for integration (i.e. the "b" value).* \
-%[text] *It will then give you either:* 
-%[text] - *the number computed by the definite integral*
-%[text] - *or a re-writing of the integral if the computer can't find a nice number.* \
-M=int(dM,0,2*pi)
-%%
-%[text] #### Checking our results!
-%[text] Likely, M didn't give you an exact number, it just wrote out the integral and the formula is a bit unwieldy. 
-%[text] That's okay! Many functions don't have nice integrals (and often it's impossible to find antiderivatives). 
-%[text] We can get a numerical approximation of the value using double()
-int_approx=double(M)
-%[text] Hopefully, you get the same approximation (or very close) as we did with our highN approximations!
-%[text] We've just gone through the similar steps that you'll go through in detail for your projects, but this attention to arclength will give you a head start on your projects, as those integrals will build on the arc length and  mass integrals.
-%%
-%[text] ## Step: Your Curve
-%[text] Now you try! 
-%[text] Go through the steps yourself, for your own curve, which will mirror the same steps you'll need to take for the mini project.
-%[text] Define your curve *r* that you will use in the Module 3 mini project, then define the density to be the $\\rho \\;${"editStyle":"visual"}function you were provided (the wire density or the air density depending on your application) and then select a number of pieces (not too big) to break up your wire.
-%define your vector curve using r=[, , ], filling in the blanks
-
-%define your density using rho=____, filling in the blank with the formula
-%for your "density"
-
-%Define the number of pieces you want to see, like N=50
-
-%view the broken wire using plot_curve_pieces(r,N,rho)
-%%
-%[text] Now manually compute the approximation.
-%recreate the mass approximations using break_into_pieces and the steps
-%earlier in the script
-
-%do so at a few scales and check that the approximations agree with the
-%prompts
-
-%well-approximate the mass of your curve with high-N calculations
-%%
-%[text] Now use integrals to verify your measures
-%use diff(), norm() and int() to generate the integral measure of the mass,
-
-%use a double approximation to compare with your midpoint approximations
-
-%[appendix]{"version":"1.0"}
-%---
-%[metadata:view]
-%   data: {"layout":"onright","rightPanelPercent":40}
-%---
+<div id="kl_wrapper_3" class="kl_basic_color kl_wrapper">
+    <div id="kl_banner" class="" style="background-color: #0a3665; color: #ffffff;">
+        <h2><span id="kl_banner_left"><span class="kl_mod_text">Module </span><span class="kl_mod_num">6 </span> </span><span id="kl_banner_right">Double Integrals</span></h2>
+        <p class="kl_subtitle">Overview and Objectives</p>
+    </div>
+    <div id="kl_custom_block_0" class="">
+        <h3 class=""><i class="fa fa-info-circle"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i>Overview</h3>
+        <p>One way to conceive of this course is as the progressive adaptation of single-variable mathematical operations and tools into the more complicated multivariable setting. We spent Modules 3-5 exploring various ways to extend the notion of local linearity and derivatives from single to multivariable settings. This included defining the tangent vector on curves, partial and directional derivatives, gradients, and tangent planes. Each of these concepts adapted the notion of derivative into multiple dimensions by attending to different ways that we must account for variation in multivariable curves and functions. Now, we will do the same with definite integrals.</p>
+        <p>Definite integration in a single-variable setting amounted to breaking down an object or a process into small pieces, making a measurement across each of those small pieces, and summing the result of those small measurements together. In the single-variable setting, this process was always carried out across a number line so that the small segments were always in some interval.</p>
+        <p>In the following example, for instance, calculating the energy required to compress a spring from rest required attention to small intervals of distance <img class="equation_image" title="dD" src="https://erau.instructure.com/equation_images/dD?scale=1" alt="LaTeX: dD" data-equation-content="dD" data-ignore-a11y-check="" />, where the energy required to press the spring inward over that small distance was approximately the product <img class="equation_image" title="F(D)\cdot dD" src="https://erau.instructure.com/equation_images/F(D)%255Ccdot%2520dD?scale=1" alt="LaTeX: F(D)\cdot dD" data-equation-content="F(D)\cdot dD" data-ignore-a11y-check="" />, the force-distance product over that interval. You can alter the number of intervals displayed, the total distance over which you compress the spring, and then the specific interval being approximated at any one time.</p>
+        <p><iframe style="border: 0px;" title="Module 8 FTC Interactive" src="https://www.geogebra.org/material/iframe/id/hvs3vqzz/width/670/height/477/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/false/rc/false/ld/false/sdz/false/ctl/false" width="670px" height="477px" loading="lazy" allowfullscreen="allowfullscreen" data-mce-fragment="1"></iframe></p>
+        <p>The integral was constructed by taking the limit of the sums that approximated energy, creating an exact measure of the energy needed to compress the spring inward by the calculation <img class="equation_image" title="\Delta E=\int dE=\int_0^X F(D)\cdot dD" src="https://erau.instructure.com/equation_images/%255CDelta%2520E%253D%255Cint%2520dE%253D%255Cint_0%255EX%2520F(D)%255Ccdot%2520dD?scale=1" alt="LaTeX: \Delta E=\int dE=\int_0^X F(D)\cdot dD" data-equation-content="\Delta E=\int dE=\int_0^X F(D)\cdot dD" data-ignore-a11y-check="" />. While we can use the Fundamental Theorem of Calculus to calculate the value of this integral, its meaning is still found in the summation of small energy bits by multiplying force across some small interval of distance, as can be visualized by taking a large number of integrals in the GeoGebra application.</p>
+        <p>When we consider multivariable functions, we must now attend to variation in both input variables at once, which entails creating a grid of small squares with area <img class="equation_image" title="dA" src="https://erau.instructure.com/equation_images/dA?scale=1" alt="LaTeX: dA" data-equation-content="dA" data-ignore-a11y-check="" /> rather than breaking apart a line into small intervals of length <img class="equation_image" title="dD" src="https://erau.instructure.com/equation_images/dD?scale=1" alt="LaTeX: dD" data-equation-content="dD" data-ignore-a11y-check="" />.</p>
+        <p>This is visualized in the following GeoGebra Application, where the region over which the integral is to be calculated is contained within the x-y rectangle on the bottom screen. You can alter the dimensions of the rectangle by dragging the point at the top right corner of the rectangle, or you can alter the size of each rectangle on the grid at one time. You can also visualize a single volume approximation at a specific area <img class="equation_image" title="dA" src="https://erau.instructure.com/equation_images/dA?scale=1" alt="LaTeX: dA" data-equation-content="dA" data-ignore-a11y-check="" /> on the grid, or you can visualize the entire volume approximation across the grid.</p>
+        <p><iframe style="border: 0px;" title="243 Mod 6 Double Integral Approximation" src="https://www.geogebra.org/material/iframe/id/yukegeqk/width/755/height/628/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/false/rc/false/ld/false/sdz/false/ctl/false" width="755px" height="628px" loading="lazy" allowfullscreen="allowfullscreen"></iframe></p>
+        <p>The prisms represent the approximate volume underneath the surface created by <img class="equation_image" title="f(x,y)" src="https://erau.instructure.com/equation_images/f(x%252Cy)?scale=1" alt="LaTeX: f(x,y)" data-equation-content="f(x,y)" data-ignore-a11y-check="" />, which comes from the height-area product <img class="equation_image" title="f(a,b)\cdot dA" src="https://erau.instructure.com/equation_images/f(a%252Cb)%255Ccdot%2520dA?scale=1" alt="LaTeX: f(a,b)\cdot dA" data-equation-content="f(a,b)\cdot dA" data-ignore-a11y-check="" />. Just as before, the integral is now constructed by taking the small piece of volume <img class="equation_image" title="dV=f(a,b)\cdot dA" src="https://erau.instructure.com/equation_images/dV%253Df(a%252Cb)%255Ccdot%2520dA?scale=1" alt="LaTeX: dV=f(a,b)\cdot dA" data-equation-content="dV=f(a,b)\cdot dA" data-ignore-a11y-check="" /> over each rectangle on the grid and then adding up all of the small volumes to make the sum <img class="equation_image" title="V=\iint dV=\iint f(a,b)\cdot dA" src="https://erau.instructure.com/equation_images/V%253D%255Ciint%2520dV%253D%255Ciint%2520f(a%252Cb)%255Ccdot%2520dA?scale=1" alt="LaTeX: V=\iint dV=\iint f(a,b)\cdot dA" data-equation-content="V=\iint dV=\iint f(a,b)\cdot dA" data-ignore-a11y-check="" />. We call this the&nbsp;<em>double integral</em>. As with the single-variable integral, the double integral is formally the limit of Riemann Sums. In this module, you will learn various ways to calculate the double integral and gain some initial insight into what we can measure with double integrals.</p>
+    </div>
+    <div id="kl_objectives" class="">
+        <h3 class=""><i class="fa fa-check-circle"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i>Module Objectives</h3>
+        <p>Upon successful completion of this module, you will be able to:</p>
+        <ol id="kl_objective_list">
+            <li>Integrate multivariate functions using the limits of Riemann Sums constructed across a planar partition. (LO 3, LO 4)</li>
+            <li>Subdivide planar regions according to single variable functions. (LO 3)</li>
+            <li>Calculate double integrals over general planar domains based on Fubini&rsquo;s Theorem. (LO 3)</li>
+            <li>Measure planar areas and average values using double integrals. (LO 3, LO 4)</li>
+            <li>Construct double integrals of functions in a polar coordinate system. (LO 3)</li>
+            <li>Transform the variables of integration between polar and Cartesian representations. (LO 3)</li>
+            <li>Discuss problem-solving solutions from Modules 4-6. (GenEd)</li>
+        </ol>
+        <p><strong>Note:</strong> Visit the <a title="Course Introduction" href="https://erau.instructure.com/courses/189336/pages/course-introduction" data-api-endpoint="https://erau.instructure.com/api/v1/courses/189336/pages/course-introduction" data-api-returntype="Page">Course Introduction page</a> to review the General Education Requirements for the assignments in this module.</p>
+        <p style="text-align: center; border-top: 2px solid #808080;">MATH 243 Course Learning Outcomes (LOs) are located in the Syllabus.</p>
+    </div>
+</div>
+<div id="kl_wrapper_3" class="kl_basic_color kl_wrapper">
+    <div id="kl_banner">
+        <h2><span id="kl_banner_left"><span class="kl_mod_text">Module </span><span class="kl_mod_num">6 </span> </span><span id="kl_banner_right">Resources</span></h2>
+    </div>
+    <div id="kl_custom_block_0" class="">
+        <p class="" style="border-style: solid; border-color: #0a3665; text-align: left; padding-left: 4px;">These resources provide vital information for your success in this module. There is specific Pearson content you are responsible for reviewing. Refer to the Required Pearson Readings that follow each Course Notes topic on this page. Please read through all sections before proceeding to the next page and refer back whenever necessary.</p>
+    </div>
+    <div id="kl_panel_block_0">
+        <div class="kl_panels_wrapper kl_panels_expander">
+            <h3 id="kl_panel_0" class="kl_current kl_panel_heading kl_panel_0" style="background-color: #0a3665; color: #ffffff;">Course Notes: Double Integrals</h3>
+            <div id="kl_panel_0_content" class="kl_panel_content kl_panel_0">
+                <p>In this module, we define the double integral of a function of two variables <img class="equation_image" title="f(x,y)" src="https://erau.instructure.com/equation_images/f(x%252Cy)?scale=1" alt="LaTeX: f(x,y)" data-equation-content="f(x,y)" data-ignore-a11y-check="" /> over a region in the plane as the limit of approximating Riemann sums. The primary way of thinking about definite integrals is unchanged. The integral is the sum of small "bits" of a measurement (i.e., area, volume, mass, energy, etc.). We are merely increasing the complexity of how we build the particular measurement being summed. Simple hydrostatic force on a rectangular dam offers us a perfect means of demonstrating this extension.&nbsp;</p>
+                <p>In the single-variable setting, we explored the measuring of force that liquids exert on dams of varying dimensions. The simplest case, that of the force exerted by water on a rectangular dam, is depicted in the following GeoGebra application. A 12x5 dam is given on the left side of the screen, and the dam has been separated into small area regions over which force is being calculated bit by bit. You may alter the "Specific Piece of Area" slider to view the small area region on a dam at different depths and view the resulting increase in force from that small region on the curve on the right side of the screen.&nbsp;</p>
+                <p><iframe style="border: 0px;" title="242 Mod 2 Hydrostatic Force" src="https://www.geogebra.org/material/iframe/id/xebf6ft3/width/733/height/594/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/false/rc/false/ld/false/sdz/false/ctl/false" width="733px" height="594px" loading="lazy" allowfullscreen="allowfullscreen"></iframe></p>
+                <p>Pressure increases with depth, which is why the purple force curve bends upward. As we move bit-by-bit along the depth of the dam, the amount of force generated over each subsequent area region is increasing. Importantly, the hydrostatic force over each region is given by the product of the pressure over that region and the area of the region, <img class="equation_image" title="dF=P(A)\cdot dA" src="https://erau.instructure.com/equation_images/dF%253DP(A)%255Ccdot%2520dA?scale=1" alt="LaTeX: dF=P(A)\cdot dA" data-equation-content="dF=P(A)\cdot dA" data-ignore-a11y-check="" />. In the single-variable case, we were forced to express the area and pressure in terms of the depth so that we could break apart the depth line into small pieces to sum across. We re-wrote <img class="equation_image" title="dA=5\cdot dD" src="https://erau.instructure.com/equation_images/dA%253D5%255Ccdot%2520dD?scale=1" alt="LaTeX: dA=5\cdot dD" data-equation-content="dA=5\cdot dD" data-ignore-a11y-check="" />, which is simple enough because of the constant width. <br />We could then compute the total force from the integral <img class="equation_image" title="F=\int dF=\int P(A)\cdot dA=\int_0^{12}P(D)\cdot5\cdot dD" src="https://erau.instructure.com/equation_images/F%253D%255Cint%2520dF%253D%255Cint%2520P(A)%255Ccdot%2520dA%253D%255Cint_0%255E%257B12%257DP(D)%255Ccdot5%255Ccdot%2520dD?scale=1" alt="LaTeX: F=\int dF=\int P(A)\cdot dA=\int_0^{12}P(D)\cdot5\cdot dD" data-equation-content="F=\int dF=\int P(A)\cdot dA=\int_0^{12}P(D)\cdot5\cdot dD" data-ignore-a11y-check="" />.&nbsp;</p>
+                <p>Now, we're going to do the same exact calculation, but we'll now incorporate the entire area of the dam into our calculation. The goal is to calculate the hydrostatic force on a small bit of area, <img class="equation_image" title="dA" src="https://erau.instructure.com/equation_images/dA?scale=1" alt="LaTeX: dA" data-equation-content="dA" data-ignore-a11y-check="" />. If we create a grid along the dam, the area is created by the two variables depth <img class="equation_image" title="D" src="https://erau.instructure.com/equation_images/D?scale=1" alt="LaTeX: D" data-equation-content="D" data-ignore-a11y-check="" /> and width <img class="equation_image" title="w" src="https://erau.instructure.com/equation_images/w?scale=1" alt="LaTeX: w" data-equation-content="w" data-ignore-a11y-check="" />. Because the dam is rectangular, the small bit of area <img class="equation_image" title="dA" src="https://erau.instructure.com/equation_images/dA?scale=1" alt="LaTeX: dA" data-equation-content="dA" data-ignore-a11y-check="" /> at any point <img class="equation_image" title="(D,w)" src="https://erau.instructure.com/equation_images/(D%252Cw)?scale=1" alt="LaTeX: (D,w)" data-equation-content="(D,w)" data-ignore-a11y-check="" /> is given by the product <img class="equation_image" title="dA=dD\cdot dw" src="https://erau.instructure.com/equation_images/dA%253DdD%255Ccdot%2520dw?scale=1" alt="LaTeX: dA=dD\cdot dw" data-equation-content="dA=dD\cdot dw" data-ignore-a11y-check="" />, where <img class="equation_image" title="dD" src="https://erau.instructure.com/equation_images/dD?scale=1" alt="LaTeX: dD" data-equation-content="dD" data-ignore-a11y-check="" /> is a small depth change and <img class="equation_image" title="dw" src="https://erau.instructure.com/equation_images/dw?scale=1" alt="LaTeX: dw" data-equation-content="dw" data-ignore-a11y-check="" /> is a small width change.</p>
+                <p>What was nice about our hydrostatic force example was that pressure really only changed with depth, which is still true in this case. In the case of water, for instance, the pressure at a depth <img class="equation_image" title="D" src="https://erau.instructure.com/equation_images/D?scale=1" alt="LaTeX: D" data-equation-content="D" data-ignore-a11y-check="" /> is given by <img class="equation_image" title="P(D)=9800\cdot D" src="https://erau.instructure.com/equation_images/P(D)%253D9800%255Ccdot%2520D?scale=1" alt="LaTeX: P(D)=9800\cdot D" data-equation-content="P(D)=9800\cdot D" data-ignore-a11y-check="" />. This is true at any width, so the pressure at any point <img class="equation_image" title="(D,w)" src="https://erau.instructure.com/equation_images/(D%252Cw)?scale=1" alt="LaTeX: (D,w)" data-equation-content="(D,w)" data-ignore-a11y-check="" /> on the dam is still <img class="equation_image" title="P(D,w)=9800\cdot D" src="https://erau.instructure.com/equation_images/P(D%252Cw)%253D9800%255Ccdot%2520D?scale=1" alt="LaTeX: P(D,w)=9800\cdot D" data-equation-content="P(D,w)=9800\cdot D" data-ignore-a11y-check="" />, and the resulting small bit of force on a small bit of area is given by <img class="equation_image" title="dF=P(A)\cdot dA=9800\cdot D\cdot dD\cdot dw" src="https://erau.instructure.com/equation_images/dF%253DP(A)%255Ccdot%2520dA%253D9800%255Ccdot%2520D%255Ccdot%2520dD%255Ccdot%2520dw?scale=1" alt="LaTeX: dF=P(A)\cdot dA=9800\cdot D\cdot dD\cdot dw" data-equation-content="dF=P(A)\cdot dA=9800\cdot D\cdot dD\cdot dw" data-ignore-a11y-check="" />. In the single-variable case, the integral <img class="equation_image" title="\int_0^{12}P(D)\cdot5\cdot dD" src="https://erau.instructure.com/equation_images/%255Cint_0%255E%257B12%257DP(D)%255Ccdot5%255Ccdot%2520dD?scale=1" alt="LaTeX: \int_0^{12}P(D)\cdot5\cdot dD" data-equation-content="\int_0^{12}P(D)\cdot5\cdot dD" data-ignore-a11y-check="" /> comprised the sum symbol <img class="equation_image" title="\int_0^{12}" src="https://erau.instructure.com/equation_images/%255Cint_0%255E%257B12%257D?scale=1" alt="LaTeX: \int_0^{12}" data-equation-content="\int_0^{12}" data-ignore-a11y-check="" />, which identified the region over which the summation was taking place, and then the differential <img class="equation_image" title="P(D)\cdot5\cdot dD" src="https://erau.instructure.com/equation_images/P(D)%255Ccdot5%255Ccdot%2520dD?scale=1" alt="LaTeX: P(D)\cdot5\cdot dD" data-equation-content="P(D)\cdot5\cdot dD" data-ignore-a11y-check="" /> which represented what was being summed. It is no different in these initial cases of double (and then triple) integrals! Since the depth varies from <img class="equation_image" title="0" src="https://erau.instructure.com/equation_images/0?scale=1" alt="LaTeX: 0" data-equation-content="0" data-ignore-a11y-check="" /> to <img class="equation_image" title="12" src="https://erau.instructure.com/equation_images/12?scale=1" alt="LaTeX: 12" data-equation-content="12" data-ignore-a11y-check="" /> and the width varies from <img class="equation_image" title="0" src="https://erau.instructure.com/equation_images/0?scale=1" alt="LaTeX: 0" data-equation-content="0" data-ignore-a11y-check="" /> to <img class="equation_image" title="5" src="https://erau.instructure.com/equation_images/5?scale=1" alt="LaTeX: 5" data-equation-content="5" data-ignore-a11y-check="" />, we can write the force integral as <img class="equation_image" title="F=\iint dF=\iint P(A)\cdot dA=\int_0^{12}\int_0^5 9800\cdot D\cdot dw\cdot dD" src="https://erau.instructure.com/equation_images/F%253D%255Ciint%2520dF%253D%255Ciint%2520P(A)%255Ccdot%2520dA%253D%255Cint_0%255E%257B12%257D%255Cint_0%255E5%25209800%255Ccdot%2520D%255Ccdot%2520dw%255Ccdot%2520dD?scale=1" alt="LaTeX: F=\iint dF=\iint P(A)\cdot dA=\int_0^{12}\int_0^5 9800\cdot D\cdot dw\cdot dD" data-equation-content="F=\iint dF=\iint P(A)\cdot dA=\int_0^{12}\int_0^5 9800\cdot D\cdot dw\cdot dD" data-ignore-a11y-check="" />, which ends up being very easy to compute.</p>
+                <p>Please proceed to the <strong>Required Pearson Reading&nbsp;</strong>section.</p>
+            </div>
+            <h3 id="kl_panel_1" class="kl_panel_heading kl_panel_1" style="background-color: #0a3665; color: #ffffff;">Required Pearson Reading</h3>
+            <div id="kl_panel_1_content" class="kl_panel_content kl_panel_1">
+                <p class="" style="border-color: #0a3665; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; border-style: none;"><i class="fas fa-book-reader" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> Further, explore the details of double integration over general regions of the x-y plane by reading Sections 15.1-15.3 in your book.</p>
+                <p>Please proceed to the <strong>Course Notes: Polar Integrals </strong>section.</p>
+            </div>
+            <h3 id="kl_panel_2" class="kl_panel_heading kl_panel_2" style="background-color: #0a3665; color: #ffffff;">Course Notes: Polar Integrals</h3>
+            <div id="kl_panel_2_content" class="kl_panel_content kl_panel_2">
+                <p>Double integrals are sometimes easier to evaluate if we change to polar coordinates. One main utility of polar coordinates is the ability to describe curved spaces more easily than is possible in rectangular coordinates. Let's take the region within unit circle as a basic example of this. This region is defined as all points of distance less than or equal to 1 from the origin. In rectangular coordinates, this is described as all points <img class="equation_image" title="(x,y)" src="https://erau.instructure.com/equation_images/(x%252Cy)?scale=1" alt="LaTeX: (x,y)" data-equation-content="(x,y)" data-ignore-a11y-check="" /> such that <img class="equation_image" title="\sqrt{x^2+y^2}\leq 1" src="https://erau.instructure.com/equation_images/%255Csqrt%257Bx%255E2%252By%255E2%257D%255Cleq%25201?scale=1" alt="LaTeX: \sqrt{x^2+y^2}\leq 1" data-equation-content="\sqrt{x^2+y^2}\leq 1" data-ignore-a11y-check="" />. This is not too complicated, but if we wanted to integrate the function <img class="equation_image" title="f(x,y)=xy" src="https://erau.instructure.com/equation_images/f(x%252Cy)%253Dxy?scale=1" alt="LaTeX: f(x,y)=xy" data-equation-content="f(x,y)=xy" data-ignore-a11y-check="" /> over the region, we would need to contend with the radical in the integration bounds via the integral <img class="equation_image" title="\iint f\cdot dA=\int_{-1}^1\int_{-\sqrt{1-x^2}}^{\sqrt{1-x^2}} x\cdot y\cdot  dy dx" src="https://erau.instructure.com/equation_images/%255Ciint%2520f%255Ccdot%2520dA%253D%255Cint_%257B-1%257D%255E1%255Cint_%257B-%255Csqrt%257B1-x%255E2%257D%257D%255E%257B%255Csqrt%257B1-x%255E2%257D%257D%2520x%255Ccdot%2520y%255Ccdot%2520%2520dy%2520dx?scale=1" alt="LaTeX: \iint f\cdot dA=\int_{-1}^1\int_{-\sqrt{1-x^2}}^{\sqrt{1-x^2}} x\cdot y\cdot  dy dx" data-equation-content="\iint f\cdot dA=\int_{-1}^1\int_{-\sqrt{1-x^2}}^{\sqrt{1-x^2}} x\cdot y\cdot  dy dx" data-ignore-a11y-check="" />.</p>
+                <p>In polar coordinates, the unit circle is much more easily described as the points <img class="equation_image" title="(r,\theta)" src="https://erau.instructure.com/equation_images/(r%252C%255Ctheta)?scale=1" alt="LaTeX: (r,\theta)" data-equation-content="(r,\theta)" data-ignore-a11y-check="" /> such that <img class="equation_image" title="r\leq 1" src="https://erau.instructure.com/equation_images/r%255Cleq%25201?scale=1" alt="LaTeX: r\leq 1" data-equation-content="r\leq 1" data-ignore-a11y-check="" />. This makes the bounds of integration a little more palatable, running <img class="equation_image" title="r" src="https://erau.instructure.com/equation_images/r?scale=1" alt="LaTeX: r" data-equation-content="r" data-ignore-a11y-check="" /> from 0 to 1 and running <img class="equation_image" title="\theta" src="https://erau.instructure.com/equation_images/%255Ctheta?scale=1" alt="LaTeX: \theta" data-equation-content="\theta" data-ignore-a11y-check="" /> from 0 to <img class="equation_image" title="2 \pi" src="https://erau.instructure.com/equation_images/2%2520%255Cpi?scale=1" alt="LaTeX: 2 \pi" data-equation-content="2 \pi" data-ignore-a11y-check="" />. <img class="equation_image" title="f(x,y)=xy" src="https://erau.instructure.com/equation_images/f(x%252Cy)%253Dxy?scale=1" alt="LaTeX: f(x,y)=xy" data-equation-content="f(x,y)=xy" data-ignore-a11y-check="" /> becomes <img class="equation_image" title="f(r\cos(\theta),r\sin(\theta))=r^2\sin(\theta)\cos(\theta)" src="https://erau.instructure.com/equation_images/f(r%255Ccos(%255Ctheta)%252Cr%255Csin(%255Ctheta))%253Dr%255E2%255Csin(%255Ctheta)%255Ccos(%255Ctheta)?scale=1" alt="LaTeX: f(r\cos(\theta),r\sin(\theta))=r^2\sin(\theta)\cos(\theta)" data-equation-content="f(r\cos(\theta),r\sin(\theta))=r^2\sin(\theta)\cos(\theta)" data-ignore-a11y-check="" />&nbsp;by the usual polar substitutions, and all that remains is to determine <img class="equation_image" title="dA" src="https://erau.instructure.com/equation_images/dA?scale=1" alt="LaTeX: dA" data-equation-content="dA" data-ignore-a11y-check="" /> in terms of <img class="equation_image" title="dr" src="https://erau.instructure.com/equation_images/dr?scale=1" alt="LaTeX: dr" data-equation-content="dr" data-ignore-a11y-check="" /> and <img class="equation_image" title="d\theta" src="https://erau.instructure.com/equation_images/d%255Ctheta?scale=1" alt="LaTeX: d\theta" data-equation-content="d\theta" data-ignore-a11y-check="" />. As seen in the following GeoGebra application, <img class="equation_image" title="dA" src="https://erau.instructure.com/equation_images/dA?scale=1" alt="LaTeX: dA" data-equation-content="dA" data-ignore-a11y-check="" /> becomes the area of a small slice of the area bounded between two circles.</p>
+                <p>You alter the "Shift Radius" and "Shift <img class="equation_image" title="\theta" src="https://erau.instructure.com/equation_images/%255Ctheta?scale=1" alt="LaTeX: \theta" data-equation-content="\theta" data-ignore-a11y-check="" />" sliders&nbsp;to view the area <img class="equation_image" title="dA" src="https://erau.instructure.com/equation_images/dA?scale=1" alt="LaTeX: dA" data-equation-content="dA" data-ignore-a11y-check="" /> over different portions of the unit circle and see the resulting cylinder approximating the volume under <img class="equation_image" title="f(x,y)=xy" src="https://erau.instructure.com/equation_images/f(x%252Cy)%253Dxy?scale=1" alt="LaTeX: f(x,y)=xy" data-equation-content="f(x,y)=xy" data-ignore-a11y-check="" /> along the region <img class="equation_image" title="dA" src="https://erau.instructure.com/equation_images/dA?scale=1" alt="LaTeX: dA" data-equation-content="dA" data-ignore-a11y-check="" />. You may also select or unselect the "Show Volume" box, increase or decrease the grid created by altering the "Change size of dr" or "Change size of <img class="equation_image" title="d\theta" src="https://erau.instructure.com/equation_images/d%255Ctheta?scale=1" alt="LaTeX: d\theta" data-equation-content="d\theta" data-ignore-a11y-check="" />" sliders, and may use the buttons to alter your view. If you "Zoom to Unit Circle", you will want to click and drag the screen to look directly into the x-y plane to view the unit circle region of integration and the grid created.</p>
+                <p><iframe style="border: 0px;" title="243 Mod 6 Polar Integral" src="https://www.geogebra.org/material/iframe/id/uucwvg4g/width/740/height/481/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/false/rc/false/ld/false/sdz/true/ctl/false" width="740px" height="481px" loading="lazy" allowfullscreen="allowfullscreen"></iframe></p>
+                <p>As you can see in the applet, the region <img class="equation_image" title="dA" src="https://erau.instructure.com/equation_images/dA?scale=1" alt="LaTeX: dA" data-equation-content="dA" data-ignore-a11y-check="" /> is bounded between the circles of radius <img class="equation_image" title="r\pm \frac{dr}{2}" src="https://erau.instructure.com/equation_images/r%255Cpm%2520%255Cfrac%257Bdr%257D%257B2%257D?scale=1" alt="LaTeX: r\pm \frac{dr}{2}" data-equation-content="r\pm \frac{dr}{2}" data-ignore-a11y-check="" /> and the angle measures <img class="equation_image" title="\theta\pm \frac{d\theta}{2}" src="https://erau.instructure.com/equation_images/%255Ctheta%255Cpm%2520%255Cfrac%257Bd%255Ctheta%257D%257B2%257D?scale=1" alt="LaTeX: \theta\pm \frac{d\theta}{2}" data-equation-content="\theta\pm \frac{d\theta}{2}" data-ignore-a11y-check="" />. Taking the difference in area of the two created circular regions, <img class="equation_image" title="dA=\frac{d\theta}{2}(r+\frac{dr}{2})^2-\frac{d\theta}{2}(r-\frac{dr}{2})^2" src="https://erau.instructure.com/equation_images/dA%253D%255Cfrac%257Bd%255Ctheta%257D%257B2%257D(r%252B%255Cfrac%257Bdr%257D%257B2%257D)%255E2-%255Cfrac%257Bd%255Ctheta%257D%257B2%257D(r-%255Cfrac%257Bdr%257D%257B2%257D)%255E2?scale=1" alt="LaTeX: dA=\frac{d\theta}{2}(r+\frac{dr}{2})^2-\frac{d\theta}{2}(r-\frac{dr}{2})^2" data-equation-content="dA=\frac{d\theta}{2}(r+\frac{dr}{2})^2-\frac{d\theta}{2}(r-\frac{dr}{2})^2" data-ignore-a11y-check="" />. A little bit of algebra simplifies this to <img class="equation_image" title="dA=r\cdot dr\cdot d\theta" src="https://erau.instructure.com/equation_images/dA%253Dr%255Ccdot%2520dr%255Ccdot%2520d%255Ctheta?scale=1" alt="LaTeX: dA=r\cdot dr\cdot d\theta" data-equation-content="dA=r\cdot dr\cdot d\theta" data-ignore-a11y-check="" />. The volume under <img class="equation_image" title="f(x,y)=xy" src="https://erau.instructure.com/equation_images/f(x%252Cy)%253Dxy?scale=1" alt="LaTeX: f(x,y)=xy" data-equation-content="f(x,y)=xy" data-ignore-a11y-check="" /> when we consider the unit circle domain in the x-y plane then has differential volume <img class="equation_image" title="dV=f(r\cos(\theta),r\sin(\theta))\cdot dA=r^2\sin(\theta)\cos(\theta)\cdot r\cdot dr\cdot d\theta" src="https://erau.instructure.com/equation_images/dV%253Df(r%255Ccos(%255Ctheta)%252Cr%255Csin(%255Ctheta))%255Ccdot%2520dA%253Dr%255E2%255Csin(%255Ctheta)%255Ccos(%255Ctheta)%255Ccdot%2520r%255Ccdot%2520dr%255Ccdot%2520d%255Ctheta?scale=1" alt="LaTeX: dV=f(r\cos(\theta),r\sin(\theta))\cdot dA=r^2\sin(\theta)\cos(\theta)\cdot r\cdot dr\cdot d\theta" data-equation-content="dV=f(r\cos(\theta),r\sin(\theta))\cdot dA=r^2\sin(\theta)\cos(\theta)\cdot r\cdot dr\cdot d\theta" data-ignore-a11y-check="" />, and the more simple bounds of integration give us a total volume of&nbsp;</p>
+                <p style="text-align: center;"><img class="equation_image" title="V=\iint dV=\int_0^{2\pi}\int_0^1r^3\sin(\theta)\cos(\theta)\cdot drd\theta," src="https://erau.instructure.com/equation_images/V%253D%255Ciint%2520dV%253D%255Cint_0%255E%257B2%255Cpi%257D%255Cint_0%255E1r%255E3%255Csin(%255Ctheta)%255Ccos(%255Ctheta)%255Ccdot%2520drd%255Ctheta%252C?scale=1" alt="LaTeX: V=\iint dV=\int_0^{2\pi}\int_0^1r^3\sin(\theta)\cos(\theta)\cdot drd\theta," data-equation-content="V=\iint dV=\int_0^{2\pi}\int_0^1r^3\sin(\theta)\cos(\theta)\cdot drd\theta," data-ignore-a11y-check="" /></p>
+                <p style="text-align: left;">which is very easily computed under Fubini's Theorem with the power rule for <img class="equation_image" title="r" src="https://erau.instructure.com/equation_images/r?scale=1" alt="LaTeX: r" data-equation-content="r" data-ignore-a11y-check="" /> and a simple u-substitution for <img class="equation_image" title="\theta" src="https://erau.instructure.com/equation_images/%255Ctheta?scale=1" alt="LaTeX: \theta" data-equation-content="\theta" data-ignore-a11y-check="" />.</p>
+                <p>Please proceed to the <strong>Required Pearson Reading&nbsp;</strong>section.</p>
+            </div>
+            <h3 id="kl_panel_3" class="kl_panel_heading kl_panel_3" style="background-color: #0a3665; color: #ffffff;">Required Pearson Reading</h3>
+            <div id="kl_panel_3_content" class="kl_panel_content kl_panel_3">
+                <p class="" style="border-color: #0a3665; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; border-style: none;"><i class="fas fa-book-reader" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> Further, explore the details of double integration over general regions of the x-y plane by reading Sections 15.4 in your book.</p>
+                <p>Please proceed to the <strong>Video Resources </strong>section.</p>
+            </div>
+            <h3 id="kl_panel_4" class="kl_panel_heading kl_panel_4" style="background-color: #0a3665; color: #ffffff;">Video Resources</h3>
+            <div id="kl_panel_4_content" class="kl_panel_content kl_panel_4">
+                <p>Visit the <a title="Module 2 Overview and Objectives" href="https://erau.instructure.com/courses/189336/modules/items/11787581">MyLab Math Multimedia Library</a> and select this module's referenced sections of your Pearson book for Instructional Videos, Interactive Figures, and Animations related to the material.&nbsp;</p>
+                <p>Visit the <a class="inline_disabled" href="https://www.youtube.com/playlist?list=PLHXZ9OQGMqxc_CvEy7xBKRQr6I214QJcd" target="_blank" rel="noopener">Calculus III: Multivariable Calculus playlist by Dr. Trefor Bazett</a>, found on YouTube, for further video resources on the big-picture ideas of multivariable calculus.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="kl_wrapper_3" class="kl_basic_color kl_wrapper">
+    <div id="kl_banner" class="" style="background-color: #0a3665; color: #ffffff;">
+        <h2><span id="kl_banner_left"><span class="kl_mod_text">Module </span><span class="kl_mod_num">7 </span> </span><span id="kl_banner_right">Triple Integrals</span></h2>
+        <p class="kl_subtitle">Overview and Objectives</p>
+    </div>
+    <div id="kl_custom_block_0" class="">
+        <h3 class=""><i class="fa fa-info-circle"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i>Overview</h3>
+        <p>A major benefit of working in two and three dimensions is that we can create nice visual representations of various phenomena that faithfully reflect the underlying structure of mathematical operations. Single-variable integrals can be visualized as areas bounded on the x-y plane. Two-variable integrals can be visualized as volumes bounded between surfaces in three-dimensional space. Many models that we develop, however, involve many variables changing and shifting at once. The heat changes to a cooling metal sphere, for instance, depend on the three spatial variables that define the sphere and then the fourth variable of time. Modern optimization problems, as another example, deal with thousands of variables all shifting together. We can no longer easily visualize various fundamental processes, such as the cooling of objects over time. Luckily, the underlying mathematical actions stay the same! Integration still boils down to adding up small pieces of some measurement across an object or process.</p>
+        <p>In this module, we will examine triple integrals, which deal with functions that vary according to three domain variables. In the same way that we created a two-dimensional grid to give us the small area regions <img class="equation_image" title="dA" src="https://erau.instructure.com/equation_images/dA?scale=1" alt="LaTeX: dA" data-equation-content="dA" data-ignore-a11y-check="" /> over which we could sum to integrate, we now break apart volumes into small pieces <img class="equation_image" title="dV" src="https://erau.instructure.com/equation_images/dV?scale=1" alt="LaTeX: dV" data-equation-content="dV" data-ignore-a11y-check="" />, make some measurements on each small volume, and add up each measurement along the entirety of a 3-dimensional domain object to make a triple integral.&nbsp;</p>
+        <p>As an example of this, suppose we wanted to measure the mass of some block with a variable density. Visualized in the following GeoGebra application is the boundary of such a block, and within that block, you can move around a small bit of volume, <img class="equation_image" title="dV" src="https://erau.instructure.com/equation_images/dV?scale=1" alt="LaTeX: dV" data-equation-content="dV" data-ignore-a11y-check="" />, by altering the x, y, and z sliders or by dragging the point <img class="equation_image" title="(x,y,z)" src="https://erau.instructure.com/equation_images/(x%252Cy%252Cz)?scale=1" alt="LaTeX: (x,y,z)" data-equation-content="(x,y,z)" data-ignore-a11y-check="" />. The small volume will change color based on its location, reflecting the changing density. The lighter color represents a region of low density, and the darker color represents a region of higher density.</p>
+        <p><iframe style="border: 0px;" title="243 Mod 7 Cube Mass" src="https://www.geogebra.org/material/iframe/id/yn6dgycn/width/740/height/481/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/false/rc/false/ld/false/sdz/true/ctl/false" width="740px" height="481px" loading="lazy" allowfullscreen="allowfullscreen"></iframe></p>
+        <p>&nbsp;</p>
+        <p>The mass of each small volume is calculated by <img class="equation_image" title="dM=\rho(x,y,z)\cdot dV" src="https://erau.instructure.com/equation_images/dM%253D%255Crho(x%252Cy%252Cz)%255Ccdot%2520dV?scale=1" alt="LaTeX: dM=\rho(x,y,z)\cdot dV" data-equation-content="dM=\rho(x,y,z)\cdot dV" data-ignore-a11y-check="" />, and so we can calculate the total mass of the object by adding up all of the small masses across the entire object. This gives the total mass from the triple integral <img class="equation_image" title="M=\iiint dM=\iiint \rho(x,y,z)\cdot dV" src="https://erau.instructure.com/equation_images/M%253D%255Ciiint%2520dM%253D%255Ciiint%2520%255Crho(x%252Cy%252Cz)%255Ccdot%2520dV?scale=1" alt="LaTeX: M=\iiint dM=\iiint \rho(x,y,z)\cdot dV" data-equation-content="M=\iiint dM=\iiint \rho(x,y,z)\cdot dV" data-ignore-a11y-check="" />.</p>
+        <p>Since a cube volume is easily computed as the length-width-height product, we can rewrite the volume as <img class="equation_image" title="dV=dx\ dy\ dz" src="https://erau.instructure.com/equation_images/dV%253Ddx%255C%2520dy%255C%2520dz?scale=1" alt="LaTeX: dV=dx\ dy\ dz" data-equation-content="dV=dx\ dy\ dz" data-ignore-a11y-check="" />, for an easy calculation <img class="equation_image" title="\iiint \rho(x,y,z)\cdot dV=\iiint \rho(x,y,z)\cdot dx\ dy\ dz" src="https://erau.instructure.com/equation_images/%255Ciiint%2520%255Crho(x%252Cy%252Cz)%255Ccdot%2520dV%253D%255Ciiint%2520%255Crho(x%252Cy%252Cz)%255Ccdot%2520dx%255C%2520dy%255C%2520dz?scale=1" alt="LaTeX: \iiint \rho(x,y,z)\cdot dV=\iiint \rho(x,y,z)\cdot dx\ dy\ dz" data-equation-content="\iiint \rho(x,y,z)\cdot dV=\iiint \rho(x,y,z)\cdot dx\ dy\ dz" data-ignore-a11y-check="" />, which uses Fubini's Theorem again to handle one variable at a time.</p>
+        <p>We will also want to use various coordinate systems to efficiently describe the volume pieces over which the integral is being constructed, which will require extending the idea of polar coordinates into two new 3-dimensional coordinate systems, cylindrical coordinates and spherical coordinates. With the increasing need to change coordinates to simplify definite integrals, we also need to extend our single-variable tool of u-substitution into the more complex multivariate setting.</p>
+    </div>
+    <div id="kl_objectives" class="">
+        <h3><i class="fa fa-check-circle"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i>Module Objectives</h3>
+        <p>Upon successful completion of this module, you will be able to:</p>
+        <ol id="kl_objective_list">
+            <li>Set up three-dimensional regions of integration in an organized manner. (LO 3)</li>
+            <li>Calculate triple integrals based on Fubini&rsquo;s Theorem. (LO 3)</li>
+            <li>Represent spatial sets via cylindrical and spherical coordinates. (LO 3)</li>
+            <li>Integrate functions defined using cylindrical and spherical coordinate systems. (LO 3)</li>
+            <li>Apply double and triple integrals geometrically and physically. (LO 3, LO 4)</li>
+            <li>Calculate double and triple integrals using the Jacobian determinant to change variables. (LO 3)</li>
+        </ol>
+        <p><strong>Note:</strong> Visit the <a title="Course Introduction" href="https://erau.instructure.com/courses/189336/pages/course-introduction" data-api-endpoint="https://erau.instructure.com/api/v1/courses/189336/pages/course-introduction" data-api-returntype="Page">Course Introduction page</a> to review the General Education Requirements for the assignments in this module.</p>
+        <p style="text-align: center; border-top: 2px solid #808080;">MATH 243 Course Learning Outcomes (LOs) are located in the Syllabus.</p>
+    </div>
+</div>
+<div id="kl_wrapper_3" class="kl_basic_color kl_wrapper">
+    <div id="kl_banner">
+        <h2><span id="kl_banner_left"><span class="kl_mod_text">Module </span><span class="kl_mod_num">7 </span> </span><span id="kl_banner_right">Resources</span></h2>
+    </div>
+    <div id="kl_custom_block_0" class="">
+        <p class="" style="border-style: solid; border-color: #0a3665; text-align: left; padding-left: 4px;">These resources provide vital information for your success in this module. There is specific Pearson content you are responsible for reviewing. Refer to the Required Pearson Readings that follow each Course Notes topic on this page. Please read through all sections before proceeding to the next page and refer back whenever necessary.</p>
+    </div>
+    <div id="kl_panel_block_0">
+        <div class="kl_panels_wrapper kl_panels_expander">
+            <h3 id="kl_panel_0" class="kl_current kl_panel_heading kl_panel_0" style="background-color: #0a3665; color: #ffffff;">Course Notes: Triple Integrals</h3>
+            <div id="kl_panel_0_content" class="kl_panel_content kl_panel_0">
+                <p>Just as double integrals allow us to deal with more general situations than could be handled by single integrals, triple integrals enable us to solve still more general problems.&nbsp; A very important thing to remember with triple integrals is that we can not easily visualize the output of the function being integrated. Most of the time, we can only visualize the domain of integration.</p>
+                <p>One basic computation available to us that allows visualization is a volume calculation itself, which will also help us identify how we organize the sum from an integral. An easy way to approximate the volume of an object is to slice the object into small cubes, determine a unit for the cubes, and count how many cubes are contained in the volume. For objects like spheres, such approximations will never be exact for any cube size, but we can see that the volume does approach the true sphere volume when the cube size is small.</p>
+                <p>This should unsurprisingly lead to the calculation of the true volume by taking a limit of the approximations from cubes, from which we get the volume integral <img class="equation_image" title="V=\iiint dV=\iiint dx\ dy\ dz" src="https://erau.instructure.com/equation_images/V%253D%255Ciiint%2520dV%253D%255Ciiint%2520dx%255C%2520dy%255C%2520dz?scale=1" alt="LaTeX: V=\iiint dV=\iiint dx\ dy\ dz" data-equation-content="V=\iiint dV=\iiint dx\ dy\ dz" data-ignore-a11y-check="" />. Said plainly, we calculate volume by adding up the small volumes <img class="equation_image" title="dV=dx\ dy\ dz" src="https://erau.instructure.com/equation_images/dV%253Ddx%255C%2520dy%255C%2520dz?scale=1" alt="LaTeX: dV=dx\ dy\ dz" data-equation-content="dV=dx\ dy\ dz" data-ignore-a11y-check="" /> along the interior of the sphere. This is true for any volume calculation.&nbsp;</p>
+                <p>If we wanted to use a triple integral in some application other than volume, we would need to include some other function in the differential product, which takes the form <img class="equation_image" title="F=\iiint f\cdot dV=\iiint f(x,y,z)\cdot dx\ dy\ dz" src="https://erau.instructure.com/equation_images/F%253D%255Ciiint%2520f%255Ccdot%2520dV%253D%255Ciiint%2520f(x%252Cy%252Cz)%255Ccdot%2520dx%255C%2520dy%255C%2520dz?scale=1" alt="LaTeX: F=\iiint f\cdot dV=\iiint f(x,y,z)\cdot dx\ dy\ dz" data-equation-content="F=\iiint f\cdot dV=\iiint f(x,y,z)\cdot dx\ dy\ dz" data-ignore-a11y-check="" />. As mentioned earlier, we unfortunately lose traditional means of visualizing the output of <img class="equation_image" title="f(x,y,z)" src="https://erau.instructure.com/equation_images/f(x%252Cy%252Cz)?scale=1" alt="LaTeX: f(x,y,z)" data-equation-content="f(x,y,z)" data-ignore-a11y-check="" /> and instead can usually only view the volume over which <img class="equation_image" title="f" src="https://erau.instructure.com/equation_images/f?scale=1" alt="LaTeX: f" data-equation-content="f" data-ignore-a11y-check="" /> is integrated. Mass, however, provides us with an application that accompanies a nice visual.</p>
+                <p>If we know how dense an object is across a part of its volume, we can calculate mass as the product of the density and the volume, <img class="equation_image" title="dM=\rho(x,y,z)\cdot dV" src="https://erau.instructure.com/equation_images/dM%253D%255Crho(x%252Cy%252Cz)%255Ccdot%2520dV?scale=1" alt="LaTeX: dM=\rho(x,y,z)\cdot dV" data-equation-content="dM=\rho(x,y,z)\cdot dV" data-ignore-a11y-check="" />. We can visualize the density of a region using color, as is seen in the following GeoGebra application. You control this in the same way you control the GeoGebra application in the Overview, and again, we have that the color of the small volume element represents its density. Brighter colors represent less dense regions of the object, and darker colors represent more dense regions of the object.&nbsp;</p>
+                <p><iframe style="border: 0px;" title="243 Mod 7 Cube Mass" src="https://www.geogebra.org/material/iframe/id/yn6dgycn/width/740/height/481/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/false/rc/false/ld/false/sdz/true/ctl/false" width="740px" height="481px" loading="lazy" allowfullscreen="allowfullscreen"></iframe></p>
+                <p>This use of color at least allows us to observe variation in the function <img class="equation_image" title="\rho(x,y,z)" src="https://erau.instructure.com/equation_images/%255Crho(x%252Cy%252Cz)?scale=1" alt="LaTeX: \rho(x,y,z)" data-equation-content="\rho(x,y,z)" data-ignore-a11y-check="" /> along the object, which results in a mass integral <img class="equation_image" title="M=\iiint dM=\iiint \rho(x,y,z)\cdot dV" src="https://erau.instructure.com/equation_images/M%253D%255Ciiint%2520dM%253D%255Ciiint%2520%255Crho(x%252Cy%252Cz)%255Ccdot%2520dV?scale=1" alt="LaTeX: M=\iiint dM=\iiint \rho(x,y,z)\cdot dV" data-equation-content="M=\iiint dM=\iiint \rho(x,y,z)\cdot dV" data-ignore-a11y-check="" /> simulating the area generated in a single integral <img class="equation_image" title="A=\int f(x)\cdot dx" src="https://erau.instructure.com/equation_images/A%253D%255Cint%2520f(x)%255Ccdot%2520dx?scale=1" alt="LaTeX: A=\int f(x)\cdot dx" data-equation-content="A=\int f(x)\cdot dx" data-ignore-a11y-check="" /> or the volume generated in a double integral <img class="equation_image" title="V=\int f(x,y)\cdot dx\ dy" src="https://erau.instructure.com/equation_images/V%253D%255Cint%2520f(x%252Cy)%255Ccdot%2520dx%255C%2520dy?scale=1" alt="LaTeX: V=\int f(x,y)\cdot dx\ dy" data-equation-content="V=\int f(x,y)\cdot dx\ dy" data-ignore-a11y-check="" />. As you develop other applications of the triple integral, you can always return to the intuition of a mass integral when trying to make sense of the basic ways that a general triple integral <img class="equation_image" title="F=\iiint f\cdot dV=\iiint f(x,y,z)\cdot dx\ dy\ dz" src="https://erau.instructure.com/equation_images/F%253D%255Ciiint%2520f%255Ccdot%2520dV%253D%255Ciiint%2520f(x%252Cy%252Cz)%255Ccdot%2520dx%255C%2520dy%255C%2520dz?scale=1" alt="LaTeX: F=\iiint f\cdot dV=\iiint f(x,y,z)\cdot dx\ dy\ dz" data-equation-content="F=\iiint f\cdot dV=\iiint f(x,y,z)\cdot dx\ dy\ dz" data-ignore-a11y-check="" /> is calculated.</p>
+                <p>Please proceed to the <strong>Required Pearson Reading&nbsp;</strong>section.</p>
+            </div>
+            <h3 id="kl_panel_1" class="kl_panel_heading kl_panel_1" style="background-color: #0a3665; color: #ffffff;">Required Pearson Reading</h3>
+            <div id="kl_panel_1_content" class="kl_panel_content kl_panel_1">
+                <p class="" style="border-color: #0a3665; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; border-style: none;"><i class="fas fa-book-reader" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> Learn more about the subtleties, computations, and applications of triple integrals by reading Sections 15.5 and 15.6 in your book.</p>
+                <p>Please proceed to the <strong>Course Notes:</strong> <strong>Other Coordinates&nbsp;</strong>section.</p>
+            </div>
+            <h3 id="kl_panel_2" class="kl_panel_heading kl_panel_2" style="background-color: #0a3665; color: #ffffff;">Course Notes: Other Coordinates</h3>
+            <div id="kl_panel_2_content" class="kl_panel_content kl_panel_2">
+                <p>When a calculation in physics, engineering, or geometry involves a cylinder, cone, or sphere, we can often simplify our work by using cylindrical or spherical coordinates, which are extensions of polar coordinates into three dimensions. The basic volume element in rectangular coordinates is <img class="equation_image" title="dV=dx\ dy\ dz" src="https://erau.instructure.com/equation_images/dV%253Ddx%255C%2520dy%255C%2520dz?scale=1" alt="LaTeX: dV=dx\ dy\ dz" data-equation-content="dV=dx\ dy\ dz" data-ignore-a11y-check="" />, which is taken from the volume of a cube. To better describe various curved volumes, we extend polar coordinates in two ways.</p>
+                <p>The first way is to take a polar area with radius change <img class="equation_image" title="dr" src="https://erau.instructure.com/equation_images/dr?scale=1" alt="LaTeX: dr" data-equation-content="dr" data-ignore-a11y-check="" /> and angle measure change <img class="equation_image" title="d\theta" src="https://erau.instructure.com/equation_images/d%255Ctheta?scale=1" alt="LaTeX: d\theta" data-equation-content="d\theta" data-ignore-a11y-check="" /> and to make it a cylinder by multiplying the resulting area by height <img class="equation_image" title="dz" src="https://erau.instructure.com/equation_images/dz?scale=1" alt="LaTeX: dz" data-equation-content="dz" data-ignore-a11y-check="" />. Since the polar area of a curved region is given by <img class="equation_image" title="dA=r \cdot dr\ d\theta" src="https://erau.instructure.com/equation_images/dA%253Dr%2520%255Ccdot%2520dr%255C%2520d%255Ctheta?scale=1" alt="LaTeX: dA=r \cdot dr\ d\theta" data-equation-content="dA=r \cdot dr\ d\theta" data-ignore-a11y-check="" />, the resulting cylindrical volume is given by <img class="equation_image" title="dV=dA\ dz=r\cdot dr\ d\theta\ dz" src="https://erau.instructure.com/equation_images/dV%253DdA%255C%2520dz%253Dr%255Ccdot%2520dr%255C%2520d%255Ctheta%255C%2520dz?scale=1" alt="LaTeX: dV=dA\ dz=r\cdot dr\ d\theta\ dz" data-equation-content="dV=dA\ dz=r\cdot dr\ d\theta\ dz" data-ignore-a11y-check="" />. The other way to extend the notion of polar coordinates into a three-dimensional system is to observe that any point in space can be described as having some distance <img class="equation_image" title="\rho" src="https://erau.instructure.com/equation_images/%255Crho?scale=1" alt="LaTeX: \rho" data-equation-content="\rho" data-ignore-a11y-check="" /> from the origin, some horizontal rotation <img class="equation_image" title="\theta" src="https://erau.instructure.com/equation_images/%255Ctheta?scale=1" alt="LaTeX: \theta" data-equation-content="\theta" data-ignore-a11y-check="" /> from the positive x-axis, and some rotation <img class="equation_image" title="\phi" src="https://erau.instructure.com/equation_images/%255Cphi?scale=1" alt="LaTeX: \phi" data-equation-content="\phi" data-ignore-a11y-check="" /> upward or downward. This new coordinate system describes points in space.</p>
+                <p>You will read about the details of switching between rectangular, cylindrical, and spherical coordinates in the eText, but for now, you can visualize these three coordinate systems in the following GeoGebra application. You may choose to view the cylinder or the sphere at one time. You may zoom to the volume element or back to the global shape, and you may alter the three variables determining the volume's position.</p>
+                <p><iframe style="border: 0px;" title="243 Mod 7 Cylinder and Sphere" src="https://www.geogebra.org/material/iframe/id/xqrs44yg/width/750/height/675/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/false/rc/false/ld/false/sdz/true/ctl/false" width="750px" height="675px" loading="lazy" allowfullscreen="allowfullscreen"></iframe></p>
+                <p>The spherical volume differential is given by <img class="equation_image" title="dV=\rho^2\sin(\phi)\cdot d\rho\ d\phi\ d\theta" src="https://erau.instructure.com/equation_images/dV%253D%255Crho%255E2%255Csin(%255Cphi)%255Ccdot%2520d%255Crho%255C%2520d%255Cphi%255C%2520d%255Ctheta?scale=1" alt="LaTeX: dV=\rho^2\sin(\phi)\cdot d\rho\ d\phi\ d\theta" data-equation-content="dV=\rho^2\sin(\phi)\cdot d\rho\ d\phi\ d\theta" data-ignore-a11y-check="" />. While these three coordinate systems form a good foundation for the various ways to represent physical space when computing triple integrals, there are other coordinate systems that we may want to devise on a case-by-case basis. The way to determine the volume elements <img class="equation_image" title="dV" src="https://erau.instructure.com/equation_images/dV?scale=1" alt="LaTeX: dV" data-equation-content="dV" data-ignore-a11y-check="" /> for these new coordinate systems involves mapping from a known coordinate system and generalizing the single-variable u-substitution process by attending to the derivatives of the map using what is called the Jacobian.</p>
+                <p>Please proceed to the <strong>Required Pearson Reading&nbsp;</strong>section.</p>
+            </div>
+            <h3 id="kl_panel_3" class="kl_panel_heading kl_panel_3" style="background-color: #0a3665; color: #ffffff;">Required Pearson Reading</h3>
+            <div id="kl_panel_3_content" class="kl_panel_content kl_panel_3">
+                <p class="" style="border-color: #0a3665; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; border-style: none;"><i class="fas fa-book-reader" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> Learn more about changing between coordinate systems by reading Sections 15.7 and 15.8 in your book.</p>
+                <p>Please proceed to the <strong>Video Resources </strong>section.</p>
+            </div>
+            <h3 id="kl_panel_4" class="kl_panel_heading kl_panel_4" style="background-color: #0a3665; color: #ffffff;">Video Resources</h3>
+            <div id="kl_panel_4_content" class="kl_panel_content kl_panel_4">
+                <p>Visit the <a title="Module 2 Overview and Objectives" href="https://erau.instructure.com/courses/189336/modules/items/11787581">MyLab Math Multimedia Library</a> and select this module's referenced sections of your Pearson book for Instructional Videos, Interactive Figures, and Animations related to the material.&nbsp;</p>
+                <p>Visit the <a class="inline_disabled" href="https://www.youtube.com/playlist?list=PLHXZ9OQGMqxc_CvEy7xBKRQr6I214QJcd" target="_blank" rel="noopener">Calculus III: Multivariable Calculus playlist by Dr. Trefor Bazett</a> found on YouTube, for further video resources on the big picture ideas of multivariable calculus.</p>
+            </div>
+        </div>
+    </div>
+</div>

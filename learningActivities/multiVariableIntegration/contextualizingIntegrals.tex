@@ -1,97 +1,628 @@
 \documentclass{ximera}
 
-\title{Activity: Exploring Applications of Multiple Integrals}
-\author{YOUR-NAME-HERE}
+\title{Applications of Multiple Integrals}
+\author{Zack Reed}
 
 \begin{document}
 \begin{abstract}
-This group discussion activity focuses on applying triple integrals to calculate mass and gravitational attraction, and using line integrals to analyze work done in lifting motions.
+In this activity we apply triple integrals to calculate mass and gravitational attraction, and use line integrals to analyze work done in lifting motions.
 \end{abstract}
 \maketitle
 
-\section{Introduction}
+\section*{The Philosophy: Adding Up Pieces}
 
-Over the course of MATH 241 and MATH 242, we developed an appreciation for the primary way to understand and utilize the definite integral, that of "Adding Up Pieces." Definite integration allows us to functionally extend multiplication to cases where basic multiplication does not apply. We examined many basic contexts such as motion, area, volume, gravitational attraction, energy, kinetic energy, population distribution, and fluid forces, all of which began with a basic physical model, which we then extended to handle some complexity.
+Throughout calculus, we've developed one powerful idea: \textbf{integration as "adding up pieces."} 
 
-In the case of work, if we have a uniform force applied over a segment of distance, then we can express the work done as $W=F\cdot D$. In the case of compressing a spring inward, the force increases with distance, with linear force functions such as $F(D)=55\cdot D$ Newtons. There is no one force to use over any interval of distance to compute work. Instead, we approximated the work done over small intervals of time spanning $dD$ meters, and let a distance within that small interval give the representative force so that the small work change could be represented by $dW=F(D)\cdot dD$. We then summed together the small work changes $dW$ to give the total work change $\int dW=\int F(D)\cdot dD$.
+\begin{problem}
+Definite integration allows us to extend simple multiplication to complex scenarios. 
 
-\textbf{Note:} This notion of "adding up pieces" is made rigorous by taking limits of Riemann Sums.
+Which of the following are examples where we "add up pieces"?
+\begin{selectAll}
+    \choice[correct]{Finding area under a curve by summing infinitesimal rectangles}
+    \choice[correct]{Computing work when force varies with position}
+    \choice[correct]{Calculating arc length along a curve}
+    \choice{Finding the derivative of a function}
+    \choice[correct]{Determining total mass from variable density}
+    \choice[correct]{Computing volume by stacking cross-sections}
+\end{selectAll}
 
-The following GeoGebra application demonstrates this notion of "adding up pieces" in the context of spring compression. You may alter the "Stopping Distance X=" slider to change the distance to which the spring is compressed inward from rest. You may alter the "View Differential Change Elements" slider to visualize the small bit of energy computed over varying small bits of distance $dD$.
+\begin{feedback}
+All integral applications follow the same pattern: identify a small piece, express its contribution, then sum infinitely many pieces!
+\end{feedback}
+\end{problem}
+
+\section*{Review: Work and Variable Force}
+
+\begin{problem}
+For uniform force, work is simple: $W = F \cdot D$.
+
+But when compressing a spring, the force increases with distance: $F(D) = 55D$ Newtons.
+
+The basic model $W = F \cdot D$ \wordChoice{\choice{still works}\choice[correct]{doesn't work}\choice{needs modification}} because:
+\begin{multipleChoice}
+    \choice{The distance is zero}
+    \choice[correct]{There's no single force value to use}
+    \choice{Work is undefined for springs}
+    \choice{The force is negative}
+\end{multipleChoice}
+
+Instead, we consider a small distance $dD$. Over this tiny interval, the force is approximately constant at $F(D)$.
+
+The small work contribution is: $dW = \answer{F(D)} \cdot dD$
+
+Total work is found by: $W = \int \answer{F(D)}\,dD$
+
+\begin{feedback}
+This is "adding up pieces"! Each piece $dW = F(D)\,dD$ represents work over an infinitesimal distance, and integration sums all pieces.
+\end{feedback}
+\end{problem}
+
+\section*{Visualizing Spring Compression}
 
 \begin{center}
 \geogebra{amcsb2hz}{650}{461}
 \end{center}
 
-Notice that over each small distance $dD$, the energy is given by $dE=F(D)\cdot dD$, where $F(D)$ is taken as a single force within the interval of distance $dD$. Notice that the force $F(D)$ grows as the spring is pressed further inward, hence the increasing size of the differential change $dE$ relative to the fixed distance interval $dD$. This visualizes the summation process represented by $\int dE=\int_0^X F(D)\cdot dD$.
+\begin{expandable}{stuff}{GeoGebra Instructions}
+\begin{itemize}
+    \item Alter the "Stopping Distance X=" slider to change compression distance
+    \item Alter "View Differential Change Elements" to visualize small energy pieces $dE$
+    \item Observe how $dE = F(D) \cdot dD$ changes as the spring compresses
+\end{itemize}
+\end{expandable}
 
-In more complex scenarios, the process of building small pieces of a quantity to be summed together remained the same! There is always only one way to think about integration, and this same way of thinking will apply in the following discussion. As a more complex scenario, recall the context of gravitational attraction. Two points having masses $m_1$ and $m_2$ separated by a distance $r$ have a gravitational attraction of $F=\frac{Gm_1m_2}{r^2}$ (G is a constant term). If we wanted to extend this to finding the gravitational attraction between a point mass and a uniformly dense rod with mass $M$ and length $\ell$ that extends in a line away from the point mass, we can no longer use the basic model $F=\frac{Gm_1m_2}{r^2}$ because no one distance $r$ separates the point mass from the rod.
+\begin{problem}
+Using the GeoGebra applet:
 
-Instead, we consider a small segment of the rod with length $dr$ meters (just like we considered a small time segment with motion) and reconstruct the small gravitational force over that small bit of the rod. If $m_1$ is the point's mass and $r$ is one of a representative distance between the point mass and somewhere along the rod within the segment of length $dr$, then we have $dF=\frac{Gm_1dM}{r^2}$, where $dM$ is the mass of the small segment that we chose.
+As the spring is compressed further (larger $D$), the force $F(D)$:
+\begin{multipleChoice}
+    \choice[correct]{Increases}
+    \choice{Decreases}
+    \choice{Stays constant}
+\end{multipleChoice}
 
-This segmentation is depicted in the following GeoGebra application, where you can increase or decrease N to view large or small rod segments, and may alter "Sample Distance=" to see an approximation of $dF=\frac{Gm_1dM}{r^2}$ over any small segment of the rod.
+As compression increases, the differential energy $dE$ for a fixed $dD$:
+\begin{multipleChoice}
+    \choice[correct]{Gets larger (taller rectangles)}
+    \choice{Gets smaller}
+    \choice{Stays the same height}
+\end{multipleChoice}
+
+The total energy stored is: $E = \int_0^X \answer{F(D)}\,dD$
+
+This integral represents:
+\begin{multipleChoice}
+    \choice{The final force at distance X}
+    \choice{The average force}
+    \choice[correct]{The sum of all infinitesimal work contributions}
+    \choice{The spring constant}
+\end{multipleChoice}
+
+\begin{feedback}
+Perfect! The visualization shows how "adding up pieces" works—each small rectangle is $dE$, and the integral sums them all!
+\end{feedback}
+\end{problem}
+
+\section*{Gravitational Attraction: Point Mass and Rod}
+
+\begin{problem}
+Newton's Law of Gravitation says two point masses $m_1$ and $m_2$ separated by distance $r$ attract with force:
+$$F = \frac{Gm_1m_2}{r^2}$$
+
+where $G \approx 6.674 \times 10^{-11}$ is the gravitational constant.
+
+Now consider: a point mass and a uniform rod of mass $M$ and length $\ell$.
+
+Can we use the basic formula $F = \frac{Gm_1M}{r^2}$ directly?
+\begin{multipleChoice}
+    \choice{Yes, just use the center of the rod for $r$}
+    \choice[correct]{No, because different parts of the rod are at different distances}
+    \choice{Yes, but only if the rod is vertical}
+\end{multipleChoice}
+
+\textbf{Solution:} Consider a small segment of the rod with length $dr$.
+
+If $dM$ is the mass of this small segment and $r$ is its distance from the point mass, then:
+$$dF = \frac{G m_1 \answer{dM}}{r^{\answer{2}}}$$
+
+This is the gravitational force from just one tiny piece of the rod!
+
+\begin{feedback}
+We've broken down the complex problem into manageable pieces—now we just need to add them up!
+\end{feedback}
+\end{problem}
 
 \begin{center}
 \geogebra{x3amugxh}{850}{305}
 \end{center}
 
-Since the rod is uniformly dense, the density of the rod $\frac{M}{\ell}$ lets us determine the mass of the small segment by considering the segment length $dr$. This gives us $dF=\frac{Gm_1dM}{r^2}=\frac{Gm_1\frac{M}{\ell}dr}{r^2}$, and we can sum the small force pieces along the length of the rod to get $\int dF=\int\frac{Gm_1\frac{M}{\ell}dr}{r^2}$. Again, the details for this example are a bit more involved, but the details are rooted in attention to what the integral represents, a process of summing together small bits of a quantity (distance, force, etc.) by attending to how you construct the quantity over small regions.
-
-\section{Tasks}
-
-Double and Triple integrals are no different. We merely have more tools for constructing the basic quantities over more complicated objects. Often, constructing double and triple integrals depends on working with a small volume element $dV$. Mass, for instance, takes a density $\rho$ so that the total mass of an object can be summed one small element at a time from $dM=\delta\cdot dV$ for a total mass of $\iiint dM=\iiint\delta\cdot dV$. Whether the density is defined in rectangular, cylindrical, or spherical coordinates, the basic construction over any small volume is given by $dM=\delta\cdot dV$.
-
-We will begin by calculating the masses of various objects according to multiple coordinate representations and then will answer more complicated integrals that still require the same basic construction of a quantity as always, only now we will be constructing the quantities along a representative volume element $dV$.
-
-\subsection{Task One}
-
-Much like the basic construction of distance under a variable velocity, we will begin with very basic triple integral constructions and then engage in more complicated modeling.
-
-You are assigned to an initial shape \textbf{by your birth month.}
-
+\begin{expandable}{stuff}{GeoGebra Instructions}
 \begin{itemize}
-\item Shape 1: January-June
-\item Shape 2: July-December
+    \item Increase/decrease N to view different numbers of rod segments
+    \item Alter "Sample Distance=" to see $dF$ approximations for different segments
+    \item Observe how distance $r$ varies along the rod
+\end{itemize}
+\end{expandable}
+
+\begin{problem}
+For a uniformly dense rod, the linear density is: $\lambda = \frac{M}{\ell}$
+
+For a small segment of length $dr$, the mass is:
+$$dM = \answer{\lambda}\,dr = \frac{\answer{M}}{\ell}\,dr$$
+
+Substituting into our force expression:
+$$dF = \frac{Gm_1 dM}{r^2} = \frac{Gm_1 \cdot \frac{M}{\ell}\,dr}{\answer{r^2}}$$
+
+To find total gravitational force, we:
+\begin{multipleChoice}
+    \choice{Multiply $dF$ by the rod length}
+    \choice[correct]{Integrate $dF$ along the rod: $F = \int dF$}
+    \choice{Take the derivative of $dF$}
+    \choice{Use only the closest point}
+\end{multipleChoice}
+
+The integral setup is: $F = \int \frac{Gm_1 M}{\ell r^2}\,dr$
+
+\begin{feedback}
+Excellent! We've constructed the small piece $dF$ and now integrate to sum all contributions. The key is understanding what each differential piece represents!
+\end{feedback}
+\end{problem}
+
+\section*{Extension to Multiple Integrals}
+
+\begin{problem}
+The same "adding up pieces" philosophy extends to double and triple integrals!
+
+For mass with variable density $\delta$ over a volume, the basic model is $M = \delta \cdot V$.
+
+When density varies throughout an object, we work with a small volume element $\answer{dV}$.
+
+The small mass contribution is: $dM = \answer{\delta} \cdot dV$
+
+Total mass is found by: $M = \iiint \answer{\delta}\,dV$
+
+This works regardless of coordinate system:
+\begin{selectAll}
+    \choice[correct]{Rectangular: $dV = dx\,dy\,dz$}
+    \choice[correct]{Cylindrical: $dV = r\,dr\,d\theta\,dz$}
+    \choice[correct]{Spherical: $dV = \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$}
+    \choice{Polar: $dV = r\,dr\,d\theta$ (this is 2D, not 3D!)}
+\end{selectAll}
+
+The key insight:
+\begin{multipleChoice}
+    \choice{Different coordinate systems give different answers}
+    \choice[correct]{Different coordinate systems are tools—choose the one matching your geometry}
+    \choice{Always use rectangular coordinates}
+    \choice{Cylindrical coordinates are always best}
+\end{multipleChoice}
+
+\begin{feedback}
+Perfect! The construction $dM = \delta \cdot dV$ is universal. Only the expression for $dV$ changes with coordinate systems!
+\end{feedback}
+\end{problem}
+
+\section*{Practice: Unpacking Differential Constructions}
+
+Before we tackle 3D objects, let's practice carefully constructing differential elements for various scenarios.
+
+\begin{problem}
+\textbf{Population Density Over a Strange Region}
+
+A city's population density (people per square kilometer) varies with position and is given by:
+$$\rho(x,y) = \frac{100}{1+x^2+y^2} \text{ people/km}^2$$
+
+The city occupies the region bounded by $y = x^2$ (below) and $y = 4$ (above).
+
+\textbf{Step 1: Construct the differential element}
+
+For a small rectangular area element with dimensions $dx$ by $dy$:
+
+The small area is: $dA = \answer{dx}\,dy$
+
+The small population in this area is: $dP = \rho(x,y) \cdot \answer{dA} = \frac{100}{1+x^2+y^2}\,\answer{dx\,dy}$
+
+This represents:
+\begin{multipleChoice}
+    \choice{The total population}
+    \choice{The population density}
+    \choice[correct]{The number of people in an infinitesimal rectangle}
+    \choice{The average density}
+\end{multipleChoice}
+
+\textbf{Step 2: Determine integration bounds}
+
+The region is bounded by $y = x^2$ below and $y = 4$ above.
+
+For a vertical slice at position $x$, $y$ ranges from $\answer{x^2}$ to $\answer{4}$.
+
+To cover the entire region, we need $x$ from $\answer{-2}$ to $\answer{2}$ (where does $x^2 = 4$?).
+
+\textbf{Step 3: Set up the integral}
+
+Total population: 
+$$P = \iint_R dP = \int_{-2}^{2} \int_{x^2}^{4} \frac{\answer{100}}{1+x^2+y^2}\,dy\,dx$$
+
+The order of integration matters because:
+\begin{multipleChoice}
+    \choice{The density function is complicated}
+    \choice[correct]{The region is easier to describe with vertical slices (fixed $x$, varying $y$)}
+    \choice{It always matters}
+    \choice{We need to use Fubini's Theorem}
+\end{multipleChoice}
+
+\begin{feedback}
+Excellent! You've carefully unpacked $dP = \rho(x,y)\,dA$ and set up bounds for a non-rectangular region. The density function decreases as you move away from the origin—the city center is most densely populated!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+\textbf{Heat Distribution in a Circular Plate}
+
+A circular metal plate of radius 3 meters has temperature $T(r,\theta) = 50 + 20\cos(2\theta)$ degrees Celsius, where $(r,\theta)$ are polar coordinates.
+
+The heat energy density (energy per unit area) is $E(r,\theta) = cT(r,\theta)$ where $c$ is a constant.
+
+\textbf{Construct the differential element carefully:}
+
+In polar coordinates, the area element is: $dA = \answer{r}\,dr\,d\theta$
+
+Why not just $dr\,d\theta$?
+\begin{multipleChoice}
+    \choice{It's a convention}
+    \choice{To make the integral harder}
+    \choice[correct]{The "width" of an angular slice is $r\,d\theta$, not $d\theta$}
+    \choice{It's only true for circles}
+\end{multipleChoice}
+
+The small heat energy is: $dE = E(r,\theta) \cdot dA = c(50 + 20\cos(2\theta)) \cdot \answer{r}\,dr\,d\theta$
+
+Total heat energy in the plate:
+$$E_{\text{total}} = \int_{\answer{0}}^{\answer{2\pi}} \int_{\answer{0}}^{\answer{3}} c(50 + 20\cos(2\theta)) \cdot r\,dr\,d\theta$$
+
+The temperature varies with $\theta$ but not $r$, meaning:
+\begin{multipleChoice}
+    \choice{The plate is hotter at the edge}
+    \choice[correct]{Temperature varies around the circle but is constant along any ray from the center}
+    \choice{The plate is uniformly heated}
+    \choice{There's an error in the problem}
+\end{multipleChoice}
+
+\begin{feedback}
+Great work! You recognized that in polar coordinates, the area element $dA = r\,dr\,d\theta$ accounts for the geometry. The factor of $r$ appears because angular slices get wider as you move away from the origin!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+\textbf{Electric Charge on an Ellipse}
+
+An elliptical region defined by $\frac{x^2}{9} + \frac{y^2}{4} \leq 1$ has surface charge density:
+$$\sigma(x,y) = \frac{5}{1 + x^2} \text{ charge per square meter}$$
+
+\textbf{Strategy: Use a transformation!}
+
+Let $u = \frac{x}{3}$ and $v = \frac{y}{2}$. Then the ellipse transforms to the unit circle: $u^2 + v^2 \leq 1$.
+
+From the transformations: $x = \answer{3u}$ and $y = \answer{2v}$
+
+The Jacobian is:
+$$J = \frac{\partial(x,y)}{\partial(u,v)} = \begin{vmatrix} \frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\ \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v} \end{vmatrix} = \begin{vmatrix} \answer{3} & \answer{0} \\ \answer{0} & \answer{2} \end{vmatrix} = \answer{6}$$
+
+The differential element transforms: $dA = dx\,dy = |J|\,du\,dv = \answer{6}\,du\,dv$
+
+The charge density in new coordinates: $\sigma(x,y) = \frac{5}{1+x^2} = \frac{5}{1+(3u)^2} = \frac{5}{1+9u^2}$
+
+The small charge element: $dQ = \sigma(x,y)\,dA = \frac{5}{1+9u^2} \cdot \answer{6}\,du\,dv$
+
+Total charge (using polar coordinates $u = r\cos\theta$, $v = r\sin\theta$ in the unit circle):
+$$Q = \int_0^{2\pi} \int_0^1 \frac{5}{1+9r^2\cos^2\theta} \cdot 6 \cdot \answer{r}\,dr\,d\theta$$
+
+The key steps were:
+\begin{selectAll}
+    \choice[correct]{Transform the ellipse to a circle}
+    \choice[correct]{Compute the Jacobian for area scaling}
+    \choice[correct]{Express the charge density in new coordinates}
+    \choice[correct]{Use polar coordinates in the unit circle}
+    \choice{Ignore the geometry}
+\end{selectAll}
+
+\begin{feedback}
+Outstanding! You've combined coordinate transformations with careful differential construction. The ellipse problem became manageable by transforming to a circle, but you had to track how $dA$ changes (via the Jacobian) and how the charge density function transforms!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+\textbf{Mass of Fluid in a Rotating Container}
+
+A cylindrical container (radius 2 m, height 5 m) rotates, causing the fluid density to vary:
+$$\delta(r,z) = 1000 + 50r^2 - 20z \text{ kg/m}^3$$
+
+where $(r, \theta, z)$ are cylindrical coordinates.
+
+In cylindrical coordinates, the volume element is:
+$$dV = \answer{r}\,dr\,d\theta\,dz$$
+
+Why does $r$ appear here?
+\begin{multipleChoice}
+    \choice{It's always there in 3D}
+    \choice[correct]{The cylindrical shell at radius $r$ has circumference $2\pi r$, making volume proportional to $r$}
+    \choice{To account for rotation}
+    \choice{It's a mistake}
+\end{multipleChoice}
+
+The small mass element: $dM = \delta(r,z) \cdot dV = (1000 + 50r^2 - 20z) \cdot \answer{r}\,dr\,d\theta\,dz$
+
+The integral setup for total mass:
+$$M = \int_{\answer{0}}^{\answer{2\pi}} \int_{\answer{0}}^{\answer{5}} \int_{\answer{0}}^{\answer{2}} (1000 + 50r^2 - 20z) \cdot r\,dr\,dz\,d\theta$$
+
+Notice the density:
+\begin{selectAll}
+    \choice[correct]{Increases with distance from the axis (centrifugal effect)}
+    \choice[correct]{Decreases with height (pressure effect)}
+    \choice{Depends on angle $\theta$}
+    \choice[correct]{Is independent of angle (axial symmetry)}
+\end{selectAll}
+
+\begin{feedback}
+Perfect! You've unpacked $dM = \delta \cdot dV$ in cylindrical coordinates, recognizing that $dV = r\,dr\,d\theta\,dz$ reflects the geometry of cylindrical shells. The density function models realistic physical effects in a rotating container!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+\textbf{Probability Distribution Over a Triangle}
+
+A probability density function over a triangular region with vertices $(0,0)$, $(2,0)$, $(0,2)$ is:
+$$p(x,y) = \frac{3}{4}(x+y)$$
+
+For probability densities, $\iint_R p(x,y)\,dA = 1$ (the total probability must be 1).
+
+The differential probability element: $dP = p(x,y) \cdot \answer{dA} = \frac{3}{4}(x+y)\,\answer{dx\,dy}$
+
+This represents:
+\begin{multipleChoice}
+    \choice{The exact probability at point $(x,y)$}
+    \choice[correct]{The probability of landing in an infinitesimal area near $(x,y)$}
+    \choice{The cumulative probability}
+    \choice{The expected value}
+\end{multipleChoice}
+
+For the triangular region, the upper boundary is the line connecting $(2,0)$ to $(0,2)$.
+
+This line has equation: $x + y = \answer{2}$, or $y = \answer{2-x}$
+
+For a vertical slice at position $x$, $y$ ranges from $\answer{0}$ to $\answer{2-x}$.
+
+The variable $x$ ranges from $\answer{0}$ to $\answer{2}$.
+
+Verify the total probability:
+$$\int_0^2 \int_0^{2-x} \frac{3}{4}(x+y)\,dy\,dx = \answer{1}$$
+
+\begin{feedback}
+Excellent! You've carefully constructed a probability integral over a non-rectangular region. The differential element $dP = p(x,y)\,dA$ represents infinitesimal probability, and integration sums all these pieces to verify normalization!
+\end{feedback}
+\end{problem}
+
+\section*{Application: Mass of 3D Objects}
+
+\begin{problem}
+We'll work with two shapes with variable density:
+
+\textbf{Shape 1 (Cone):} 
+\begin{itemize}
+    \item Height: 5 meters
+    \item Base radius: 4 meters
+    \item Density: $\delta = 3 + 2h$ kg/m$^3$, where $h$ is height from tip
 \end{itemize}
 
-\textit{Shape 1: A 5-meter tall cone with a flat base of radius 4 meters with a density of $3 \frac{\text{kg}}{\text{m}^3}$ at its tip that increases linearly by $2 \frac{\text{kg}}{\text{m}^3}$ for each meter length away from the tip.}
+\textbf{Shape 2 (Sphere):}
+\begin{itemize}
+    \item Radius: 5 meters
+    \item Density: $\delta = 3 + 2\rho$ kg/m$^3$, where $\rho$ is distance from center
+\end{itemize}
 
-\textit{Shape 2: A sphere with a radius of 5 meters has a density $3 \frac{\text{kg}}{\text{m}^3}$ at its center that increases linearly by $2 \frac{\text{kg}}{\text{m}^3}$ for each meter length away from the center.}
+For the cone, which coordinate system is most natural?
+\begin{multipleChoice}
+    \choice{Rectangular $(x,y,z)$}
+    \choice[correct]{Cylindrical $(r,\theta,z)$}
+    \choice{Spherical $(\rho,\phi,\theta)$}
+\end{multipleChoice}
 
-\begin{center}
-\framebox[0.9\textwidth]{\parbox{0.85\textwidth}{
-\textbf{Task:} Your overall goal is to find the gravitational attraction between a point mass and the two shapes below. You will first make a brainstorming post and initial solution to your assigned shape, and then, as a group, you are to develop full solutions for both shapes.
-}}
-\end{center}
+For the sphere, which coordinate system is most natural?
+\begin{multipleChoice}
+    \choice{Rectangular $(x,y,z)$}
+    \choice{Cylindrical $(r,\theta,z)$}
+    \choice[correct]{Spherical $(\rho,\phi,\theta)$}
+\end{multipleChoice}
 
-The following GeoGebra application allows you to examine the two shapes and specifically observe the variation of a small volume element within the shapes. You may select the "Show Cone" or "Show Sphere" checkboxes to have either shape appear. You may drag the right screen to rotate the 3D view and may zoom in and out by scrolling. You may select the "Zoom Out" button to return to a global view of the object and may select the "Zoom In" button to isolate the current location of the volume element. You may also alter the sliders to change the position of the volume element according to the cylindrical (for the cone) and spherical (for the sphere) coordinates.
+\begin{feedback}
+Choose coordinates that match the geometry! Cones have circular cross-sections (cylindrical), spheres have radial symmetry (spherical).
+\end{feedback}
+\end{problem}
 
 \begin{center}
 \geogebra{ssum9mnc}{885}{543}
 \end{center}
 
-As a warm-up, you first want to find the mass of your chosen shape. The basic model for mass is as a density-volume product, $M=\delta\cdot V$, where $\delta$ is the uniform density throughout the volume. Note that for our shapes, the density varies throughout the object, which is why we need to integrate. (Hint: Choose a convenient coordinate system).
+\begin{expandable}{stuff}{GeoGebra Instructions}
+\begin{itemize}
+    \item Check "Show Cone" or "Show Sphere" to view each shape
+    \item Drag the 3D view to rotate; scroll to zoom
+    \item Use "Zoom Out" for global view, "Zoom In" for detail
+    \item Adjust sliders to move the volume element $dV$
+    \item Observe how $dV$ changes position in cylindrical (cone) or spherical (sphere) coordinates
+\end{itemize}
+\end{expandable}
 
-You are then to calculate the gravitational attraction between a point mass and your chosen object. The basic model for gravitational attraction between two uniformly dense point masses is given by Newton's Law of Gravitation: $F=\frac{G\cdot m_1\cdot m_2}{D^2}$, where $G\approx 6.6743\times 10^{-11}$, $m_1$ and $m_2$ are the point masses, and $D$ is the distance between the points.
+\begin{problem}
+\textbf{Part A: Finding Mass}
 
-For your problem, the point has mass $m=\frac{M}{10}$, where $M$ is the mass of your chosen object. For \textit{Shape 1}, the point is 10 meters directly below the tip of the cone, and the cone is now \textit{uniformly dense} (meaning that no one volume region is more dense than another). For \textit{Shape 2}, the point is located 15 meters from the center of the sphere. (Note: Technically, with symmetric cases such as these, there is a cancellation of the horizontal gravitational forces; we will ignore this fact for ease of computation).
+For the cone with density $\delta = 3 + 2z$ (where $z$ is height from tip):
 
-\subsection{Task Two}
+In cylindrical coordinates, the volume element is: $dV = \answer{r}\,dr\,d\theta\,dz$
 
-During Module 1, you examined the work done by our backs when we lift a box (using both improper and proper techniques). Because of our available tools at the time, we could only approximate the work done by our backs when improperly lifting a box. With the advent of line integrals within a vector field, we now have the ability to exactly compute the work done by our backs from this motion.
+The mass element is: $dM = \delta \cdot dV = (3 + 2z) \cdot \answer{r}\,dr\,d\theta\,dz$
 
-\begin{center}
-\framebox[0.9\textwidth]{\parbox{0.85\textwidth}{
-\textbf{Task:} Your overall goal is to calculate the work done by the lifter's back when she lifts a box under the "Improper Technique."
-}}
-\end{center}
+At height $z$, the cone's radius varies. If the base has radius 4 m at height 5 m, then at height $z$:
+$$r_{\text{max}}(z) = \frac{4z}{5}$$
 
-First, define the vector fields that capture the weights of our upper bodies and of the box that are involved in the lifting of the box. Use these vector fields to calculate the work done by simply the motion of moving the box and moving the lifter's upper body along the paths. The orange $\vec r_1(t)$ of the lifter's upper body in orange is simplified to be $\vec r_1(t)=\langle 3 \cos\left(\frac{\pi}{2} t\right), 3\sin\left(\frac{\pi}{2}t\right)\rangle$ on the time interval $[0,1]$. The green path $\vec r_2(t)$ of the box being lifted is given by $\vec r_2(t)=\langle (4-t) \cos\left(\frac{\pi}{2}\cdot 1.7 t-\frac{\pi}{4}\right), (3-\frac{t}{2})\sin\left(\frac{\pi}{3}\cdot 1.7t-\frac{\pi}{4}\right)\rangle$ on the time interval $[0,1]$.
+The mass integral setup is:
+$$M = \int_0^{\answer{2\pi}} \int_0^{\answer{5}} \int_0^{4z/5} (3+2z) \cdot r\,dr\,dz\,d\theta$$
+
+\begin{feedback}
+Setting up the integral requires understanding the geometry and choosing bounds carefully!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+\textbf{Part B: Gravitational Attraction}
+
+Now consider a point mass $m$ near your 3D object.
+
+For Shape 1 (cone, now uniformly dense): point mass $m = M/10$ is 10 meters below the cone's tip.
+
+For Shape 2 (sphere): point mass $m = M/10$ is 15 meters from the sphere's center.
+
+The gravitational force from a small volume element $dV$ with mass $dM$ at distance $D$ is:
+$$dF = \frac{G m \cdot \answer{dM}}{D^{\answer{2}}}$$
+
+To find total force, we:
+\begin{multipleChoice}
+    \choice{Use the center of mass distance}
+    \choice[correct]{Integrate: $F = \iiint \frac{Gm \cdot \delta}{D^2}\,dV$}
+    \choice{Multiply by the volume}
+    \choice{Use only the nearest point}
+\end{multipleChoice}
+
+The challenge is that $D$ \wordChoice{\choice{is constant}\choice[correct]{varies with position}\choice{equals zero}} within the object.
+
+\begin{feedback}
+This is a challenging application! You must express distance $D$ in terms of your coordinates, then integrate. Note: We ignore horizontal force cancellation for simplicity.
+\end{feedback}
+\end{problem}
+
+\section*{Application: Work and Line Integrals}
+
+\begin{problem}
+In Module 1, we approximated the work done by your back when lifting a box with improper technique.
+
+Now with line integrals, we can compute this exactly!
+
+\textbf{Recall:} Work by a force $\vec{F}$ along a path $C$ is:
+$$W = \int_C \vec{F} \cdot d\vec{r}$$
+
+This represents:
+\begin{multipleChoice}
+    \choice{The total force}
+    \choice{The path length}
+    \choice[correct]{The sum of force contributions along the path}
+    \choice{The average force}
+\end{multipleChoice}
+
+For a parametric path $\vec{r}(t)$ with $a \leq t \leq b$:
+$$W = \int_a^b \vec{F}(\vec{r}(t)) \cdot \answer{\vec{r}'(t)}\,dt$$
+
+\begin{feedback}
+Line integrals extend "adding up pieces" to vector fields along curves!
+\end{feedback}
+\end{problem}
 
 \begin{center}
 \geogebra{byvh3hft}{741}{613}
 \end{center}
 
-Finally, use a line integral to compute the work done by our backs in this lifting motion. The back force $F_B$ is perpendicular to the radius vector function $\vec r_B(t)$, which travels a quarter circular path as shown, with radius $.08$ meters. (Hint: You'll need to calculate a function from the torque of the system at any time $t$ to get a magnitude for the force vector $F_B$. Using MATLAB to make the torque calculations for you will greatly reduce your computational work on this problem. refer to the Module 1-2 Discussion's MATLAB Support for a refresher on vector operations in MATLAB.)
+\begin{expandable}{stuff}{GeoGebra Instructions}
+\begin{itemize}
+    \item Observe the orange path (lifter's upper body) and green path (box)
+    \item The animation shows improper lifting technique
+    \item Note how both the body and box move along curved paths
+\end{itemize}
+\end{expandable}
+
+\begin{problem}
+\textbf{The Lifting Problem:}
+
+The lifter's upper body follows (orange path):
+$$\vec{r}_1(t) = \left\langle 3\cos\left(\frac{\pi}{2}t\right), 3\sin\left(\frac{\pi}{2}t\right)\right\rangle, \quad 0 \leq t \leq 1$$
+
+The box follows (green path):
+$$\vec{r}_2(t) = \left\langle (4-t)\cos\left(\frac{\pi}{2} \cdot 1.7t - \frac{\pi}{4}\right), (3-\frac{t}{2})\sin\left(\frac{\pi}{3} \cdot 1.7t - \frac{\pi}{4}\right)\right\rangle, \quad 0 \leq t \leq 1$$
+
+To find work, we need:
+\begin{selectAll}
+    \choice[correct]{The weight vector field (force due to gravity)}
+    \choice[correct]{The path derivatives $\vec{r}_1'(t)$ and $\vec{r}_2'(t)$}
+    \choice{The velocity of the box}
+    \choice[correct]{Line integrals $\int_C \vec{F} \cdot d\vec{r}$ for each path}
+\end{selectAll}
+
+The weight of an object with mass $m$ creates a force field:
+$$\vec{F}_{\text{weight}} = \langle 0, \answer{-mg} \rangle$$
+
+where $g \approx 9.8$ m/s$^2$ is gravitational acceleration.
+
+\begin{feedback}
+The work calculation requires setting up line integrals for both the upper body and the box, accounting for their respective weights!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+\textbf{Advanced: Back Force}
+
+The back force $\vec{F}_B$ acts perpendicular to the radius vector $\vec{r}_B(t)$, which travels a quarter-circular path with radius $0.08$ meters.
+
+This requires:
+\begin{selectAll}
+    \choice[correct]{Computing torque as a function of $t$}
+    \choice[correct]{Finding the magnitude of back force from torque}
+    \choice{Using the Fundamental Theorem of Calculus}
+    \choice[correct]{Setting up a line integral with $\vec{F}_B \cdot \vec{r}_B'(t)$}
+\end{selectAll}
+
+The torque $\tau$ relates to force by: $\tau = \answer{r} \times F$ (in 2D: $\tau = rF$ for perpendicular force)
+
+\begin{feedback}
+This is a challenging biomechanics problem! The back force must counteract the torques from the upper body and box weights. Computing this requires careful vector analysis—computational tools like MATLAB can help with the calculations!
+\end{feedback}
+\end{problem}
+
+\section*{Summary: The Power of Integration}
+
+\begin{problem}
+Throughout this activity, we've seen one unifying principle:
+
+\textbf{Integration = Adding Up Pieces}
+
+Complete this summary:
+
+For \textbf{spring work}: $dW = \answer{F(D)}\,dD$ leads to $W = \int F(D)\,dD$
+
+For \textbf{gravitational attraction}: $dF = \frac{Gm_1\,dM}{\answer{r^2}}$ leads to $F = \int \frac{Gm_1\,dM}{r^2}$
+
+For \textbf{mass with variable density}: $dM = \answer{\delta}\,dV$ leads to $M = \iiint \delta\,dV$
+
+For \textbf{work along a path}: $dW = \vec{F} \cdot \answer{d\vec{r}}$ leads to $W = \int_C \vec{F} \cdot d\vec{r}$
+
+The pattern is always:
+\begin{enumerate}
+    \item Identify the \wordChoice{\choice{derivative}\choice[correct]{small piece}\choice{area}\choice{limit}}
+    \item Express its contribution (the differential: $dW$, $dF$, $dM$, etc.)
+    \item \wordChoice{\choice{Differentiate}\choice[correct]{Integrate}\choice{Multiply}\choice{Factor}} to sum all pieces
+\end{enumerate}
+
+This same philosophy applies to:
+\begin{selectAll}
+    \choice[correct]{Arc length}
+    \choice[correct]{Surface area}
+    \choice[correct]{Center of mass}
+    \choice[correct]{Fluid pressure}
+    \choice[correct]{Electric charge distribution}
+    \choice{Finding derivatives}
+    \choice[correct]{Moment of inertia}
+\end{selectAll}
+
+\begin{feedback}
+Perfect! You've mastered the fundamental philosophy of integration. Every application—no matter how complex—follows this same pattern of constructing and summing infinitesimal pieces!
+\end{feedback}
+\end{problem}
 
 \end{document}

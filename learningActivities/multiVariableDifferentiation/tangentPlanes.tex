@@ -1,0 +1,410 @@
+\documentclass{ximera}
+
+\title{Tangent Planes and Linear Approximation}
+\author{Zack Reed}
+
+\begin{document}
+\begin{abstract}
+In this activity we explore tangent planes as the multivariable extension of tangent lines, building linear approximations of surfaces using partial derivatives and the total differential.
+\end{abstract}
+\maketitle
+
+\section*{Introduction: From Lines to Planes}
+
+In single-variable calculus, the tangent line provided a linear approximation to a function near a point. For a differentiable function $f(x)$, the tangent line at $x=a$ is:
+$$y = f(a) + f'(a)(x-a)$$
+
+This gave us local linearity—the ability to approximate $f(x)$ with a simple line when close to $x=a$.
+
+\begin{problem}
+For multivariable functions $f(x,y)$, we need something more than a line. What geometric object should approximate a surface?
+
+\begin{multipleChoice}
+    \choice{A tangent line}
+    \choice{A tangent circle}
+    \choice[correct]{A tangent plane}
+    \choice{A tangent sphere}
+\end{multipleChoice}
+
+\begin{feedback}
+Just as a line is one-dimensional and approximates a one-dimensional curve, a plane is two-dimensional and can approximate a two-dimensional surface!
+\end{feedback}
+\end{problem}
+
+\section*{Visualizing Tangent Planes}
+
+Let's start by seeing what a tangent plane looks like.
+
+\begin{problem}
+Explore tangent planes interactively.
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Drag the point $(x,y)$ on the right screen to alter the location of the tangency point (you may need to hide the surface to do this). Notice how the tangent plane changes as you move to different points on the surface.
+\end{expandable}
+
+\begin{center}
+\geogebra{pkdrny3n}{741}{581}
+\end{center}
+
+As you move the point around, observe:
+\begin{selectAll}
+    \choice[correct]{The tangent plane touches the surface at exactly one point}
+    \choice[correct]{The tangent plane approximates the surface near the point of tangency}
+    \choice{The tangent plane always has the same slope}
+    \choice[correct]{The tangent plane "tips" differently at different points}
+\end{selectAll}
+
+\begin{feedback}
+The tangent plane is the best linear approximation to the surface at a given point—just like how a tangent line was the best linear approximation to a curve!
+\end{feedback}
+\end{problem}
+
+\section*{Building the Tangent Plane from Partial Derivatives}
+
+How do we find the equation of a tangent plane? We need to understand how the surface slopes in different directions.
+
+\begin{problem}
+At a point $(a,b,f(a,b))$ on the surface $z=f(x,y)$, what information do we need to determine the tangent plane?
+
+\begin{selectAll}
+    \choice[correct]{The slope in the $x$-direction: $\frac{\partial f}{\partial x}(a,b)$}
+    \choice[correct]{The slope in the $y$-direction: $\frac{\partial f}{\partial y}(a,b)$}
+    \choice{The second derivatives}
+    \choice[correct]{The value of the function at that point: $f(a,b)$}
+\end{selectAll}
+
+\begin{feedback}
+Both partial derivatives $f_x(a,b)$ and $f_y(a,b)$ are needed! They tell us how the surface slopes in perpendicular directions, which fully determines the plane.
+\end{feedback}
+\end{problem}
+
+\subsection*{The Tangent Plane Equation}
+
+\begin{definition}
+The \textbf{tangent plane} to the surface $z=f(x,y)$ at the point $(a,b,f(a,b))$ is given by:
+$$z = f(a,b) + f_x(a,b)(x-a) + f_y(a,b)(y-b)$$
+
+This is the multivariable extension of the tangent line formula!
+\end{definition}
+
+\begin{problem}
+Let's find a tangent plane equation. For $f(x,y) = x^2 + y^2$ at the point $(1,2)$:
+
+\textbf{Step 1: Find the partial derivatives}
+$$f_x = \answer{2x}$$
+$$f_y = \answer{2y}$$
+
+\textbf{Step 2: Evaluate at $(1,2)$}
+$$f(1,2) = 1^2 + 2^2 = \answer{5}$$
+$$f_x(1,2) = \answer{2}$$
+$$f_y(1,2) = \answer{4}$$
+
+\textbf{Step 3: Write the tangent plane equation}
+$$z = 5 + 2(x-1) + 4(y-2)$$
+
+Simplifying:
+$$z = 5 + 2x - 2 + 4y - 8 = 2x + 4y - \answer{5}$$
+
+\begin{feedback}
+The coefficients $2$ and $4$ tell us the slope of the plane in the $x$ and $y$ directions respectively!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Find the tangent plane to $g(x,y) = xy + y^2$ at $(2,1)$:
+
+First, compute partial derivatives:
+$$g_x = \answer{y}$$
+$$g_y = \answer{x + 2y}$$
+
+At $(2,1)$:
+$$g(2,1) = 2(1) + 1^2 = \answer{3}$$
+$$g_x(2,1) = \answer{1}$$
+$$g_y(2,1) = 2 + 2(1) = \answer{4}$$
+
+The tangent plane equation is:
+$$z = 3 + 1(x-2) + 4(y-1)$$
+
+Simplified form:
+$$z = x + 4y - \answer{3}$$
+
+\begin{feedback}
+Great! You can now find tangent plane equations by using both partial derivatives together.
+\end{feedback}
+\end{problem}
+
+\section*{The Total Differential}
+
+The tangent plane gives us a linear approximation. The change in $z$ as we move along the plane is called the \textbf{total differential}.
+
+\begin{definition}
+For $z=f(x,y)$, the \textbf{total differential} is:
+$$dz = f_x(a,b) \cdot dx + f_y(a,b) \cdot dy$$
+
+This extends the single-variable differential $df = f'(a) \cdot dx$ to account for changes in both input variables.
+\end{definition}
+
+\begin{problem}
+Explore how the total differential works.
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Drag the point $(a,b)$ on the right screen to change the tangency location. Check ``Show Differential Build'' to see how $dx$ and $dy$ combine to produce $dz$.
+\end{expandable}
+
+\begin{center}
+\geogebra{y3bnsnbv}{740}{612}
+\end{center}
+
+Notice how the total differential $dz$ is built from:
+\begin{selectAll}
+    \choice[correct]{The partial derivative $f_x$ times the change $dx$}
+    \choice[correct]{The partial derivative $f_y$ times the change $dy$}
+    \choice{Only the change in the $x$-direction}
+    \choice[correct]{Both contributions added together}
+\end{selectAll}
+
+\begin{feedback}
+The total differential $dz = f_x \cdot dx + f_y \cdot dy$ shows how both directions contribute to the vertical change along the tangent plane!
+\end{feedback}
+\end{problem}
+
+\subsection*{Computing with the Total Differential}
+
+\begin{problem}
+For $f(x,y) = x^3 - 2xy + y^2$ at the point $(2,1)$, use the total differential to approximate $f(2.1, 1.05)$.
+
+\textbf{Step 1: Partial derivatives}
+$$f_x = \answer{3x^2 - 2y}$$
+$$f_y = \answer{-2x + 2y}$$
+
+\textbf{Step 2: Evaluate at $(2,1)$}
+$$f(2,1) = 8 - 4 + 1 = \answer{5}$$
+$$f_x(2,1) = 12 - 2 = \answer{10}$$
+$$f_y(2,1) = -4 + 2 = \answer{-2}$$
+
+\textbf{Step 3: Find the changes}
+$$dx = 2.1 - 2 = \answer{0.1}$$
+$$dy = 1.05 - 1 = \answer{0.05}$$
+
+\textbf{Step 4: Compute the differential}
+$$dz = 10(0.1) + (-2)(0.05) = 1 - 0.1 = \answer{0.9}$$
+
+\textbf{Step 5: Approximate the function value}
+$$f(2.1, 1.05) \approx f(2,1) + dz = 5 + 0.9 = \answer{5.9}$$
+
+\begin{feedback}
+The actual value is $f(2.1, 1.05) = 5.9055$, so our linear approximation is very close!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Use the total differential for $h(x,y) = e^x \sin(y)$ at $(\ln 2, \pi/6)$ to estimate $h(0.7, 0.5)$.
+
+Note: $\ln 2 \approx 0.693$ and $\pi/6 \approx 0.524$.
+
+Partial derivatives:
+$$h_x = \answer{e^x \sin(y)}$$
+$$h_y = \answer{e^x \cos(y)}$$
+
+At $(\ln 2, \pi/6)$, where $e^{\ln 2} = 2$, $\sin(\pi/6) = 1/2$, $\cos(\pi/6) = \sqrt{3}/2$:
+$$h(\ln 2, \pi/6) = 2 \cdot \frac{1}{2} = \answer{1}$$
+$$h_x(\ln 2, \pi/6) = 2 \cdot \frac{1}{2} = \answer{1}$$
+$$h_y(\ln 2, \pi/6) = 2 \cdot \frac{\sqrt{3}}{2} = \answer{\sqrt{3}}$$
+
+Changes: $dx \approx 0.7 - 0.693 = 0.007$ and $dy \approx 0.5 - 0.524 = -0.024$
+
+Total differential:
+$$dz \approx 1(0.007) + \sqrt{3}(-0.024) \approx 0.007 - 0.042 = \answer[tolerance=0.01]{-0.035}$$
+
+Approximation:
+$$h(0.7, 0.5) \approx 1 + (-0.035) = \answer[tolerance=0.01]{0.965}$$
+
+\begin{feedback}
+Linear approximations using tangent planes are powerful tools for estimating function values near known points!
+\end{feedback}
+\end{problem}
+
+\section*{Connecting to Directional Derivatives}
+
+The tangent plane isn't just for approximation—it connects deeply to directional derivatives.
+
+\begin{problem}
+Explore the relationship between tangent planes and directional derivatives.
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Drag the tip of $\vec{u}$ on the right screen to change the direction. Check ``Show Directional Derivative'' to see how the plane determines the slope in that direction.
+\end{expandable}
+
+\begin{center}
+\geogebra{y3bnsnbv}{740}{612}
+\end{center}
+
+The tangent plane contains:
+\begin{selectAll}
+    \choice[correct]{All possible directional derivative tangent lines}
+    \choice{Only the $x$ and $y$ direction derivatives}
+    \choice[correct]{The tangent line in any direction through the point}
+    \choice{The gradient vector}
+\end{selectAll}
+
+\begin{feedback}
+Every directional derivative corresponds to a slice of the tangent plane in that direction! The plane encodes all directional information at once.
+\end{feedback}
+\end{problem}
+
+\subsection*{Tangent Planes and the Total Differential Formula}
+
+\begin{problem}
+The formula $dz = f_x(a,b) \cdot dx + f_y(a,b) \cdot dy$ extends to directional derivatives.
+
+If we move in direction $\vec{u} = \langle u_1, u_2 \rangle$ with arc length $ds$, then:
+$$dx = u_1 \cdot ds \quad \text{and} \quad dy = u_2 \cdot ds$$
+
+Substituting into the total differential:
+$$dz = f_x(a,b) \cdot u_1 \cdot ds + f_y(a,b) \cdot u_2 \cdot ds$$
+
+Dividing by $ds$:
+$$\frac{dz}{ds} = f_x(a,b) \cdot u_1 + f_y(a,b) \cdot u_2$$
+
+This is the \wordChoice{\choice{gradient}\choice{partial derivative}\choice[correct]{directional derivative}\choice{total differential}} formula!
+
+\begin{feedback}
+The tangent plane formula $dz = f_x dx + f_y dy$ directly gives us the directional derivative when we account for how $dx$ and $dy$ change with arc length in a given direction!
+\end{feedback}
+\end{problem}
+
+\section*{When Does a Tangent Plane Exist?}
+
+Not every surface has a tangent plane at every point.
+
+\begin{problem}
+For a tangent plane to exist at $(a,b)$, what must be true?
+
+\begin{selectAll}
+    \choice[correct]{Both partial derivatives $f_x(a,b)$ and $f_y(a,b)$ must exist}
+    \choice[correct]{The partial derivatives must be continuous near $(a,b)$}
+    \choice{The function must be linear}
+    \choice{The second derivatives must exist}
+\end{selectAll}
+
+\begin{feedback}
+If both partial derivatives exist and are continuous near $(a,b)$, then $f$ is \textbf{differentiable} at $(a,b)$ and a tangent plane exists. This is analogous to requiring $f'(a)$ to exist for a tangent line in single-variable calculus.
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Consider $f(x,y) = |x| + |y|$ at $(0,0)$.
+
+Does $f_x(0,0)$ exist?
+\begin{multipleChoice}
+    \choice{Yes, it equals $0$}
+    \choice{Yes, it equals $1$}
+    \choice[correct]{No, the limit does not exist}
+\end{multipleChoice}
+
+Does a tangent plane exist at $(0,0)$?
+\begin{multipleChoice}
+    \choice{Yes}
+    \choice[correct]{No}
+\end{multipleChoice}
+
+\begin{feedback}
+The function $|x|$ is not differentiable at $x=0$ (sharp corner), so $f_x(0,0)$ doesn't exist. Without both partial derivatives, we cannot construct a tangent plane! The surface forms a "pyramid" shape with a sharp point at the origin.
+\end{feedback}
+\end{problem}
+
+\section*{Applications of Tangent Planes}
+
+\subsection*{Horizontal Tangent Planes}
+
+\begin{problem}
+A tangent plane is horizontal when both partial derivatives equal zero.
+
+For $f(x,y) = x^2 + y^2 - 4x - 6y + 5$, find where the tangent plane is horizontal:
+
+$$f_x = \answer{2x - 4}$$
+$$f_y = \answer{2y - 6}$$
+
+Setting both equal to zero:
+$$2x - 4 = 0 \Rightarrow x = \answer{2}$$
+$$2y - 6 = 0 \Rightarrow y = \answer{3}$$
+
+At $(2,3)$, the tangent plane is horizontal with equation:
+$$z = f(2,3) = 4 + 9 - 8 - 18 + 5 = \answer{-8}$$
+
+This is a \wordChoice{\choice[correct]{critical point}\choice{saddle point}\choice{maximum}\choice{minimum}} (more classification needed).
+
+\begin{feedback}
+Horizontal tangent planes occur at critical points, where both partial derivatives vanish. These could be local maxima, minima, or saddle points!
+\end{feedback}
+\end{problem}
+
+\subsection*{Normal Vectors to Surfaces}
+
+\begin{problem}
+The tangent plane to $z=f(x,y)$ at $(a,b,f(a,b))$ can be rewritten as:
+$$f_x(a,b)(x-a) + f_y(a,b)(y-b) - (z-f(a,b)) = 0$$
+
+This shows that $\langle f_x(a,b), f_y(a,b), -1 \rangle$ is a \wordChoice{\choice{tangent vector}\choice[correct]{normal vector}\choice{gradient}} to the tangent plane.
+
+For $g(x,y) = x^2 - y^2$ at $(1,1)$:
+$$g_x(1,1) = \answer{2}$$
+$$g_y(1,1) = \answer{-2}$$
+
+A normal vector to the tangent plane is $\vec{n} = \langle \answer{2}, \answer{-2}, \answer{-1} \rangle$.
+
+\begin{feedback}
+Normal vectors are perpendicular to the tangent plane and are crucial for many applications in physics and engineering!
+\end{feedback}
+\end{problem}
+
+\section*{Synthesis and Practice}
+
+\begin{problem}
+Let's bring everything together! For $f(x,y) = \sin(x) \cos(y)$ at $(\pi/4, \pi/3)$:
+
+\textbf{Part A: Find partial derivatives}
+$$f_x = \answer{\cos(x) \cos(y)}$$
+$$f_y = \answer{-\sin(x) \sin(y)}$$
+
+\textbf{Part B: Evaluate at the point}
+$$f(\pi/4, \pi/3) = \sin(\pi/4) \cos(\pi/3) = \frac{\sqrt{2}}{2} \cdot \frac{1}{2} = \answer{\sqrt{2}/4}$$
+$$f_x(\pi/4, \pi/3) = \frac{\sqrt{2}}{2} \cdot \frac{1}{2} = \answer{\sqrt{2}/4}$$
+$$f_y(\pi/4, \pi/3) = -\frac{\sqrt{2}}{2} \cdot \frac{\sqrt{3}}{2} = \answer{-\sqrt{6}/4}$$
+
+\textbf{Part C: Write the tangent plane equation}
+$$z = \frac{\sqrt{2}}{4} + \frac{\sqrt{2}}{4}(x - \pi/4) - \frac{\sqrt{6}}{4}(y - \pi/3)$$
+
+\textbf{Part D: Use it to approximate} $f(0.8, 1)$
+
+With $dx = 0.8 - \pi/4 \approx 0.015$ and $dy = 1 - \pi/3 \approx -0.047$:
+
+$$dz \approx \frac{\sqrt{2}}{4}(0.015) - \frac{\sqrt{6}}{4}(-0.047) \approx 0.005 + 0.029 = \answer[tolerance=0.01]{0.034}$$
+
+$$f(0.8, 1) \approx \frac{\sqrt{2}}{4} + 0.034 \approx \answer[tolerance=0.02]{0.388}$$
+
+\begin{feedback}
+Excellent work! You've mastered tangent planes—from visualization to equation-finding to practical approximation!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Final check: Select all TRUE statements about tangent planes.
+
+\begin{selectAll}
+    \choice[correct]{Tangent planes extend the idea of tangent lines to surfaces}
+    \choice[correct]{The equation requires both partial derivatives}
+    \choice{Every surface has a tangent plane at every point}
+    \choice[correct]{The total differential $dz = f_x dx + f_y dy$ describes motion along the plane}
+    \choice[correct]{Tangent planes provide linear approximations to surfaces}
+    \choice[correct]{Horizontal tangent planes occur at critical points}
+    \choice{Tangent planes are always flat and don't change orientation}
+    \choice[correct]{The tangent plane contains all directional derivative tangent lines at a point}
+\end{selectAll}
+
+\begin{feedback}
+Perfect! Tangent planes are the foundation for understanding multivariable calculus—they connect partial derivatives, directional derivatives, linear approximation, and optimization all in one beautiful geometric object!
+\end{feedback}
+\end{problem}
+
+\end{document}

@@ -1,0 +1,434 @@
+\documentclass{ximera}
+
+\title{Multivariable Optimization}
+\author{Zack Reed}
+
+\begin{document}
+\begin{abstract}
+In this activity we explore optimization in multivariable settings, starting with gradient descent as a modern computational approach, then examining the mathematical foundations through gradients, critical points, and the Hessian matrix.
+\end{abstract}
+\maketitle
+
+\section*{Introduction: Why Optimize?}
+
+Optimization is everywhere in modern applications:
+\begin{itemize}
+    \item Machine learning models minimize error functions
+    \item Engineers maximize efficiency while minimizing cost
+    \item Physicists find states of minimum energy
+    \item Economists maximize profit while minimizing waste
+\end{itemize}
+
+In single-variable calculus, we found extrema by setting $f'(x)=0$ and testing with the second derivative. In multivariable settings, we need new tools!
+
+\begin{problem}
+Review: In single-variable calculus, to find the minimum of $f(x) = x^2 - 4x + 5$, we would:
+
+\begin{enumerate}
+    \item Find the critical point by solving $f'(x) = \answer{2x-4} = 0$, giving $x = \answer{2}$.
+    \item Check the second derivative: $f''(x) = \answer{2}$.
+    \item Since $f''(2) > 0$, we conclude this is a \wordChoice{\choice{maximum}\choice[correct]{minimum}\choice{saddle point}}.
+    \item The minimum value is $f(2) = \answer{1}$.
+\end{enumerate}
+
+\begin{feedback}
+    This process extends to multivariable functions, but with new twists! We'll need gradients instead of derivatives, and the Hessian matrix instead of the second derivative.
+\end{feedback}
+\end{problem}
+
+\section*{Gradient Descent: A Modern Approach}
+
+Before diving into the mathematics, let's explore how computers actually find minima using \textbf{gradient descent}.
+
+\subsection*{The Big Idea}
+
+Imagine you're blindfolded on a hillside and want to reach the lowest point. What would you do?
+
+\begin{problem}
+If you can't see but can feel the slope beneath your feet, the best strategy is to:
+\begin{multipleChoice}
+    \choice{Walk in a random direction}
+    \choice{Stay where you are}
+    \choice[correct]{Walk in the direction of steepest descent}
+    \choice{Walk uphill first to survey the landscape}
+\end{multipleChoice}
+
+\begin{feedback}
+    This intuition is exactly what gradient descent does! The gradient points in the direction of steepest ascent, so we move in the opposite direction (negative gradient) to descend.
+\end{feedback}
+\end{problem}
+
+\subsection*{The Gradient Vector}
+
+\begin{definition}
+For a function $f(x,y)$, the \textbf{gradient} is the vector of partial derivatives:
+$$\nabla f = \left\langle \frac{\partial f}{\partial x}, \frac{\partial f}{\partial y} \right\rangle$$
+
+The gradient points in the direction of steepest ascent, and its magnitude tells us how steep.
+\end{definition}
+
+\begin{problem}
+Let's compute some gradients. For $f(x,y) = x^2 + y^2$:
+
+The gradient is $\nabla f = \langle \answer{2x}, \answer{2y} \rangle$
+
+At the point $(3,4)$: $\nabla f(3,4) = \langle \answer{6}, \answer{8} \rangle$
+
+This vector points \wordChoice{\choice{toward the origin}\choice[correct]{away from the origin}\choice{tangent to a circle}}.
+
+\begin{feedback}
+    For a bowl-shaped function like $f(x,y) = x^2 + y^2$, the gradient at any point points directly away from the minimum at the origin. To minimize, we should move opposite to the gradient!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Compute the gradient of $f(x,y) = 3x^2 - 2xy + y^2$:
+
+$\nabla f = \langle \answer{6x - 2y}, \answer{-2x + 2y} \rangle$
+
+At the point $(1,2)$: $\nabla f(1,2) = \langle \answer{2}, \answer{2} \rangle$
+
+\begin{feedback}
+    The gradient $\langle 2, 2 \rangle$ means if we move in the direction $\langle 1, 1 \rangle$ (same direction, normalized), the function increases most rapidly.
+\end{feedback}
+\end{problem}
+
+\subsection*{The Gradient Descent Algorithm}
+
+Here's how gradient descent works:
+
+\begin{enumerate}
+    \item Start at an initial point $(x_0, y_0)$
+    \item Compute the gradient $\nabla f(x_0, y_0)$
+    \item Take a small step in the \textbf{opposite} direction: 
+    $$\begin{pmatrix} x_1 \\ y_1 \end{pmatrix} = \begin{pmatrix} x_0 \\ y_0 \end{pmatrix} - \alpha \nabla f(x_0, y_0)$$
+    where $\alpha$ is the \textbf{learning rate} (step size)
+    \item Repeat until the gradient is nearly zero
+\end{enumerate}
+
+\begin{problem}
+Let's manually perform one step of gradient descent on $f(x,y) = x^2 + y^2$.
+
+Starting at $(x_0, y_0) = (4, 3)$ with learning rate $\alpha = 0.1$:
+
+The gradient at $(4,3)$ is $\nabla f(4,3) = \langle \answer{8}, \answer{6} \rangle$
+
+We move opposite to the gradient:
+$$\begin{pmatrix} x_1 \\ y_1 \end{pmatrix} = \begin{pmatrix} 4 \\ 3 \end{pmatrix} - 0.1 \begin{pmatrix} 8 \\ 6 \end{pmatrix}$$
+
+So $x_1 = \answer{3.2}$ and $y_1 = \answer{2.4}$
+
+The function value decreased from $f(4,3) = \answer{25}$ to $f(3.2, 2.4) = \answer[tolerance=0.1]{16}$.
+
+\begin{feedback}
+    We moved closer to the minimum at $(0,0)$! Repeating this process many times converges to the minimum.
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Understanding the learning rate $\alpha$:
+
+\begin{selectAll}
+    \choice[correct]{If $\alpha$ is too large, we might overshoot the minimum}
+    \choice[correct]{If $\alpha$ is too small, convergence is very slow}
+    \choice{$\alpha$ should always equal 1}
+    \choice[correct]{$\alpha$ controls the step size}
+    \choice{The gradient magnitude doesn't affect how far we move}
+\end{selectAll}
+
+\begin{feedback}
+    Choosing the right learning rate is crucial! Too large and you bounce around; too small and you barely move. Modern algorithms adaptively adjust $\alpha$ during optimization.
+\end{feedback}
+\end{problem}
+
+\section*{Critical Points: Where the Gradient Vanishes}
+
+While gradient descent is powerful computationally, mathematically we can find exact solutions by analyzing where the gradient equals zero.
+
+\begin{definition}
+A point $(x_0, y_0)$ is a \textbf{critical point} of $f(x,y)$ if:
+$$\nabla f(x_0, y_0) = \langle 0, 0 \rangle$$
+
+This means:
+$$\frac{\partial f}{\partial x}(x_0, y_0) = 0 \quad \text{and} \quad \frac{\partial f}{\partial y}(x_0, y_0) = 0$$
+\end{definition}
+
+\begin{problem}
+Why do we care about critical points?
+
+\begin{multipleChoice}
+    \choice{They are always minima}
+    \choice{They are always maxima}
+    \choice[correct]{Local extrema must occur at critical points (if they exist in the interior)}
+    \choice{The function is undefined at critical points}
+\end{multipleChoice}
+
+\begin{feedback}
+    Just like in single-variable calculus, extrema occur where the derivative is zero. But critical points can also be saddle points!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Find the critical points of $f(x,y) = x^2 + y^2 - 4x + 6y + 5$.
+
+First, compute the partial derivatives:
+$$\frac{\partial f}{\partial x} = \answer{2x - 4}$$
+$$\frac{\partial f}{\partial y} = \answer{2y + 6}$$
+
+Set them equal to zero and solve:
+$$2x - 4 = 0 \Rightarrow x = \answer{2}$$
+$$2y + 6 = 0 \Rightarrow y = \answer{-3}$$
+
+The critical point is $(\answer{2}, \answer{-3})$.
+
+\begin{feedback}
+    This is a paraboloid (bowl shape), so this critical point is the minimum. But how do we know that without visualizing? We need the second derivative test!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Find the critical points of $f(x,y) = x^2 - y^2$.
+
+The partial derivatives are:
+$$\frac{\partial f}{\partial x} = \answer{2x}$$
+$$\frac{\partial f}{\partial y} = \answer{-2y}$$
+
+Setting both equal to zero: $x = \answer{0}$ and $y = \answer{0}$.
+
+The critical point is $(\answer{0}, \answer{0})$.
+
+\begin{feedback}
+    This function looks like a saddle at the origin - it curves up in one direction and down in another. The critical point is neither a minimum nor a maximum! This is called a saddle point.
+\end{feedback}
+\end{problem}
+
+\section*{The Hessian Matrix: Second Derivative Test for Multivariable Functions}
+
+Just as $f''(x)$ tells us about concavity in single-variable calculus, the \textbf{Hessian matrix} captures second-order information in multiple variables.
+
+\subsection*{Defining the Hessian}
+
+\begin{definition}
+For a function $f(x,y)$, the \textbf{Hessian matrix} is:
+$$H = \begin{bmatrix}
+\frac{\partial^2 f}{\partial x^2} & \frac{\partial^2 f}{\partial x \partial y} \\
+\frac{\partial^2 f}{\partial y \partial x} & \frac{\partial^2 f}{\partial y^2}
+\end{bmatrix}$$
+
+The entries are:
+\begin{itemize}
+    \item $f_{xx}$: second partial derivative with respect to $x$
+    \item $f_{yy}$: second partial derivative with respect to $y$
+    \item $f_{xy}$ and $f_{yx}$: mixed partial derivatives (usually equal)
+\end{itemize}
+\end{definition}
+
+\begin{problem}
+Let's compute the Hessian of $f(x,y) = x^2 + y^2$.
+
+First derivatives: $f_x = 2x$ and $f_y = 2y$
+
+Second derivatives:
+$$f_{xx} = \frac{\partial}{\partial x}(2x) = \answer{2}$$
+$$f_{yy} = \frac{\partial}{\partial y}(2y) = \answer{2}$$
+$$f_{xy} = \frac{\partial}{\partial y}(2x) = \answer{0}$$
+
+The Hessian matrix is:
+$$H = \begin{bmatrix} \answer{2} & \answer{0} \\ \answer{0} & \answer{2} \end{bmatrix}$$
+
+\begin{feedback}
+    Notice that this Hessian is constant - it doesn't depend on $(x,y)$! This happens for quadratic functions.
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Compute the Hessian of $f(x,y) = x^3 + y^3 - 3xy$.
+
+First derivatives: $f_x = 3x^2 - 3y$ and $f_y = 3y^2 - 3x$
+
+Second derivatives:
+$$f_{xx} = \answer{6x}$$
+$$f_{yy} = \answer{6y}$$
+$$f_{xy} = \answer{-3}$$
+
+The Hessian matrix is:
+$$H = \begin{bmatrix} 6x & -3 \\ -3 & 6y \end{bmatrix}$$
+
+At the critical point $(1,1)$:
+$$H(1,1) = \begin{bmatrix} \answer{6} & \answer{-3} \\ \answer{-3} & \answer{6} \end{bmatrix}$$
+
+\begin{feedback}
+    Unlike the previous example, this Hessian changes depending on where we evaluate it. We'll need to evaluate at critical points to classify them.
+\end{feedback}
+\end{problem}
+
+\subsection*{The Second Derivative Test}
+
+\begin{definition}
+Let $(x_0, y_0)$ be a critical point and let $H$ be the Hessian evaluated at that point. Define:
+$$D = \det(H) = f_{xx} f_{yy} - (f_{xy})^2$$
+
+This is called the \textbf{discriminant}.
+
+Then:
+\begin{itemize}
+    \item If $D > 0$ and $f_{xx} > 0$: \textbf{local minimum}
+    \item If $D > 0$ and $f_{xx} < 0$: \textbf{local maximum}
+    \item If $D < 0$: \textbf{saddle point}
+    \item If $D = 0$: \textbf{test is inconclusive}
+\end{itemize}
+\end{definition}
+
+\begin{problem}
+Why does the sign of $f_{xx}$ matter when $D > 0$?
+
+\begin{multipleChoice}
+    \choice{It determines whether the function is differentiable}
+    \choice[correct]{It tells us the concavity in the $x$-direction}
+    \choice{It measures the steepness of the gradient}
+    \choice{It doesn't actually matter}
+\end{multipleChoice}
+
+\begin{feedback}
+    When $D > 0$, both eigenvalues of the Hessian have the same sign. If $f_{xx} > 0$, both are positive (curving up = minimum). If $f_{xx} < 0$, both are negative (curving down = maximum).
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Let's classify the critical point of $f(x,y) = x^2 + y^2 - 4x + 6y + 5$ at $(2, -3)$.
+
+We found earlier that the Hessian is:
+$$H = \begin{bmatrix} 2 & 0 \\ 0 & 2 \end{bmatrix}$$
+
+The discriminant is:
+$$D = (2)(2) - (0)^2 = \answer{4}$$
+
+Since $D > 0$ and $f_{xx} = 2 > 0$, the critical point is a \wordChoice{\choice[correct]{local minimum}\choice{local maximum}\choice{saddle point}}.
+
+The minimum value is:
+$$f(2,-3) = 4 + 9 - 8 - 18 + 5 = \answer{-8}$$
+
+\begin{feedback}
+    This makes sense - the function is $(x-2)^2 + (y+3)^2 - 8$, a paraboloid with vertex at $(2,-3,-8)$.
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Classify the critical point of $f(x,y) = x^2 - y^2$ at $(0,0)$.
+
+The Hessian is:
+$$H = \begin{bmatrix} 2 & 0 \\ 0 & -2 \end{bmatrix}$$
+
+The discriminant is:
+$$D = (2)(-2) - (0)^2 = \answer{-4}$$
+
+Since $D < 0$, the critical point is a \wordChoice{\choice{local minimum}\choice{local maximum}\choice[correct]{saddle point}}.
+
+\begin{feedback}
+    When $D < 0$, the Hessian has eigenvalues of opposite sign - the function curves up in one direction and down in another, creating a saddle shape.
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Now a complete example. Find and classify all critical points of:
+$$f(x,y) = x^3 + y^3 - 3xy$$
+
+\textbf{Step 1: Find critical points}
+
+The gradient is $\nabla f = \langle 3x^2 - 3y, 3y^2 - 3x \rangle$
+
+Setting both components to zero:
+$$x^2 - y = 0 \Rightarrow y = x^2$$
+$$y^2 - x = 0 \Rightarrow y^2 = x$$
+
+Substituting: $(x^2)^2 = x \Rightarrow x^4 - x = 0 \Rightarrow x(x^3-1) = 0$
+
+So $x = \answer{0}$ or $x = \answer{1}$
+
+The critical points are: $(\answer{0}, \answer{0})$ and $(\answer{1}, \answer{1})$
+
+\textbf{Step 2: Compute the Hessian}
+
+$$H = \begin{bmatrix} 6x & -3 \\ -3 & 6y \end{bmatrix}$$
+
+\textbf{Step 3: Classify $(0,0)$}
+
+$$H(0,0) = \begin{bmatrix} 0 & -3 \\ -3 & 0 \end{bmatrix}$$
+
+$$D = (0)(0) - (-3)^2 = \answer{-9}$$
+
+Since $D < 0$, $(0,0)$ is a \wordChoice{\choice{local minimum}\choice{local maximum}\choice[correct]{saddle point}}.
+
+\textbf{Step 4: Classify $(1,1)$}
+
+$$H(1,1) = \begin{bmatrix} 6 & -3 \\ -3 & 6 \end{bmatrix}$$
+
+$$D = (6)(6) - (-3)^2 = 36 - 9 = \answer{27}$$
+
+Since $D > 0$ and $f_{xx} = 6 > 0$, $(1,1)$ is a \wordChoice{\choice[correct]{local minimum}\choice{local maximum}\choice{saddle point}}.
+
+The minimum value is: $f(1,1) = 1 + 1 - 3 = \answer{-1}$
+
+\begin{feedback}
+    This function has both a saddle point and a local minimum! Real-world optimization problems often have complex landscapes with multiple critical points.
+\end{feedback}
+\end{problem}
+
+\section*{Connecting the Ideas}
+
+\begin{problem}
+Reflect on the relationship between gradient descent and critical points:
+
+\begin{selectAll}
+    \choice[correct]{Gradient descent computationally finds critical points by following the negative gradient}
+    \choice[correct]{At a critical point, the gradient is zero, so gradient descent stops}
+    \choice{Gradient descent always finds the global minimum}
+    \choice[correct]{The Hessian tells us what type of critical point gradient descent found}
+    \choice[correct]{Multiple starting points may lead to different local minima}
+\end{selectAll}
+
+\begin{feedback}
+    Gradient descent is a numerical method that approximately finds critical points. The analytical approach (solving $\nabla f = 0$ and checking the Hessian) gives exact classifications, but may be impossible for complex functions. In practice, we often use both approaches together!
+\end{feedback}
+\end{problem}
+
+\section*{Summary}
+
+You've learned two complementary approaches to multivariable optimization:
+
+\textbf{Computational (Gradient Descent):}
+\begin{itemize}
+    \item Follow the negative gradient iteratively
+    \item Works for functions too complex to solve analytically
+    \item Powers modern machine learning
+\end{itemize}
+
+\textbf{Analytical (Critical Points \& Hessian):}
+\begin{itemize}
+    \item Solve $\nabla f = 0$ to find critical points
+    \item Use the Hessian's discriminant to classify:
+    \begin{itemize}
+        \item $D > 0$, $f_{xx} > 0$: minimum
+        \item $D > 0$, $f_{xx} < 0$: maximum
+        \item $D < 0$: saddle point
+    \end{itemize}
+\end{itemize}
+
+\begin{problem}
+Final synthesis question: For the function $f(x,y) = x^2 + 4y^2 - 2x + 8y$:
+
+Starting from $(4, -3)$ with learning rate $0.1$, one step of gradient descent moves toward:
+\begin{multipleChoice}
+    \choice{$(4, -3)$ (no movement)}
+    \choice[correct]{$(3.4, -4)$ (closer to the minimum)}
+    \choice{$(4.6, -2)$ (away from the minimum)}
+\end{multipleChoice}
+
+The critical point is at $(\answer{1}, \answer{-1})$ and it is a \wordChoice{\choice[correct]{minimum}\choice{maximum}\choice{saddle point}}.
+
+\begin{feedback}
+    Both approaches lead to the same conclusion! Gradient descent would eventually converge to $(1,-1)$, which we can verify analytically is a minimum.
+\end{feedback}
+\end{problem}
+
+\end{document}

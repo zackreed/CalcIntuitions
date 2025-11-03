@@ -1,51 +1,449 @@
 \documentclass{ximera}
 
-\title{Course Notes: Triple Integrals and Other Coordinates}
-\author{YOUR-NAME-HERE}
+\title{Triple Integrals and Coordinate Systems}
+\author{Zack Reed}
 
 \begin{document}
 \begin{abstract}
-These notes introduce triple integrals, volume calculations, mass applications, and coordinate transformations including cylindrical and spherical coordinates.
+In this activity we extend double integrals to three dimensions, exploring triple integrals for volume and mass calculations, along with cylindrical and spherical coordinate systems that simplify integration over curved 3D regions.
 \end{abstract}
 \maketitle
 
-\section{Course Notes: Triple Integrals}
+\section*{Introduction: From Double to Triple Integrals}
 
-Just as double integrals allow us to deal with more general situations than could be handled by single integrals, triple integrals enable us to solve still more general problems. A very important thing to remember with triple integrals is that we can not easily visualize the output of the function being integrated. Most of the time, we can only visualize the domain of integration.
+Just as we extended single integrals (summing over intervals) to double integrals (summing over 2D regions), we now extend to \textbf{triple integrals} that sum over 3D volumes.
 
-One basic computation available to us that allows visualization is a volume calculation itself, which will also help us identify how we organize the sum from an integral. An easy way to approximate the volume of an object is to slice the object into small cubes, determine a unit for the cubes, and count how many cubes are contained in the volume. For objects like spheres, such approximations will never be exact for any cube size, but we can see that the volume does approach the true sphere volume when the cube size is small.
+\begin{problem}
+Complete the pattern:
+\begin{itemize}
+    \item Single integral: $\displaystyle\int_a^b f(x)\,dx$ sums over a \wordChoice{\choice[correct]{1D interval}\choice{2D region}\choice{3D volume}}
+    \item Double integral: $\displaystyle\iint_R f(x,y)\,dA$ sums over a \wordChoice{\choice{1D interval}\choice[correct]{2D region}\choice{3D volume}}
+    \item Triple integral: $\displaystyle\iiint_E f(x,y,z)\,dV$ sums over a \wordChoice{\choice{1D interval}\choice{2D region}\choice[correct]{3D volume}}
+\end{itemize}
 
-This should unsurprisingly lead to the calculation of the true volume by taking a limit of the approximations from cubes, from which we get the volume integral $V=\iiint dV=\iiint dx\ dy\ dz$. Said plainly, we calculate volume by adding up the small volumes $dV=dx\ dy\ dz$ along the interior of the sphere. This is true for any volume calculation.
+What changes at each level?
+\begin{selectAll}
+    \choice[correct]{The dimension of the domain}
+    \choice[correct]{The number of differentials}
+    \choice{The fundamental idea of summing small pieces}
+    \choice[correct]{The complexity of setting up bounds}
+\end{selectAll}
 
-If we wanted to use a triple integral in some application other than volume, we would need to include some other function in the differential product, which takes the form $F=\iiint f\cdot dV=\iiint f(x,y,z)\cdot dx\ dy\ dz$. As mentioned earlier, we unfortunately lose traditional means of visualizing the output of $f(x,y,z)$ and instead can usually only view the volume over which $f$ is integrated. Mass, however, provides us with an application that accompanies a nice visual.
+\begin{feedback}
+The core concept remains: integrals sum infinitesimal pieces. We're just extending to higher dimensions!
+\end{feedback}
+\end{problem}
 
-If we know how dense an object is across a part of its volume, we can calculate mass as the product of the density and the volume, $dM=\rho(x,y,z)\cdot dV$. We can visualize the density of a region using color, as is seen in the following GeoGebra application. You control this in the same way you control the GeoGebra application in the Overview, and again, we have that the color of the small volume element represents its density. Brighter colors represent less dense regions of the object, and darker colors represent more dense regions of the object.
+\section*{The Challenge of Visualization}
+
+\begin{problem}
+An important limitation of triple integrals is that we \textbf{cannot easily visualize} the output of $f(x,y,z)$.
+
+Why is this a problem?
+\begin{multipleChoice}
+    \choice{We can't compute the integrals}
+    \choice{The integrals are always zero}
+    \choice[correct]{We can visualize the 3D domain, but adding a 4th dimension for the function value is impossible}
+    \choice{Triple integrals don't exist}
+\end{multipleChoice}
+
+What can we visualize?
+\begin{selectAll}
+    \choice[correct]{The 3D domain of integration}
+    \choice{The 4D graph of $w = f(x,y,z)$}
+    \choice[correct]{Density using color coding}
+    \choice[correct]{The volume element $dV$}
+\end{selectAll}
+
+\begin{feedback}
+We can visualize the 3D domain, but not the function values in a traditional graph. Clever techniques like color-coding density help us understand what's happening!
+\end{feedback}
+\end{problem}
+
+\section*{Computing Volumes with Triple Integrals}
+
+The simplest application of triple integrals is computing volumes.
+
+\begin{definition}
+The \textbf{volume} of a 3D region $E$ is:
+$$V = \iiint_E dV = \iiint_E dx\,dy\,dz$$
+
+We're integrating the function $f(x,y,z) = 1$ over the region, which counts up the volume!
+\end{definition}
+
+\begin{problem}
+Think about approximating a sphere's volume by filling it with tiny cubes.
+
+As the cube size gets smaller:
+\begin{multipleChoice}
+    \choice{The approximation gets worse}
+    \choice[correct]{The approximation approaches the true volume}
+    \choice{The approximation stays constant}
+\end{multipleChoice}
+
+The volume element in rectangular coordinates is: $dV = \answer{dx} \cdot \answer{dy} \cdot \answer{dz}$
+
+This represents the volume of an infinitesimal \wordChoice{\choice{sphere}\choice{cylinder}\choice[correct]{rectangular box}\choice{pyramid}}.
+
+\begin{feedback}
+Taking the limit as cube size approaches zero gives the exact volume via the triple integral!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Compute the volume of the rectangular box $0 \leq x \leq 2$, $0 \leq y \leq 3$, $0 \leq z \leq 4$.
+
+$$V = \int_0^2\int_0^3\int_0^4 dz\,dy\,dx$$
+
+\textbf{Innermost integral:}
+$$\int_0^4 dz = [z]_0^4 = \answer{4}$$
+
+\textbf{Middle integral:}
+$$\int_0^3 4\,dy = 4[y]_0^3 = \answer{12}$$
+
+\textbf{Outer integral:}
+$$\int_0^2 12\,dx = 12[x]_0^2 = \answer{24}$$
+
+Does this match $V = 2 \times 3 \times 4$? \wordChoice{\choice[correct]{Yes!}\choice{No}}
+
+\begin{feedback}
+For rectangular boxes, triple integrals give us the familiar length × width × height formula!
+\end{feedback}
+\end{problem}
+
+\section*{Mass Integrals with Variable Density}
+
+A more interesting application is computing mass when density varies throughout an object.
+
+\begin{problem}
+If density $\rho(x,y,z)$ varies throughout a 3D object, the small mass in a volume element is:
+$$dM = \answer{\rho(x,y,z)} \cdot dV$$
+
+The total mass is:
+$$M = \iiint_E dM = \iiint_E \rho(x,y,z)\,dV$$
+
+This extends which familiar formulas?
+\begin{selectAll}
+    \choice[correct]{Single-variable: Area = $\int f(x)\,dx$}
+    \choice[correct]{Double integral: Volume = $\iint f(x,y)\,dA$}
+    \choice{Newton's law $F = ma$}
+    \choice[correct]{The pattern: sum of (function value × infinitesimal element)}
+\end{selectAll}
+
+\begin{feedback}
+The pattern continues: integrate (function × differential) over the domain!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Visualize variable density using color.
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Drag the point $(x,y,z)$ or use sliders to move the small volume element $dV$ around. The color represents density: brighter = less dense, darker = more dense.
+\end{expandable}
 
 \begin{center}
 \geogebra{yn6dgycn}{740}{481}
 \end{center}
 
-This use of color at least allows us to observe variation in the function $\rho(x,y,z)$ along the object, which results in a mass integral $M=\iiint dM=\iiint \rho(x,y,z)\cdot dV$ simulating the area generated in a single integral $A=\int f(x)\cdot dx$ or the volume generated in a double integral $V=\int f(x,y)\cdot dx\ dy$. As you develop other applications of the triple integral, you can always return to the intuition of a mass integral when trying to make sense of the basic ways that a general triple integral $F=\iiint f\cdot dV=\iiint f(x,y,z)\cdot dx\ dy\ dz$ is calculated.
+The color coding helps us:
+\begin{selectAll}
+    \choice[correct]{Visualize how $\rho(x,y,z)$ varies spatially}
+    \choice[correct]{Understand where mass is concentrated}
+    \choice{See the 4D graph of the function}
+    \choice[correct]{Build intuition about the integral}
+\end{selectAll}
 
+\begin{feedback}
+Color is a creative way to represent the function value in 3D space without needing a 4th spatial dimension!
+\end{feedback}
+\end{problem}
 
-\section{Course Notes: Other Coordinates}
+\begin{problem}
+Find the mass of a cube $0 \leq x,y,z \leq 1$ with density $\rho(x,y,z) = x + y + z$.
 
-When a calculation in physics, engineering, or geometry involves a cylinder, cone, or sphere, we can often simplify our work by using cylindrical or spherical coordinates, which are extensions of polar coordinates into three dimensions. The basic volume element in rectangular coordinates is $dV=dx\ dy\ dz$, which is taken from the volume of a cube. To better describe various curved volumes, we extend polar coordinates in two ways.
+$$M = \int_0^1\int_0^1\int_0^1 (x+y+z)\,dz\,dy\,dx$$
 
-The first way is to take a polar area with radius change $dr$ and angle measure change $d\theta$ and to make it a cylinder by multiplying the resulting area by height $dz$. Since the polar area of a curved region is given by $dA=r \cdot dr\ d\theta$, the resulting cylindrical volume is given by $dV=dA\ dz=r\cdot dr\ d\theta\ dz$. The other way to extend the notion of polar coordinates into a three-dimensional system is to observe that any point in space can be described as having some distance $\rho$ from the origin, some horizontal rotation $\theta$ from the positive x-axis, and some rotation $\phi$ upward or downward. This new coordinate system describes points in space.
+\textbf{Inner integral (w.r.t. $z$):}
+$$\int_0^1 (x+y+z)\,dz = \left[(x+y)z + \frac{z^2}{2}\right]_0^1 = (x+y) + \frac{1}{2} = \answer{x + y + 1/2}$$
 
-You will read about the details of switching between rectangular, cylindrical, and spherical coordinates in the eText, but for now, you can visualize these three coordinate systems in the following GeoGebra application. You may choose to view the cylinder or the sphere at one time. You may zoom to the volume element or back to the global shape, and you may alter the three variables determining the volume's position.
+\textbf{Middle integral (w.r.t. $y$):}
+$$\int_0^1 \left(x + y + \frac{1}{2}\right)\,dy = \left[xy + \frac{y^2}{2} + \frac{y}{2}\right]_0^1 = x + \frac{1}{2} + \frac{1}{2} = \answer{x + 1}$$
+
+\textbf{Outer integral (w.r.t. $x$):}
+$$\int_0^1 (x+1)\,dx = \left[\frac{x^2}{2} + x\right]_0^1 = \frac{1}{2} + 1 = \answer{3/2}$$
+
+\begin{feedback}
+The mass is $3/2$ units. Notice how we evaluated from the inside out, one variable at a time using Fubini's Theorem!
+\end{feedback}
+\end{problem}
+
+\section*{Cylindrical Coordinates}
+
+For regions with cylindrical symmetry (cylinders, cones), cylindrical coordinates simplify the integral.
+
+\begin{definition}
+\textbf{Cylindrical coordinates} $(r, \theta, z)$ extend polar coordinates into 3D:
+\begin{itemize}
+    \item $x = r\cos\theta$
+    \item $y = r\sin\theta$
+    \item $z = z$
+\end{itemize}
+
+The volume element is: $dV = r\,dr\,d\theta\,dz$
+\end{definition}
+
+\begin{problem}
+Cylindrical coordinates are built from:
+\begin{selectAll}
+    \choice[correct]{Polar coordinates $(r,\theta)$ in the $xy$-plane}
+    \choice[correct]{Height $z$ perpendicular to the plane}
+    \choice{Spherical shells}
+    \choice[correct]{The familiar extra factor of $r$ from polar integrals}
+\end{selectAll}
+
+The volume element $dV = r\,dr\,d\theta\,dz$ comes from:
+\begin{multipleChoice}
+    \choice{Multiplying all three differentials}
+    \choice[correct]{Taking a polar area element $dA = r\,dr\,d\theta$ and extending it by height $dz$}
+    \choice{Spherical geometry}
+\end{multipleChoice}
+
+\begin{feedback}
+Cylindrical coordinates = polar coordinates + vertical height! The volume element is literally $(r\,dr\,d\theta) \times dz$.
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Explore cylindrical coordinates visually.
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Select "Show Cylinder" view. Use sliders to change $r$, $\theta$, and $z$. Click "Zoom to Volume Element" to see the small piece $dV = r\,dr\,d\theta\,dz$.
+\end{expandable}
 
 \begin{center}
 \geogebra{xqrs44yg}{750}{675}
 \end{center}
 
-The spherical volume differential is given by $dV=\rho^2\sin(\phi)\cdot d\rho\ d\phi\ d\theta$. While these three coordinate systems form a good foundation for the various ways to represent physical space when computing triple integrals, there are other coordinate systems that we may want to devise on a case-by-case basis. The way to determine the volume elements $dV$ for these new coordinate systems involves mapping from a known coordinate system and generalizing the single-variable u-substitution process by attending to the derivatives of the map using what is called the Jacobian.
+As you vary $r$, $\theta$, $z$, observe:
+\begin{selectAll}
+    \choice[correct]{$r$ controls distance from the $z$-axis}
+    \choice[correct]{$\theta$ controls rotation around the $z$-axis}
+    \choice[correct]{$z$ controls height}
+    \choice{The volume element shape is always a cube}
+\end{selectAll}
 
+\begin{feedback}
+The volume element in cylindrical coordinates is a tiny curved box that fits the cylindrical geometry!
+\end{feedback}
+\end{problem}
 
-\section{Video Resources}
+\begin{problem}
+Find the volume of a cylinder of radius $R$ and height $H$.
 
+In cylindrical coordinates:
+\begin{itemize}
+    \item $0 \leq r \leq \answer{R}$
+    \item $0 \leq \theta \leq \answer{2\pi}$
+    \item $0 \leq z \leq \answer{H}$
+\end{itemize}
 
-Visit the \href{https://www.youtube.com/playlist?list=PLHXZ9OQGMqxc_CvEy7xBKRQr6I214QJcd}{Calculus III: Multivariable Calculus playlist by Dr. Trefor Bazett}, found on YouTube, for further video resources on the big picture ideas of multivariable calculus.
+$$V = \int_0^{2\pi}\int_0^R\int_0^H r\,dz\,dr\,d\theta$$
+
+\textbf{Inner integral:}
+$$\int_0^H r\,dz = r \cdot H = \answer{rH}$$
+
+\textbf{Middle integral:}
+$$\int_0^R rH\,dr = H \left[\frac{r^2}{2}\right]_0^R = \answer{HR^2/2}$$
+
+\textbf{Outer integral:}
+$$\int_0^{2\pi} \frac{HR^2}{2}\,d\theta = \frac{HR^2}{2} \cdot 2\pi = \answer{\pi R^2 H}$$
+
+Does this match the familiar cylinder volume formula? \wordChoice{\choice[correct]{Yes!}\choice{No}}
+
+\begin{feedback}
+Perfect! Cylindrical coordinates make this integral trivial with constant bounds.
+\end{feedback}
+\end{problem}
+
+\section*{Spherical Coordinates}
+
+For regions with spherical symmetry (spheres, cones), spherical coordinates are ideal.
+
+\begin{definition}
+\textbf{Spherical coordinates} $(\rho, \phi, \theta)$ describe a point by:
+\begin{itemize}
+    \item $\rho$ = distance from origin
+    \item $\phi$ = angle down from positive $z$-axis
+    \item $\theta$ = angle of rotation around $z$-axis (same as in cylindrical)
+\end{itemize}
+
+Conversion formulas:
+\begin{itemize}
+    \item $x = \rho\sin\phi\cos\theta$
+    \item $y = \rho\sin\phi\sin\theta$
+    \item $z = \rho\cos\phi$
+\end{itemize}
+
+The volume element is: $dV = \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$
+\end{definition}
+
+\begin{problem}
+The spherical volume element $dV = \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$ has:
+
+An extra factor of $\rho^2$: \wordChoice{\choice[correct]{Yes}\choice{No}}
+
+An extra factor of $\sin\phi$: \wordChoice{\choice[correct]{Yes}\choice{No}}
+
+These factors account for:
+\begin{multipleChoice}
+    \choice{Mathematical complexity}
+    \choice[correct]{The geometry of spherical shells and how they expand with radius}
+    \choice{Random constants}
+\end{multipleChoice}
+
+\begin{feedback}
+The $\rho^2\sin\phi$ factor is crucial! It accounts for how spherical volume elements grow with radius and latitude.
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Explore spherical coordinates visually.
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Select "Show Sphere" view. Use sliders for $\rho$, $\phi$, $\theta$. Zoom to see the volume element shape—it's like a tiny curved box on a sphere!
+\end{expandable}
+
+\begin{center}
+\geogebra{xqrs44yg}{750}{675}
+\end{center}
+
+In spherical coordinates:
+\begin{selectAll}
+    \choice[correct]{$\rho$ measures distance from origin}
+    \choice[correct]{$\phi$ measures angle from the positive $z$-axis (colatitude)}
+    \choice[correct]{$\theta$ measures rotation around $z$-axis (azimuth)}
+    \choice{All angles range from $0$ to $2\pi$}
+\end{selectAll}
+
+Typical ranges are:
+\begin{itemize}
+    \item $\rho \geq 0$
+    \item $0 \leq \phi \leq \answer{\pi}$ (from north pole to south pole)
+    \item $0 \leq \theta \leq \answer{2\pi}$ (full rotation)
+\end{itemize}
+
+\begin{feedback}
+Spherical coordinates are perfect for spheres, cones, and any geometry with radial symmetry!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Find the volume of a sphere of radius $R$.
+
+In spherical coordinates, the sphere is simply: $0 \leq \rho \leq \answer{R}$
+
+Full angular coverage: $0 \leq \phi \leq \answer{\pi}$, $0 \leq \theta \leq \answer{2\pi}$
+
+$$V = \int_0^{2\pi}\int_0^{\pi}\int_0^R \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$$
+
+\textbf{Inner integral (w.r.t. $\rho$):}
+$$\int_0^R \rho^2\,d\rho = \left[\frac{\rho^3}{3}\right]_0^R = \answer{R^3/3}$$
+
+\textbf{Middle integral (w.r.t. $\phi$):}
+$$\int_0^{\pi} \frac{R^3}{3}\sin\phi\,d\phi = \frac{R^3}{3}[-\cos\phi]_0^{\pi} = \frac{R^3}{3}[1-(-1)] = \answer{2R^3/3}$$
+
+\textbf{Outer integral (w.r.t. $\theta$):}
+$$\int_0^{2\pi} \frac{2R^3}{3}\,d\theta = \frac{2R^3}{3} \cdot 2\pi = \answer{4\pi R^3/3}$$
+
+This is the familiar sphere volume formula: $V = \frac{4}{3}\pi R^3$! \wordChoice{\choice[correct]{Correct!}\choice{Incorrect}}
+
+\begin{feedback}
+Spherical coordinates make the sphere volume calculation elegant with simple constant bounds!
+\end{feedback}
+\end{problem}
+
+\section*{Choosing the Right Coordinate System}
+
+\begin{problem}
+Match each region type with the best coordinate system:
+
+For a cylinder aligned with the $z$-axis:
+\begin{multipleChoice}
+    \choice{Rectangular}
+    \choice[correct]{Cylindrical}
+    \choice{Spherical}
+\end{multipleChoice}
+
+For a sphere centered at the origin:
+\begin{multipleChoice}
+    \choice{Rectangular}
+    \choice{Cylindrical}
+    \choice[correct]{Spherical}
+\end{multipleChoice}
+
+For a rectangular box:
+\begin{multipleChoice}
+    \choice[correct]{Rectangular}
+    \choice{Cylindrical}
+    \choice{Spherical}
+\end{multipleChoice}
+
+For a cone:
+\begin{multipleChoice}
+    \choice{Rectangular}
+    \choice{Cylindrical}
+    \choice[correct]{Either cylindrical or spherical work well}
+\end{multipleChoice}
+
+\begin{feedback}
+Choose coordinates that match your region's symmetry! This makes bounds simpler and integrals easier to evaluate.
+\end{feedback}
+\end{problem}
+
+\section*{Summary and Key Formulas}
+
+\begin{problem}
+Complete the coordinate system summary:
+
+\textbf{Rectangular:} $dV = \answer{dx\,dy\,dz}$
+\begin{itemize}
+    \item Best for: \wordChoice{\choice[correct]{rectangular boxes}\choice{spheres}\choice{cylinders}}
+\end{itemize}
+
+\textbf{Cylindrical:} $dV = \answer{r}\,dr\,d\theta\,dz$
+\begin{itemize}
+    \item Best for: \wordChoice{\choice{rectangular boxes}\choice{spheres}\choice[correct]{cylinders and cones}}
+\end{itemize}
+
+\textbf{Spherical:} $dV = \answer{\rho^2 \sin\phi}\,d\rho\,d\phi\,d\theta$
+\begin{itemize}
+    \item Best for: \wordChoice{\choice{rectangular boxes}\choice[correct]{spheres and cones}\choice{cylinders}}
+\end{itemize}
+
+\begin{feedback}
+Knowing these three coordinate systems and their volume elements is essential for triple integrals!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Final check: Select all TRUE statements about triple integrals.
+
+\begin{selectAll}
+    \choice[correct]{Triple integrals sum over 3D volumes}
+    \choice[correct]{We can compute volumes, masses, and other 3D quantities}
+    \choice{We can easily visualize the graph of $f(x,y,z)$}
+    \choice[correct]{Fubini's Theorem extends to three iterated integrals}
+    \choice[correct]{Cylindrical coordinates extend polar coordinates by adding height}
+    \choice[correct]{Spherical coordinates use $(\rho, \phi, \theta)$}
+    \choice{The volume element is always $dx\,dy\,dz$}
+    \choice[correct]{Choosing coordinates wisely simplifies bounds and integrals}
+    \choice[correct]{Color coding helps visualize density functions}
+\end{selectAll}
+
+\begin{feedback}
+Excellent! Triple integrals extend our integration toolkit to three dimensions, with coordinate systems that match the geometry of the problem!
+\end{feedback}
+\end{problem}
 
 \end{document}

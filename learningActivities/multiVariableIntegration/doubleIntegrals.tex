@@ -1,56 +1,365 @@
 \documentclass{ximera}
-% \input{../../xmpreamble.tex}
 
-\title{Module 6: Double Integrals and Polar Integrals}
+\title{Double Integrals and Polar Coordinates}
 \author{Zack Reed}
 
 \begin{document}
 \begin{abstract}
-These resources provide vital information for your success in this module. There is specific Pearson content you are responsible for reviewing. Please read through all sections before proceeding to the next page and refer back whenever necessary.
+In this activity we extend single-variable integration to functions of two variables, exploring double integrals over rectangular and general regions, Fubini's Theorem, and polar coordinates for curved regions.
 \end{abstract}
 \maketitle
 
-\section{Course Notes: Double Integrals}
+\section*{Introduction: From Single to Double Integrals}
 
-In this module, we define the double integral of a function of two variables $f(x,y)$ over a region in the plane as the limit of approximating Riemann sums. The primary way of thinking about definite integrals is unchanged. The integral is the sum of small "bits" of a measurement (i.e., area, volume, mass, energy, etc.). We are merely increasing the complexity of how we build the particular measurement being summed. Simple hydrostatic force on a rectangular dam offers us a perfect means of demonstrating this extension.
+In single-variable calculus, the definite integral $\int_a^b f(x)\,dx$ sums up infinitely many small "bits" of area under a curve. For multivariable functions, we extend this idea to sum over two-dimensional regions.
 
-In the single-variable setting, we explored the measuring of force that liquids exert on dams of varying dimensions. The simplest case, that of the force exerted by water on a rectangular dam, is depicted in the following GeoGebra application. A 12x5 dam is given on the left side of the screen, and the dam has been separated into small area regions over which force is being calculated bit by bit. You may alter the "Specific Piece of Area" slider to view the small area region on a dam at different depths and view the resulting increase in force from that small region on the curve on the right side of the screen.
+\begin{problem}
+The fundamental concept remains unchanged:
+\begin{center}
+\textbf{An integral is the sum of small pieces of a measurement.}
+\end{center}
+
+What changes from single to double integrals?
+\begin{selectAll}
+    \choice[correct]{We sum over a 2D region instead of a 1D interval}
+    \choice[correct]{We have two differentials: $dx$ and $dy$}
+    \choice{The idea of Riemann sums no longer applies}
+    \choice[correct]{We can compute volumes under surfaces}
+\end{selectAll}
+
+\begin{feedback}
+The core idea is the same! We're just increasing the complexity of how we build the regions over which we sum.
+\end{feedback}
+\end{problem}
+
+\section*{Motivating Example: Hydrostatic Force on a Dam}
+
+Let's revisit a classic single-variable problem and see how double integrals naturally arise.
+
+\begin{problem}
+Consider a rectangular dam that is 12 meters deep and 5 meters wide.
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Alter the "Specific Piece of Area" slider to view different small area regions at various depths. Observe how the force (purple curve) increases with depth.
+\end{expandable}
 
 \begin{center}
 \geogebra{xebf6ft3}{733}{594}
 \end{center}
 
-Pressure increases with depth, which is why the purple force curve bends upward. As we move bit-by-bit along the depth of the dam, the amount of force generated over each subsequent area region is increasing. Importantly, the hydrostatic force over each region is given by the product of the pressure over that region and the area of the region, $dF=P(A)\cdot dA$. In the single-variable case, we were forced to express the area and pressure in terms of the depth so that we could break apart the depth line into small pieces to sum across. We re-wrote $dA=5\cdot dD$, which is simple enough because of the constant width.
+Why does the force curve bend upward?
+\begin{multipleChoice}
+    \choice{The width changes}
+    \choice[correct]{Pressure increases with depth}
+    \choice{The dam is getting weaker}
+    \choice{The water density changes}
+\end{multipleChoice}
 
-We could then compute the total force from the integral $F=\int dF=\int P(A)\cdot dA=\int_0^{12}P(D)\cdot5\cdot dD$.
+\begin{feedback}
+Pressure at depth $D$ is $P(D) = 9800 \cdot D$ (in Pascals). As we go deeper, pressure increases linearly!
+\end{feedback}
+\end{problem}
 
-Now, we're going to do the same exact calculation, but we'll now incorporate the entire area of the dam into our calculation. The goal is to calculate the hydrostatic force on a small bit of area, $dA$. If we create a grid along the dam, the area is created by the two variables depth $D$ and width $w$. Because the dam is rectangular, the small bit of area $dA$ at any point $(D,w)$ is given by the product $dA=dD\cdot dw$, where $dD$ is a small depth change and $dw$ is a small width change.
+\subsection*{Single-Variable Approach}
 
-What was nice about our hydrostatic force example was that pressure really only changed with depth, which is still true in this case. In the case of water, for instance, the pressure at a depth $D$ is given by $P(D)=9800\cdot D$. This is true at any width, so the pressure at any point $(D,w)$ on the dam is still $P(D,w)=9800\cdot D$, and the resulting small bit of force on a small bit of area is given by $dF=P(A)\cdot dA=9800\cdot D\cdot dD\cdot dw$. In the single-variable case, the integral $\int_0^{12}P(D)\cdot5\cdot dD$ comprised the sum symbol $\int_0^{12}$, which identified the region over which the summation was taking place, and then the differential $P(D)\cdot5\cdot dD$ which represented what was being summed. It is no different in these initial cases of double (and then triple) integrals! Since the depth varies from $0$ to $12$ and the width varies from $0$ to $5$, we can write the force integral as $F=\iint dF=\iint P(A)\cdot dA=\int_0^{12}\int_0^5 9800\cdot D\cdot dw\cdot dD$, which ends up being very easy to compute.
+\begin{problem}
+In the single-variable approach, we fixed the width at 5 meters and varied only the depth.
 
+The small bit of force at depth $D$ is: $dF = P(D) \cdot 5 \cdot dD = \answer{9800 \cdot D \cdot 5} \cdot dD$
 
-\section{Course Notes: Polar Integrals}
+The total force becomes:
+$$F = \int_0^{12} 9800 \cdot D \cdot 5 \,dD$$
 
-Double integrals are sometimes easier to evaluate if we change to polar coordinates. One main utility of polar coordinates is the ability to describe curved spaces more easily than is possible in rectangular coordinates. Let's take the region within unit circle as a basic example of this. This region is defined as all points of distance less than or equal to 1 from the origin. In rectangular coordinates, this is described as all points $(x,y)$ such that $\sqrt{x^2+y^2}\leq 1$. This is not too complicated, but if we wanted to integrate the function $f(x,y)=xy$ over the region, we would need to contend with the radical in the integration bounds via the integral $\iint f\cdot dA=\int_{-1}^1\int_{-\sqrt{1-x^2}}^{\sqrt{1-x^2}} x\cdot y\cdot  dy dx$.
+Compute this integral:
+$$F = 9800 \cdot 5 \cdot \left[\frac{D^2}{2}\right]_0^{12} = 9800 \cdot 5 \cdot \answer{72} = \answer{3528000} \text{ N}$$
 
-In polar coordinates, the unit circle is much more easily described as the points $(r,\theta)$ such that $r\leq 1$. This makes the bounds of integration a little more palatable, running $r$ from 0 to 1 and running $\theta$ from 0 to $2 \pi$. $f(x,y)=xy$ becomes $f(r\cos(\theta),r\sin(\theta))=r^2\sin(\theta)\cos(\theta)$ by the usual polar substitutions, and all that remains is to determine $dA$ in terms of $dr$ and $d\theta$. As seen in the following GeoGebra application, $dA$ becomes the area of a small slice of the area bounded between two circles.
+\begin{feedback}
+We integrated over a one-dimensional depth line, treating width as constant.
+\end{feedback}
+\end{problem}
 
-You alter the "Shift Radius" and "Shift $\theta$" sliders to view the area $dA$ over different portions of the unit circle and see the resulting cylinder approximating the volume under $f(x,y)=xy$ along the region $dA$. You may also select or unselect the "Show Volume" box, increase or decrease the grid created by altering the "Change size of dr" or "Change size of $d\theta$" sliders, and may use the buttons to alter your view. If you "Zoom to Unit Circle", you will want to click and drag the screen to look directly into the x-y plane to view the unit circle region of integration and the grid created.
+\subsection*{Double Integral Approach}
+
+\begin{problem}
+Now let's incorporate the entire 2D area of the dam using \textbf{two} variables: depth $D$ and width $w$.
+
+The small area element is: $dA = \answer{dD \cdot dw}$
+
+The pressure at any point $(D,w)$ depends only on depth: $P(D,w) = \answer{9800 \cdot D}$
+
+The small bit of force is:
+$$dF = P(A) \cdot dA = \answer{9800 \cdot D} \cdot dD \cdot dw$$
+
+The double integral becomes:
+$$F = \iint_R dF = \int_0^{12}\int_0^5 9800 \cdot D \,dw\,dD$$
+
+Let's evaluate this step by step using Fubini's Theorem!
+
+\textbf{Inner integral (with respect to $w$):}
+$$\int_0^5 9800 \cdot D \,dw = 9800 \cdot D \cdot [w]_0^5 = \answer{49000 \cdot D}$$
+
+\textbf{Outer integral (with respect to $D$):}
+$$\int_0^{12} 49000 \cdot D \,dD = 49000 \cdot \left[\frac{D^2}{2}\right]_0^{12} = \answer{3528000} \text{ N}$$
+
+Notice we got the same answer! This makes sense because:
+\begin{multipleChoice}
+    \choice{Double integrals are always equal to single integrals}
+    \choice[correct]{We're measuring the same physical quantity, just with different coordinate representations}
+    \choice{The force doesn't actually depend on width}
+\end{multipleChoice}
+
+\begin{feedback}
+The key insight: double integrals have two sum symbols (the two integral signs) and identify the 2D region over which we sum!
+\end{feedback}
+\end{problem}
+
+\section*{Double Integrals for Volume}
+
+The most common interpretation of double integrals is computing volume under a surface.
+
+\begin{definition}
+For a function $f(x,y) \geq 0$ over a region $R$ in the $xy$-plane, the \textbf{double integral}
+$$V = \iint_R f(x,y)\,dA = \iint_R f(x,y)\,dx\,dy$$
+represents the volume between the surface $z=f(x,y)$ and the region $R$.
+\end{definition}
+
+\begin{problem}
+Explore double integral approximations visually.
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Alter the rectangle dimensions by dragging the top right corner. Change grid fineness with the sliders. Select a specific area element $dA$ to see the corresponding volume approximation $dV = f(a,b) \cdot dA$.
+\end{expandable}
+
+\begin{center}
+\geogebra{yukegeqk}{755}{628}
+\end{center}
+
+As the grid becomes finer (smaller $dA$), the approximation:
+\begin{multipleChoice}
+    \choice{Gets worse}
+    \choice[correct]{Gets better and approaches the true volume}
+    \choice{Stays the same}
+    \choice{Oscillates}
+\end{multipleChoice}
+
+\begin{feedback}
+This is exactly like Riemann sums in single-variable calculus! The limit of these approximations as $dA \to 0$ gives the exact double integral.
+\end{feedback}
+\end{problem}
+
+\section*{Computing Double Integrals: Fubini's Theorem}
+
+\begin{theorem}[Fubini's Theorem]
+For a continuous function $f(x,y)$ over a rectangle $R = [a,b] \times [c,d]$:
+$$\iint_R f(x,y)\,dA = \int_a^b \int_c^d f(x,y)\,dy\,dx = \int_c^d \int_a^b f(x,y)\,dx\,dy$$
+
+We can compute double integrals as \textbf{iterated integrals}, evaluating one variable at a time!
+\end{theorem}
+
+\begin{problem}
+Evaluate $\displaystyle\int_0^2\int_1^3 (x^2 + 2y)\,dy\,dx$.
+
+\textbf{Step 1: Inner integral (with respect to $y$)}
+$$\int_1^3 (x^2 + 2y)\,dy = \left[x^2 y + y^2\right]_1^3$$
+$$= (x^2 \cdot 3 + 9) - (x^2 \cdot 1 + 1) = \answer{2x^2 + 8}$$
+
+\textbf{Step 2: Outer integral (with respect to $x$)}
+$$\int_0^2 (2x^2 + 8)\,dx = \left[\frac{2x^3}{3} + 8x\right]_0^2$$
+$$= \frac{16}{3} + 16 = \answer{64/3}$$
+
+\begin{feedback}
+Fubini's Theorem lets us break a double integral into two single-variable integrals!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Now try the other order: $\displaystyle\int_1^3\int_0^2 (x^2 + 2y)\,dx\,dy$.
+
+\textbf{Inner integral (with respect to $x$):}
+$$\int_0^2 (x^2 + 2y)\,dx = \left[\frac{x^3}{3} + 2xy\right]_0^2 = \answer{8/3 + 4y}$$
+
+\textbf{Outer integral (with respect to $y$):}
+$$\int_1^3 \left(\frac{8}{3} + 4y\right)\,dy = \left[\frac{8y}{3} + 2y^2\right]_1^3$$
+$$= \left(\frac{24}{3} + 18\right) - \left(\frac{8}{3} + 2\right) = \answer{64/3}$$
+
+Did you get the same answer? \wordChoice{\choice[correct]{Yes!}\choice{No}}
+
+\begin{feedback}
+For rectangular regions, the order of integration doesn't matter—we get the same answer either way!
+\end{feedback}
+\end{problem}
+
+\section*{Non-Rectangular Regions}
+
+For non-rectangular regions, the bounds of integration become functions.
+
+\begin{problem}
+Find the volume under $f(x,y) = x + y$ over the triangular region with vertices $(0,0)$, $(1,0)$, $(1,1)$.
+
+The region can be described as: $0 \leq x \leq 1$ and $0 \leq y \leq \answer{x}$
+
+The double integral is:
+$$V = \int_0^1 \int_0^x (x+y)\,dy\,dx$$
+
+\textbf{Inner integral:}
+$$\int_0^x (x+y)\,dy = \left[xy + \frac{y^2}{2}\right]_0^x = x^2 + \frac{x^2}{2} = \answer{3x^2/2}$$
+
+\textbf{Outer integral:}
+$$\int_0^1 \frac{3x^2}{2}\,dx = \frac{3}{2} \cdot \left[\frac{x^3}{3}\right]_0^1 = \frac{3}{2} \cdot \frac{1}{3} = \answer{1/2}$$
+
+\begin{feedback}
+When the region is not rectangular, the bounds of the inner integral often depend on the outer variable!
+\end{feedback}
+\end{problem}
+
+\section*{Polar Coordinates}
+
+For circular or radial regions, polar coordinates often simplify the integral dramatically.
+
+\begin{problem}
+Why use polar coordinates for integration?
+\begin{selectAll}
+    \choice[correct]{Circular regions have simpler bounds: $0 \leq r \leq R$, $0 \leq \theta \leq 2\pi$}
+    \choice{Polar coordinates always make integrals easier}
+    \choice[correct]{Functions with $x^2 + y^2$ simplify to $r^2$}
+    \choice[correct]{Radial symmetry becomes apparent}
+\end{selectAll}
+
+\begin{feedback}
+Polar coordinates are ideal when the region or function has circular/radial symmetry!
+\end{feedback}
+\end{problem}
+
+\subsection*{The Polar Area Element}
+
+\begin{problem}
+The key question: What is $dA$ in polar coordinates?
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Use the "Shift Radius" and "Shift $\theta$" sliders to move the area element $dA$ around. Check "Show Volume" to see the approximating cylinder. Use "Zoom to Unit Circle" and drag to view from above.
+\end{expandable}
 
 \begin{center}
 \geogebra{uucwvg4g}{740}{481}
 \end{center}
 
-As you can see in the applet, the region $dA$ is bounded between the circles of radius $r\pm \frac{dr}{2}$ and the angle measures $\theta\pm \frac{d\theta}{2}$. Taking the difference in area of the two created circular regions, $dA=\frac{d\theta}{2}(r+\frac{dr}{2})^2-\frac{d\theta}{2}(r-\frac{dr}{2})^2$. A little bit of algebra simplifies this to $dA=r\cdot dr\cdot d\theta$. The volume under $f(x,y)=xy$ when we consider the unit circle domain in the x-y plane then has differential volume $dV=f(r\cos(\theta),r\sin(\theta))\cdot dA=r^2\sin(\theta)\cos(\theta)\cdot r\cdot dr\cdot d\theta$, and the more simple bounds of integration give us a total volume of
+The area element $dA$ is bounded between:
+\begin{itemize}
+    \item Circles of radius $r - \frac{dr}{2}$ and $r + \frac{dr}{2}$
+    \item Angles $\theta - \frac{d\theta}{2}$ and $\theta + \frac{d\theta}{2}$
+\end{itemize}
 
-$$V=\iint dV=\int_0^{2\pi}\int_0^1r^3\sin(\theta)\cos(\theta)\cdot drd\theta,$$
+The area of this annular sector is approximately:
+$$dA = \frac{d\theta}{2}(r+\frac{dr}{2})^2 - \frac{d\theta}{2}(r-\frac{dr}{2})^2$$
 
-which is very easily computed under Fubini's Theorem with the power rule for $r$ and a simple u-substitution for $\theta$.
+After algebra, this simplifies to: $dA = \answer{r} \cdot dr \cdot d\theta$
 
-\section{Video Resources}
+The extra factor $r$ is crucial! Without it:
+\begin{multipleChoice}
+    \choice{The integral would be easier}
+    \choice[correct]{We'd get the wrong answer}
+    \choice{Nothing would change}
+\end{multipleChoice}
 
-Visit MyLab Math Multimedia Library and select this module's referenced sections of your Pearson book for Instructional Videos, Interactive Figures, and Animations related to the material.
+\begin{feedback}
+The polar area element is $dA = r\,dr\,d\theta$. That extra $r$ accounts for the curved geometry!
+\end{feedback}
+\end{problem}
 
-Visit the Calculus III: Multivariable Calculus playlist by Dr. Trefor Bazett, found on YouTube, for further video resources on the big-picture ideas of multivariable
+\subsection*{Polar Integral Example}
+
+\begin{problem}
+Let's integrate $f(x,y) = xy$ over the unit disk $x^2 + y^2 \leq 1$.
+
+\textbf{In rectangular coordinates (yuck!):}
+$$\int_{-1}^1\int_{-\sqrt{1-x^2}}^{\sqrt{1-x^2}} xy\,dy\,dx$$
+
+Those square root bounds are messy!
+
+\textbf{In polar coordinates:}
+\begin{itemize}
+    \item Region: $0 \leq r \leq \answer{1}$, $0 \leq \theta \leq \answer{2\pi}$
+    \item Function: $f(x,y) = xy = (r\cos\theta)(r\sin\theta) = \answer{r^2 \sin\theta \cos\theta}$
+    \item Area element: $dA = \answer{r}\,dr\,d\theta$
+\end{itemize}
+
+The integral becomes:
+$$V = \int_0^{2\pi}\int_0^1 r^2\sin\theta\cos\theta \cdot r\,dr\,d\theta = \int_0^{2\pi}\int_0^1 r^3\sin\theta\cos\theta\,dr\,d\theta$$
+
+\textbf{Inner integral (with respect to $r$):}
+$$\int_0^1 r^3\,dr = \left[\frac{r^4}{4}\right]_0^1 = \answer{1/4}$$
+
+\textbf{Outer integral (with respect to $\theta$):}
+$$\int_0^{2\pi} \frac{1}{4}\sin\theta\cos\theta\,d\theta = \frac{1}{4}\int_0^{2\pi} \frac{1}{2}\sin(2\theta)\,d\theta$$
+$$= \frac{1}{8}\left[-\frac{1}{2}\cos(2\theta)\right]_0^{2\pi} = \frac{1}{8} \cdot 0 = \answer{0}$$
+
+Why is the volume zero?
+\begin{multipleChoice}
+    \choice{We made a calculation error}
+    \choice[correct]{The function $xy$ is negative in two quadrants and positive in two quadrants, so they cancel}
+    \choice{The unit disk has zero area}
+\end{multipleChoice}
+
+\begin{feedback}
+The symmetry of $xy$ means equal positive and negative volumes that cancel! Polar coordinates made this much cleaner to compute.
+\end{feedback}
+\end{problem}
+
+\section*{Practice Problems}
+
+\begin{problem}
+Compute $\displaystyle\int_0^{\pi/2}\int_0^{\cos\theta} r^2\,dr\,d\theta$ in polar coordinates.
+
+\textbf{Inner integral:}
+$$\int_0^{\cos\theta} r^2\,dr = \left[\frac{r^3}{3}\right]_0^{\cos\theta} = \answer{\cos^3\theta / 3}$$
+
+\textbf{Outer integral:}
+$$\int_0^{\pi/2} \frac{\cos^3\theta}{3}\,d\theta = \frac{1}{3}\int_0^{\pi/2} \cos^3\theta\,d\theta$$
+
+Using $\cos^3\theta = \cos\theta(1-\sin^2\theta)$ and substitution $u = \sin\theta$:
+$$= \frac{1}{3}\left[\sin\theta - \frac{\sin^3\theta}{3}\right]_0^{\pi/2} = \frac{1}{3}\left(1 - \frac{1}{3}\right) = \answer{2/9}$$
+
+\begin{feedback}
+Great work! This integral computed the volume of a region bounded by a cosine curve in polar coordinates.
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Set up (but don't evaluate) the integral for the area of a circle of radius $R$ using polar coordinates.
+
+Area formula: $A = \iint_R dA$
+
+In polar: $A = \int_{\answer{0}}^{\answer{2\pi}}\int_{\answer{0}}^{\answer{R}} \answer{r}\,dr\,d\theta$
+
+Evaluating quickly:
+$$A = \int_0^{2\pi} \left[\frac{r^2}{2}\right]_0^R d\theta = \int_0^{2\pi} \frac{R^2}{2}\,d\theta = \frac{R^2}{2} \cdot 2\pi = \answer{\pi R^2}$$
+
+Does this match the familiar formula? \wordChoice{\choice[correct]{Yes!}\choice{No}}
+
+\begin{feedback}
+Perfect! Double integrals can compute areas (by integrating $f=1$), volumes (by integrating $f(x,y)$), and many other quantities!
+\end{feedback}
+\end{problem}
+
+\section*{Summary and Key Concepts}
+
+\begin{problem}
+Select all TRUE statements about double integrals:
+
+\begin{selectAll}
+    \choice[correct]{Double integrals sum over 2D regions}
+    \choice[correct]{Fubini's Theorem allows us to compute them as iterated integrals}
+    \choice{The order of integration always matters}
+    \choice[correct]{In polar coordinates, $dA = r\,dr\,d\theta$}
+    \choice[correct]{Polar coordinates simplify integrals over circular regions}
+    \choice{Every double integral represents a volume}
+    \choice[correct]{We can integrate to find areas, volumes, masses, and more}
+    \choice[correct]{For non-rectangular regions, bounds may depend on the other variable}
+\end{selectAll}
+
+\begin{feedback}
+Excellent! You've mastered the fundamentals of double integrals—a powerful tool for computing quantities over planar regions!
+\end{feedback}
+\end{problem}
 
 \end{document}
