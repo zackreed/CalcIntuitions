@@ -14,6 +14,170 @@ In this project you'll explore how to model the work required to overcome drag f
 Welcome to the introduction to the ``Work Done Against Drag'' mini project!  
 As with all integration problems, we will begin with a simple situation where multiplication suffices, and then build up toward an integral model that accounts for continuous variation.
 
+\section*{Mini Project Solution Writeup - Work Done Against Drag}
 
+\subsection*{Introduction}
+Welcome to the introduction to the "Work Done Against Drag" mini project!
+For this mini-project we'll explore how to model the \textbf{work required to overcome drag forces when an object moves along a curve}. As with all integration problems, we'll begin with a simple "ideal" situation that can be measured using multiplication, and then build up to an integration-based measurement approach that "adds up tiny pieces" of approximations across an object's motion.
+
+\subsection*{Context: Drag on a Moving Object}
+In physics, drag is a force that resists motion in a fluid (like water or air). Drag is always directed in the opposite direction of motion.
+
+\textbf{Basic Model 1: Drag Force}
+The basic model for drag is the ideal context of an object moving through a fluid that doesn't vary much as the object moves along, and the object moves at a constant velocity in a straight direction.
+Under these conditions, the drag force $F_D$ is modeled as:
+\begin{equation}
+F_D = \rho \cdot C_D \cdot A \cdot \frac{v^2}{2}
+\end{equation}
+where $\rho$ is the density of the fluid, $C_D$ is a drag coefficient, $A$ is the reference area, and $v$ is the velocity of the object.
+
+In our 3D context, forces and velocities are vectors, so the above equation is specifically about the magnitudes of those vectors:
+\begin{equation}
+||\vec{F_D}|| = \rho \cdot C_D \cdot A \cdot \frac{||\vec{v}||^2}{2}
+\end{equation}
+where $\vec{F_D}$ and $\vec{v}$ are the drag force and velocity vectors.
+
+\textbf{Basic Model 2: Work (Or Energy used)}
+In an ideal context, we use "work" to quantify how much energy is used to do some action, like moving through a fluid or lifting an object a certain amount. With "work", there is some force exerted across some distance (displacement).
+If the force $\vec{F}$ is constant across a displacement vector $\vec{D}$, work is measured by the dot product:
+\begin{equation}
+W = \vec{F} \cdot \vec{D} = \sum_i F_i D_i = ||\vec{F}|| \cdot ||\vec{D}|| \cos(\theta)
+\end{equation}
+where $\theta$ is the smallest angle between the vectors.
+
+We're going to imagine a spherical object flying through the air in a tight pattern (so the altitude and measures like air density are basically fixed).
+
+\youtube{animation_placeholder}
+
+In this example, $\rho, C_D, A,$ and $v$ are all constant. So, $\vec{F}$ is constant across the displacement vector at a magnitude of $0.92\,N$. Since drag is in the opposite direction of motion, the angle between displacement and drag will always be $\pi$, so for the displacement $\vec{D} = [6-2\pi, 2\pi, 2\pi]$:
+\begin{equation}
+W = ||\vec{F}|| \cdot ||\vec{D}|| \cdot \cos(\pi) \approx 0.92 \times 8.89 \times (-1) = -8.179\,J
+\end{equation}
+where $J$ is Joules.
+
+\subsection*{Challenges to the Basic Model}
+If drag were constant, computing work would be simple:
+- $\rho$ is the fluid density
+- $C_D$ is the drag coefficient
+- $A$ is the reference area
+- $||v||$ is the speed of the object
+- Multiply the constant drag force magnitude by the total displacement
+
+Unfortunately, there are confounding factors: drag depends on velocity, which can change along a curve. Faster sections produce stronger drag, slower sections produce weaker drag, and the drag vector changes direction with the velocity. $C_D$ and $\rho$ can also change during a flight.
+
+\textbf{MATLAB code:}
+\begin{verbatim}
+syms t
+r = [sin(t), cos(t), sin(t)]
+animate_drag_motion(r)
+\end{verbatim}
+
+This means we cannot treat drag as one constant force over the entire curve.
+
+\textbf{Reflection Questions:}
+- What about the observed motion of the particle is causing changes to the basic model?
+- Why can we not just use the basic model (dot product) to quantify the work done against drag in this instance?
+
+\subsection*{Solution: Add up small bits of work along the curve}
+As with all integration problems, we solve the "multiplying doesn't work" problem by:
+1. breaking the curve into small pieces,
+2. computing the work on each small piece,
+3. adding up all of the small contributions to get total work.
+
+For most curves there is no single displacement vector, so instead you have to treat movement along the curves as movement along tiny displacement vectors.
+
+\subsection*{Step 1: Approximate with Pieces}
+Suppose an object moves along a curve $r(t)$. If we cut the interval into $N$ pieces, we can take the velocity $v_i$ from the curve at the middle of the interval and use the time change to get an approximate displacement vector $\Delta r_i$. If any elements of the drag equation change along the curve, we can also track their values to get a sample force magnitude at each midpoint segment:
+\begin{equation}
+||\vec{F_i}|| = \rho_i C_{D_i} A \frac{||\vec{v_i}||^2}{2}
+\end{equation}
+
+\textbf{MATLAB code:}
+\begin{verbatim}
+verify_setup('Zack',12345)
+% r = [cos(t), sin(t), sin(t)]
+% rho_air = ...
+% Cd = ...
+% A = ...
+% N = ...
+\end{verbatim}
+
+\textbf{MATLAB code:}
+\begin{verbatim}
+plot_curve_work_pieces(r, N, rho_air, Cd, A)
+\end{verbatim}
+
+\textbf{Reflection Questions:}
+- In which orientation (clockwise vs counterclockwise) is motion? (Hint: Remember that drag opposes motion)
+- Why is the calculated work negative?
+
+\subsection*{Step 2: Recreate the Approximation}
+We need to compute the magnitude of the drag force as the particle moves along each segment. This requires us to determine the air density at the midpoint of each segment, the drag coefficient at each segment, and the velocity at each segment (the object's area is fixed).
+
+\textbf{MATLAB code:}
+\begin{verbatim}
+[speeds, air_densities, Cd_vals] = compute_drag_quantities(r, N, rho_air, Cd)
+drag_magnitudes = ...
+[displacement_vecs, force_vecs] = compute_work_quantities(r, N, drag_magnitudes)
+work_pieces = dot(displacement_vecs, force_vecs)
+total_work = sum(work_pieces)
+\end{verbatim}
+
+\textbf{Reflection Questions:}
+- Write out in words the steps taken, in order, and describe how each step (and the steps combined) work together to generate the approximation of work.
+- Write out symbolically using your function and parameters the calculation(s) to approximate work.
+
+\subsection*{Step 3: Examining changes to the setup}
+Enter a new function for $\rho$, and new values for $C_D$ and $A$, and make a new plot.
+
+\textbf{MATLAB code:}
+\begin{verbatim}
+% rho_new = ...
+% Cd_new = ...
+% A_new = ...
+plot_curve_work_pieces(r, N, rho_new, Cd_new, A_new)
+\end{verbatim}
+
+\textbf{Reflection Question:}
+- Describe how the new parameters are impacting the work done against drag.
+
+\subsection*{Step 4: Refining Approximation - Increasing N}
+Increasing $N$ gives better approximations. Movement along small segments of the curve behaves more like straight displacements, so the approximations from both the drag equation and the work computations are more accurate over small steps.
+
+\textbf{MATLAB code:}
+\begin{verbatim}
+Ns = []
+plot_multiple_work_approximations(r, Ns, rho_air, Cd, A)
+for N = Ns
+    % manual calculations here
+end
+\end{verbatim}
+
+\textbf{Reflection Questions:}
+- If you continued making this same calculation for different $N$, particularly as $N$ grows quite large, how would you expect the resulting gravity calculations to behave?
+- Write out symbolically, for your specific function, what sum is being calculated to measure the work for a particular (general) $N$.
+
+\subsection*{Step 5: Exact Model Using Calculus}
+The main difference between finite sum approximations and the exact sum from integration is the limit. Definite integrals and the Fundamental Theorem of Calculus give us tools for making exact calculations. To use calculus efficiently, we need to rewrite the integral until we get a form that makes calculations on a single variable that we can run continuously through an interval.
+
+So far, our sums have taken the form:
+\begin{equation}
+W \approx \sum_{i=1}^N \Delta W_i, \quad \Delta W_i \approx \vec{F_i} \cdot \Delta r_i
+\end{equation}
+where $||\vec{F_i}|| = \rho_i C_{D_i} A \frac{||\vec{v_i}||^2}{2}$ and $\Delta r_i$ is a displacement vector.
+Translating this into integrals, we have:
+\begin{equation}
+W = \int dW
+\end{equation}
+The work differential is the dot product $dW = \vec{F_D} \cdot d\vec{r}$ between the drag force and displacement across a small segment of the object's path.
+
+\textbf{Reflection Questions:}
+- Explain the formula $\int dW$. Does it actually represent anything?
+- Why, in our current setup, does the integral look different from the formulas used for numerical approximation?
+- What would it take to be able to compute the integral $\int dW$ as is, rather than doing further variable changes?
+- How is your final integral different or the same from the original integral $W = \int dW$?
+
+\subsection*{Finishing the Calculations}
+Now verify that your integral formula does indeed compute work in a way that agrees with the numerical approximations. Numerically approximate the drag on your new path, then use your integral to also make the same calculation and make sure that the values agree.
 
 \end{document}

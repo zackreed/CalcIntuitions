@@ -16,4 +16,303 @@ As with all integration problems, we'll begin with a simple situation where mult
 
 
 
+\section*{Mini Project - Fitting Data with Gradient Descent}
+
+\subsection*{Introduction}
+Welcome to the "fitting data with gradient descent" mini project! This will serve as a warm up for your final project, and also features one of the possible topic options for the final project: gradient descent.
+
+For this mini-project we'll explore how to use \textbf{gradient descent} to approximate data with polynomials. Using gradient descent to find the minimum error is a bit like using a sledgehammer on a nail, however the point of this project isn't to give you the \emph{best} way to fit data, it's to intuitively motivate gradient descent for the plethora of cases where it is the \emph{best} or \emph{only} way to find a minimum.
+
+This uses optimization to solve the real-world problem of \textbf{model selection}: what function best represents observed data?
+
+\section*{Modeling Data With Polynomials}
+A basic data analysis technique in many fields is looking for patterns or trends in data that follow nice simple functions, such as polynomials. 
+
+The following code will take in a number and randomly generate data points that roughly follow a linear, quadratic, or cubic spread.
+\textbf{MATLAB code:}
+\begin{verbatim}
+[X_1, y_1, model_info_1] = generate_example_data(100);
+\end{verbatim}
+
+After you run the section, you should see a list of x-values ($X_1$) and a list of y-values ($y_1$) and then a printout of the properties of the data.
+The printout will tell you that this data is linear, and it will give you the actual line around which the data randomly varies. 
+
+You can then use the \texttt{plot\_data} function to get a plot of your data.
+\begin{verbatim}
+plot_data(X_1, y_1)
+\end{verbatim}
+
+You should see that the data points linearly decrease from around $(-2, -2.6)$ to $(2, -3)$.
+
+You can use \texttt{model\_info} to plot the model on top of the data by entering \texttt{model\_info} as a third argument in \texttt{plot\_data}:
+\begin{verbatim}
+plot_data(X_1, y_1, model_info_1)
+\end{verbatim}
+
+You should now see a line passing reasonably well through the data points.
+
+\subsection*{Other Polynomial Models}
+While linear approximation works for many STEM applications, sometimes higher-order models are needed, or even more complicated models that are not polynomials.
+
+With the following section you can similarly inspect quadratic data and cubic data, and view the plots of the models within the data.
+
+First, we see some data that follows a quadratic function.
+\begin{verbatim}
+[X_2, y_2, model_info_2] = generate_example_data(2);
+plot_data(X_2, y_2, model_info_2);
+\end{verbatim}
+
+Now, we see some data that follows a cubic function.
+\begin{verbatim}
+[X_3, y_3, model_info_3] = generate_example_data(3);
+plot_data(X_3, y_3, model_info_3);
+\end{verbatim}
+
+\section*{Context: The Model Selection Problem}
+In data analysis, we often have measurements but don't know the underlying relationships between variables. Given data points $(x_i, y_i)$, we want to find a function that best describes observed patterns in the data.
+
+For polynomial models, we must choose the \textbf{polynomial degree}:
+\begin{itemize}
+  \item \textbf{Linear} (degree 1): $y = a_0 + a_1 x$
+  \item \textbf{Quadratic} (degree 2): $y = a_0 + a_1 x + a_2 x^2$
+  \item \textbf{Cubic} (degree 3): $y = a_0 + a_1 x + a_2 x^2 + a_3 x^3$
+\end{itemize}
+
+\textbf{The Problem:} If we don't know ahead of time what kind of a model best fits the data, how can we choose a model?
+
+\textbf{The Solution:} Minimizing \textbf{prediction error}.
+
+We pick a model (linear, quadratic, cubic, other) and randomly pick the \emph{parameters} of the model, and then we calculate how much error there is between the model and the data. 
+
+In the case of polynomials, the \emph{parameters} are the coefficients ($a_0, a_1, a_2, \ldots$) in that the coefficients entirely determine the model. So if we tweak the coefficients, we tweak the model and can reduce error.
+
+The following code will randomly determine 10 models and the parameters of the models and view how much error there is with data set $(X_2, y_2)$.
+\begin{verbatim}
+for i = 1:10
+    generate_random_model(X_2, y_2, rng());
+end
+\end{verbatim}
+
+You'll notice that the models are being plotted in blue, the data points are still in gray, and then vertical bars are being drawn from the points to the model. 
+The lengths of these red lines is what determines the ERROR readout at the top of the plots. 
+
+\section*{Measuring Error: Mean Squared Error}
+We can calculate error in many ways, but one industry best practice for computing error is called \textbf{mean squared error (MSE)}. 
+
+This calculates the vertical distances between the data heights ($\hat{y}_i$) and the model heights ($y_i$), squares the distances $({\hat{y}_i} - y_i)^2$, and then finds the average (mean) of those square distances:
+\[
+\text{MSE} = \frac{1}{n} \sum_{i=1}^n ({\hat{y}_i} - y_i)^2
+\]
+
+The final step is to square root the average:
+\[
+\sqrt{\frac{1}{n} \sum_{i=1}^n ({\hat{y}_i} - y_i)^2}
+\]
+For reasons we won't cover here, the square root plays an important role, but for the purpose of minimizing error we're going to just work with the mean of the square differences:
+\[
+\text{MSE} = \frac{1}{n} \sum_{i=1}^n ({\hat{y}_i} - y_i)^2
+\]
+
+This entails:
+\begin{enumerate}
+  \item Finding the vertical distance between the points and the locations on the model.
+  \item Squaring the differences
+  \item Averaging the square differences.
+\end{enumerate}
+
+\section*{Minimizing Error: Gradient Descent}
+The key property that makes $\text{MSE}$ very nice is that if we make the parameters (coefficients) $a_0, a_1, a_2, \ldots$ into variables, then we get a differentiable function, meaning we can use tools from calculus to minimize the error!
+
+The idea is that, although complicated, we get a multivariable function of the coefficients $a_0, a_1, a_2, \ldots$.
+
+For instance, the error from a linear approximation $y = a_0 + a_1 x$ is a 2-variable function from the data points $(x_i, y_i)$:
+\[
+f(a_0, a_1) = \frac{1}{n} \sum_{i=1}^n (y_i - (a_0 + a_1 x_i))^2
+\]
+The error from a quadratic approximation $y = a_0 + a_1 x + a_2 x^2$ is a 3-variable function from the data points $(x_i, y_i)$:
+\[
+f(a_0, a_1, a_2) = \frac{1}{n} \sum_{i=1}^n (y_i - (a_0 + a_1 x_i + a_2 x_i^2))^2
+\]
+Hopefully you can see that we can build a multivariable error function for any possible polynomial approximation, however ugly it might be.
+
+The \texttt{write\_error\_function} will show you the explicit MSE error function to be minimized for an input data set, with the third argument being the degree of the approximation.
+You won't need to work with these functions, but you should see how complex the error functions are even with data sets of between 50 and 100 points.
+
+We're going to use our knowledge of the data to match the data (linear, quadratic, cubic) with its true model degree, but in practice you would need to try many models (and you will do this to finish out the project).
+\begin{verbatim}
+lin = write_error_function(X_1, y_1, 1, 'Complexity', true);
+\end{verbatim}
+
+Looking at the Computational Complexity section of the readout gives you an idea of what it would take to hand-calculate the error function. 
+With a data set of 51 terms even for a linear approximation, which is a simple quadratic surface after all of the calculations are performed, you would need to make 306 calculations to determine the quadratic error function. 
+This is why we use computers to generate even these simple (from a calculus perspective) error functions.
+
+\section*{Gradient Descent}
+Now that we have the error functions, we can use calculus to minimize the error!
+
+The error function for linearly approximating the data $(X_2, y_2)$ is:
+\[
+5.429 a_1 - 0.4446 a_0 + 0.01708 a_0 a_1 + a_0^2 + 1.26 a_1^2 + 7.142
+\]
+\textbf{MATLAB code:}
+\begin{verbatim}
+plot_function_surface(lin);
+\end{verbatim}
+
+Using calculus tools, this surface is actually quite easy to minimize, and in fact we're guaranteed a global minimum!
+That being said, this also provides a nice easy introduction to gradient descent. 
+
+With gradient descent, you randomly place initial possible input values (in this case $a_0$ and $a_1$) on the domain, and then imagine the points $f(a_0, a_1)$ rolling down the "hill" of the function surface until they reach the minimum, as seen in the following animation.
+
+\youtube{Gradient Descent Animation}
+
+\textbf{MATLAB code:}
+\begin{verbatim}
+animate_gradient_descent(lin);
+\end{verbatim}
+
+You should see a number of points being placed randomly on the surface and moving towards the "bottom of the hill", the minimum value on the surface. 
+The information given above the graphic says that the minimum is at the location $(x, y) = (0.239935, -2.154704)$.
+
+Let's see what polynomial resulted from the minimum found on the error function.
+\textbf{MATLAB code:}
+\begin{verbatim}
+coeffs = [0.239935, -2.154704]
+plot_guess(X_1, y_1, coeffs);
+\end{verbatim}
+
+If we view the resulting linear functions represented by the various $(a_0, a_1)$ starting locations, we can also see the gradient descent process unfold by viewing random linear functions eventually rotate and shift to become the best approximation of the data!
+
+\textbf{MATLAB code:}
+\begin{verbatim}
+animate_gradient_descent_polynomial(X_1, y_1, 1)
+\end{verbatim}
+
+\section*{Reflection Questions}
+\begin{itemize}
+  \item Compare the MSE output by \texttt{plot\_guess} with the minimizing $f$ value found in \texttt{animate\_gradient\_descent}. Explain what you observe.
+  \item What are $a_0$ and $a_1$ for the model? What are they for the error function?
+\end{itemize}
+
+\subsection*{Gradient Descent: Movement in the Input}
+There's one very important nuance that can be lost with gradient descent. While the minimum value is in the \emph{output} space of the function, the movement happens in the \emph{input} space. Remember that gradients live in the \emph{input} domain of functions. So the way that gradient descent works is that the parameters follow the direction of the gradient in the \emph{input} space until it reaches a coordinate of minimum value.
+
+\textbf{MATLAB code:}
+\begin{verbatim}
+animate_gradient_descent_coefficient_space(X_1, y_1, 1)
+\end{verbatim}
+
+You should see a collection of points following the gradient directions in 2D space until they converge at the "true optimum".
+
+While you should have some insights into gradient descent from the Ximera Learning Activity, we'll again note that gradient descent unfolds in the following way:
+\begin{enumerate}
+  \item Randomly place points in the domain
+  \item Calculate the gradient of the function at the points
+  \item Move the points by subtracting a small multiple of the gradient $P_{n+1} = P_n - \alpha \nabla f(P_n)$. We subtract because the gradient points in the direction of \emph{increase} and we want to \emph{decrease}.
+  \item The points will stop moving eventually because when the gradients $\nabla f(P)$ get small, $P_{n+1}$ will essentially be the same as $P_n$, and gradients get small at locations of critical points.
+\end{enumerate}
+
+\subsection*{Quadratic Approximation: Gradient Descent}
+Now let's recreate the process but for quadratic approximation!
+
+\textbf{MATLAB code:}
+\begin{verbatim}
+quad = write_error_function(X_2, y_2, 2);
+\end{verbatim}
+
+First, let's go through the gradient descent process for random input triples $(a_0, a_1, a_2)$. Unfortunately we can no longer visualize the "downhill" process of the three-variable function $f(a_0, a_1, a_2)$, however we can still view the progression of the parameters $(a_0, a_1, a_2)$ through the input space until they reach the local minima!
+
+\textbf{MATLAB code:}
+\begin{verbatim}
+animate_gradient_descent_coefficient_space(X_2, y_2, 2)
+\end{verbatim}
+
+You can see a similar phenomenon as happened in 2D space! The random initial points are following the negative gradient until the slope gets so small that they barely move! At that point, they have reached a local minimum of the function.
+
+Use the information from the animation printout, make a list of the learned \texttt{coefficients} and then input the data and \texttt{coefficients} into \texttt{plot\_guess} to see if the gradient descent successfully learned how to quadratically fit the data!
+
+Again, hopefully unsurprisingly, the calculated MSE from \texttt{plot\_guess} is the same as the minimum value found from the minimum value of the error function!
+
+Finally, view the gradient descent represented by quadratic functions being randomly set with three parameters $(a_0, a_1, a_2)$ that slowly converge to fit the data!
+\begin{verbatim}
+animate_gradient_descent_polynomial(X_2, y_2, 2);
+\end{verbatim}
+
+\section*{Cubic Approximation: Gradient Descent}
+Now let's do it again for the cubic approximation, where all visualization goes out the window.
+
+\textbf{MATLAB code:}
+\begin{verbatim}
+cub = write_error_function(X_3, y_3, 3);
+animate_gradient_descent_polynomial(X_3, y_3, 3);
+\end{verbatim}
+
+In this case, we can no longer view even the input space to see the 4D points $(a_0, a_1, a_2, a_3)$ converge to a minimum, but we can at least see the resulting cubic polynomials converge appropriately as gradient descent unfolds.
+
+Once again, we can check the validity of our approximation against the data using the coefficients found at the minimum!
+
+Note that this data doesn't have the "S" shape typical to cubic functions. That's because we're only looking at the cubic in a certain window.
+
+\section*{Reflection Questions}
+\begin{itemize}
+  \item If the dimension of the polynomial being used to fit the data is $N$, how many parameters need to be learned by gradient descent? How many variables make up the input space for the error function?
+  \item In what space does gradient descent occur? In the domain of the error function? Or the range of the error function?
+  \item What kind of information is "learned" by gradient descent?
+\end{itemize}
+
+\section*{Your Turn: Finding a Good Fit}
+Now it's your turn! To finish out the warm up activity, you will generate your own data and analyze it!
+
+The data will either be quadratic or cubic, and you have to decide which gives a better fit both by doing some gradient descent, but also by using the optimization tools from the book!
+
+First, let's generate your data. Replace "1234" with your student ID number to generate your personal data to be analyzed in this project.
+\textbf{MATLAB code:}
+\begin{verbatim}
+[X, y] = generate_student_data(1234);
+plot_data(X, y);
+\end{verbatim}
+
+You should see data that is either quadratic or cubic. Note that, as with the last example, even cubic data might not have the typical "S" shape.
+
+\subsection*{Step 1: Try A Linear Model}
+Using the \texttt{write\_error\_function} course command, calculate the quadratic 2-variable error function for your data specifically.
+\begin{verbatim}
+lin = write_error_function(X, y, 1);
+\end{verbatim}
+
+Now, use the output linear function "lin" in the \texttt{animate\_gradient\_descent} course function to get the pair $(a_0, a_1)$ that minimize the error function.
+\begin{verbatim}
+animate_gradient_descent(lin);
+\end{verbatim}
+
+You should see a similar bowl-shaped gradient descent process unfolding, resulting in a location for a minimum.
+
+Before comparing this linear function to the data, use the first and second derivative tests from the book (finding critical points where the gradient is zero and then using the Hessian matrix to analyze the points) to verify the location of the minimum. 
+You can do this work by hand (it's a quadratic function) or using the MATLAB tools provided in the course for optimization.
+\begin{verbatim}
+syms a0 a1
+\end{verbatim}
+
+Now that you've verified that indeed gradient descent has found the local minimum, use \texttt{plot\_guess} to compare the data to the found linear model.
+
+You can see the convergence unfold for the possible lines using \texttt{animate\_gradient\_descent\_polynomial} (with 1 in the third argument).
+\begin{verbatim}
+animate_gradient_descent_polynomial(X, y, 1)
+\end{verbatim}
+
+Even though convergence was achieved, the MSE was likely higher than you were seeing in the examples above. This is because even though a minimum was found, the minimum possible error for a poorly fit model still gives decent error.
+
+\section*{Finding the Best Model}
+The last part of this warm up is for you to determine which is a better model for your personal data, quadratic or cubic.
+
+You can use whatever course functions you want, but you must verify the minimum using the derivative tests from the book for the quadratic approximation just like you did for the linear approximation.
+
+Also, you must end your analysis with two \texttt{plot\_guess} graphs and readouts (one for your quadratic guess, one for your cubic guess) and write a comparison about the two approximations.
+\begin{verbatim}
+write_error_function(X, y, 2);
+\end{verbatim}
+
+\section*{Reflection Questions}
+You must also answer the following prompt: The "best" model might not always be the model that gives the best error. A good model is also as simple as it can be. Comparing the error from the three best models (linear, quadratic, cubic), which model is "best" in terms of yielding small MSE while also being simple?
+
 \end{document}

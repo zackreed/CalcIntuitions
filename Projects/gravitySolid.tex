@@ -14,5 +14,155 @@ This page will help you as you work on your final project, exploring how to mode
 Welcome to the introduction to the ``gravity between a wire and a point'' mini project!  
 As with all integration problems, we'll begin with a simple situation where multiplication suffices, and then build up toward an integral model that accounts for continuous variation.
 
+\section*{Final Project - Gravity Between a Solid and a Point Mass}
+
+\subsection*{Introduction}
+Welcome to your final project topic focusing on gravitational attraction! As before with all instances of using integration in applications, we will:
+- first introduce the basic model for the phenomenon (gravity),
+- discuss why variation in some aspect of the phenomenon forces us to not use the basic model
+- break up the objects involved into many small pieces on which we can use the basic model
+- add up the instances of the basic model in the small pieces to get an approximation
+- use integrals as the limiting value of the approximations to get an exact measure
+
+\subsection*{Basic Model: Point Masses and Gravity}
+In physics, the gravitational force between two \textbf{point masses} $m_1$ and $m_2$ is given by Newton's Law:
+\begin{equation}
+\vec{F} = G \frac{m_1 m_2}{||\vec{r}||^2} \hat{r}
+\end{equation}
+where $G$ is the universal gravitational constant, $\vec{r}$ is the vector between the two masses, and $\hat{r}$ is the unit vector pointing in the direction of $\vec{r}$.
+
+In single-variable cases this can be simplified to:
+\begin{equation}
+F = G \frac{m_1 m_2}{r^2}
+\end{equation}
+where $r$ is the distance between the points.
+
+\youtube{animation_placeholder}
+
+You'll notice that the inverse square $\frac{1}{r^2}$ determines the gravity force in the case of two points separated by a single variable. We will explore the gravity between a point and a solid, which means moving away from a single-variable case and into a vector scenario.
+
+\subsection*{Challenges to the Basic Model: Point Mass and a Solid}
+We want to calculate the force of gravity between a solid floating in space and a nearby point mass. If the solid were itself a lumped point mass, the situation would be easy:
+- Compute the distance from the point mass to the solid's center
+- Use Newton's formula.
+
+Unfortunately, many solids don't have exploitable symmetry, and so gravity acts between the solid and the point mass differently depending on where you are within the solid.
+- Parts of the solid are closer, exerting stronger forces.
+- Other parts are farther, exerting weaker forces.
+- Variability in the solid shapes means a lack of symmetry.
+
+\youtube{animation
+
+\textbf{Reflection Questions:}
+- The color of each piece signifies the gravity approximation between the piece and the point mass, using the center of the cube for a measure of distance and the mass of the small piece. Given that the cube is uniformly dense, explain (using Newton's Law of Gravity) the color gradient shown in the plot.
+- Why is the gravity smallest at the bottom of the cube?
+- Why is the gravity greatest in the middle of the top of the cube, and then why does it decrease even along the top of the cube?
+
+\subsection*{Newton's Law}
+Let's recreate Newton's law at a single piece before doing so at scale.
+
+\textbf{MATLAB code:}
+\begin{verbatim}
+% densities, distances, volumes arrays
+% G = 10
+% gravity for piece 1: G * m_1 * (densities(1) * volumes(1)) / (distances(1)^2)
+\end{verbatim}
+
+\textbf{Reflection Question:}
+- Calculate the gravity attraction between the first piece and the point mass using the provided values.
+
+\subsection*{Gravity in Pieces: Building the Global Model}
+In this final project, you're going to approximate (and then exactly measure) the force of gravity between different shapes and a point mass. At first, to ease our way into the calculations, we're going to work with the \textbf{simplified setup}:
+\begin{equation}
+F = G \frac{m_1 m_2}{r^2}
+\end{equation}
+For each piece of the solid, we calculate the distance between the center of the piece and the point mass, treating the mass of that piece as $m_2$ in the formula.
+
+\textbf{MATLAB code:}
+\begin{verbatim}
+plot_gravity_cube_distances()
+\end{verbatim}
+
+\subsection*{Approximating Gravity: Adding Up Small Gravities}
+As with all integration problems, we solve the "multiplying doesn't work" problem by:
+1. breaking up an object into small pieces
+2. making the desired measurement on each small piece
+3. adding up all of the small measurements to get a global measurement
+
+\textbf{MATLAB code:}
+\begin{verbatim}
+gravities = G * m_1 * (densities .* volumes) ./ (distances.^2)
+approx_gravity = sum(gravities)
+\end{verbatim}
+
+\textbf{Reflection Questions:}
+- Write out symbolically what MATLAB has done using summation notation, using $\Delta M_k, \Delta V_k, \Delta F_k$ for the mass, volume, gravity of each piece.
+- How do we make this approximation more precise? What do we do to the sum to get an exact measure of gravity and how does that connect to definite integration?
+
+\subsection*{The Final Model: Gravity Between a Solid and a Point Mass}
+We now have a model for the gravity between a solid and a point mass. We can use this model to calculate the gravity between different shapes and a point mass.
+
+\textbf{MATLAB code:}
+\begin{verbatim}
+gravities = G * m_1 * (densities .* volumes) ./ (distances.^2)
+approx_gravity = sum(gravities)
+\end{verbatim}
+
+\textbf{Reflection Questions:}
+- If the sphere had a uniform density, how would the coloring in the gravity plot be different?
+- What must be true about the mass for the gravity plot to have the given coloring?
+- Write out symbolically how the gravity (under the simplified setup) is approximated. Use $k$ to denote the index of the pieces.
+
+\subsection*{Calculating Exact Gravity (Simple Setup)}
+Now you will receive your own personal solid, go through a similar process to calculate the gravity approximation in MATLAB, and then use a triple integral to get the exact measure of gravity between the solid and the point mass.
+
+\textbf{MATLAB code:}
+\begin{verbatim}
+[densities, distances, volumes] = generate_student_solid(12345)
+G = 10;
+gravities = G * m_1 * (densities .* volumes) ./ (distances.^2)
+approx_gravity = sum(gravities)
+\end{verbatim}
+
+\textbf{Reflection Questions:}
+- Why can't we just use Newton's Law of Gravity to calculate the exact gravity between the solid and the point mass for these solids?
+- Why is there error in our approximation method after we break up the solid into pieces?
+
+\subsection*{Using Integrals to Get an Exact Measure}
+Using triple integrals, we can write the exact measure of gravity as:
+\begin{equation}
+F = \int \int \int \frac{G m_1 \rho(x,y,z)}{r^2} dV
+\end{equation}
+where $\rho(x,y,z)$ is the density function and $r$ is the distance from the differential piece to the point mass.
+
+\textbf{Reflection Questions:}
+- What is the gravity (under the simple setup) between the solid and the point mass?
+- Work out by hand the steps to use the FTC to compute the integral measure
+- Verify in MATLAB (using three int() commands) the measure you found.
+- Does the measure you found using integration closely match the approximation?
+- Describe how you should think about integration as it applies to STEM after you leave calculus.
+
+\subsection*{(Optional) The True Setup for Measuring Gravity}
+The true way to measure gravity between two point masses is:
+\begin{equation}
+\vec{F} = G \frac{m_1 m_2}{||\vec{r}||^2} \hat{r}
+\end{equation}
+To truly approximate gravity, we need to add together all of the force vectors $\vec{F_k}$ to make a single net force vector $\vec{F}$:
+\begin{equation}
+\vec{F} \approx \sum_k \vec{F_k} = \sum_k G \frac{m_1 m_2}{||\vec{r_k}||^2} \hat{r_k}
+\end{equation}
+We can approximate this true gravity by summing all of the force vectors together and then taking the magnitude of the resulting vector.
+
+\textbf{MATLAB code:}
+\begin{verbatim}
+[densities, gravity_vectors, volumes] = generate_solid_gravity('gravity_mode','true','n',100)
+sum_vector = sum(gravity_vectors, 1)
+norm(sum_vector)
+\end{verbatim}
+
+\textbf{Reflection Questions:}
+- Why is the top center of the sphere colored blue? Those points are theoretically closer to the point than others, so why is the gravity calculation so low?
+- Similarly, why is the top of the cone colored blue?
+- Explain the shapes of the solids (Hint: Think about the coordinate system)
 
 \end{document}

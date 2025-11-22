@@ -1,11 +1,11 @@
 \documentclass{ximera}
 
-\title{Activity: Curvature, Acceleration, and TNB Frames}
+\title{Curvature and Acceleration}
 \author{Zack Reed}
 
 \begin{document}
 \begin{abstract}
-In this activity we explore how curves bend in space through curvature, develop the TNB frame for analyzing motion, and understand acceleration in moving reference frames.
+In this activity we explore how curves bend in space.
 \end{abstract}
 \maketitle
 
@@ -202,181 +202,184 @@ You can verify that $\mathbf{T} \cdot \mathbf{N} = (-\sin(t))(-\cos(t)) + (\cos(
 \end{feedback}
 \end{problem}
 
-\section*{Task Three: The TNB Frame}
 
-\subsection*{Building a Moving Coordinate System}
+% \section*{Task Three: The TNB Frame}
 
-For curves in 3D space, we can construct a complete coordinate system that moves along with a particle. This is called the \textbf{TNB frame} or \textbf{Frenet frame}.
+% \subsection*{Building a Moving Coordinate System}
 
-\begin{definition}
-The TNB frame consists of three mutually perpendicular unit vectors:
-\begin{itemize}
-    \item $\mathbf{T}$: Unit tangent vector (direction of motion)
-    \item $\mathbf{N}$: Principal unit normal vector (direction of bending)
-    \item $\mathbf{B}$: Binormal vector, defined as $\mathbf{B} = \mathbf{T} \times \mathbf{N}$
-\end{itemize}
-\end{definition}
+% For curves in 3D space, we can construct a complete coordinate system that moves along with a particle. This is called the \textbf{TNB frame} or \textbf{Frenet frame}.
 
-\begin{problem}
-What properties should the binormal vector $\mathbf{B}$ have?
+% \begin{definition}
+% The TNB frame consists of three mutually perpendicular unit vectors:
+% \begin{itemize}
+%     \item $\mathbf{T}$: Unit tangent vector (direction of motion)
+%     \item $\mathbf{N}$: Principal unit normal vector (direction of bending)
+%     \item $\mathbf{B}$: Binormal vector, defined as $\mathbf{B} = \mathbf{T} \times \mathbf{N}$
+% \end{itemize}
+% \end{definition}
 
-\begin{selectAll}
-    \choice[correct]{$\mathbf{B}$ is perpendicular to $\mathbf{T}$}
-    \choice[correct]{$\mathbf{B}$ is perpendicular to $\mathbf{N}$}
-    \choice[correct]{$\mathbf{B}$ is a unit vector}
-    \choice{$\mathbf{B}$ points in the direction of motion}
-\end{selectAll}
+% \begin{problem}
+% What properties should the binormal vector $\mathbf{B}$ have?
 
-\begin{feedback}
-Since $\mathbf{B} = \mathbf{T} \times \mathbf{N}$ and both $\mathbf{T}$ and $\mathbf{N}$ are unit vectors that are perpendicular to each other, $\mathbf{B}$ is automatically perpendicular to both and has length 1.
+% \begin{selectAll}
+%     \choice[correct]{$\mathbf{B}$ is perpendicular to $\mathbf{T}$}
+%     \choice[correct]{$\mathbf{B}$ is perpendicular to $\mathbf{N}$}
+%     \choice[correct]{$\mathbf{B}$ is a unit vector}
+%     \choice{$\mathbf{B}$ points in the direction of motion}
+% \end{selectAll}
 
-The binormal vector points in the direction perpendicular to the plane containing $\mathbf{T}$ and $\mathbf{N}$ (called the osculating plane).
-\end{feedback}
-\end{problem}
+% \begin{feedback}
+% Since $\mathbf{B} = \mathbf{T} \times \mathbf{N}$ and both $\mathbf{T}$ and $\mathbf{N}$ are unit vectors that are perpendicular to each other, $\mathbf{B}$ is automatically perpendicular to both and has length 1.
 
-\begin{problem}
-For the helix $\mathbf{r}(t) = \langle \cos(t), \sin(t), t \rangle$ at $t = 0$:
+% The binormal vector points in the direction perpendicular to the plane containing $\mathbf{T}$ and $\mathbf{N}$ (called the osculating plane).
+% \end{feedback}
+% \end{problem}
 
-First, $\vec{v}(0) = \langle \answer{-\sin(0)}, \answer{\cos(0)}, \answer{1} \rangle = \langle 0, 1, 1 \rangle$
+% \begin{problem}
+% For the helix $\mathbf{r}(t) = \langle \cos(t), \sin(t), t \rangle$ at $t = 0$:
 
-The speed is $|\vec{v}(0)| = \answer{\sqrt{2}}$
+% First, $\vec{v}(0) = \langle \answer{-\sin(0)}, \answer{\cos(0)}, \answer{1} \rangle = \langle 0, 1, 1 \rangle$
 
-So $\mathbf{T}(0) = \langle \answer{0}, \answer{1/\sqrt{2}}, \answer{1/\sqrt{2}} \rangle$
+% The speed is $|\vec{v}(0)| = \answer{\sqrt{2}}$
 
-(For this problem, you can assume that $\mathbf{N}(0) = \langle -1, 0, 0 \rangle$)
+% So $\mathbf{T}(0) = \langle \answer{0}, \answer{1/\sqrt{2}}, \answer{1/\sqrt{2}} \rangle$
 
-The binormal vector is:
-\[\mathbf{B}(0) = \mathbf{T}(0) \times \mathbf{N}(0) = \begin{vmatrix} \mathbf{i} & \mathbf{j} & \mathbf{k} \\ 0 & 1/\sqrt{2} & 1/\sqrt{2} \\ -1 & 0 & 0 \end{vmatrix}\]
+% (For this problem, you can assume that $\mathbf{N}(0) = \langle -1, 0, 0 \rangle$)
 
-$\mathbf{B}(0) = \langle \answer{0}, \answer{1/\sqrt{2}}, \answer{-1/\sqrt{2}} \rangle$
+% The binormal vector is:
+% \[\mathbf{B}(0) = \mathbf{T}(0) \times \mathbf{N}(0) = \begin{vmatrix} \mathbf{i} & \mathbf{j} & \mathbf{k} \\ 0 & 1/\sqrt{2} & 1/\sqrt{2} \\ -1 & 0 & 0 \end{vmatrix}\]
 
-\begin{feedback}
-The TNB frame gives us a coordinate system that travels along with the particle. At each point, $\mathbf{T}$ points forward, $\mathbf{N}$ points toward where the curve is bending, and $\mathbf{B}$ points ``out of the plane'' of the curve.
-\end{feedback}
-\end{problem}
+% $\mathbf{B}(0) = \langle \answer{0}, \answer{1/\sqrt{2}}, \answer{-1/\sqrt{2}} \rangle$
 
-\section*{Task Four: Acceleration in the TNB Frame}
+% \begin{feedback}
+% The TNB frame gives us a coordinate system that travels along with the particle. At each point, $\mathbf{T}$ points forward, $\mathbf{N}$ points toward where the curve is bending, and $\mathbf{B}$ points ``out of the plane'' of the curve.
+% \end{feedback}
+% \end{problem}
 
-\subsection*{Decomposing Acceleration}
+% \section*{Task Four: Acceleration in the TNB Frame}
 
-One of the most powerful applications of the TNB frame is understanding acceleration. We can decompose the acceleration vector into components along $\mathbf{T}$ and $\mathbf{N}$.
+% \subsection*{Decomposing Acceleration}
 
-\begin{definition}
-The acceleration vector can be written as:
-\[\mathbf{a} = a_T \mathbf{T} + a_N \mathbf{N}\]
+% One of the most powerful applications of the TNB frame is understanding acceleration. We can decompose the acceleration vector into components along $\mathbf{T}$ and $\mathbf{N}$.
 
-where:
-\begin{itemize}
-    \item $a_T = \frac{d|\vec{v}|}{dt}$ is the \textbf{tangential component} (change in speed)
-    \item $a_N = \kappa |\vec{v}|^2$ is the \textbf{normal component} (change in direction)
-\end{itemize}
-\end{definition}
+% \begin{definition}
+% The acceleration vector can be written as:
+% \[\mathbf{a} = a_T \mathbf{T} + a_N \mathbf{N}\]
 
-\begin{problem}
-Let's build intuition about these components. When a car goes around a curve at constant speed:
+% where:
+% \begin{itemize}
+%     \item $a_T = \frac{d|\vec{v}|}{dt}$ is the \textbf{tangential component} (change in speed)
+%     \item $a_N = \kappa |\vec{v}|^2$ is the \textbf{normal component} (change in direction)
+% \end{itemize}
+% \end{definition}
 
-What is the tangential component of acceleration?
-\begin{multipleChoice}
-    \choice[correct]{Zero (speed isn't changing)}
-    \choice{Positive (car is speeding up)}
-    \choice{Negative (car is slowing down)}
-\end{multipleChoice}
+% \begin{problem}
+% Let's build intuition about these components. When a car goes around a curve at constant speed:
 
-What about the normal component?
-\begin{multipleChoice}
-    \choice{Zero (no acceleration)}
-    \choice[correct]{Non-zero (direction is changing)}
-    \choice{Undefined}
-\end{multipleChoice}
+% What is the tangential component of acceleration?
+% \begin{multipleChoice}
+%     \choice[correct]{Zero (speed isn't changing)}
+%     \choice{Positive (car is speeding up)}
+%     \choice{Negative (car is slowing down)}
+% \end{multipleChoice}
 
-\begin{feedback}
-When speed is constant, $a_T = 0$. But if the car is turning (changing direction), there must be acceleration toward the center of the turn. This is the normal component $a_N$, which depends on both the curvature of the path and the speed.
+% What about the normal component?
+% \begin{multipleChoice}
+%     \choice{Zero (no acceleration)}
+%     \choice[correct]{Non-zero (direction is changing)}
+%     \choice{Undefined}
+% \end{multipleChoice}
 
-This is why you feel pushed to the side when a car turns—that's the normal acceleration!
-\end{feedback}
-\end{problem}
+% \begin{feedback}
+% When speed is constant, $a_T = 0$. But if the car is turning (changing direction), there must be acceleration toward the center of the turn. This is the normal component $a_N$, which depends on both the curvature of the path and the speed.
 
-\begin{problem}
-Consider a particle moving along $\mathbf{r}(t) = \langle t, t^2 \rangle$ at $t = 1$.
+% This is why you feel pushed to the side when a car turns—that's the normal acceleration!
+% \end{feedback}
+% \end{problem}
 
-Velocity: $\vec{v}(t) = \langle \answer{1}, \answer{2t} \rangle$, so $\vec{v}(1) = \langle 1, 2 \rangle$
+% \begin{problem}
+% Consider a particle moving along $\mathbf{r}(t) = \langle t, t^2 \rangle$ at $t = 1$.
 
-Speed: $|\vec{v}(1)| = \answer{\sqrt{5}}$
+% Velocity: $\vec{v}(t) = \langle \answer{1}, \answer{2t} \rangle$, so $\vec{v}(1) = \langle 1, 2 \rangle$
 
-Acceleration: $\mathbf{a}(t) = \langle \answer{0}, \answer{2} \rangle$, so $\mathbf{a}(1) = \langle 0, 2 \rangle$
+% Speed: $|\vec{v}(1)| = \answer{\sqrt{5}}$
 
-To find $a_T$, we compute $\frac{d|\vec{v}|}{dt}$:
-\[|\vec{v}(t)| = \sqrt{1 + 4t^2}\]
-\[\frac{d|\vec{v}|}{dt} = \frac{4t}{\sqrt{1+4t^2}}\]
+% Acceleration: $\mathbf{a}(t) = \langle \answer{0}, \answer{2} \rangle$, so $\mathbf{a}(1) = \langle 0, 2 \rangle$
 
-At $t=1$: $a_T = \frac{4}{\sqrt{5}} = \answer[tolerance=0.01]{1.789}$
+% To find $a_T$, we compute $\frac{d|\vec{v}|}{dt}$:
+% \[|\vec{v}(t)| = \sqrt{1 + 4t^2}\]
+% \[\frac{d|\vec{v}|}{dt} = \frac{4t}{\sqrt{1+4t^2}}\]
 
-To find $a_N$, we can use: $|\mathbf{a}|^2 = a_T^2 + a_N^2$
+% At $t=1$: $a_T = \frac{4}{\sqrt{5}} = \answer[tolerance=0.01]{1.789}$
 
-$|\mathbf{a}(1)| = \answer{2}$
+% To find $a_N$, we can use: $|\mathbf{a}|^2 = a_T^2 + a_N^2$
 
-$a_N^2 = 4 - \frac{16}{5} = \frac{4}{5}$
+% $|\mathbf{a}(1)| = \answer{2}$
 
-$a_N = \answer[tolerance=0.01]{0.894}$
+% $a_N^2 = 4 - \frac{16}{5} = \frac{4}{5}$
 
-\begin{feedback}
-The tangential component tells us the particle is speeding up (positive $a_T$). The normal component tells us the path is curving. Together, these give us complete information about the acceleration.
-\end{feedback}
-\end{problem}
+% $a_N = \answer[tolerance=0.01]{0.894}$
 
-\section*{Summary and Key Takeaways}
+% \begin{feedback}
+% The tangential component tells us the particle is speeding up (positive $a_T$). The normal component tells us the path is curving. Together, these give us complete information about the acceleration.
+% \end{feedback}
+% \end{problem}
 
-\begin{problem}
-Let's review the key concepts. Match each quantity to its meaning:
+% \section*{Summary and Key Takeaways}
 
-The curvature $\kappa$ measures:
-\begin{multipleChoice}
-    \choice{How fast a particle is moving}
-    \choice[correct]{How sharply a curve is bending}
-    \choice{The direction of motion}
-    \choice{The speed of the particle}
-\end{multipleChoice}
+% \begin{problem}
+% Let's review the key concepts. Match each quantity to its meaning:
 
-The unit tangent vector $\mathbf{T}$ points:
-\begin{multipleChoice}
-    \choice{Toward the center of curvature}
-    \choice[correct]{In the direction of motion}
-    \choice{Perpendicular to the curve}
-    \choice{Opposite to the velocity}
-\end{multipleChoice}
+% The curvature $\kappa$ measures:
+% \begin{multipleChoice}
+%     \choice{How fast a particle is moving}
+%     \choice[correct]{How sharply a curve is bending}
+%     \choice{The direction of motion}
+%     \choice{The speed of the particle}
+% \end{multipleChoice}
 
-The principal unit normal $\mathbf{N}$ points:
-\begin{multipleChoice}
-    \choice{In the direction of motion}
-    \choice[correct]{In the direction the curve is bending}
-    \choice{Perpendicular to the osculating plane}
-    \choice{Opposite to acceleration}
-\end{multipleChoice}
+% The unit tangent vector $\mathbf{T}$ points:
+% \begin{multipleChoice}
+%     \choice{Toward the center of curvature}
+%     \choice[correct]{In the direction of motion}
+%     \choice{Perpendicular to the curve}
+%     \choice{Opposite to the velocity}
+% \end{multipleChoice}
 
-The tangential acceleration component $a_T$ measures:
-\begin{multipleChoice}
-    \choice{Change in direction}
-    \choice[correct]{Change in speed}
-    \choice{Curvature of the path}
-    \choice{Distance traveled}
-\end{multipleChoice}
-\end{problem}
+% The principal unit normal $\mathbf{N}$ points:
+% \begin{multipleChoice}
+%     \choice{In the direction of motion}
+%     \choice[correct]{In the direction the curve is bending}
+%     \choice{Perpendicular to the osculating plane}
+%     \choice{Opposite to acceleration}
+% \end{multipleChoice}
 
-\begin{problem}
-True or False: Select all TRUE statements.
+% The tangential acceleration component $a_T$ measures:
+% \begin{multipleChoice}
+%     \choice{Change in direction}
+%     \choice[correct]{Change in speed}
+%     \choice{Curvature of the path}
+%     \choice{Distance traveled}
+% \end{multipleChoice}
+% \end{problem}
 
-\begin{selectAll}
-    \choice[correct]{A straight line has zero curvature}
-    \choice[correct]{The TNB frame provides a moving coordinate system along a curve}
-    \choice{The binormal vector is always constant along a curve}
-    \choice[correct]{Normal acceleration exists whenever direction is changing}
-    \choice[correct]{At constant speed, tangential acceleration is zero}
-    \choice{Curvature depends on how fast a particle moves along the curve}
-\end{selectAll}
+% \begin{problem}
+% True or False: Select all TRUE statements.
 
-\begin{feedback}
-Great work! Remember that curvature is a geometric property of the curve itself, independent of how fast something moves along it. The TNB frame captures the geometry of spatial curves, extending the ideas of derivatives and concavity from single-variable calculus to three dimensions.
-\end{feedback}
-\end{problem}
+% \begin{selectAll}
+%     \choice[correct]{A straight line has zero curvature}
+%     \choice[correct]{The TNB frame provides a moving coordinate system along a curve}
+%     \choice{The binormal vector is always constant along a curve}
+%     \choice[correct]{Normal acceleration exists whenever direction is changing}
+%     \choice[correct]{At constant speed, tangential acceleration is zero}
+%     \choice{Curvature depends on how fast a particle moves along the curve}
+% \end{selectAll}
+
+% \begin{feedback}
+% Great work! Remember that curvature is a geometric property of the curve itself, independent of how fast something moves along it. The TNB frame captures the geometry of spatial curves, extending the ideas of derivatives and concavity from single-variable calculus to three dimensions.
+% \end{feedback}
+% \end{problem}
+
+
 
 \end{document}
