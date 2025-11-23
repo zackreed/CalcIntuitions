@@ -41,15 +41,32 @@ rho = 2;
 animate_segment_cases(r, rho)
 \end{verbatim}
 
-\youtube{Constant Density Animation}
+\youtube{fKjpdnlIlIE?si=y2fj0AKYGHi9gxK2}
 
 Use the slider to run through the animation after it finishes. You'll note that there is a constant ratio between the mass and the length no matter what the segment size is.
 
-The density found from the total mass and total length is given below. You should then find the masses and lengths of the smaller segments. Use these measures to verify that across these instances the wire density was indeed constant.
-\[
-\frac{17.772}{8.886}
-\]
-Find the other densities by dividing the segment masses by the segment lengths for each mass-segment pair in the animation.
+\begin{problem}
+Remember that the basic model for density is $\text{mass} = \text{density} \times \text{length}$, so density is mass divided by length.
+
+The first entry is a fraction where the numerator is the mass of the full wire. Fill in the missing length and the density measure up to 2 decimal places.
+
+Then refer to the animation to fill in the density measures at the remaining scales. This will verify that across these instances the wire density was indeed constant (slight differences are just numerical error).
+
+\begin{enumerate}
+\item $\frac{17.772}{\answer{8.886}}=\answer[tolerance=0.1]{2}$
+\item $\frac{\answer{.335}}{\answer{0.178}}=\answer[tolerance=0.01]{1.99}$
+\item $\frac{\answer{.178}}{\answer{0.089}}=\answer[tolerance=0.01]{2.00}$
+\end{enumerate}
+
+\begin{feedback}[Solution]
+The decimals are based on the accuracy within MATLAB, so if you're using a calculator or another system, the errors might be off.
+
+Remember the basic model. 
+
+Be sure to reference the animation.
+\end{feedback}
+
+\end{problem}
 
 \subsection*{Variable Density}
 Now see what happens if you have a variable density. We will set the density of the wire as the increasing function $\rho = 2 + t^2$.
@@ -60,7 +77,7 @@ rho = 2 + t^2;
 animate_segment_cases(r, rho)
 \end{verbatim}
 
-\youtube{Variable Density Animation}
+\youtube{FIFZBi8JPFU?si=VcA5Q-NM_qZlT_Ob}
 
 You should see that the mass changes as you move along the curve. This means that the density of this wire is not uniform.
 
