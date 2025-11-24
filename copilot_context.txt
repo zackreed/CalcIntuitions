@@ -1,235 +1,323 @@
-%[text] # Final Project - Gravity Between a Solid and a Point Mass
+%[text] # Application Walkthrough 1: Mass of a Wire
 %[text] ## Introduction
-%[text] Welcome to your final project topic focusing on gravitational attraction! As before with all instances of using integration in applications, we will:
-%[text] - first introduce the basic model for the phenomenon (gravity),  
-%[text] - discuss why variation in some aspect of the phenomenon forces us to not use the basic model
-%[text] - break up the objects involved into many small pieces on which we can use the basic model
-%[text] - add up the instances of the basic model in the small pieces to get an approximation
-%[text] - use integrals as the limiting value of the approximations to get an exact measure \
-%[text] ## Basic Model: Point Masses and Gravity
-%[text] In physics, the gravitational force between two **point masses** (m\_1) and (m\_2) is given by Newton's Law:
-%[text]{"align":"center"} $\\vec{\\;F} =G\\;\\frac{m\_1 m\_2 }{{||\\vec{r} ||}^2 }\\hat{r}${"editStyle":"visual"}
-%[text] where
-%[text] - (G) is the universal gravitational constant,
-%[text] - ($\\vec{r}${"editStyle":"visual"}) is the vector between the two masses
-%[text] - ($\\hat{r}${"editStyle":"visual"}) is the unit vector pointing in the direction of $\\vec{r}${"editStyle":"visual"}. \
-%[text] In single-variable cases this can be simplified to 
-%[text]{"align":"center"} $F=G\\;\\frac{m\_1 m\_2 }{r^2 }${"editStyle":"visual"}
-%[text] where r is the distance between the points.
-%[text] Running this cell will give an animation of the gravity between two points (on a single variable axis) moving away from each other and plotting the resulting gravity attraction.
-%[text] (Select "Run Section" to have the following cell produce an example animation.)
-animate_two_masses()
-%[text] You'll notice that the inverse square $\\frac{1}{r^2 }${"editStyle":"visual"} is what determines the gravity force in the case of two points separated by a single variable.
-%[text] We will explore the gravity between a point and a solid, which will mean moving away from a single-variable case and into a vector scenario.
+%[text] Welcome to your first project walkthrough! 
+%[text] This walkthrough will give you a good glimpse of some of the main ways we want to think about differentiating and integrating along curves when modeling phenomena using mathematics! 
+%[text] This will also give you a rough template and introduce you to the tools that you can use for your mini project, due at the end of this module.
 %%
-%[text] #### **Challenges to the Basic Model: Point Mass and a Solid**
-%[text] We want to calculate the force of gravity between a solid floating in space and a nearby point mass.
-%[text] If the solid were itself a lumped point mass, the situation would be easy:
-%[text] - Compute the distance from the point mass to the solid's center,
-%[text] - Use Newton's formula. \
-%[text] Unfortunately, many solids don't have exploitable symmetry, and so gravity acts between the cone and the point mass differently depending on where you are within the cone.
-%[text] - Parts of the solid are closer, exerting stronger forces.
-%[text] - Other parts are farther, exerting weaker forces.
-%[text] - Variability in the solid shapes means a lack of symmetry.. \
-%[text] You can see this clearly in the following plot, which visualizes the approximation of gravity attraction between a 1x1x1 cube of uniform density ${10}^{11} \\frac{\\textrm{kg}}{{\\mathrm{m}}^3 }${"editStyle":"visual"} against a point mass at (.5,.5,2) with mass 10kg. 
-%[text] (NOTE: Since the constant G is very small ($6\\ldotp 6743\\times {10}^{-11}${"editStyle":"visual"}) we will assume all density values are scaled by ${10}^{11}${"editStyle":"visual"} for visibility and ease of numbers).
-%[text] (Select "Run Section" to have the following cell produce the plot.)
-plot_gravity_cube()
-%[text] You should see a cube (broken up into pieces) and a red point mass with a mas value of 10.
+%[text] ## Use MATLAB As an Interactive Tool, not "Code
+%[text] You'll notice that all of the projects are housed within MATLAB Live Scripts. This primarily is to use MATLAB as an environment in which you can watch animations, view and interact with plots, use applets, read formulas, and engage with your custom formulas and functions.
+%[text] While you will be asked to interact in some sections by "writing code", the code you write will mostly be making standard mathematical calculations using basic operations addition (+), subtraction (-), multiplication (.\*), division (./), and exponentiation (.^2). For the most part, the rest of your work in MATLAB will be defining terms (like *N, mass, density*), Selecting the "Run Section" button to activate the MATLAB code, or using other calculus-oriented commands that you have practiced already.
+%[text] To start, enter your name in the quotes in *verify\_setup* below to get your custom function and other information for this activity. Then select "Run Section" to run the code.
+verify_setup('Name')
+%[text] In the output you should see some text giving you information about your "personalized" curve and density and point. You will use this information in the live script.
+%%
+%[text] ## Context: Mass of a Wire
+%[text] We're going to look at various vector curves in space and imagine that they are skinny wires. The goal will be to calculate the mass of the wires using derivatives and integrals, but also to gut-check the mass of the wires with approximations.
+%[text] ### Basic Model: Mass=Density\*Length
+%[text] As with all things integral, you start with a basic model (typically involving multiplciation) for quantifying something about a mathematical object. In this case, the basic model is mass=density\*length. Then, some variation in an object forces us to use integration instead of multiplication, adding up lots of small approximate pieces formed from the basic model.
+%[text] Many wires you come across are *uniformly dense*. That is, no matter how big or small of a piece of wire, the ratio between the mass of the wire and the length of the wire will always be constant (i.e. a constant density).
+%[text] Let's take a look at a simple wire with constant density using the code found in the next cell.
+%[text] The first line of code in the following cell sets up the variable*, t.* 
+%[text] The second line of code defines the wire curve as a vector function, *r.*
+%[text] The third line enters the constant density, *rho.*
+%[text] The fourth line *animate\_segment\_cases* makes an animation showing the wire being broken up into smaller and smaller pieces but always having the same mass-length ratio between each piece.
+%[text] *animate\_segment\_cases* is a course function. These will give you information, show you a plot, or run an animation for you. The arguments will for these couse functions are usually provided, so all you have to do is make sure that all of the variables (in this case *r* and *rho*) are defined in the live script before being used. Then select "Run Section".
+syms t
+r=[sin(t), cos(t), t];
+rho=2
+animate_segment_cases(r,rho)
+%%
+%[text] #### Checking Constant Mass
+%[text] Use the slider to run through the animation after it finishes. 
+%[text] You'll note that there is a constant ratio between the mass and the length no matter what the segment size is.
+%[text] The density found from the total mass and total length is given below, you then should find the masses and lengths of the smaller segments. Use these measures to verify that across these instances the wire density was indeed constant.
+17.772/8.886
+%find the other densities by dividng the segment masses by the segment
+%lengths for each mass-segment pair in the animation.
+%%
+%[text] #### Variable Density
+%[text] Now see what happens if you have a variable density. We will set the density of the wire as the increasing function $\\rho =2+t^2${"editStyle":"visual"}.
+%[text] Since *t* is already defined as a variable in MATLAB, it does not need to be re-defined. We simply need to define a function that gives us the density along the wire.
+%[text] To define the function in MATLAB, use the syntax
+%[text] *\[function\_name\]=\[formula\].*
+%[text] *Example: g=x^2 defines the function* $g\\left(x\\right)=x^2${"editStyle":"visual"}*.*
+%The function called "rho" is defined with the formula 2+t^2.
+rho=2+t^2
+%[text] Now again use *animate\_segment\_cases*, setting *r* as the first argument and then *rho* as the second argument.
+animate_segment_cases(r, rho)
+%%
+%[text] #### Variable Mass along the Wire
+%[text] You should see that the mass changes as you move along the curve.
+%[text] This means that the density of this wire is not uniform.
+%[text] The formula $\\rho =2+t^2${"editStyle":"visual"} should provide the density at any location *t* along the wire. 
+%[text] As before, slide through the animation and determine what the density is at $t=\\pi \\;${"editStyle":"visual"}and $t=2\\pi${"editStyle":"visual"} (within the different scales in the animation).
+%Verify (up to a little error) that rho determined the density
+%at time=pi and at time=2*pi by dividing the mass by the length of the segments at
+%those times.
+
+%If you need a gut-check, you can also just hand-calculate the density.
+%[text] You should also use the subs() command to verify the density values from $\\rho${"editStyle":"visual"}.
+%[text] *Example: Evaluating* $\\rho \\;${"editStyle":"visual"}*at time* $t=2${"editStyle":"visual"} *can be done using the command subs(rho,t,2) "substitute into* $\\rho${"editStyle":"visual"}*, replacing the value* $t${"editStyle":"visual"} *with* $2${"editStyle":"visual"}*".*
+subs(rho,t,2)
+
+%Now use subs() to verify the density values at time=pi and time=2*pi.
+%Within a small error the density calcualtions from the animation and from
+%the density function should agree.
+%%
+%[text] ### **Challenges to the Basic Model: Variable Density**
+%[text] We want to calculate the mass of a wire just using multiplication, $M=\\rho \\cdot L${"editStyle":"visual"}, where 
+%[text] - $M${"editStyle":"visual"} is the mass of the wire,
+%[text] - $\\rho \\;${"editStyle":"visual"}is the uniform density,
+%[text] - $L${"editStyle":"visual"} is the length of the wire. \
+%[text] Unfortunately, we can't use this basic model for many wires because: 
+%[text] - many wires have strange shapes and we don't want to stretch them out to measure their length,
+%[text] - not all wires have uniform densities, so there is no one density that will work in the basic model. \
+%[text] So, how do we compute the total length and total mass? We integrate to "add up small mass pieces" together.
+%%
+%[text] ### **Step 1: Visualize the Approximate Pieces**
+%[text] Let's visualize the approximation process first. 
+%[text] The *plot\_curve\_pieces* course MATLAB function will:
+%[text] - take in a wire ( r ) as the first argument,
+%[text] - a number of pieces *(N)* as the second argument,
+%[text] - a density function (*rho)* as the third argument, \
+%[text] and will show you:
+%[text] - a plot of the wire pieces color-coded by density \
+%[text] The plot called next is the example wire and density broken up into 20 pieces.
+plot_curve_pieces(r,20,rho)
+%[text] You should see the wire broken up into 20 pieces, each piece having a slightly different color, noting the density of the midpoint of the piece (as an approximation for the density of the whole piece).
+%[text] This effectively sets up a *midpoint approximation* of the mass. That is, the density at the midpoint of the segment is treated as the uniform density of the entire wire.
+%%
+%[text] The function *plot\_curve\_mass\_pieces* will also use the same arguments (r, N, rho) but the plot will t*ell you the mass approximated by the midpoint sum*. 
+N=20
+plot_curve_mass_pieces(r,N,rho)
+%[text] If everything is set up correctly, a 20-piece sample midpoint approximation of the mass should measure 134.354 grams.
 %[text] # Reflection Questions
-%[text] If you notice, the cube has a color gradient. 
-%[text] The colors show the relative value of the various gravity calculations using Newton's formula. The cube has uniform density and is uniformly broken into pieces so all of the pieces have uniform mass.
-%[text] Answer the following prompts:
-%[text] - The color of each piece signifies the gravity approximation between the piece and the point mass, using the center of the cube for a measure of distance and the mass of the small piece. Given that the cube is uniformly dense, explain (using Newton's Law of Gravity) the color gradient shown in the plot.
-%[text] - Why is the gravity smallest at the bottom of the cube?
-%[text] - Why is the gravity greatest in the middle of the top of the cube, and then why does it decrease even along the top of the cube? \
+%[text] You will be asked to answer reflection questions as part of your writeup/submission for this activity. On the document you turn in for the submission, respond to any prompts or questions under "Reflection Questions".
+%[text] Answer the following:
+%[text] - Why for the given *r* and *rho* do we need to break the wire into pieces? \
+%[text] *Here is my response to this question.*
+%[text] - What cannot be exactly calculated by the basic model mass=density\*length in the setup of our wire? \
+%[text] *and my response to this question*
+%[text] - Why can we not just use a single length or a single density value? \
+%[text] *and my response to this question*
 %%
-%[text] ## Gravity\* in Pieces: Building the Global Model
-%[text] In this final project, you're going to approximate (and then exactly measure) the force of gravity\*\* between different shapes and a point mass.
-%[text] \*\*At first, to ease our way into the calculations, we're going to work with the ***simplified setup*** $F=G\\;\\frac{m\_1 m\_2 }{r^2 }${"editStyle":"visual"}. At the end of the project there will be an optional opportunity to calculate gravity under the true setup $F=G\\;\\frac{m\_1 m\_2 }{{||\\vec{r} ||}^2 }\\hat{r}${"editStyle":"visual"}.
-%[text] Under the ***simplified setup***, for each piece of the solid, we calcualte the distance between the center of the piece and the point mass. 
-%[text] For each piece, we treat the mass of that piece as $m\_2${"editStyle":"visual"} in the formula $F=G\\;\\frac{m\_1 m\_2 }{r^2 }${"editStyle":"visual"}, and the mass of the point mass is $m\_1${"editStyle":"visual"}. The distance between them is given by $r${"editStyle":"visual"}.
-%[text] Under this simplified setup, let's take a look at the cube gravity visualization again.
-plot_gravity_cube_distances()
-%[text] Notice that we've slightly increased the gravity approximation, and the distances between the pieces and the point mass are visualized instead of direction vectors.
-%[text] This will be our working model for gravity for most of the project.
-%%
-%[text] ## Approximating Gravity for Various Shapes
-%[text] First, let's examine the properties of a few shapes (densities, masses, gravities) to make sure we understand the physical process being modeled.
-%[text] For the rest of the project, we will primarily use the function *generate\_solid\_gravity*
-%[text] The function will take in a variety of settings and generate a plot of the gravity (in the true model or the simplified setup) between a solid (sphere, cone, cylinder) and the point mass under a variety of densities. 
-%[text] The default setting is a sphere with a slightly skewed density, which impacts the gravity measurements. The default uses the simplified (over-approximation) model.
-generate_solid_gravity();
-%%
-%[text] The *generate\_solid\_gravity* function outputs *densities* and *volumes* arrays, just like in the Module 7 activity. 
-%[text] It also outputs *distances*, which gives the array of distances from the center of each piece to the point mass.
-%[text] Remember that just like in *plot\_gravity\_cube*, you want to imagine small boxes around the points as the small pieces of the solids being used to approximate gravity with Newton's Law.
-[densities, distances, volumes] = generate_solid_gravity();
-%%
-%[text] ## Approximating Gravity
-%[text] We can use *densities*, *locations*, and *volumes* to approximate the gravity between the sphere and the point mass by computing the gravity between each piece and the point mass under Newton's Law.
-%[text] Let's take a look at each to see what they represent.
-%[text] First, remember that the plot you see breaks up the solid (a sphere) into many many pieces and plots a point in the center of that piece (cubes, for now). We **only** see the dots in the plot.
-%[text] First, *densities* is the list of numbers representing the density of the object at the center of each piece
-densities
-%[text] You should see a 8217-long list of numbers. This means there are 8217 pieces of the sphere for this approximation.
-%%
-%[text] *volumes* is the list of numbers giving the volume of each piece.
-volumes
-%[text] We again see an 8217-long list of numbers. The rows of this list match the rows of densities, meaning that the ith row of densities is the density for the piece whose volume is also found at the ith row of volumes.
-%%
-%[text] Finally, *distances* is the 8217-long list of distances between the center of the piece and the point mass, which we will use for Newton's Law
-distances
+%[text] ### Step 2: Approximate the Wire Mass
+%[text] Let's make this approximation ourselves!
+%[text] Remember that mass is approximated by the product $M=\\rho \\cdot L${"editStyle":"visual"}, "density times the length".
+%[text] So, if we had the *lengths* and *densities* of our wire after breaking it up into *N* pieces, we could just multiply those *densities* and *lengths* to get the *mass* of each individual piece.
+%[text] This is exactly what the course function *break\_into\_pieces* does!
+%[text] If you've defind *r, N*, and *rho*, this section should output two lists (called arrays):
+%[text] - First, the array of *densities* at the midpoints of the N wire segments and
+%[text] - the segment *lengths.* \
+[~, lengths, densities, ~, ~] = break_into_pieces(r, N, rho)
+%[text] In your output, you should see two lists (arrays) called *lengths* and *densities*. 
+%[text] The numbers in each are the lengths of the broken wire and the densities of the broken wire. That is, we call "i" the "index" of the lists, which keeps track of which segment of the wire we're inspecting.
+%[text] The 5th element of *lengths* is .4434, meaning that the length of the 5th segment is .4434
+%[text] The 5th element of *densities* is 3.9986, meaning that the density of the midpoing of the 5th segment is 9.9986
 %[text] # Reflection Questions
 %[text] Respond to the following:
-%[text] - If the sphere had a uniform density, how would the coloring in the gravity plot be different?
-%[text] - What must be true about the mass for the gravity plot to have the given coloring?
-%[text] - Write out symbolically how the gravity (under the simplified setup) is approximated. Use $k${"editStyle":"visual"} to denote the index of the pieces (which are the rows of the *densities*, *locations*, and *volumes* arrays). \
+%[text] - What do we gain by breaking the wire into many pieces?
+%[text] - Why can we not simply find a point on the wire and use its density to get the mass of teh wire?
+%[text] - Why is it beneficial to gather all of the information into arrays? \
 %%
-%[text] ## Newton's Law
-%[text] Let's recreate Newton's law at a single piece before doing so at scale.
-%[text] # Reflection Question
-%[text] The first density is .62 (row 1 of *densities*), the distance from the first piece to the point mass (row 1 of *distances*) is 1.984, and the first *volume* is $\\ldotp 64\\times {10}^{-4}${"editStyle":"visual"}.
-%[text] Using Newton's Law of Gravity, calculate the gravity attraction between the first piece and the point mass.
-%[text] (NOTE: Use G=10 instead of Newton's Gravitational Constant for the sake of simplicity throughout the project)
-%[text] (Hint: Remember also that the basic model for mass is $\\textrm{mass}=\\textrm{density}\*\\textrm{volume}${"editStyle":"visual"})
-
-%[text] You should get .001 as the gravity measure for piece 1.
-%%
-%[text] ## Approximating Gravity: Adding Up Small Gravities
-%[text] As with all integration problems, we solve the "multiplying doesn't work" problem by:
-%[text] 1. breaking up an object into small pieces
-%[text] 2. make the desired measurement on each small piece
-%[text] 3. add up all of the small measurements to get a global measurement \
-%[text] The function *generate\_solid\_gravity* completes step 1 for you, giving you the lists of densities, distances, and volumes. 
-%[text] Now, you complete steps 2 and 3. We can use MATLAB to measure gravity at each piece simultaneously using the operations +, -, .\*, ./ and .^ as addition, subtraction, multiplciation, division, and exponentiation of all elements in the arrays at once.
-%[text] Recreate Newton's Law of Gravity using these operations and the *distances, densities, volumes* arrays to make an array called *gravities* that represents the gravity pull between each piece and the point mass.
-
-%%
-%[text] Now, use the *sum* command to complete step 3, adding up all of the gravities to make an approximate gravity (simple setup) for the whole object.
-
-%[text] You should see the same number as shown in the plot from *generate\_solid\_gravity*.
+%[text] #### 20-Piece Approximation of Mass
+%[text] Now we're going to use *lengths* and *densities* to do some quick approximations. 
+%[text] One really nice feature of MATLAB is that it can do many many calculations at once!
+%[text] For instance, ".\*" will multiply the entries of two arrays at matching index values.
+%[text] ***(Remember that the index, i of a list or of a sum, is just the number telling how far in the list (or sum) to look. So the 2nd element of "densities" is the second number in the densities list, the 4th element of "lengths" is the fourth number in the list, etc.)***
+%[text] The following cell uses (.\*) to multiply each entry in densities by the same entry in lengths. This will quickly multiply all of the approximate densities by the approximate lengths.
+%[text] NOTE: The period (.) in (.\*) is important because it tells MATLAB to multiply all corresponding elements of two lists. 
+masses=densities.*lengths
+%[text] You should see a 20-length list of masses whose entries are the products of the corresponding entries in lengths and masses.
 %[text] # Reflection Questions
-%[text] You've just used MATLAB to carry out quickly a "midpoint" Riemann Sum on the volume elements. Do the following: 
-%[text] - Write out symbolically what MATLAB has done using summation notation, using $\\Delta M\_k ,\\Delta V\_k ,\\Delta F\_k${"editStyle":"visual"} for the mass, volume, gravity (respectively) of each piece of the solid as necessary. You can combine your answer here to the similar previous reflection question.
-%[text] - How do we make this approximation more precise? What do we do to the sum to get an exact measure of gravity (simple setup) and how does that connect to definite integration? \
+%[text] Respond to the following:
+%[text] - Write out symbolically a formula to describe what MATLAB is doing with the line *masses=densities.\*lengths.* Use $\\Delta M\_i${"editStyle":"visual"} as the "ith" mass, $\\rho\_i${"editStyle":"visual"} as the "ith" density, and $\\Delta L\_i${"editStyle":"visual"} as the length of the "ith" piece.
+%[text] - If we took a 200 or 2000-piece approximation, what about our calculation method would change? \
 %%
-%[text] # **Almost Your Turn: Calculating Exact Gravity (Simple Setup)**
-%[text] We've gone through the process of setting up (using the ***simple setup***) the Riemann Sum approximation of gravity between the solid and the point mass. 
-%[text] Now, you will receive your own personal solid, go through a simliar process to calculate the gravity approximation in MATLAB, and then use a triple integral to get the exact measure of gravity (under the simple setup) between the solid and the point mass.
-%[text] ### Review
-%[text] If we take $r${"editStyle":"visual"} to represent the distance between the piece of the solid (measured at the center of the small piece) and the point mass, we can use Newton's law to measure the small addition of force we get for that section of the solid, $\\Delta F${"editStyle":"visual"}. 
-%[text] $\\Delta \\;F\_i \\approx \\frac{Gm\\;\\Delta M\_i }{{r\_i }^2 }${"editStyle":"visual"}
-%[text] The subscript $i${"editStyle":"visual"} just means that it's an individual piece amongst N pieces. $G${"editStyle":"visual"} is Newton's gravitational constant (we're using G=10 purely for visual and numerical ease), $m${"editStyle":"visual"} is the mass of the point mass, and $\\Delta M\_i${"editStyle":"visual"} is the mass of the small piece.
-%[text] Adding them up gives an approximation of gravity
-%[text] $F\\approx \\sum\_{i=1}^N \\Delta F\_i =\\sum\_{i=1}^N \\frac{Gm\\;\\Delta M\_i \\;}{r\_i^2 }${"editStyle":"visual"}
-%[text] As (N) grows, this gets closer to the true gravitational force, since the pieces will shrink in size and the point-mass assumption will yield less error.
+%[text] This cell uses *sum()* to add the entries in *masses* to find the approximate mass of the 20-piece wire.
+mass_approx=sum(masses)
+%[text] The result of the sum should closely match the approximation from the plot!
+plot_curve_mass_pieces(r,N,rho)
 %%
-%[text] ### Possible Shapes
-%[text] Next we'll generate your personal shape using your Student ID. This will be the shape you use for the rest of the project.
-%[text] First, let's get a brief glimpse of the potential shapes you're working with.
-%[text] (Select "Run Section" to have the following cell produce three example shapes and points.)
-generate_student_solid(1);
-generate_student_solid(4);
-generate_student_solid(7);
-%[text] You'll notice that the possible shapes are a sphere, a cone, and a cylinder.
-%[text] The density function, shape parameter information, and point mass information are all printed out above the plot for you to work with, but there are two very important things for you to observe:
-%[text] 1. The solids are not plotted in cartesian coordinates, they are given in either cylindrical or spherical coordinates.
-%[text] 2. The density function is given in cartesian coordiantes. \
-%[text] You will need to write out and calculate a triple integral that computes the gravity between the solid and the point mass. The easiest way to do this is to work in the appropriate coordinate system for the shape. We have given density functions $\\begin{array}{l}\n\\rho \\\\\n\n\\end{array}${"editStyle":"visual"} that should not yield too difficult conversions to the appropriate coordinate systems, nor require too difficult antiderivatives.
-%[text] # Reflection Question
-%[text] Based on the gravity plots, answer the following: (Hint, the "pieces" in spherical coordinates and cylindrical coordinates are not necesarily the same size).
-%[text] - Why is the top center of the sphere colored blue? Those points are theoreticlaly closer to the point than others, so why is the gravity calculation so low?
-%[text] - Similarly, why is the top of the cone colored blue?
-%[text] - Explain the shapes of the solids (Hint: Think about the coordinate system) \
+%[text] #### Symbolizing: Midpoint Sum Approximation
+%[text] Hopefully you see the same number in mass\_approx and in the figure!
+%[text] As you've seen in previous courses, especially with Riemann Sums, to symbolically write out our approximation: 
+%[text] - we call $M${"editStyle":"visual"} the approximate mass and $\\Delta \\;M${"editStyle":"visual"} the individual small masses,
+%[text] - our approximation was simply $M\\approx \\;\\Sigma\_{i\\;} \\Delta M\_i${"editStyle":"visual"} "M is approximately the sum of the small masses".  \
+%[text] In this case, we measured the masses using the density\*length products. So:
+%[text] - each $\\Delta M\_i =\\rho\_i \\;\\Delta L\_i${"editStyle":"visual"}, the product of the density and the changes in length,
+%[text] - the new approximation becomes $M\\approx \\;\\Sigma\_i \\;\\Delta M\_i =\\Sigma\_i \\;\\rho\_i \\;\\Delta L\_i${"editStyle":"visual"}. \
+%[text] Notice that we found all of the masses from the product *masses=densities.\*lengths* and then summed the list of products, so the symbols match our approximation process!
 %%
-%[text] # Your Turn
-%[text] Now let's give you the specific shape, point, and density that you'll use to finish out the project.
-%[text] Replace 12345 with your student ID in *generate\_student\_solid*
-[densities, distances, volumes] = generate_student_solid(12345)
-%[text] You should see a sphere, cone, or cylinder as before as well as a point mass.
-%[text] You should also see:
-%[text] - a printout of the density function (given in cartesian coordinates), 
-%[text] - the center of the solid (or the center of the base for a cylinder or cone), 
-%[text] - the parameters of the solid, 
-%[text] - the point mass location and its mass. \
-%[text] Your job is to approximate the gravity between the solid and the point mass (under the simplified setup of gravity) and then use a triple integral to calcualte its exact value.
+%[text] #### Refining the Approximation Using Smaller Scales
+%[text] This approximation works at any scale, and by now we're familiar with the basic principle of approximations getting better as we get on smaller scales (increasing N).
+%[text] The following cells re-create the approximation for a few different values of N, making more refined approximations each time. 
+%[text] *NOTE: At the end of each line except for mass\_approx, there is a semi-colon " ; ". This hides the output in your live script so that you're not overwhelmed by lots of calculations at once. This is a common trick when making many calculations.* 
+%[text] The plots may take a while to generate.
+%[text] First, we set N=50 and repeat the process from above.
+%[text] - We break into pieces to get *lengths* and *densities,* 
+%[text] - we multiply the entries in *lengths* and *densities* to get the *masses* of each piece
+%[text] - we *sum* the *masses* together
+%[text] - Use *plot\_curve\_mass\_pieces* to check our work and see the resulting approximation. \
+%If you want, you can do this in a for-loop instead, but you don't have to
+%if you're unfamiliar with loops
+N=50
+[~, lengths, densities, ~, ~] = break_into_pieces(r, N, rho);
+masses = densities .* lengths;
+mass_approx = sum(masses)
+plot_curve_mass_pieces(r, N, rho);
 %%
-%[text] First, you'll want to get an approximation of the mass, as you've done before in previous sections. Even though the solid is set up in a non-cartesian coordinate system, assume all values from *densities*, *distances*, and *volumes* are with respect to the Cartesian coordinate system.
-%[text] (Remember we're using the value G=10 for Newton's gravitational constant instead of the actual value $6\\ldotp 674\\times {10}^{-11}${"editStyle":"visual"})
-G=10;
-%[text] Now recreate Newton's calculation of gravity between each piece of the solid and the point mass, using MATLAB.
+%[text] Now we repeat the process for N=100
+N=100
+[~, lengths, densities, ~, ~] = break_into_pieces(r, N, rho);
 
-%[text] Remember this value as a check against what you calcualte for the gravity using triple integrals.
-%[text] # Reflection Question
-%[text] Answer the following:
-%[text] - Why can't we just use Newton's Law of Gravity\*\*\* to calcualte the exact gravity between the solid and the point mass for these solids?
-%[text] - Why is there error in our approximation method after we break up the solid into pieces? \
-%[text] \*\*\*Technically for the sphere we actually can just use Newton's Law of Gravity, but if you have a sphere talk about why we can't do this for *all* shapes.
+%finish the approximation using lengths and densities, as before
 %%
-%[text] ## Using Integrals to Get an Exact Measure
-%[text] The methods you learned in the textbook to compute triple integrals is how you can leverage the Fundamental Theorem of Calculus to find exact formulas that quickly give you the measure of gravity calculated by a volume sum. 
-%[text] That is,
-%[text]{"align":"center"} $F\\approx \\sum\_k \\Delta F\_k =\\sum\_k \\frac{{\\textrm{Gm}}\_1 \\Delta M\_k }{r\_k^2 }${"editStyle":"visual"}
-%[text] Using triple integrals, we can write this exact measure of gravity as 
-%[text]{"align":"center"} $F=\\int \\int \\int \\textrm{dF}=\\int \\int \\int \\frac{{\\textrm{Gm}}\_1 \\textrm{dM}}{r^2 }${"editStyle":"visual"}
-%[text] Luckily, from our previous work we know how to formulate the differential for mass, and with respect to each coordinate system we also know how to formulate the differential for volume $\\textrm{dV}${"editStyle":"visual"}.
-%[text] Put this information together into a triple integral and **write in your report** the triple integral (including the bounds) that should calcualte the gravity between your solid and the point mass.
-%[text] NOTE: 
-%[text] - This is not in your reflection questions so feel free to get help from each other and from the instructor.
-%[text] - The bounds of integration are going to matter here, and so you need to attend to all parameters of the shape including the "center" given.
-%[text] - You'll need to think about the geometry a little bit to know how to set up the distances $r${"editStyle":"visual"} between the differential pieces and the point mass.
-%[text] - You will compute the measure given by the integral next in the Reflection Questions, so don't discuss the solution to the integral in the Help Forum. \
+%[text] Verify the N=100 approximation
+plot_curve_mass_pieces(r, N, rho);
+%%
+%[text] And again for N=150
+N=150
+[~, lengths, densities, ~, ~] = break_into_pieces(r, N, rho);
+
+%finish the approximation using lengths and densities, as before
+%%
+%[text] Verify the N=150 approximation
+plot_curve_mass_pieces(r, N, rho);
+%[text] # Reflection Questions
+%[text] Respond to the following:
+%[text] - What is happening to the mass approximation as N increases?
+%[text] - Do you think the approximation is becoming more or less accurate? Why or why not?
+%[text] - What is happening to the measurement accuracy of each piece as N increases? Explain. \
+%%
+%[text] #### Very Small Scales
+%[text] Now we do the calculations again but for larger values of N. 
+%[text] This will get the approximation within the standard double precision in MATLAB. We will not use *plot\_curve\_mass\_pieces* here because the plots would take too long to build.
+%[text] First N=1000
+N=1000
+[~, lengths, densities, ~, ~] = break_into_pieces(r, N, rho);
+%finish the approximation using lengths and densities, as before
+%%
+%[text] Now N=10000
+N=10000
+[~, lengths, densities, ~, ~] = break_into_pieces(r, N, rho);
+%finish the approximation using lengths and densities, as before
+%%
+%[text] Now N=100000
+N=100000
+[~, lengths, densities, ~, ~] = break_into_pieces(r, N, rho);
+%finish the approximation using lengths and densities, as before
+%[text] Notice that the last two N-values gave the same approximation. This does not mean we found the exact mass, it simply means we surpassed the default precision of MATLAB.
+%[text] # Reflection Questions
+%[text] Respond to the following:
+%[text] - Why is this section called "very small scales" but we're growing N to have very large values?
+%[text] - Why is a small scale important for the approximation? \
+%%
+%[text] ## Generating Exact Measures: Integration
+%[text] Let's see if we can use integrals to get a more exact measure, and double check that it's close to our approximations!
+%[text] The key with integrating is that we're still adding up small bits of mass to get an exact measure of mass:
+%[text] The "small bits" we're integrating are differential bits whose total sum represent the limit of the finite sums. 
+%[text] #### Symbolizing
+%[text] Let's translate our finite approximations into integrals to get an idea of how we want to set up the integral for computation.
+%[text] - The approximation equation $M\\approx \\;\\Sigma \\Delta \\;M${"editStyle":"visual"} becomes $M=\\int \\;dM${"editStyle":"visual"}, "add up tiny bits of mass to get the total mass".
+%[text] - The small bit of mass comes from the density\*length products on a small bit of arc length along the curve, $\\textrm{dL}${"editStyle":"visual"}, so our equation for mass becomes $M=\\int \\;dM=\\int \\rho \\;\\textrm{dL}${"editStyle":"visual"}. "The total mass comes from adding up small density\*length products along the wire". \
+%[text] #### New Need: Using the Fundamental Theorem of Calculus
+%[text] The main trick when computing integrals is using the Fundamental Theorem of Calculus (FTC):
+%[text] - The FTC is useable for differential products of the form $\\textrm{dF}=f\\cdot \\;\\textrm{dt}${"editStyle":"visual"} so that we can make use of antiderivatives to find explicit formulas for $F${"editStyle":"visual"}. \
+%[text] Since the curve and density are defined by time, without doing some kind of substitution we can't immediately use the FTC when we integrate with respect to Mass or Length:
+%[text] Luckily, we know how to differentially represent the arc length differential from a curve's velocity magnitude!
+%[text] $\\textrm{dL}=||\\vec{v} ||\\;\\cdot \\;\\textrm{dt}\\;${"editStyle":"visual"}
+%[text] So, with one final re-write of our equations, we get
+%[text] $M=\\int \\;dM=\\int \\rho \\;\\textrm{dL}=\\int\_a^b \\rho \\left(t\\right)||\\vec{v} ||\\textrm{dt}\\;${"editStyle":"visual"}
+%[text] and we have a representation of our sum with which we can use the FTC!
+%%
+%[text] #### Building and Computing the Integral
+%[text] We can use *diff()* and *norm()* to find the velocity of our curve, and then use *int()* plugging in all the values to get an integral of the exact mass!
+%[text] First, we get the velocity of the curve using *diff()*. You should see a vector representing the derivatives of the coordinate functions for *r*.
+v=diff(r)
+%[text] Now we use *norm()* to take the magnitude of the velocity function.
+v_mag=norm(v)
+%[text] Notice that *v\_mag* should simplify to a simple value after a trig substitution.
+%%
+%[text] Re-define *v\_mag* in its simplest form for ease of computation in a moment.
+v_mag=sqrt(2)
+%%
+%[text] The differential $\\mathrm{dM}=\\rho \\cdot \\mathrm{dL}=\\rho \\cdot ||\\vec{v} ||\\;\\cdot \\;\\textrm{dt}${"editStyle":"visual"}, so we enter the differential in MATLAB.
+%[text] NOTE: We don't put dt into MATLAB, it is incorporated already when we use int().
+dM=rho*v_mag
+%%
+%[text] Now we're ready to integrate!
+%[text] *int()* takes in:
+%[text] - the function to be integrated
+%[text] - the starting value for integrating (i.e. the "a" value).
+%[text] - the ending value for integration (i.e. the "b" value). \
+%[text] It will then give you either: 
+%[text] - the number computed by the definite integral
+%[text] - or a re-writing of the integral if the computer can't find a nice number. \
+%[text] We'll call the result of *int* *M* since it conveys the mass information.
+M=int(dM,0,2*pi)
+%[text] You should see a number (and not a function or other entity).
+%%
+%[text] #### Checking our results!
+%[text] Sometimes, *M* isn't give you an exact number, it just writes out the integral and the formula is a bit unwieldy. 
+%[text] That's okay! Many functions don't have nice integrals (and often it's impossible to find antiderivatives). 
+%[text] We can get a numerical approximation of the value using *double()*
+int_approx=double(M)
+%[text] Hopefully, you get the same approximation (or very close) as we did with our high N approximations!
+%[text] We've just gone through the similar steps that you'll go through in detail for your projects, but this attention to arclength will give you a head start on your projects, as those integrals will build on the arc length and  mass integrals.
+%%
+%[text] # Your Turn!
+%[text] ## Part 1: A complicated Curve
+%[text] Now you try! 
+%[text] Go through the steps from above for yourself, first using your own curve provided you by *verify\_setup* in the beginning and then using a new curve from the provided constants C1 and C2.
+%[text] The second argument in verify\_setup should be your student id number.
+%[text] *verify\_setup('Name',studentID)*
+verify_setup('Name',5)
+%%
+%[text] Define your personal curve *r* , then define the density to be the $\\rho \\;${"editStyle":"visual"}function you were provided and then select a number of pieces (not too big at first) to break up your wire.
+%r = 
+
+%rho=
+
+%N=
+
+plot_curve_pieces(r,N,rho)
+%%
+%[text] Now manually compute the approximation using the same calculations that we did earlier in the script.
+%[text] Be sure to name all of your variables appropriately.
+
+%[text] # Reflection Questions
+%[text] Answer the following prompts:
+%[text] - A benefit of working with computational tools is that we can quickly get estimates and run simulations for functions that would be very hard and take a long time to analyze by-hand. Describe what would be difficult about computing the mass of the provided curve by hand.
+%[text] - Even if the computation is difficult, are we even guaranteed that all masses can be computed by-hand using antiderivatives? Discuss why or give a counter example. \
+%%
+%[text] ## Part 2: A Simpler Curve for Integration
+%[text] Now you'll do this process again, but with a simpler function that more easily integrates for verification.
+%[text] The function will be
+%[text] $r=\\left\\lbrack C\_1 \\cdot \\cos \\left(t\\right),C\_1 \\cdot \\sin \\left(t\\right),C\_2 \\cdot t\\right\\rbrack${"editStyle":"visual"}
+%[text] with C1 and C2 taken from your *verify\_setup* information.
+%[text] Define your curve *r* , then again use your personal density $\\rho${"editStyle":"visual"}.
+%C1 = 
+%C2 = 
+r=[C1*cos(t) C1*sin(t) C2*t]
+%%
+%[text] Now use the same summation methods from earlier in the project to approximate the mass of the wire.
+
+%%
+%[text] Finally, use integration to verify the approximation using calculus. Feel free to use decimals to three decimal places for the coefficients of the functions.
+%[text] Remember to use a trig identity to greatly simplify your integral before computing it.You should manually define your integral after simplification rather than trying to use MATLAB to simplify for you.
+%[text] Also, remember that the wire runs between $t=0${"editStyle":"visual"} and $t=2\\pi${"editStyle":"visual"}
+
+%[text] The integral should not be difficult after you use a trig identity, like earlier in the warm up.
 %%
 %[text] # Reflection Questions
-%[text] Using your personal gravity-computing integral:
-%[text] - What is the gravity (under the simple setup) between the solid and the point mass?
-%[text] - Work out by hand the steps to use the FTC to compute the integral measure
-%[text] - Verify in MATLAB (using three int() commands) the measure you found.
-%[text] - Does the measure you found using integration closely match the approximation?
-%[text] - Describe how you should think about integration as it applies to STEM after you leave calculus. \
-
-%%
-%[text] # (Optional) The True Setup for Measuring Gravity
-%[text] As we mentioned in the introduction, the true way to measure gravity between two point masses is with the following computation (Newton's Law of Gravity)
-%[text]{"align":"center"} $\\vec{\\;F} =G\\;\\frac{m\_1 m\_2 }{{||\\vec{r} ||}^2 }\\hat{r}${"editStyle":"visual"}
-%[text] where
-%[text] - (G) is the universal gravitational constant,
-%[text] - ($\\vec{r}${"editStyle":"visual"}) is the vector between the two masses
-%[text] - ($\\hat{r}${"editStyle":"visual"}) is the unit vector pointing in the direction of $\\vec{r}${"editStyle":"visual"}. \
-%[text] We need to work with vectors because of the symmetry in objects. That is, in a situation like the following
-plot_gravity_cube()
-%[text] the vectors $\\vec{\\;F}${"editStyle":"visual"} representing the gravitational pull will have some cancellation "horizontally" since they are all oriented towards the single point mass.
-%%
-%[text] To truly approximate gravity, then, we need to add together all of the force vectors $\\vec{\\;F\_k }${"editStyle":"visual"} to make a single net force vector $\\vec{\\;F}${"editStyle":"visual"}.
-%[text]{"align":"center"} $\\vec{\\;F} \\approx \\sum\_k \\;\\vec{\\;F\_k } =\\sum\_k \\;G\\;\\frac{m\_1 m\_2 }{{||\\vec{r} ||}^2 }\\hat{r}${"editStyle":"visual"}
-%[text]{"align":"center"} 
-%[text] This would look something like the following, where the first plot is all of the vectors $\\vec{\\;F\_k }${"editStyle":"visual"} and the second plot is the final approximate vector $\\vec{\\;F}${"editStyle":"visual"}.
-generate_solid_gravity('arrow_mode','all');
-generate_solid_gravity('gravity_mode','true','arrow_mode','net');
-%[text] The simplified model overestimates the gravity by adding up the magnitudes of all of the small vectors ***before*** taking into account the cancellation that occurs to make the final vector.
-%[text] So the true measure of gravity is $||\\vec{\\;F} ||${"editStyle":"visual"}.
-%%
-%[text] We can approximate this true gravity by summing all of the force vectors together using Newton's Law of Gravity and then ending by taking the magnitude of the resulting vector.
-%[text] Using 'gravity\_mode' as 'true' outputs an Nx3 matrix whose rows are the vectors for the gravity of each element, rather than just calculating the distances from the points to the point mass.
-[densities, gravity_vectors, volumes] = generate_solid_gravity('gravity_mode','true','n',100)
-%[text] These already computed Newton's Law of Gravity at each point, so the matrix is the list of vectors 
-%[text]{"align":"center"} $\\vec{\\;F\_k } =G\\;\\frac{m\_1 m\_2 }{{||\\vec{r\_k } ||}^2 }\\hat{\\;r\_k }${"editStyle":"visual"}
-%[text] To get the approximation of gravity, you make a single gravity vector $\\vec{\\;F} \\approx \\sum\_k \\vec{\\;F\_k }${"editStyle":"visual"} and find the norm $||\\vec{\\;F} ||${"editStyle":"visual"}.
-%[text] If you use *sum* on a matrix with *1* as the second argument, the sum will only add up the values across the columns. So this will make a 3-dimensional vector whose components are the sums of the components of *gravity\_vectors*
-%[text] You can then find the norm of that vector.
-%[text] Confirm the calculation of the true gravity approximation using *gravity\_vectors*
-
-%%
-%[text] We can verify that this is the true gravity in the case of the sphere because for two spheres Newton's Law actually applies, even in the basic model. So if we find the mass of the sphere (using *densities* and *volumes*) all we would need is Newton's basic law (even the simplified version) to calcualte the gravity.
-%[text] Use *densities* and *volumes* to verify this. (Note: The point is at \[.5, .5, 2\] with a mass of 10. The center of the sphere is \[.5, .5, .5\].
-
-%[text] Note that there is still a little error (but not much) because we are merely approximating the true gravity.
-%[text] If we wanted to get an *exact* measure of the true gravity, we would need to use three triple integrals to generate the vector $\\vec{\\;F}${"editStyle":"visual"}, one for each component.
-%[text]{"align":"center"} 
+%[text] Respond to the following:
+%[text] - What was hard and what was easy about this process?
+%[text] - Explain any major or minor errors between the numerical approximation and the result fround from integration.
+%[text] - Describe in detail, including diagrams as necessary, the process of measuring the mass of a wire with variable density. \
 
 %[appendix]{"version":"1.0"}
 %---
 %[metadata:view]
-%   data: {"layout":"onright","rightPanelPercent":43.5}
+%   data: {"layout":"onright","rightPanelPercent":51.8}
 %---
