@@ -41,14 +41,19 @@ The following cell generates some sample data $(x_i, y_i)$ into two classes:
   \item Class 1 represented by red xs
 \end{itemize}
 In this example, it also auto-calculates the line that separates the classes.
-\textbf{MATLAB code:}
-\begin{verbatim}
-[xy_demo, class_demo, coeffs_demo] = generate_classification_data(12345);
-plot_classification_data(xy_demo, class_demo, coeffs_demo);
-\end{verbatim}
+% \textbf{MATLAB code:}
+% \begin{verbatim}
+% [xy_demo, class_demo, coeffs_demo] = generate_classification_data(12345);
+% plot_classification_data(xy_demo, class_demo, coeffs_demo);
+% \end{verbatim}
 
 In the plot you should see the data cleanly separated on either side of a line. 
 The goal of this final project will be to use gradient descent to find \textbf{decision boundaries} in various scenarios for application in classification.
+
+\begin{center}
+  \includegraphics{data_with_line.png}
+\end{center}
+
 
 In this case, the \textbf{decision boundary} is a \textbf{line in 2D}, meaning it is represented by three parameters:
 \begin{itemize}
