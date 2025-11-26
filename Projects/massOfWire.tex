@@ -50,14 +50,54 @@ Then refer to the animation to fill in the density measures at the remaining sca
 
 
 \subsection*{Variable Density}
+
+Now consider the following animation that tracks the mass and length of small sections of a wire that has \emph[{variable density}], meaning the density itself changes depending on the location of the wire. 
+
 % Animation placeholder
-% \youtube{FIFZBi8JPFU?si=VcA5Q-NM_qZlT_Ob}
+\begin{center}
+\youtube{FIFZBi8JPFU?si=VcA5Q-NM_qZlT_Ob}
+\end{center}
 
-You should see that the mass changes as you move along the curve. This means that the density of this wire is not uniform.
+The formula $\rho = 2 + t^2$ should provide the density at any location $t$ along the wire. 
 
-The formula $\rho = 2 + t^2$ should provide the density at any location $t$ along the wire. As before, slide through the animation and determine what the density is at $t=\pi$ and $t=2\pi$ by dividing the mass by the length of the segments at those times.
+\begin{problem}
 
-Within a small error, the density calculations from the animation and from the density function should agree.
+As before, slide through the animation and determine what the density is at for times closest to $t=\pi$ and $t=2\pi$ (at each of the scales) by dividing the mass by the length of the segments at those times.
+
+For $t=\pi$:
+
+\begin{enumerate}
+\item In the animation, the closest time to $t=\pi$ at the largest scale is $t=\answer{3.166}$. At this time, the density of the small segment is $\frac{\answer[tolerance=.01]{5.342}}{.444}=\answer[tolerance=0.01]{12.0315}$
+\item In the animation, the closest time to $t=\pi$ at the middle scale is $t=\answer{3.167}$. At this time, the density of the small segment is $\frac{\answer[tolerance=.01]{2.138}}{.178}=\answer[tolerance=0.01]{12.0112}$
+\item In the animation, the closest time to $t=\pi$ at the smallest scale is $t=\answer{3.167}$. At this time, the density of the small segment is $\frac{\answer[tolerance=.01]{1.069}}{..089}=\answer[tolerance=0.01]{12.0112}$
+\end{enumerate}
+
+The value of the density function at $t=\answer[tolerance=.01]{3.167}$ is $\rho = 2 + (\answer[tolerance=.01]{3.167})^2 = \answer[tolerance=0.01]{12.0299}$.
+
+%now for t=2pi. The largest scale time is 6.126 length .444 mass 17.562, middle scale is 6.220, .178, 7.232, smallest scale is 6.252, .089, 3.651
+
+For $t=2\pi$:
+
+\begin{enumerate}
+\item In the animation, the closest time to $t=2\pi$ at the largest scale is $t=\answer{6.126}$. At this time, the density of the small segment is $\frac{\answer[tolerance=.01]{17.562}}{.444}=\answer[tolerance=0.01]{39.5541}$
+\item In the animation, the closest time to $t=2\pi$ at the middle scale is $t=\answer{6.220}$. At this time, the density of the small segment is $\frac{\answer[tolerance=.01]{7.232}}{.178}=\answer[tolerance=0.01]{40.6292}$
+\item In the animation, the closest time to $t=2\pi$ at the smallest scale is $t=\answer{6.252}$. At this time, the density of the small segment is $\frac{\answer[tolerance=.01]{3.651}}{.089}=\answer[tolerance=0.01]{41.0225}$
+\end{enumerate}
+
+The value of the density function at $t=\answer[tolerance=.01]{6.283}$ is $\rho = 2 + (\answer[tolerance=.01]{6.283})^2 = \answer[tolerance=0.1]{41.4761}$.
+
+Within a small error, the density calculations from the animation and from the density function should agree. 
+
+The animation broke the wire up into pieces of a fixed length, used the density at the time representing the midpoint of that piece, and then calculated the mass of that piece by multiplying the density by the length.
+
+The error in the calculations comes from (select all):
+
+\begin{selectAll}
+\choice[correct]{Rounding errors in the decimal approximations of the time values}
+\choice[correct]{Using a fixed density for each piece}
+\end{selectAll}
+
+which means that the basic model of mass = density $\times$ length \wordChoice{\choice[correct]{does not work}\choice{works}} for wires with variable density. 
 
 \subsection*{Application Walkthrough 1: Mass of a Wire}
 
