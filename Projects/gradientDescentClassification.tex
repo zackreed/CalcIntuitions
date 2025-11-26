@@ -9,11 +9,6 @@ This page will help you as you work on your final project, exploring how to mode
 \end{abstract}
 \maketitle
 
-\section*{Introduction}
-
-Welcome to the introduction to the ``gravity between a wire and a point'' mini project!  
-As with all integration problems, we'll begin with a simple situation where multiplication suffices, and then build up toward an integral model that accounts for continuous variation.
-
 \section*{Final Project - Classification with Gradient Descent}
 
 \subsection*{Introduction}
@@ -32,28 +27,30 @@ Many real-world problems involve predicting binary outcomes:
 
 For binary classification with features $(x_1, x_2)$, \textbf{logistic regression} uses the sigmoid function $\sigma(z) = \frac{1}{1+e^{-z}}$ to squish any real number into the range $[0,1]$.
 
-It then determines whether a point is on one side of a line $w_0 + w_1 x_1 + w_2 x_2 = 0$ (class 0) or on the other side of a line (class 1). 
+We use the sigmoid to determine whether a point is on one side of a line $w_0 + w_1 x_1 + w_2 x_2 = 0$ (class 0) or on the other side of a line (class 1). 
 The line separating the classes is called a \textbf{decision boundary}.
 
-The following cell generates some sample data $(x_i, y_i)$ into two classes:
+\begin{example}
+Here is some sample data $(x_i, y_i)$ broken up into two classes:
 \begin{itemize}
   \item Class 0 represented by blue circles
   \item Class 1 represented by red xs
 \end{itemize}
-In this example, it also auto-calculates the line that separates the classes.
+In this example, we are given a line that separates the classes.
 % \textbf{MATLAB code:}
 % \begin{verbatim}
 % [xy_demo, class_demo, coeffs_demo] = generate_classification_data(12345);
 % plot_classification_data(xy_demo, class_demo, coeffs_demo);
 % \end{verbatim}
 
-In the plot you should see the data cleanly separated on either side of a line. 
-The goal of this final project will be to use gradient descent to find \textbf{decision boundaries} in various scenarios for application in classification.
-
 \begin{center}
   \includegraphics{data_with_line.png}
 \end{center}
 
+As you can see, the data cleanly separated on either side of a line. 
+\end{example}
+
+The goal of this final project will be to use gradient descent to find \textbf{decision boundaries} in various scenarios for application in classification.
 
 In this case, the \textbf{decision boundary} is a \textbf{line in 2D}, meaning it is represented by three parameters:
 \begin{itemize}
@@ -61,7 +58,9 @@ In this case, the \textbf{decision boundary} is a \textbf{line in 2D}, meaning i
   \item $w_1$, the coefficient of $x$
   \item $w_2$, the coefficient of $y$
 \end{itemize}
+
 The goal of the gradient descent will be to minimize the error created by a line with these three parameters $(w_0, w_1, w_2)$. 
+
 This gives us a line
 \[
 w_0 + w_1 x + w_2 y = 0
@@ -70,43 +69,53 @@ that hopefully cleanly separates the data.
 
 \section*{Understanding the Sigmoid Function}
 One key difference between the polynomials used in Module 6 and binary classification is the \textbf{sigmoid function}.
+
 \[
 \sigma(z) = \frac{1}{1+e^{-z}}
 \]
-This compresses all real numbers down to be between 0 and 1, so that we can use a height of $0.5$ to determine the region of separation.
+
+This compresses all real numbers down to be between 0 and 1, so that we can use a height of $0.5$ to determine on which side of the line a data point lies.
 
 If we measure the distance from the data points $(x_i, y_i)$ to the line $w_0 + w_1 x + w_2 y = 0$ (which you know how to do from back in Module 1), we get z-values into which we can use $\sigma$ to measure the location of the data relative to the line.
 
-The following cell shows how the sigmoid function is used in the separation decision.
-\textbf{MATLAB code:}
-\begin{verbatim}
-plot_sigmoid_values(xy_demo, class_demo, coeffs_demo)
-\end{verbatim}
+% The following cell shows how the sigmoid function is used in the separation decision.
+% \textbf{MATLAB code:}
+% \begin{verbatim}
+% plot_sigmoid_values(xy_demo, class_demo, coeffs_demo)
+% \end{verbatim}
+
+\begin{center}
+  \includegraphics{data_with_sigmoid.png}
+\end{center}
 
 In the left plot you see the distances from the line to the data points (keeping track of positive or negative) and then on the right you should see the resulting locations on the sigmoid plot, used to determine the class of the data.
 The demo line very cleanly separated the classes, as you can see in the plot.
 
 \subsection*{Poorly Separating Data}
 Let's take a quick look at a line that doesn't separate the data, and see what happens to the sigmoid plot.
-\textbf{MATLAB code:}
-\begin{verbatim}
-coeffs_demo_2 = initialize_coefficients(xy_demo, class_demo);
-plot_sigmoid_values(xy_demo, class_demo, coeffs_demo_2);
-\end{verbatim}
+% \textbf{MATLAB code:}
+% \begin{verbatim}
+% coeffs_demo_2 = initialize_coefficients(xy_demo, class_demo);
+% plot_sigmoid_values(xy_demo, class_demo, coeffs_demo_2);
+% \end{verbatim}
+
+\begin{center}
+  \includegraphics{data_with_sigmoid_bad_separation.png}
+\end{center}
 
 Unlike the first line used in the demo, this line passes through the data points directly and so both sides of the line contain data from both classes. This means that the data is clustered on both sides of the sigmoid height $0.5$, so we can't use this line to determine between the classes.
 
 \subsection*{Gradient Descent for Classification}
 Now let's use gradient descent to find the best line for separating the data. We'll use the sigmoid function to measure how well our line separates the two classes, and update our coefficients to minimize the classification error.
 
-\textbf{MATLAB code:}
-\begin{verbatim}
-coeffs = initialize_coefficients(xy, class);
-for iter = 1:max_iters
-    coeffs = update_coefficients(xy, class, coeffs);
-end
-plot_sigmoid_values(xy, class, coeffs);
-\end{verbatim}
+% \textbf{MATLAB code:}
+% \begin{verbatim}
+% coeffs = initialize_coefficients(xy, class);
+% for iter = 1:max_iters
+%     coeffs = update_coefficients(xy, class, coeffs);
+% end
+% plot_sigmoid_values(xy, class, coeffs);
+% \end{verbatim}
 
 \subsection*{Evaluating Classification Performance}
 After running gradient descent, we can evaluate how well our line separates the two classes. We use metrics such as accuracy, precision, and recall to measure the performance of our classifier.
