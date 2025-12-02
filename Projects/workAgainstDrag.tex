@@ -42,7 +42,7 @@ where $\theta$ is the smallest angle between the vectors.
 
 We're going to imagine a spherical object flying through the air in a tight pattern (so the altitude and measures like air density are basically fixed).
 
-\youtube{animation_placeholder}
+\youtube{kVS_PuLWiR4}
 
 In this example, $\rho, C_D, A,$ and $v$ are all constant. So, $\vec{F}$ is constant across the displacement vector at a magnitude of $0.92\,N$. Since drag is in the opposite direction of motion, the angle between displacement and drag will always be $\pi$, so for the displacement $\vec{D} = [6-2\pi, 2\pi, 2\pi]$:
 \begin{equation}
@@ -60,24 +60,22 @@ If drag were constant, computing work would be simple:
 
 Unfortunately, there are confounding factors: drag depends on velocity, which can change along a curve. Faster sections produce stronger drag, slower sections produce weaker drag, and the drag vector changes direction with the velocity. $C_D$ and $\rho$ can also change during a flight.
 
-\textbf{MATLAB code:}
-\begin{verbatim}
-syms t
-r = [sin(t), cos(t), sin(t)]
-animate_drag_motion(r)
-\end{verbatim}
+The following is an animation of an object moving along a simple circular curve with the drag forces and velocities changing throughout the motion:
 
-This means we cannot treat drag as one constant force over the entire curve.
+\begin{center}
+\youtube{L4HAzbdjI_g}
+\end{center}
 
-\textbf{Reflection Questions:}
-- What about the observed motion of the particle is causing changes to the basic model?
-- Why can we not just use the basic model (dot product) to quantify the work done against drag in this instance?
+Because of situations as above, we cannot always treat drag as one constant force being applied over the entire curve.
 
 \subsection*{Solution: Add up small bits of work along the curve}
 As with all integration problems, we solve the "multiplying doesn't work" problem by:
-1. breaking the curve into small pieces,
-2. computing the work on each small piece,
-3. adding up all of the small contributions to get total work.
+
+\begin{enumerate}
+\item breaking the curve into small pieces,
+\item computing the work on each small piece,
+\item adding up all of the small contributions to get total work.
+\end{enumerate}
 
 For most curves there is no single displacement vector, so instead you have to treat movement along the curves as movement along tiny displacement vectors.
 
@@ -87,72 +85,121 @@ Suppose an object moves along a curve $r(t)$. If we cut the interval into $N$ pi
 ||\vec{F_i}|| = \rho_i C_{D_i} A \frac{||\vec{v_i}||^2}{2}
 \end{equation}
 
-\textbf{MATLAB code:}
-\begin{verbatim}
-verify_setup('Zack',12345)
-% r = [cos(t), sin(t), sin(t)]
-% rho_air = ...
-% Cd = ...
-% A = ...
-% N = ...
-\end{verbatim}
+As an example of this, suppose that the object is drastically moving through different altitudes, the air density will be heavier at lower altitudes than at higher altitiudes. 
 
-\textbf{MATLAB code:}
-\begin{verbatim}
-plot_curve_work_pieces(r, N, rho_air, Cd, A)
-\end{verbatim}
+This will affect $\rho$, which then also affects $C_D$ in turn.
 
-\textbf{Reflection Questions:}
-- In which orientation (clockwise vs counterclockwise) is motion? (Hint: Remember that drag opposes motion)
-- Why is the calculated work negative?
+The work on piece $i$ is approximated by
 
-\subsection*{Step 2: Recreate the Approximation}
-We need to compute the magnitude of the drag force as the particle moves along each segment. This requires us to determine the air density at the midpoint of each segment, the drag coefficient at each segment, and the velocity at each segment (the object's area is fixed).
+$$\Delta W_i \approx \vec{F_i} \cdot \Delta r_i$$
 
-\textbf{MATLAB code:}
-\begin{verbatim}
-[speeds, air_densities, Cd_vals] = compute_drag_quantities(r, N, rho_air, Cd)
-drag_magnitudes = ...
-[displacement_vecs, force_vecs] = compute_work_quantities(r, N, drag_magnitudes)
-work_pieces = dot(displacement_vecs, force_vecs)
-total_work = sum(work_pieces)
-\end{verbatim}
+Adding them up gives an approximation:
 
-\textbf{Reflection Questions:}
-- Write out in words the steps taken, in order, and describe how each step (and the steps combined) work together to generate the approximation of work.
-- Write out symbolically using your function and parameters the calculation(s) to approximate work.
+$$W \approx \sum_{i=1}^N \Delta W_i$$
 
-\subsection*{Step 3: Examining changes to the setup}
-Enter a new function for $\rho$, and new values for $C_D$ and $A$, and make a new plot.
+As ($N$) grows, this approximation converges to the exact work done against drag.
 
-\textbf{MATLAB code:}
-\begin{verbatim}
-% rho_new = ...
-% Cd_new = ...
-% A_new = ...
-plot_curve_work_pieces(r, N, rho_new, Cd_new, A_new)
-\end{verbatim}
+\begin{example}
 
-\textbf{Reflection Question:}
-- Describe how the new parameters are impacting the work done against drag.
+    In the project livescript you are instructed to enter your custom curve $r$ along with the relevant parameters for drag.
 
-\subsection*{Step 4: Refining Approximation - Increasing N}
-Increasing $N$ gives better approximations. Movement along small segments of the curve behaves more like straight displacements, so the approximations from both the drag equation and the work computations are more accurate over small steps.
+    You are then given course functions to plot an approximation of the work done against drag along your curve.
 
-\textbf{MATLAB code:}
-\begin{verbatim}
-Ns = []
-plot_multiple_work_approximations(r, Ns, rho_air, Cd, A)
-for N = Ns
-    % manual calculations here
-end
-\end{verbatim}
+    Such an example plot is shown below:
 
-\textbf{Reflection Questions:}
-- If you continued making this same calculation for different $N$, particularly as $N$ grows quite large, how would you expect the resulting gravity calculations to behave?
-- Write out symbolically, for your specific function, what sum is being calculated to measure the work for a particular (general) $N$.
+    \begin{center}
+    \includegraphics{complex_drag_1.png}
+    \end{center}
 
-\subsection*{Step 5: Exact Model Using Calculus}
+    You see a more complicated wire that is broken up into segments (much like in the mass examples from Module 3). Each segment is colored by air density which is acting as a proxy for the possible complexity of factors in the drag equation.Small arrows along the curve show the drag force vectors at each segment.
+
+    In the live script you can zoom and rotate the figure, here you see a zoomed out image. 
+
+\end{example}
+
+\begin{remark}
+    The livescript walks you through the steps to recreate the approximation of work using midpoint Riemann Sums, and you should end up with the same final work calculation shown in your personal plot.
+
+    Below are the important contextual formulas that carry out this Riemann Sum approximation.
+
+    \begin{enumerate}
+        \item First, note that along each piece work against drag is approximated by the dot product:
+        $$\Delta W_i \approx \vec{F_i} \cdot \Delta r_i$$
+        where $\vec{F_i}$ is the drag force vector at piece $i$ and $\Delta r_i$ is the displacement vector along piece $i$.
+        \item The drag force vector magnitude is given by the drag equation:
+        $$||\vec{F_i}|| = \rho_i C_{D_i} A \frac{||\vec{v_i}||^2}{2}$$
+        where $\rho_i$ is the fluid density at piece $i$, $C_{D_i}$ is the drag coefficient at piece $i$, $A$ is the reference area, and $||\vec{v_i}||$ is the speed of the object at piece $i$.
+        \item The total work approximation is given by the sum of the piecewise work calculations:
+        $$W \approx \sum_{i=1}^N \Delta W_i$$
+    \end{enumerate}
+\end{remark}
+
+\subsection*{Refining Approximation - Increasing N}
+
+Hopefully unsurprising by now, we suspect that increasing N will give us better approximations. This should be evident physically:
+\begin{enumerate}
+\item Movement along small segments of the curve behaves more like straight displacements,
+\item which means the approximations from both the drag equation and the work computations are more accurate over small steps.
+\end{enumerate}
+
+In the livescript you are given the tools to recreate your approximations with increasing values of $N$ and observe patterns.
+
+\begin{example}
+
+The resulting plots and calcualtions should look like the following examples, which are taken from different values of $N$ for the curve 
+
+$$r= [ (2.316 + 0.592\cos(4t))cos(7t), (2.316 + 0.592\cos(4t))sin(7t), 0.592sin(4t)]$$
+
+The density, $C_D$, and $A$ values used are:
+
+$$\rho = 1.045 + 0.484(t/(2\pi))^2 $$
+
+$$C_D = .6536$$
+
+$$A=7.7294$$
+
+First, at $N=5$, we get:
+
+\begin{center}
+\includegraphics{complex_drag_low_n.png}
+\end{center}
+
+At $N=30$, we get:
+
+\begin{center}
+\includegraphics{complex_drag_n_2.png}
+\end{center}
+
+At $N=100$, we get:
+
+\begin{center}
+\includegraphics{complex_drag_n_3.png}
+\end{center}
+
+At $N=150$, we get:
+\begin{center}
+\includegraphics{complex_drag_n_4.png}
+\end{center}
+
+At a value $N=100000$, you get a work calculation of $-9.1266\times 10^4$ Joules, which is quite similar to the calculation from $N=150$. 
+
+\end{example}
+
+\begin{remark}
+    Remember that at each $N$, the process is exactly the same:
+    \begin{enumerate}
+        \item Break the curve into $N$ pieces,
+        \item Compute the drag force vector and displacement vector at each piece,
+        \item Compute the work on each piece using the dot product,
+        \item Add up all the piecewise work calculations to get total work.
+    \end{enumerate}
+
+    As $N$ increases, the approximations get better and better. This leads us to the limit, where we can use the Fundamental Theorem of Calculus to get an exact value.
+\end{remark}
+
+
+\subsection*{Exact Model Using Calculus}
+
 The main difference between finite sum approximations and the exact sum from integration is the limit. Definite integrals and the Fundamental Theorem of Calculus give us tools for making exact calculations. To use calculus efficiently, we need to rewrite the integral until we get a form that makes calculations on a single variable that we can run continuously through an interval.
 
 So far, our sums have taken the form:
@@ -166,13 +213,20 @@ W = \int dW
 \end{equation}
 The work differential is the dot product $dW = \vec{F_D} \cdot d\vec{r}$ between the drag force and displacement across a small segment of the object's path.
 
-\textbf{Reflection Questions:}
-- Explain the formula $\int dW$. Does it actually represent anything?
-- Why, in our current setup, does the integral look different from the formulas used for numerical approximation?
-- What would it take to be able to compute the integral $\int dW$ as is, rather than doing further variable changes?
-- How is your final integral different or the same from the original integral $W = \int dW$?
+\subsection*{Your Turn: Using Integrals to get an Exact Measure}
 
-\subsection*{Finishing the Calculations}
-Now verify that your integral formula does indeed compute work in a way that agrees with the numerical approximations. Numerically approximate the drag on your new path, then use your integral to also make the same calculation and make sure that the values agree.
+You'll finish the project by using an integral to generate an exact measure of work done against drag with a new curve
+
+$$r= [ C_1 \cos(t), C_1 \sin(t), C_2 t ]$$
+
+where $C_1$ and $C_2$ are constants provided to you, as are the density function and the time interval $[0, 2\pi]$.
+
+You will want to take into account the following information to help you set up your integral:
+
+So far, we know that the work differential is the dot product $dW = \vec{F_D} \cdot d\vec{r}$ between the drag force and displacement across a small segment of the object's path.
+
+Within this small path segment, $\vec{F_D}$ the magnitue of  doesn't change, so we just need to determine how to compute the dot product along the differential displacements $\vec{dr}$. This will be your job, to go the rest of the way.
+
+Remember that you can determine the dot product by summing the component-products of two vectors, or by the formula $\vec{u}\cdot\vec{v} = ||\vec{u}|| \, ||\vec{v}|| \cos \theta$, where $\theta$ is the smallest angle between the vectors. Either approach will help, particularly if you remember how the drag force relates to the direction of motion.
 
 \end{document}

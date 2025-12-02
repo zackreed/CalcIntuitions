@@ -9,11 +9,6 @@ This page will help you as you work on your final project, exploring how to mode
 \end{abstract}
 \maketitle
 
-\section*{Introduction}
-
-Welcome to the introduction to the ``gravity between a wire and a point'' mini project!  
-As with all integration problems, we'll begin with a simple situation where multiplication suffices, and then build up toward an integral model that accounts for continuous variation.
-
 \section*{Final Project - Gravity Between a Wire and a Point Mass}
 
 \subsection*{Introduction}
@@ -37,24 +32,33 @@ F = G \frac{m_1 m_2}{r^2}
 \end{equation}
 where $r$ is the distance between the points.
 
-\youtube{animation_placeholder}
+The following is an animation illustrating variation in the gravitational force between two point masses as the distance between them changes.
+
+\youtube{in3Kb2c1Xtw}
 
 You'll notice that the inverse square $\frac{1}{r^2}$ determines the gravity force in the case of two points separated by a single variable. We will explore the gravity between a point and a wire, which means moving away from a single-variable case and into a vector scenario.
 
 \subsection*{Challenges to the Basic Model: Point Mass and a Wire}
-We want to calculate the force of gravity between a wire floating in space and a nearby point mass. If the wire were itself a lumped point mass and was uniformly symmetric, the situation would be easy:
-- Compute the distance from the point mass to the wire’s center
-- Use Newton’s formula
+We want to calculate the force of gravity between a wire floating in space and a nearby point mass. 
+
+If the wire were itself a lumped point mass and was uniformly symmetric, the situation would be easy:
+\begin{enumerate}
+    \item Compute the distance from the point mass to the wire's center
+    \item Use Newton's formula
+\end{enumerate}
 
 Unfortunately, many wires don't have exploitable symmetry, and so gravity acts between the wire and the point mass differently depending on where you are along the wire.
-- Parts of the wire are closer, exerting stronger forces.
-- Other parts are farther, exerting weaker forces.
-- Forces don’t all point in the same direction.
+\begin{enumerate}
+    \item Parts of the wire are closer, exerting stronger forces.
+    \item Other parts are farther, exerting weaker forces.
+    \item Forces don't all point in the same direction.
+\end{enumerate}
 
-\youtube{animation_placeholder}
+You can see this clearly in the following plot, which breaks up the wire into many small segments like in the Module 3 mass example.
 
-\textbf{Reflection Question:}
-- The color of each piece signifies the gravity approximation between the wire segment and the point mass, using the midpoint of the segment for a measure of distance and the mass of the small segment. Given that the wire is uniformly dense, explain (using Newton's Law of Gravity) the color gradient shown in the plot.
+\begin{center}
+\includegraphics{gravity_wire_pieces_1.png}
+\end{center}
 
 \subsection*{Gravity in Pieces: Building the Global Model}
 In this final project, you're going to approximate (and then exactly measure) the force of gravity between different wires and a point mass. To ease our way into the calculations, we're going to work with a \textbf{simplified setup} for gravity:
@@ -65,6 +69,7 @@ For each segment of the wire, we calculate the distance between the midpoint of 
 
 \subsection*{Step 1: Approximate with Pieces}
 Suppose the wire has total mass $M$ and length $L$. If we cut it into $N$ pieces, each piece has approximate mass $\Delta M = \frac{M}{N}$. We treat each piece of wire as if it were a point mass and use Newton's formula to approximate the gravitational attraction between the wire piece and the point mass. If $D$ represents the distance between the segment piece and the point mass, we use Newton's law to measure the small addition of force for that section:
+
 \begin{equation}
 \Delta F_i \approx \frac{G m \Delta M_i}{D_i^2}
 \end{equation}
@@ -74,68 +79,84 @@ F \approx \sum_{i=1}^N \Delta F_i = \sum_{i=1}^N \frac{G m \Delta M_i}{D_i^2}
 \end{equation}
 As $N$ grows, this gets closer to the true gravitational force.
 
-\textbf{MATLAB code:}
-\begin{verbatim}
-verify_setup('Name')
-syms t
-% r = ...
-% rho = ...
-% P = ...
-% m = ...
-% N = ...
-plot_wire_gravity_pieces(r, N, rho, P, m)
-\end{verbatim}
 
-\textbf{Reflection Questions:}
-- Why is there error for any gravity calculation for any specific N? What assumptions are we making when we break the wire into pieces in this way that technically break the assumptions of Newton's Law?
-- Why does increasing N reduce the error of the approximation?
+You will be asked to approximate the gravitational force between a wire and a point mass using MATLAB code.
 
-\subsection*{Step 2: Recreate the Approximation}
-The \texttt{break\_into\_pieces} function is helpful here. It will break the wire into N pieces and give you lists of the lengths of the wire segments as well as their densities. You'll use those lists in your calculations.
+\begin{problem}
+    The following curve is a simple helix broken into 10 pieces with a linear density (increases with time):
 
-\textbf{MATLAB code:}
-\begin{verbatim}
-G = 6.67e-11;
-% m = ...
-% N = ...
-[~, lengths, densities, ~, ~] = break_into_pieces(r, N, rho)
-masses = ...
-distances = compute_approximate_distances(r, N, rho, P)
-forces = G * m * masses ./ (distances.^2)
-totalForce = sum(forces)
-\end{verbatim}
+    \begin{center}
+    \includegraphics{gravity_wire_pieces_2.png}
+    \end{center}
 
-\textbf{Reflection Questions:}
-- If you continued making this same calculation for different N, particularly as N grows quite large, how would you expect the resulting gravity calculations to behave?
-- Write out symbolically, for your specific function, what sum is being calculated to measure the gravity for a particular (general) N.
+    Notice that the colors indicate highest gravity on the segments closest to the point mass. This makes sense because \wordChoice{\choice[correct]{gravity decreases as the square distance increases}\choice{gravity increases as the square distance increases}}.
 
-\subsection*{Step 3: Examining changes to the setup}
-Now let's make some changes to make sure we understand the process. Let's see what happens if we change the density to be drastically increasing throughout the length of the wire, like $\rho = \frac{1}{2} + t^3$.
+    Even though density increases linearly with time, which of the following statements is true about the relationship between mass and distance with respect to gravity on each segment?
+    \begin{multipleChoice}
+        \choice{Segments with higher mass always exert more gravity.}
+        \choice{Segments that are closer always exert more gravity.}
+        \choice[correct]{Gravity increases linearly with mass and shrinks quadratically with distance.}
+        \choice{Gravity increases quadratically with mass and shrinks linearly with distance.}
+        \choice{Mass and distance have no effect on gravity.}
+    \end{multipleChoice}
+\end{problem}
 
-\textbf{MATLAB code:}
-\begin{verbatim}
-rho_test = .5 + t^3
-plot_wire_gravity_pieces(r, 10, rho_test, P, m)
-\end{verbatim}
+You will use MATLAB code to recreate the approximations yourselves, using Newton's Law of gravity on each segment. 
 
-\textbf{Reflection Question:}
-- The color distribution likely shows the brighter colors (higher values) late in the curve. Explain this.
+As you do so, the course functions will break up the wire and provide you the information as needed, you just need to apply Newton's law
 
-\subsection*{Step 4: Refining Approximation: Increasing N}
-Increasing $N$ gives better approximations. The segments better approximate a point mass, meaning we're getting closer to treating each particle along the wire as if it were a point mass and hence adding up many accurate instances of Newton's law.
+$$F = G * m * \Delta M / D^2$$
 
-\textbf{MATLAB code:}
-\begin{verbatim}
-Ns = []
-plot_multiple_gravity_approximations(r, Ns, rho, P, m)
-for N = Ns
-    % manual calculations here
-end
-\end{verbatim}
+to each segment and add them up.
 
-\textbf{Reflection Questions:}
-- If you continued making this same calculation for different N, particularly as N grows quite large, how would you expect the resulting gravity calculations to behave?
-- Write out symbolically, for your specific function, what sum is being calculated to measure the gravity for a particular (general) N.
+Now let's see a different example that alters the features of the wire.
+
+\begin{problem}
+    The following wire is again the simple helix, but this time the density cubicly increases with time:
+
+    \begin{center}
+    \includegraphics{gravity_wire_pieces_flipped.png}
+    \end{center}
+
+    Notice that the gravity is now highest at the farthest segments from the point mass. 
+
+    Select the following statements that best explain this phenomenon:
+    \begin{selectAll}
+        \choice[correct]{The cubic increase in density makes the mass outweigh the quadratic shrinking of gravity with distance.}
+        \choice[correct]{The segments closer to the point mass have less mass, so they exert less gravity.}
+        \choice[correct]{Gravity increases with distance in this case.}
+        \choice{The point mass is actually repelled by the wire segments.}
+    \end{selectAll}
+   
+\end{problem}
+
+
+\subsection*{Refining Approximation: Increasing N}
+Hopefully unsurprising by now, we suspect that increasing N will give us better approximations. This should be evident physically, the segments better approximate a point mass, meaning we're getting closer to treating each particle along the wire as if it were a point mass (and hence adding up many accurate instances of Newton's law).
+
+You will be asked to recreate the approximations of gravity at higher N values in MATLAB. You should see results such as the following approximations of gravity with the cubic density helix wire:
+
+\begin{enumerate}
+    \item First $N=5$:
+    \begin{center}
+    \includegraphics{gravity_wire_pieces_flipped_n_1.png}
+    \end{center}
+
+    \item Then $N=50$:
+    \begin{center}
+    \includegraphics{gravity_wire_flipped_n_2.png}
+    \end{center}
+
+    \item Then, $N=100$:
+    \begin{center}
+    \includegraphics{gravity_wire_flipped_n_3.png}
+    \end{center}
+
+    \item Finally, $N=200$:
+    \begin{center}
+    \includegraphics{gravity_wire_flipped_n_4.png}
+    \end{center}
+\end{enumerate}
 
 \subsection*{Step 5: Exact Model Using Calculus}
 The main difference between finite sum approximations and the exact sum from integration is the limit. Definite integrals and the Fundamental Theorem of Calculus give us tools for making exact calculations. To use calculus efficiently, we need to rewrite the integral until we get a form that makes calculations on a single variable that we can run continuously through an interval.
@@ -144,33 +165,22 @@ So far, our sums have taken the form:
 \begin{equation}
 F = \sum_i \Delta F_i = \sum_i \frac{G m \Delta M_i}{D_i^2}
 \end{equation}
+
 Translating this to integrals, we have:
 \begin{equation}
 F = \int dF
 \end{equation}
-From Newton's law, $dF = \frac{G m dM}{D_M^2}$, so we can compute the total sum by the integral:
+
+tells us that we get the exact force from adding up all of the little differential forces.
+
+From Newton's law we get $dF = \frac{G m dM}{D_M^2}$ (each little force is Newton's law applied to the little mass  at a distance ), we can compute the total sum by the integral
+
 \begin{equation}
 F = G m \int \frac{dM}{D_M^2}
 \end{equation}
+
 The problem is that we can't use the fundamental theorem of calculus yet because we don't have a good interval of masses to integrate over, nor a good way to represent the distances $D_M$. What we do have is the formula for both the curve $r$ and the density $\rho$ in terms of time, and a way to represent the arc length of a small segment $ds$ in terms of the curve's velocity.
 
-\textbf{Reflection Questions:}
-- Explain the formula $G m \int \frac{dM}{D_M^2}$. Does it actually represent anything?
-- Why, in our current setup, do we need to make changes to actually compute the integral value?
-- What would it take to be able to compute the integral as is, rather than doing further variable changes?
-- Write your specific integral using your vector curve and density function. How is this new integral different or the same from the original integral $F = \int dF$?
-
-\subsection*{Finishing the Calculations}
-Once you have the integral ready, change the definitions of the following functions to match your setup and compute the final result! You will need to verify that your integral calculations match numerical approximations using the methods in this project.
-
-\textbf{MATLAB code:}
-\begin{verbatim}
-syms t
-f = sqrt(exp(t+1) - cos(t))
-a = 0
-b = 1
-F_exact = int(f, a, b)
-double(F_exact)
-\end{verbatim}
+So, your job is to finish representing the integral for your curve and density and point in a way that you can use the FTC, and then use MATLAB's symbolic package to compute the integral!
 
 \end{document}

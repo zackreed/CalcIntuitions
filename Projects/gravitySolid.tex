@@ -37,132 +37,262 @@ F = G \frac{m_1 m_2}{r^2}
 \end{equation}
 where $r$ is the distance between the points.
 
-\youtube{animation_placeholder}
+\youtube{in3Kb2c1Xtw}
 
 You'll notice that the inverse square $\frac{1}{r^2}$ determines the gravity force in the case of two points separated by a single variable. We will explore the gravity between a point and a solid, which means moving away from a single-variable case and into a vector scenario.
 
 \subsection*{Challenges to the Basic Model: Point Mass and a Solid}
 We want to calculate the force of gravity between a solid floating in space and a nearby point mass. If the solid were itself a lumped point mass, the situation would be easy:
-- Compute the distance from the point mass to the solid's center
-- Use Newton's formula.
+\begin{enumerate}
+\item Compute the distance from the point mass to the solid's center
+\item Use Newton's formula.
+\end{enumerate}
 
 Unfortunately, many solids don't have exploitable symmetry, and so gravity acts between the solid and the point mass differently depending on where you are within the solid.
-- Parts of the solid are closer, exerting stronger forces.
-- Other parts are farther, exerting weaker forces.
-- Variability in the solid shapes means a lack of symmetry.
+\begin{enumerate}
+    \item Parts of the solid are closer, exerting stronger forces.
+    \item Other parts are farther, exerting weaker forces.
+    \item Variability in the solid shapes means a lack of symmetry.
+\end{enumerate}
 
-\youtube{animation}
+For instance, in the following cube you can see that variation spatially along the cube causes different gravitational pulls between different parts of the cube and the point mass.
 
-\textbf{Reflection Questions:}
-- The color of each piece signifies the gravity approximation between the piece and the point mass, using the center of the cube for a measure of distance and the mass of the small piece. Given that the cube is uniformly dense, explain (using Newton's Law of Gravity) the color gradient shown in the plot.
-- Why is the gravity smallest at the bottom of the cube?
-- Why is the gravity greatest in the middle of the top of the cube, and then why does it decrease even along the top of the cube?
+\begin{center}
+\includegraphics{cubes_gravity_approximation.png}
+\end{center}
 
-\subsection*{Newton's Law}
-Let's recreate Newton's law at a single piece before doing so at scale.
-
-\textbf{MATLAB code:}
-\begin{verbatim}
-% densities, distances, volumes arrays
-% G = 10
-% gravity for piece 1: G * m_1 * (densities(1) * volumes(1)) / (distances(1)^2)
-\end{verbatim}
-
-\textbf{Reflection Question:}
-- Calculate the gravity attraction between the first piece and the point mass using the provided values.
 
 \subsection*{Gravity in Pieces: Building the Global Model}
 In this final project, you're going to approximate (and then exactly measure) the force of gravity between different shapes and a point mass. At first, to ease our way into the calculations, we're going to work with the \textbf{simplified setup}:
 \begin{equation}
 F = G \frac{m_1 m_2}{r^2}
 \end{equation}
+
 For each piece of the solid, we calculate the distance between the center of the piece and the point mass, treating the mass of that piece as $m_2$ in the formula.
 
-\textbf{MATLAB code:}
-\begin{verbatim}
-plot_gravity_cube_distances()
-\end{verbatim}
+The following plot shows this slightly different interpretation, using the distances in the gravity calculations.
+
+\begin{center}
+\includegraphics{cubes_gravity_distances_approximation.png}
+\end{center}
+
 
 \subsection*{Approximating Gravity: Adding Up Small Gravities}
 As with all integration problems, we solve the "multiplying doesn't work" problem by:
-1. breaking up an object into small pieces
-2. making the desired measurement on each small piece
-3. adding up all of the small measurements to get a global measurement
+\begin{enumerate}
+    \item Breaking up the solid into many small pieces
+    \item Measuring the gravity between each small piece and the point mass
+    \item Adding up all of the small gravities to get an approximation of the total gravity
+\end{enumerate}
 
-\textbf{MATLAB code:}
-\begin{verbatim}
-gravities = G * m_1 * (densities .* volumes) ./ (distances.^2)
-approx_gravity = sum(gravities)
-\end{verbatim}
 
-\textbf{Reflection Questions:}
-- Write out symbolically what MATLAB has done using summation notation, using $\Delta M_k, \Delta V_k, \Delta F_k$ for the mass, volume, gravity of each piece.
-- How do we make this approximation more precise? What do we do to the sum to get an exact measure of gravity and how does that connect to definite integration?
+You will be provided with a personal shape, point mass, and density function and will be asked to use MATLAB to approximate the gravity between the solid and the point mass (under the general simplified setup).
 
-\subsection*{The Final Model: Gravity Between a Solid and a Point Mass}
-We now have a model for the gravity between a solid and a point mass. We can use this model to calculate the gravity between different shapes and a point mass.
+Here we'll show you some example cases and help you build your intuition about how the density distributions within the shapes impact the gravitational attraction.
 
-\textbf{MATLAB code:}
-\begin{verbatim}
-gravities = G * m_1 * (densities .* volumes) ./ (distances.^2)
-approx_gravity = sum(gravities)
-\end{verbatim}
+\begin{problem}
+First, let's look at a sphere with varying density.
 
-\textbf{Reflection Questions:}
-- If the sphere had a uniform density, how would the coloring in the gravity plot be different?
-- What must be true about the mass for the gravity plot to have the given coloring?
-- Write out symbolically how the gravity (under the simplified setup) is approximated. Use $k$ to denote the index of the pieces.
+\begin{center}
+\includegraphics{sphere_refined_gravity_plot.png}
+\end{center}
 
-\subsection*{Calculating Exact Gravity (Simple Setup)}
-Now you will receive your own personal solid, go through a similar process to calculate the gravity approximation in MATLAB, and then use a triple integral to get the exact measure of gravity between the solid and the point mass.
+Based on Newton's Law of Gravity, if the sphere was uniformly dense where should the gravity be strongest?
+\begin{multipleChoice}
+    \choice[correct]{At the top of the sphere}
+    \choice{At the bottom of the sphere}
+    \choice{At the center of the sphere}
+    \choice{All points should have the same gravity}
+\end{multipleChoice}
 
-\textbf{MATLAB code:}
-\begin{verbatim}
-[densities, distances, volumes] = generate_student_solid(12345)
-G = 10;
-gravities = G * m_1 * (densities .* volumes) ./ (distances.^2)
-approx_gravity = sum(gravities)
-\end{verbatim}
+Based on the coloring in the gravity plot above, the densities within the sphere are slightly interfering with the gravity calculation. Where is the gravity highest within the sphere (from your perspective)
+\begin{multipleChoice}
+    \choice{At the center of the sphere}
+    \choice[correct]{At the left of the sphere}
+    \choice{At the right of the sphere}
+    \choice{All points should have the same gravity}
+\end{multipleChoice}
 
-\textbf{Reflection Questions:}
-- Why can't we just use Newton's Law of Gravity to calculate the exact gravity between the solid and the point mass for these solids?
-- Why is there error in our approximation method after we break up the solid into pieces?
+What does this say about the distribution of density within the sphere?
+\begin{multipleChoice}
+    \choice[correct]{The left side of the sphere must be denser than the right side}
+    \choice{The right side of the sphere must be denser than the left side}
+    \choice{The sphere must be uniformly dense}
+    \choice{Density has no effect on gravity}
+\end{multipleChoice}
+\end{problem}
+
+Before moving on to integration, let's review how we symbolize the finite approximations of gravity that you'll be computing in MATLAB.
+
+Remember that we use $\Delta$ in these contexts to represent an additional small piece of a measured quantity, so $\Delta F$ would be a small bit of force that we would then add up over many pieces to get a total force approximation 
+
+$$F \approx \sum_i \Delta F_i$$
+
+Each of those bits of force $\Delta F_i$ is computed using the simplified Newton's Law formula:
+
+$$\Delta F_i = G \frac{m_1 \Delta M_i}{r_i^2}$$
+
+where $\Delta M_i$ is the mass of the $i$th piece of the solid and $r_i$ is the distance from that piece to the point mass. It is the $\Delta M_i$ that you will compute using the density and volume of the pieces, provided to you by the MATLAB code.
 
 \subsection*{Using Integrals to Get an Exact Measure}
 Using triple integrals, we can write the exact measure of gravity as:
 \begin{equation}
-F = \int \int \int \frac{G m_1 \rho(x,y,z)}{r^2} dV
+F = \int \int \int \frac{G m_1 dM}{r^2}
 \end{equation}
-where $\rho(x,y,z)$ is the density function and $r$ is the distance from the differential piece to the point mass.
+where $dM$ is the differential mass of small piece of the solid. The work you will do, in addition to recreating the approximation, is to work with the appropriate coordinate system to set up the integral using the varying density function throughout the volume. 
 
-\textbf{Reflection Questions:}
-- What is the gravity (under the simple setup) between the solid and the point mass?
-- Work out by hand the steps to use the FTC to compute the integral measure
-- Verify in MATLAB (using three int() commands) the measure you found.
-- Does the measure you found using integration closely match the approximation?
-- Describe how you should think about integration as it applies to STEM after you leave calculus.
+Let's take a look at some example solids and their coordinate systems to finish up this introduction to the final project.
+
+\begin{problem}
+Consider the following cone with varying density given in a cylindrical coordinate system:
+
+\begin{center}
+\includegraphics{cone_refined_gravity_plot.png}
+\end{center}
+
+You'll notice that the cone is colored in a way that suggests the bottom of the cone has higher gravity than the top of the cone. 
+
+Whereas before we reasoned about the density distribution to explain the gravity plot, it is more nuanced when we change coordinate systems.
+
+Recall that cylindrical coordinates are given by:
+\begin{equation}
+x = r \cos(\theta)
+\end{equation}
+\begin{equation}y = r \sin(\theta)
+\end{equation}
+\begin{equation}z = z
+\end{equation}
+
+Fill in the following statements to build your intuition about how the coordinate system and density distribution impact the gravity calculation.
+
+\begin{enumerate}
+    \item At the top of the cone, the radius $r$ is \wordChoice{\choice{larger}\choice[correct]{smaller}} than at the bottom of the cone. 
+    
+    \item The distribution of points in $z$ is \wordChoice{\choice[correct]{evenly spaced}\choice{more dense at the top}\choice{more dense at the bottom}}.
+
+    \item The spread of the points rotating around the center axis of the cone is \wordChoice{\choice{more spread out at the top}\choice{more spread out at the bottom}\choice[correct]{evenly spread out}}.
+
+    \item Because of these factors, the volume of the pieces at the top of the cone is \wordChoice{\choice{larger}\choice[correct]{smaller}} than the volume of the pieces at the bottom of the cone. This contributes to the measure of mass in each piece, contributing to the gravity measure at the top of the cone is \wordChoice{\choice{larger}\choice[correct]{smaller}} than at the bottom of the cone.
+\end{enumerate}
+
+When you formulate the gravitational attraction between the cone and the point mass using a triple integral, which coordinate system will you use?
+
+\begin{multipleChoice}
+    \choice{Rectangular}
+    \choice[correct]{Cylindrical}
+    \choice{Spherical}
+\end{multipleChoice}
+
+Be sure to correctly formulate the differential mass $dM$ in your integral using the correct coordinate system, and also to correctly express the distance $r$ from each piece to the point mass in the coordinate system you choose.
+\end{problem}
+
+Now let's examine a cylinder.
+
+\begin{problem}
+Consider the following cylinder with varying density given in a cylindrical coordinate system:
+
+\begin{center}
+\includegraphics{cylinder_refined_plot.png}
+\end{center}
+
+You'll notice that the cylinder is colored in a way that suggests the outer points of the cylinder (at the top) have higher gravity than the inner points of the cylinder (also at the top).
+
+Fill in the following statements to build your intuition about how the coordinate system and density distribution impact the gravity calculation.
+
+\begin{enumerate}
+    \item At the outer edge of the cylinder, the radius $r$ is \wordChoice{\choice[correct]{larger}\choice{smaller}} than at the inner edge of the cylinder. 
+    
+    \item The distribution of points in $z$ is \wordChoice{\choice[correct]{evenly spaced}\choice{more dense at the outer edge}\choice{more dense at the inner edge}}.
+
+    \item The spread of the points rotating around the center axis of the cylinder is \wordChoice{\choice[correct]{more spread out at the outer edge}\choice{more spread out at the inner edge}\choice{evenly spread out}}.
+
+    \item Because of these factors, the volume of the pieces at the outer edge of the cylinder is \wordChoice{\choice[correct]{larger}\choice{smaller}} than the volume of the pieces at the inner edge of the cylinder. This contributes to the measure of mass in each piece, contributing to the gravity measure at the outer edge of the cylinder is \wordChoice{\choice[correct]{larger}\choice{smaller}} than at the inner edge of the cylinder.
+\end{enumerate}
+
+When you formulate the gravitational attraction between the cylinder and the point mass using a triple integral, which coordinate system will you use?
+
+\begin{multipleChoice}
+    \choice{Rectangular}
+    \choice[correct]{Cylindrical}
+    \choice{Spherical}
+\end{multipleChoice}
+
+Be sure to correctly formulate the differential mass $dM$ in your integral using the correct coordinate system, and also to correctly express the distance $r$ from each piece to the point mass in the coordinate system you choose.
+\end{problem}
+
+Finally, let's examine a sphere.
+
+\begin{problem}
+Consider the following sphere with varying density given in a spherical coordinate system:
+
+\begin{center}
+\includegraphics{sphere_spherical_refined_gravity_plot.png}
+\end{center}
+
+You'll notice that the sphere is colored in a way that suggests the outer points of the sphere (near the equator) have higher gravity than the inner points of the sphere (near the poles).
+
+Recall that spherical coordinates are given by:
+\begin{equation}
+x = \rho \sin(\phi) \cos(\theta)
+\end{equation}
+\begin{equation}y = \rho \sin(\phi) \sin(\theta)
+\end{equation}
+\begin{equation}z = \rho \cos(\phi)
+\end{equation}
+
+Fill in the following statements to build your intuition about how the coordinate system and density distribution impact the gravity calculation.
+
+\begin{enumerate}
+    \item At the outer edge of the sphere, the radius $\rho$ is \wordChoice{\choice[correct]{larger}\choice{smaller}} than at the inner edge of the sphere. 
+    
+    \item The distribution of points in $\phi$ is \wordChoice{\choice[correct]{evenly spaced}\choice{more dense at the outer edge}\choice{more dense at the inner edge}}.
+
+    \item The spread of the points rotating around the center axis of the sphere is \wordChoice{\choice[correct]{more spread out at the outer edge}\choice{more spread out at the inner edge}\choice{evenly spread out}}.
+
+    \item Because of these factors, the volume of the pieces at the outer edge of the sphere is \wordChoice{\choice[correct]{larger}\choice{smaller}} than the volume of the pieces at the inner edge of the sphere. This contributes to the measure of mass in each piece, contributing to the gravity measure at the outer edge of the sphere is \wordChoice{\choice[correct]{larger}\choice{smaller}} than at the inner edge of the sphere.
+\end{enumerate}
+
+When you formulate the gravitational attraction between the sphere and the point mass using a triple integral, which coordinate system will you use?
+
+\begin{multipleChoice}
+    \choice{Rectangular}
+    \choice{Cylindrical}
+    \choice[correct]{Spherical}
+\end{multipleChoice}
+
+Be sure to correctly formulate the differential mass $dM$ in your integral using the correct coordinate system, and also to correctly express the distance $r$ from each piece to the point mass in the coordinate system you choose.
+\end{problem}
 
 \subsection*{(Optional) The True Setup for Measuring Gravity}
 The true way to measure gravity between two point masses is:
 \begin{equation}
 \vec{F} = G \frac{m_1 m_2}{||\vec{r}||^2} \hat{r}
 \end{equation}
+
 To truly approximate gravity, we need to add together all of the force vectors $\vec{F_k}$ to make a single net force vector $\vec{F}$:
 \begin{equation}
 \vec{F} \approx \sum_k \vec{F_k} = \sum_k G \frac{m_1 m_2}{||\vec{r_k}||^2} \hat{r_k}
 \end{equation}
+
 We can approximate this true gravity by summing all of the force vectors together and then taking the magnitude of the resulting vector.
 
-\textbf{MATLAB code:}
-\begin{verbatim}
-[densities, gravity_vectors, volumes] = generate_solid_gravity('gravity_mode','true','n',100)
-sum_vector = sum(gravity_vectors, 1)
-norm(sum_vector)
-\end{verbatim}
+Compare this to the simplified setup where we just sum the magnitudes of the forces:
+\begin{equation}
+F \approx \sum_k ||\vec{F_k}|| = \sum_k G \frac{m_1 m_2}{||\vec{r_k}||^2}
+\end{equation}
 
-\textbf{Reflection Questions:}
-- Why is the top center of the sphere colored blue? Those points are theoretically closer to the point than others, so why is the gravity calculation so low?
-- Similarly, why is the top of the cone colored blue?
-- Explain the shapes of the solids (Hint: Think about the coordinate system)
+Fill in the following statements to build your intuition about how the true gravity calculation differs from the simplified setup.
+
+\begin{problem}
+    \begin{enumerate}
+        \item In the vector version of the gravity sum, there \wordChoice{\choice{is no}\choice[correct]{is}} possible cancellation within the components of the vectors being summed. 
+        \item In the simplified setup of summing magnitudes, there \wordChoice{\choice[correct]{is no}\choice{is}} possible cancellation within the terms being summed.
+        \item This means that the true gravity measure will always be \wordChoice{\choice{larger than}\choice[correct]{smaller than}} the simplified setup gravity measure.
+        \item A good model for gravity \wordChoice{\choice[correct]{includes}\choice{does not include}} the possibility of cancellation between gravity forces when there is symmetry within the solid.
+    \end{enumerate}
+    
+\end{problem}
+
+In the livescript you will be provided with code that will help you generate a vector version of the true gravity approximation. You are welcome to explore this version of the gravity calculation as an extension to your project!
 
 \end{document}

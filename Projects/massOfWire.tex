@@ -100,106 +100,90 @@ The error in the calculations comes from (select all):
 which means that the basic model of mass = density $\times$ length \wordChoice{\choice[correct]{does not work}\choice{works}} for wires with variable density. 
 \end{problem}
 
-\subsection*{Application Walkthrough 1: Mass of a Wire}
+\section*{Visualize the Approximate Pieces}
+You are provided with course functions that break up the wire into pieces and use the midpoint values of the pieces to approxiamte mass. As the example curve (not your own), you should see a plot such as the followoing:
 
-\subsection*{Introduction}
-Welcome to your first project walkthrough! This walkthrough will give you a good glimpse of some of the main ways we want to think about differentiating and integrating along curves when modeling phenomena using mathematics! This will also give you a rough template and introduce you to the tools that you can use for your mini project, due at the end of this module.
+\begin{center}
+\includegraphics{20_seg_wire.png}
+\end{center}
 
-\subsection*{Use MATLAB As an Interactive Tool, not "Code"}
-You'll notice that all of the projects are housed within MATLAB Live Scripts. This is primarily to use MATLAB as an environment in which you can watch animations, view and interact with plots, use applets, read formulas, and engage with your custom formulas and functions.
+You are also provided with course functions that will both plot the wire and provide the approximate measure of wire mass based on the approximation, such as the following plot with an approximation measure of $132.354$ grams:
 
-While you will be asked to interact in some sections by "writing code", the code you write will mostly be making standard mathematical calculations using basic operations: addition ($+$), subtraction ($-$), multiplication ($\cdot$), division ($/$), and exponentiation ($^2$). For the most part, the rest of your work in MATLAB will be defining terms (like $N$, mass, density), selecting the "Run Section" button to activate the MATLAB code, or using other calculus-oriented commands that you have practiced already.
+\begin{center}
+\includegraphics{20_mass_approx.png}
+\end{center}
 
-\subsection*{Challenges to the Basic Model: Variable Density}
-We want to calculate the mass of a wire just using multiplication, $M = \rho \cdot L$, where $M$ is the mass, $\rho$ is the uniform density, and $L$ is the length. Unfortunately, we can't use this basic model for many wires because:
-\begin{itemize}
-  \item Many wires have strange shapes and we don't want to stretch them out to measure their length.
-  \item Not all wires have uniform densities, so there is no one density that will work in the basic model.
-\end{itemize}
-So, how do we compute the total length and total mass? We integrate to "add up small mass pieces" together.
+\begin{example}
+You are asked to recreate this approximation yourself in the live script using MATLAB code.
 
-\section*{Step 1: Visualize the Approximate Pieces}
-Let's visualize the approximation process first. The function \textbf{plot curve pieces} will:
-\begin{itemize}
-  \item Take in a wire $\vec{r}$ as the first argument,
-  \item A number of pieces $N$ as the second argument,
-  \item A density function $\rho$ as the third argument,
-  \item Show a plot of the wire pieces color-coded by density.
-\end{itemize}
+The code breaks down the process by giving you the lists of segment lengths and the midpoint densities, only requiring that you multiply the individual entries together and then sum them to get a total mass approximation.
 
-% Animation placeholder
-% \youtube{Wire Pieces Color Animation}
 
-This sets up a \textit{midpoint approximation} of the mass. The density at the midpoint of the segment is treated as the uniform density of the entire wire.
-
-The function \textbf{plot curve mass pieces} will also use the same arguments $(r, N, \rho)$ but the plot will tell you the mass approximated by the midpoint sum.
-
-If everything is set up correctly, a 20-piece sample midpoint approximation of the mass should measure $134.354$ grams.
-
-\section*{Step 2: Approximate the Wire Mass}
 Remember that mass is approximated by the product $M = \rho \cdot L$, "density times the length". If we had the lengths and densities of our wire after breaking it up into $N$ pieces, we could just multiply those densities and lengths to get the mass of each individual piece.
 
-This is exactly what the course function \textbf{break into pieces} does!
+You're also asked to write out a formula symbolically to describe what MATLAB is doing in the code.
 
-You should see two lists (arrays) called \textbf{lengths} and \textbf{densities}. The numbers in each are the lengths of the broken wire and the densities of the broken wire. The $i$th element of \textbf{lengths} is the length of the $i$th segment, and the $i$th element of \textbf{densities} is the density at the midpoint of the $i$th segment.
+Remember that the general sum is written as:
+$$
+\sum_{i=1}^N \Delta M_i$$
 
-You should see a 20-length list of masses whose entries are the products of the corresponding entries in lengths and densities.
+where $\Delta M_i$ is the mass of the $i$th piece (like, the $5th$ piece, the $100th$ piece, etc). Be sure to also use $\rho_i$ as the density of the $i$th piece and $\Delta L_i$ as the length of the $i$th piece. 
 
-\section*{Reflection Questions}
-\begin{itemize}
-  \item Why for the given $\vec{r}$ and $\rho$ do we need to break the wire into pieces?
-  \item What cannot be exactly calculated by the basic model $\text{mass} = \text{density} \times \text{length}$ in the setup of our wire?
-  \item Why can we not just use a single length or a single density value?
-\end{itemize}
+Youre symbols should represent that we are adding up $N$ instances of the basic model at work, density times length.
+\end{example}
 
-\section*{Reflection Questions}
-\begin{itemize}
-  \item Write out symbolically a formula to describe what MATLAB is doing with the line . Use $\Delta M_i$ as the "$i$th" mass, $\rho_i$ as the "$i$th" density, and $\Delta L_i$ as the length of the "$i$th" piece.
-  \item If we took a 200 or 2000-piece approximation, what about our calculation method would change?
-\end{itemize}
+\begin{example}
+\textbf{Refining the Approximation Using Smaller Scales}
 
-% Animation placeholder
-% \youtube{Mass Approximation Animation}
+You are then asked to recreate this process for increasing values of $N$, which refines the approximation. At each stage you should multiply the densities and the lengths togther and sum the results.
 
-\subsection*{Symbolizing: Midpoint Sum Approximation}
-To symbolically write out our approximation:
-% \begin{align*}
-% M &\approx \sum_{i} \Delta M_i \\
-%   &= \sum_{i} \rho_i \Delta L_i
-% \end{align*}
+This should yield approximations such as the following:
 
-\subsection*{Refining the Approximation Using Smaller Scales}
-This approximation works at any scale, and approximations get better as we use smaller scales (increasing $N$).
+First, $N=50$:
 
-\section*{Reflection Questions}
-\begin{itemize}
-  \item What is happening to the mass approximation as $N$ increases?
-  \item Do you think the approximation is becoming more or less accurate? Why or why not?
-  \item What is happening to the measurement accuracy of each piece as $N$ increases? Explain.
-\end{itemize}
+\begin{center}
+\includegraphics{50_mass_approx.png}
+\end{center}
 
-\subsection*{Very Small Scales}
-Notice that the last two $N$-values gave the same approximation. This does not mean we found the exact mass, it simply means we surpassed the default precision of MATLAB.
+Then $N=100$:
+\begin{center}
+\includegraphics{100_mass_approx.png}
+\end{center}
 
-\section*{Reflection Questions}
-\begin{itemize}
-  \item Why is this section called "very small scales" but we're growing $N$ to have very large values?
-  \item Why is a small scale important for the approximation?
-\end{itemize}
+Then $N=150$:
+\begin{center}
+\includegraphics{150_mass_approx.png}
+\end{center}
+
+You are then asked to just recreate the calculations for very large $N$ values, such as the following:
+
+\begin{enumerate}
+  \item $N=1000$ gives an approximation of $134.7034$
+  \item $N=10000$ gives an approximation of $134.7035$
+  \item $N=100000$ also gives an approximation of $134.7035$
+\end{enumerate}
+
+This does not mean that we found the exact mass, it simply means we surpassed the default precision of MATLAB.
+
+\end{example}
 
 \section*{Generating Exact Measures: Integration}
 Let's see if we can use integrals to get a more exact measure, and double check that it's close to our approximations!
 
-The key with integrating is that we're still adding up small bits of mass to get an exact measure of mass:
-% \begin{align*}
-% M &\approx \sum \Delta M \\
-% M &= \int dM
-% \end{align*}
+The key with integrating is that we're still adding up small bits of mass to get an exact measure of mass.
 
-The small bit of mass comes from the density-length products on a small bit of arc length along the curve, $dL$, so our equation for mass becomes:
-$$
-M = \int \rho \, dL
-$$
+The small bit of mass are the differential bits whose ``total sum" is really the limit of the finit sums.
+
+\subsection*{Symbolizing}
+Let's translate our finite approximations into integrals to get an idea of how we want to set up the integral for computation.
+
+\begin{enumerate}
+
+\item The approximation equation $M\approx \Sigma\Delta M$ becomes the integral equation $M=\int dM$, ``add up tiny bits of mass to get the total mass".
+
+\item The small bit of mass comes from the density*length products on a small bit of arc length along the curve, $dL$, so our equation for mass becomes $M=\int dM=\int \rho dL$. "The total mass comes from adding up small density \* length products along the wire".
+\end{enumerate}
+
 
 The main trick when computing integrals is using the Fundamental Theorem of Calculus (FTC):
 \begin{itemize}
@@ -212,52 +196,29 @@ dL = \|\vec{v}\| \, dt
 $$
 So, with one final re-write of our equations, we get
 $$
-M = \int_a^b \rho(t) \|\vec{v}\| \, dt
+M = \int dM = \int \rho dL = \int_a^b \rho(t) \|\vec{v}\| \, dt
 $$
 
-\subsection*{Building and Computing the Integral}
-You should see a number (and not a function or other entity).
+You are provided with MATLAB code to carry out these calculations for the provided curve
 
-Sometimes, $M$ isn't given as an exact number, it just writes out the integral and the formula is a bit unwieldy. That's okay! Many functions don't have nice integrals (and often it's impossible to find antiderivatives).
+$$\vec{r} = [\cos(t), \sin(t), t]$$
 
-Hopefully, you get the same approximation (or very close) as we did with our high $N$ approximations!
+and density function $\rho = 2 + t^2$. This should yield an exact mass of $\frac{4\pi\sqrt{2}(2\pi^2+3)}{3}\approx 134.7035$ grams.
 
 \section*{Your Turn!}
 
-\subsection*{Part 1: A Complicated Curve}
-Go through the steps from above for yourself, first using your own curve provided by \textbf{verify setup} in the beginning and then using a new curve from the provided constants $C_1$ and $C_2$.
+You'll complete the project first by recreating the finite approximation with a complicated curve, such as 
 
-Now manually compute the approximation using the same calculations that we did earlier in the script. Be sure to name all of your variables appropriately.
+$$\vec{r} = [ (2.871 + 0.603\cos(2t))\cos(5t), (2.871 + 0.603\cos(2t))\sin(5t), 0.603\sin(2t)]$$
 
-\section*{Reflection Questions}
-\begin{itemize}
-  \item Describe what would be difficult about computing the mass of the provided curve by hand.
-  \item Are we even guaranteed that all masses can be computed by-hand using antiderivatives? Discuss why or give a counter example.
-\end{itemize}
+which in pieces would look something like this:
 
-\subsection*{Part 2: A Simpler Curve for Integration}
-Now you'll do this process again, but with a simpler function that more easily integrates for verification.
-The function will be:
-$$
-r = [C_1 \cos(t), C_1 \sin(t), C_2 t]
-$$
-with $C_1$ and $C_2$ taken from your \textbf{verify setup} information.
+\begin{center}
+\includegraphics{mass_pieces_complicated.png}
+\end{center}
 
-Now use the same summation methods from earlier in the project to approximate the mass of the wire.
+You will then compute the exact mass using integration along a simpler curve. The process should closely follow the examples laid out in the livescript.
 
-Finally, use integration to verify the approximation using calculus. Feel free to use decimals to three decimal places for the coefficients of the functions. Remember to use a trig identity to greatly simplify your integral before computing it. Also, remember that the wire runs between $t=0$ and $t=2\pi$.
-
-\section*{Reflection Questions}
-\begin{itemize}
-  \item What was hard and what was easy about this process?
-  \item Explain any major or minor errors between the numerical approximation and the result found from integration.
-  \item Describe in detail, including diagrams as necessary, the process of measuring the mass of a wire with variable density.
-\end{itemize}
-
-
-
-
-
-
+Good luck!
 
 \end{document}

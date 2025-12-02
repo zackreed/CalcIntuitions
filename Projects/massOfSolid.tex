@@ -5,22 +5,13 @@
 
 \begin{document}
 \begin{abstract}
-This page will help you as you work on your warm up project, exploring how we compute the mass of a solid with variable density using integration.
+This page will help you as you work on a new project, exploring how we compute the mass of a solid with variable density using integration.
 \end{abstract}
 \maketitle
 
 
 
 \section*{Introduction}
-
-Welcome to your first project walkthrough!
-This walkthrough will give you a good glimpse of some of the main ways we want to think about differentiating and integrating along curves when modeling phenomena using mathematics! 
-
-
-\section*{Instructor Solution: Mass of a Solid Cone}
-
-\subsection*{Introduction}
-****This script is ONLY FOR INSTRUCTORS and presents a fully worked out/explained solution to the "Mass of a Solid Cone" mini project choice. Instructor text will be given in this text format.****
 
 Welcome to your next final project warm up activity! This activity should feel familiar. In fact, we will cover essentially the same topic as the first mini project, finding the masses of objects based on varying densities. 
 
@@ -50,22 +41,39 @@ As before, we will consider new scenarios of more complex solids where the densi
 Consider the following example:
 If you have ever seen a liquid sit long enough to separate, it might look something like this:
 
-% \begin{center}
-% \includegraphics[width=0.4\textwidth]{mixed_fluids.png}
-% \end{center}
+\begin{center}
+  \includegraphics[width=0.4\textwidth]{mixed_fluid_densities.png}
+\end{center}
 
 As you move throughout the volume, you'll notice that depending on the location $\left(x, y, z\right)$, the density $\rho$ might vary between $0.91$ and $1$. We will simulate situations like this with continually varying densities $\rho(x, y, z)$ and use integration to calculate the masses of the solids.
 
 Much like simulating the constant density of a wire, the following animation simulates the constant density of a cube.
+
 The following animation will show the mass and volume calculations at various scales within sub-regions of a cube.
 
-\youtube{Constant Density Cube Animation}
+\youtube{EjMeVZVn1pU}
 
-Using the measures of mass and volume within the cube, verify that the density is indeed constant (up to a small error) and determine the density of the cube. Assume the density is an integer.
+
+
+\begin{problem}
+
+  Using the measures of mass and volume within the cube, verify that the density is indeed constant (up to a small error) and determine the density of the cube. Assume the density is an integer.
+
+  \begin{enumerate}
+    \item At the first scale, the density is approximately: $\frac{\answer[tolerance=.01]{.3750}}{\answer[tolerance=.01]{.1250}}=\answer{3}$
+    \item At the second scale, the density is approximately: $\frac{\answer[tolerance=.01]{.2303}}{\answer[tolerance=.01]{.0768}}=\answer[tolerance=.1]{2.9987}$
+    \item At the third scale, the density is approximately: $\frac{\answer[tolerance=.01]{.1286}}{\answer[tolerance=.01]{.0429}}=\answer[tolerance=.1]{2.9977}$
+    \item At the fourth scale (.2750), the density is approximately: $\frac{\answer[tolerance=.01]{.0624}}{\answer[tolerance=.01]{.0208}}=\answer[tolerance=.1]{3}$
+  \end{enumerate}
+
+  Note that small differences between the density calculations are due to rounding errors in MATLAB. You should conclude that at all possible scales and locations the density is constant and equal to $\answer{3}$ kilograms per cubic meter.
+
+\end{problem}
 
 \subsection*{Challenges to the Basic Model: Variable Density in a Solid}
+
 We want to calculate the mass of a solid floating in space with varying density.
-If the cone had uniform density, the situation would be easy:
+If the cube had uniform density, the situation would be easy:
 \begin{itemize}
   \item Compute the volume,
   \item Multiply by the constant density.
@@ -75,151 +83,81 @@ Unfortunately, many solids don't have uniform density, and so mass varies depend
   \item Some regions are denser, contributing more mass per unit volume.
   \item Other regions are less dense, contributing less mass per unit volume.
 \end{itemize}
-You can see this clearly in the following animation, where again we will walk through a solid but the density will change.
 
-\textbf{MATLAB code:}
-\begin{verbatim}
-[densities, locations] = animate_volume_variable_density();
-\end{verbatim}
+\begin{problem}
+You can see this clearly in the following animations and paired 3D plots showing the distribution of density within the cubes:
 
-The \texttt{animate\_volume\_variable\_density} function also gave us a 2000-long list of densities called \texttt{densities} and a 2000x3 matrix (three 2000-long lists of coordinates) called \texttt{locations}.
+\begin{enumerate}
+  \item First view the animation of sample points within the cube:
+  \begin{center}
+    \youtube{Lb1o1YIYI2o}
+  \end{center}
 
-\textbf{MATLAB code:}
-\begin{verbatim}
-densities
-locations
-\end{verbatim}
+  Now examine the 3D plot of the density distribution within the cube:
+  \begin{center}
+    \includegraphics{radial_density_cube.png}
+  \end{center}
 
-This is a more detailed list of density values found at the locations within the cube.
-The rows of \texttt{densities} are linked with the rows of \texttt{locations}. That is, the 5th row (entry) in \texttt{densities} is $0.6432$ and the 5th row of \texttt{locations} is the point $[-0.1222, 0.0581, -0.2779]$. This means that the 5th point within the cube has a density of $0.6432$ and is located at $[-0.1222, 0.0581, -0.2779]$.
+  Based on the plot and animation, the density of this cube is highest \wordChoice{\choice[correct]{at the center of the cube}\choice{at the edges of the cube}\choice{at the corners of the cube}\choice{uniform throughout the cube}} and lowest \wordChoice{\choice{at the center of the cube}\choice[correct]{at the edges of the cube}\choice{at the corners of the cube}\choice{uniform throughout the cube}}.
 
-\youtube{Variable Density Cube Animation}
+  \item Next view the animation of sample points within the cube:
+  \begin{center}
+    \youtube{vxkA3BIChDs}
+  \end{center}
 
-The animation shows the mass of small regions within the cube, colored by density.
+  Now examine the 3D plot of the density distribution within the cube:
+  \begin{center}
+    \includegraphics{left_to_right_density_cube.png}
+  \end{center}
 
-Use the \texttt{plot\_3D\_densities} function to plot the locations within the cube, color-coded by density.
+  Based on the plot and animation, the density of this cube is highest (with respect to your perspective) \wordChoice{\choice[correct]{on the left side of the cube}\choice{on the right side of the cube}\choice{at the center of the cube}\choice{uniform throughout the cube}} and lowest \wordChoice{\choice{on the left side of the cube}\choice[correct]{on the right side of the cube}\choice{at the center of the cube}\choice{uniform throughout the cube}}.
 
-\textbf{MATLAB code:}
-\begin{verbatim}
-plot_3D_densities(densities, locations)
-\end{verbatim}
+  \item Finally view the animation of sample points within the cube:
+  \begin{center}
+    \youtube{83FxD3cCTKI}
+  \end{center}
 
-You can also click and drag and interact with the cube for the following reflection questions.
+  Now examine the 3D plot of the density distribution within the cube:
+  \begin{center}
+    \includegraphics{bottom_to_top_density_cube.png}
+  \end{center}
 
-\section*{Reflection Questions}
-\begin{itemize}
-  \item Where is the solid most dense (within the cube)?
-  \item Where is the solid least dense (within the cube)?
-  \item Describe the qualities of the density function $\rho(x, y, z)$? What does the function use to determine higher or lower values?
-\end{itemize}
+  Based on the plot and animation, the density of this cube is highest (from your perspective) \wordChoice{\choice{at the bottom of the cube}\choice[correct]{at the top of the cube}\choice{at the center of the cube}\choice{uniform throughout the cube}} and lowest \wordChoice{\choice[correct]{at the bottom of the cube}\choice{at the top of the cube}\choice{at the center of the cube}\choice{uniform throughout the cube}}.
+\end{enumerate}
 
-\subsection*{More Variable Densities}
-Let's observe a different density function.
 
-\textbf{MATLAB code:}
-\begin{verbatim}
-[densities, locations] = animate_volume_variable_density(2)
-\end{verbatim}
-
-\youtube{Second Variable Density Animation}
-
-Again use the \texttt{plot\_3D\_densities} function to plot the locations within the cube, color-coded by density.
-\begin{verbatim}
-plot_3D_densities(densities, locations)
-\end{verbatim}
-
-\section*{Reflection Questions}
-\begin{itemize}
-  \item Where is the solid most dense (within the cube)?
-  \item Where is the solid least dense (within the cube)?
-  \item Describe the qualities of the density function $\rho(x, y, z)$? What does the function use to determine higher or lower values?
-\end{itemize}
-
-\subsection*{One More Density}
-Let's observe a final density function.
-
-\textbf{MATLAB code:}
-\begin{verbatim}
-[densities, locations] = animate_volume_variable_density(3)
-\end{verbatim}
-
-\youtube{Third Variable Density Animation}
-
-Again use the \texttt{plot\_3D\_densities} function to plot the locations within the cube, color-coded by density.
-\begin{verbatim}
-plot_3D_densities(densities, locations)
-\end{verbatim}
-
-\section*{Reflection Questions}
-\begin{itemize}
-  \item Where is the solid most dense (within the cube)?
-  \item Where is the solid least dense (within the cube)?
-  \item Describe the qualities of the density function $\rho(x, y, z)$? What does the function use to determine higher or lower values?
-\end{itemize}
+\end{problem}
 
 \section*{Density, Mass, and Volume}
 The density plot only shows the centers of the "pieces", not the whole piece of the solid that has the assigned density.
 
-The following code uses the function \texttt{generate\_variable\_densities} to plot a rectangular grid of densities within a solid.
-\begin{verbatim}
-generate_variable_densities(5, 'cube');
-\end{verbatim}
+While it is hard to render 3D solids broken up into small cubes, when you see the plots with points you should instead imagine that each point is the center of a small cube that makes up the solid. This would look like the following:
 
-\subsection*{Points vs Cubes, Breaking up a Solid}
-Importantly, you'll notice that rather than a dense cloud of random points, the points on the grid are organized neatly into rows and columns. The locations given here are the centers of small cubes making the whole shape.
-\begin{verbatim}
-plot_solid_as_cubes(5, 'cube')
-\end{verbatim}
-
-We will mostly work with plots such as given in \texttt{generate\_variable\_densities} because it is very easy for the computer to generate many colored points (centers of the cubes) than it is to generate the same number of colored squares.
-\begin{verbatim}
-generate_variable_densities(30, 'cube');
-\end{verbatim}
+\begin{center}
+  \includegraphics{cube_in_pieces.png}
+\end{center}
 
 Because of this, even though we will work with plots of points moving forward, remember that the points represent the \textbf{centers} of the boxes, not the actual boxes themselves.
 
-To account for this in your calculations, the \texttt{generate\_variable\_densities} function gives three outputs:
-\begin{itemize}
-  \item The densities of the center points
-  \item The locations of the center points
-  \item The volumes of the small pieces (cubes for now) of the shapes.
-\end{itemize}
-The rows keep the information connected. So each row of \texttt{densities} is the density for the 3D point at the same row of \texttt{locations}, which has the volume of the same row of \texttt{volumes}.
+At a more appropriate scale, we can generate very refined variations in the density across the solid, visualized by plots such as this:
 
-\textbf{MATLAB code:}
-\begin{verbatim}
-[densities, locations, volumes] = generate_variable_densities(20, 'sphere')
-\end{verbatim}
-
-\section*{Reflection Questions}
-\begin{enumerate}
-  \item Why do we need to include the volume information for each point? Why can't we simply add up all of the density values to get the mass?
-  \item What should you imagine in your head around each point in the \texttt{generate\_variable\_densities} plot? What does the point in the plot represent?
-  \item Using the basic model for mass, how do we find the mass of each small piece of the shape? How do we find the total approximate mass of the shape?
-\end{enumerate}
+\begin{center}
+  \includegraphics{cube_small_scale.png}
+\end{center}
 
 \section*{Approximating Mass: Adding up Pieces}
-You should have an $N \times 1$ list of density values, an $N \times 3$ list of locations (each row is a point in 3D space), and an $N \times 1$ list of volumes (the volumes of the cubes around the locations). 
 
-As before with the mass of a wire, we can use MATLAB to simply add up all of the masses of the small pieces of the solid together to get an approximation of the mass. 
+You are tasked with approxiating the mass of a solid with a given variable density. 
 
-The basic operations adding arrays ($N \times 1$ lists of numbers) together are addition ($+$), subtraction ($-$), multiplication ($\cdot$), division ($/$), and exponentiation ($^2$). For multiplication, division and exponentiation, the period ($.$) is important.
+\begin{example}
 
-Using basic operations and the \texttt{sum} MATLAB command, get an approximation of the mass of the object you generated in the previous cell. It should closely match the mass approximation given in the plot.
+The first example is a sphere whose density plot looks like the following:
 
-The shape (a sphere) has volume $\frac{4}{3}\pi \cdot 0.5^3 \approx 0.5236$ because it has a radius of $0.5$. It makes sense that the mass is less than $0.5236$ because the max density is $1$, only at the center of the sphere. So the decimal densities mean the mass of the sphere is less than the volume.
-We will confirm this with integrals at the end of the activity.
+\begin{center}
+  \includegraphics{sphere_approx.png}
+\end{center}
 
-\section*{Reflection Questions}
-If we were to symbolically write out the operations the computer carried out, it would look just like a Riemann sum!
-
-Each volume measure is the volume of a 3D cube with dimensions $\Delta V_k = \Delta x_k \times \Delta y_k \times \Delta z_k$, where $k$ is the index. In terms of our arrays, $k$ would represent the rows. So in the \texttt{volumes} array, the number found at the 10th row would be $\Delta V_{10}$.
-
-Even though it's not used in computation, the \texttt{locations} matrix is the list of 3D points $(x_k, y_k, z_k)$ that are the centers of the cubes that make up the solid. The second row of \texttt{locations} from the sphere example is $[0.3750, 0.4750, 0.0250]$. This is the point $(0.3750, 0.4750, 0.0250)$ which we would denote $(x_2, y_2, z_2)$. 
-
-The \texttt{densities} are the values of a scalar function $\rho(x, y, z)$. The number is the constant density that we're using as the density of the cube that makes up that piece of the solid. The 2nd value in \texttt{densities} is $0.5082$, meaning that for the given density function, $\rho(0.3750, 0.4750, 0.0250) = 0.5082$ kilograms per cubic meter.
-
-The mass of each cube is given by the basic model $\text{mass} = \text{density} \times \text{volume}$, in our notation $\Delta M = \rho \cdot \Delta V$. 
+The mass of each piece is given by the basic model $\text{mass} = \text{density} \times \text{volume}$, in our notation $\Delta M = \rho \cdot \Delta V$. 
 If we again use $k$ to mark the rows of the arrays, then we would say $\Delta M_k = \rho(x_k, y_k, z_k) \cdot \Delta V_k$.
 
 The total mass, then, is the sum of all of the small masses $M \approx \sum_k \Delta M_k$. Since we can write each small mass as a density-volume product, we get the approximation:
@@ -227,52 +165,30 @@ The total mass, then, is the sum of all of the small masses $M \approx \sum_k \D
 M \approx \sum_k \rho(x_k, y_k, z_k) \cdot \Delta V_k
 \]
 
-Questions:
-\begin{itemize}
-  \item Take three rows from the \texttt{densities} and \texttt{volumes} arrays and calculate the approximate masses of those three small pieces of the solid. Write out in the above notation what each of the calculations represent and what formulas we use to calculate them (be sure to notate the rows).
-  \item How do we make the approximation more accurate?
-\end{itemize}
+\end{example}
 
-\subsection*{Approximating Mass: More Shapes}
-\textbf{MATLAB code:}
-\begin{verbatim}
-[densities, ~, volumes] = generate_variable_densities(10, 'cylinder', 4)
-\end{verbatim}
+\begin{problem}
 
-The shape is a cylinder with a radius $0.5$ and a height $1$, so its volume is $\pi r^2 h = \pi \cdot 0.5^2 \approx 0.7854$.
-You'll notice that the density values go from $0$ to $10$. Describe why the mass is less than the volume in this case (both fractions) even though the density has such high values.
-How does the mass of the pieces with high density relate to the mass of the pieces with low density, in terms of the relative percentage of the solid made up by high density vs low density pieces.
+You will also potentially approximate the mass of other solids with variable densities, such as the following cylinder a radius $0.5$ and a height $1$ (volume $\pi r^2 h = \pi \cdot 0.5^2 \approx 0.7854$)
 
-Verify the mass approximation of the cylinder using the basic model for mass on all of the small pieces and the \texttt{densities} and \texttt{volumes} arrays.
+\begin{center}
+  \includegraphics{cylinder_approx.png}
+\end{center}
 
-\subsection*{Reflection Questions}
-\begin{itemize}
-  \item Where is the solid most dense (within the cylinder)?
-  \item Where is the solid least dense (within the cylinder)?
-  \item Describe the qualities of the density function $\rho(x, y, z)$? What does the function use to determine higher or lower values?
-\end{itemize}
+You'll notice that the density values go from $0$ to $10$, but the mass is less than the volume even though the density has such high values.
+This is because \begin{multipleChoice}
+  \choice{the high density pieces make up a small percentage of the solid}
+  \choice[correct]{the low density pieces make up a large percentage of the solid}
+\end{multipleChoice}
+
+\end{problem}
+
 
 \section*{Your Turn: Approximating and Calculating Exact Mass}
 As with the past warm up projects, you will now generate and analyze your own object!
 
-Use the \texttt{generate\_student\_densities} function with your student ID. 
-You will see a plot of your personal shape with a variable density function.
-You will also see printed out (above the plot) the $x$, $y$, and $z$ boundaries of your shape and the formula for the density function.
+First you will approximate the mass of a personal solid and then use integrals to calculate the exact mass.
 
-\textbf{MATLAB code:}
-\begin{verbatim}
-[densities_1, ~, volumes_1] = generate_student_densities(1);
-\end{verbatim}
-
-You will first use the \texttt{densities} and \texttt{volumes} information to confirm the mass approximation given in the plot. Then, you will use triple integrals to get an exact measure of the mass.
-
-First, as before, use the densities and volumes information to approximate the mass by "adding up" the pieces of mass from your personally generated approximation of the shape.
-Remember that even though the plot gives the centers of the pieces of the shape, in reality the shape is broken up into many small cubes with a uniform density given by the density function at the center point.
-
-\section*{Reflection Questions}
-After you've confirmed that the mass approximation from the densities and volumes arrays matches the approximation in the plot, write out in general summation notation how that mass approximation is calculated (using $\rho$ to symbolize the density) and then below the notation write out your personal formula for the density, your personal solid shape and its parameters, and the center point of your solid.
-
-\section*{Using Integrals to Get an Exact Measure}
 The methods you learned in the textbook to compute triple integrals is how you can leverage the Fundamental Theorem of Calculus to find exact formulas that quickly give you the measure calculated by a volume sum. 
 That is,
 \[
@@ -282,35 +198,8 @@ and
 \[
 M = \iiint dM = \iiint \rho \, dV = \int_{z_1}^{z_2} \int_{y_1}^{y_2} \int_{x_1}^{x_2} \rho \, dx \, dy \, dz
 \]
+
 You will complete this assignment by writing the triple integral that computes the mass of the solid, use the FTC to generate the exact formula that gives the measure of mass (by hand) and then use the \texttt{int()} command in MATLAB to confirm the triple integral calculation.
-
-\section*{Reflection Questions}
-Using your personal density function and the parametric information about your surface:
-\begin{itemize}
-  \item Write the triple integral that computes the mass of your personal solid.
-  \item Use the Fundamental Theorem of Calculus to find a function that produces the value of the mass.
-  \item Calculate the mass of the solid.
-  \item The mass you calculate using the FTC should be very close to the approximation found from the MATLAB sum.
-  \item Then, using MATLAB:
-    \begin{itemize}
-      \item Define your density function.
-      \item Use the \texttt{int} command (three times) to calculate the triple integral that calculates mass.
-      \item Check that the mass from the triple integral matches the other two masses you computed.
-    \end{itemize}
-\end{itemize}
-
-Here is an example of a triple integral computed in MATLAB. These commands find the triple integral of the function $x+y+z$ in the unit cube.
-First, the commands integrate each variable one at a time, then the final command calculates the triple integral all at once.
-
-\textbf{MATLAB code:}
-\begin{verbatim}
-syms x y z
-f = x + y + z;
-int(f, x)
-int(f, y)
-int(f, z)
-int(int(f, x), y, z)
-\end{verbatim}
 
 Good luck! And be sure to ask lots of questions as you work on this project.
 \end{document}
