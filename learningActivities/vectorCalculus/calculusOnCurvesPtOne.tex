@@ -109,6 +109,10 @@ Break down the curve by isolating each component with respect to time, but then 
 
 \end{enumerate}
 
+\begin{feedback}
+ Remember that looking into the $x-z$ plane means that the $y-$axis is pointed out of the screen at you. Similarly the $y-z$ plane has the $x-$axis pointed out of the screen, and the $x-y$ plane has the $z-$axis pointed out of the screen.
+\end{feedback}
+
 \end{problem}
 
 A key property of vector functions is that looking at the curve itself does not immediately indicate the component functions. Instead, the component functions determine how to vary along the curve as time passes.
@@ -201,7 +205,7 @@ You can also do vector operations on vector functions!
     First, let's evaluate at $t=2$:
     \begin{itemize}
         \item $\vec{r}(2) = [\answer{4}, \answer{4}, \answer{3}]$
-        \item $\vec{s}(2) = [\sin(4), e^2, \sqrt{2}] \approx [-0.757, 7.389, 1.414]$
+        \item $\vec{s}(2) = [\sin(4), e^2, \sqrt{2}] \approx [\answer[tolerance=.01]{-0.757}, \answer[tolerance=.01]{7.389}, \answer[tolerance=.01]{1.414}]$
     \end{itemize}
     
     \begin{enumerate}
@@ -216,23 +220,14 @@ You can also do vector operations on vector functions!
         r_1 s_2 - r_2 s_1
         \end{bmatrix}$$
         
-        The $x$-component is: $r_2 s_3 - r_3 s_2 = \answer[tolerance=0.1]{4\sqrt{2} - 3e^2}$ (or approximately $\answer[tolerance=0.5]{-16.5}$)
+        The $x$-component is: $r_2 s_3 - r_3 s_2 \approx \answer[tolerance=0.5]{-16.5}$
         
-        The $y$-component is: $r_3 s_1 - r_1 s_3 = \answer[tolerance=0.1]{3\sin(4) - 4\sqrt{2}}$ (or approximately $\answer[tolerance=0.5]{-8.4}$)
+        The $y$-component is: $r_3 s_1 - r_1 s_3 \approx \answer[tolerance=0.5]{-8.4}$
         
-        The $z$-component is: $r_1 s_2 - r_2 s_1 = \answer[tolerance=0.1]{4e^2 - 4\sin(4)}$ (or approximately $\answer[tolerance=0.5]{32.6}$)
+        The $z$-component is: $r_1 s_2 - r_2 s_1 \approx \answer[tolerance=0.5]{32.6}$
+
         
-        \begin{feedback}
-            Remember the cross product formula for $\vec{a} = [a_1, a_2, a_3]$ and $\vec{b} = [b_1, b_2, b_3]$:
-            $$\vec{a} \times \vec{b} = 
-            \begin{bmatrix}
-            a_2 b_3 - a_3 b_2 \\
-            a_3 b_1 - a_1 b_3 \\
-            a_1 b_2 - a_2 b_1
-            \end{bmatrix}$$
-        \end{feedback}
-        
-        \item The cross product $\vec{r}(2)\times \vec{s}(2)$ produces a vector that is perpendicular to both $\vec{r}(2)$ and $\vec{s}(2)$. Which diagram correctly shows the cross product vector?
+        \item The cross product $\vec{r}(2)\times \vec{s}(2)$ produces a vector that is perpendicular to both $\vec{r}(2)$ and $\vec{s}(2)$. Which diagram correctly shows the cross product vector? (note the orientation of $x$, $y$, and $z$)
         \begin{multipleChoice}
             \choice{
                 \begin{tikzpicture}[scale=0.5, thick, >=stealth]

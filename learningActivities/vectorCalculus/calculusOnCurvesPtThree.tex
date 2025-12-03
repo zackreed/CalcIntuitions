@@ -13,7 +13,7 @@ In this activity we explore integration of vector functions, focusing on reconst
 
 \subsection*{Reconstructing Position from Velocity}
 
-In single-variable calculus, we learned that integration is the reverse of differentiation. If we know the rate of change, we can find the total change by integrating.
+In single-variable calculus, we learned that integration adds up small changes made by rate-time products $r\cdot dt$. Because of the Fundamental Theorem of Calculus, if we know the rate of change, we can find the total change amount by integrating.
 
 \begin{problem}
 Let's review: In single-variable calculus, if a rocket has velocity $v(t)$ over time interval $[a,b]$, the total change in height is:
@@ -42,6 +42,36 @@ Let's visualize this with a rocket example.
 \end{center}
 
 The rocket's velocity determines its motion, and total height accumulates over time. For instance, a height of $1090.2$ meters over $5.57$ seconds comes from: $1090.2 = \int_0^{5.57} v(t) \, dt$.
+
+After exploring the applet, select the true statements:
+
+\begin{enumerate}
+    \item First about the velocity: 
+    
+    \begin{selectAll}
+    \choice[correct]{The height of the velocity curve at time $t$ gives the rocket's speed at that time}
+    \choice[correct]{The integral $\int_{T_1}^{T_2} v(t) \, dt$ gives the change in height between times $T_1$ and $T_2$}
+    \choice{The integral $\int_{T_1}^{T_2} v(t) \, dt$ gives the length along the rocket's graph between times $T_1$ and $T_2$}
+    \choice{The area under the height function from $T_1$ to $T_2$ gives the rocket's height change from $T_1$ to $T_2$}
+    \choice[correct]{The area under the velocity curve from $T_1$ to $T_2$ gives the rocket's height change from $T_1$ to $T_2$}
+    \choice{The velocity vector on the height function indicates the direction of motion}
+    \end{selectAll}
+
+    \item Now about the height:
+    
+    \begin{selectAll}
+    \choice{The height graph gives the rocket's trajectory as it travels through the air}
+    \choice[correct]{The height function's derivative $h'(t)$ gives the rocket's velocity at time $t$}
+    \choice{The Fundamental Theorem of Calculus says that the change in velocity, $v(T_2)-v(T_1)$, equals the integral $\int_{T_1}^{T_2} h(t) \, dt$}
+    \choice[correct]{The Fundamental Theorem of Calculus says that the change in height, $h(T_2)-h(T_1)$, equals the integral $\int_{T_1}^{T_2} v(t) \, dt$}
+    \choice[correct]{If $\Delta$ means ``net change'', then $\Delta h = \int_{T_1}^{T_2} v(t) \, dt$}
+    \end{selectAll}
+
+
+\end{enumerate}
+
+We will recreate these same calcualtions and interpretations but on vector-valued functions.
+
 
 \begin{feedback}
 Watch how the area under the velocity curve corresponds to the height gained. This is the fundamental theorem of calculus in action!
