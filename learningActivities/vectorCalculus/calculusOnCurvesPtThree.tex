@@ -25,6 +25,10 @@ Let's review: In single-variable calculus, if a rocket has velocity $v(t)$ over 
     \choice{$\frac{dv}{dt}$}
 \end{multipleChoice}
 
+\begin{center}
+\youtube{Q0IChRh3dKU}
+\end{center}
+
 \begin{feedback}
 We integrate velocity to find displacement! Small bits of distance $dD = v(t) \cdot dt$ add up to give total change: $\Delta D = \int_a^b v(t) \, dt$.
 \end{feedback}
@@ -134,7 +138,7 @@ After exploring, select the true statements:
 \end{selectAll}
 \end{problem}
 
-\section*{Task Three: Arc Length}
+\section*{Arc Length}
 
 \subsection*{Distance vs. Displacement}
 
@@ -226,12 +230,35 @@ Without the magnitude bars, we integrate the vector to get displacement. With th
 
 \subsection*{Arc Length in 3D}
 
-The same principle extends beautifully to 3D—we just add the $z$-component!
+Now let's extend this idea to 3D curves.
+
+\begin{center}
+\youtube{QjahEvlCD8E}
+\end{center}
 
 \begin{definition}
 For a 3D curve $\vec{r}(t) = \langle x(t), y(t), z(t) \rangle$:
 $$L = \int_a^b |\vec{v}(t)| \, dt = \int_a^b \sqrt{x'(t)^2+y'(t)^2+z'(t)^2} \, dt$$
 \end{definition}
+
+\begin{problem}
+After exploring the following applet, what statements are true about arc length in 3D (Select All that Apply):
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Alter the ``t='' slider to see the arc length approximation at various points. Click, drag, and scroll to rotate and zoom. Select ``Reset Zoom'' or ``Zoom to Arc Length'' buttons for different views. Check ``Show x-y hypotenuse'' for more detail.
+\end{expandable}
+
+\begin{center}
+\geogebra{nrnm8k7p}{780}{438}
+\end{center}
+
+\begin{selectAll}
+    \choice[correct]{Small arc length elements use the Pythagorean theorem in 3D}
+    \choice[correct]{We integrate speed over time to get arc length}
+    \choice{Arc length is always equal to displacement magnitude}
+    \choice[correct]{Arc length measures actual distance traveled along the curve}
+\end{selectAll}
+\end{problem}
 
 \begin{problem}
 Let's compute an arc length! For $\vec{r}(t) = \langle 3t, 4t, 0 \rangle$ from $t=0$ to $t=2$:
@@ -263,62 +290,18 @@ The helix also has constant speed! Even though it's curving and rising, the tota
 \end{feedback}
 \end{problem}
 
-\begin{problem}
-Visualize the 3D arc length calculation.
 
-\begin{expandable}{stuff}{GeoGebra Instructions}
-    Alter the ``t='' slider to see the arc length approximation at various points. Click, drag, and scroll to rotate and zoom. Select ``Reset Zoom'' or ``Zoom to Arc Length'' buttons for different views. Check ``Show x-y hypotenuse'' for more detail.
-\end{expandable}
+
+\section*{A Comprehensive Example}
+
+First, let's check in with Torty and Harry one more time to examine how far the racers traveled along the track.
 
 \begin{center}
-\geogebra{nrnm8k7p}{780}{438}
+\youtube{rO7p2Vel8-o}
 \end{center}
 
-After exploring, verify your understanding (Select All that Apply):
-\begin{selectAll}
-    \choice[correct]{Small arc length elements use the Pythagorean theorem in 3D}
-    \choice[correct]{We integrate speed over time to get arc length}
-    \choice{Arc length is always equal to displacement magnitude}
-    \choice[correct]{Arc length measures actual distance traveled along the curve}
-\end{selectAll}
-\end{problem}
-
-\section*{Summary: Two Types of Vector Integration}
-
-We now have powerful tools for analyzing curves!
-
 \begin{problem}
-Let's review the two main ways we integrate vector functions:
-
-\textbf{Type 1: Displacement (Vector Result)}
-$$\vec{r}(b)-\vec{r}(a)= \int_a^b \vec{v}(t)\, dt=\left\langle \int_a^b x'(t)\, dt, \int_a^b y'(t)\, dt, \int_a^b z'(t)\, dt\right\rangle$$
-
-This gives us:
-\begin{multipleChoice}
-    \choice{The distance traveled}
-    \choice[correct]{The net change in position (displacement vector)}
-    \choice{The speed}
-    \choice{The arc length}
-\end{multipleChoice}
-
-\textbf{Type 2: Arc Length (Scalar Result)}
-$$L = \int_a^b |\vec{v}(t)|\, dt=\int_a^b\sqrt{x'(t)^2+y'(t)^2+z'(t)^2}\, dt$$
-
-This gives us:
-\begin{multipleChoice}
-    \choice{The displacement vector}
-    \choice[correct]{The total distance traveled along the curve}
-    \choice{The velocity}
-    \choice{The final position}
-\end{multipleChoice}
-
-\begin{feedback}
-These are fundamentally different! One integrates velocity (vector) to get displacement (vector). The other integrates speed (scalar) to get distance (scalar).
-\end{feedback}
-\end{problem}
-
-\begin{problem}
-Let's solidify understanding with a comprehensive example. Consider $\vec{r}(t) = \langle t, t^3/3, \sqrt{2}t^2/2 \rangle$ from $t=0$ to $t=1$.
+Let's walk through a comprehensive example. Consider $\vec{r}(t) = \langle t, t^3/3, \sqrt{2}t^2/2 \rangle$ from $t=0$ to $t=1$.
 
 \textbf{Part A: Find the displacement}
 
@@ -347,24 +330,6 @@ The displacement gives the straight-line distance from start to finish. The arc 
 \end{feedback}
 \end{problem}
 
-\begin{problem}
-Final check: Select all TRUE statements about vector calculus on curves.
-
-\begin{selectAll}
-    \choice[correct]{Velocity is the derivative of position}
-    \choice[correct]{Velocity vectors are tangent to the curve}
-    \choice[correct]{Integrating velocity gives displacement}
-    \choice[correct]{Integrating speed gives arc length}
-    \choice{Displacement and arc length are always equal}
-    \choice[correct]{Arc length uses the Pythagorean theorem}
-    \choice[correct]{We can work with vector functions component by component}
-    \choice{The magnitude of displacement can exceed arc length}
-\end{selectAll}
-
-\begin{feedback}
-Excellent! You've mastered the fundamentals of calculus on curves. These concepts—tangent vectors, integration, and arc length—are essential for understanding motion in space and will be the foundation for more advanced topics like curvature and TNB frames.
-\end{feedback}
-\end{problem}
 
 %%%% DO TORTY AND HARRY STUFF %%%%
 

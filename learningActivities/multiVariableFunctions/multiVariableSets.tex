@@ -100,22 +100,55 @@ This gives us polar coordinates $(r,\theta)$.
 \section*{Converting Between Coordinate Systems}
 
 \begin{problem}
-    The relationship between Cartesian $(x,y)$ and polar $(r,\theta)$ coordinates comes from right triangle trigonometry.
-    
-    Given polar coordinates $(r,\theta)$, the Cartesian coordinates are:
+    The simplest relationships between Cartesian $(x,y)$ and polar $(r,\theta)$ coordinates are:
     \begin{align*}
-        x &= \answer{r\cos(\theta)} \\
-        y &= \answer{r\sin(\theta)}
+        x &= r\cos(\theta) \\
+        y &= r\sin(\theta)
     \end{align*}
-    
-    Given Cartesian coordinates $(x,y)$, the polar coordinates are:
-    \begin{align*}
-        r &= \sqrt{x^2 + \answer{y^2}} \\
-        \theta &= \arctan\left(\frac{\answer{y}}{\answer{x}}\right) \text{ (with adjustments for quadrant)}
-    \end{align*}
-    
+
+    \begin{center}
+    % Diagram 1: circle showing r, x, y triangle
+    \begin{tikzpicture}[scale=1]
+      \def\R{1.6}
+      \draw[thick] (0,0) circle (\R);
+      \coordinate (P) at (40:\R);
+      \draw[dashed] (0,0) -- (P);
+      \draw[thin] (0,0) -- (P) node[midway,left] {$r$};
+      \draw[thin] (P) -- (40:0) coordinate (X) -- (0,0);
+      \draw[->] (0.2,0) arc (0:40:0.2) node[right] {$\theta$};
+      \node at (P) [above right] {$(x,y)$};
+      \node at (X) [below right] {$x$};
+      \node at (0.1,0.8) [left] {$y$};
+    \end{tikzpicture}
+    \qquad
+    % Diagram 2: right triangle emphasising trig
+    \begin{tikzpicture}[scale=1]
+      \def\R{1.6}
+      \coordinate (A) at (0,0);
+      \coordinate (B) at (\R,0);
+      \coordinate (C) at (\R*0.766,\R*0.643); % angle ~40 deg
+      \draw[thick] (A) -- (B) -- (C) -- cycle;
+      \draw[->] (0.2,0) arc (0:40:0.2) node[right] {$\theta$};
+      \node at ($(B)!0.5!(C)$) [right] {$y$};
+      \node at ($(A)!0.5!(B)$) [below] {$x$};
+      \node at ($(A)!0.5!(C)$) [left] {$r$};
+      \node at (C) [above right] {$(x,y)$};
+    \end{tikzpicture}
+    \qquad
+    % Diagram 3: unit circle with cos and sin projection
+    \begin{tikzpicture}[scale=1]
+      \draw[thick] (0,0) circle (1);
+      \coordinate (U) at (40:1);
+      \draw[dashed] (U) -- (40:0) coordinate (UX) -- (0,0);
+      \draw[->] (0.2,0) arc (0:40:0.2) node[right] {$\theta$};
+      \draw[thin] (0,0) -- (U) node[midway,left] {$1$};
+      \node at (UX) [below] {$\cos\theta$};
+      \node at ($(U)!0.5!(UX)$) [right] {$\sin\theta$};
+    \end{tikzpicture}
+    \end{center}
+
     \begin{feedback}
-        These formulas come directly from the definitions of sine, cosine, and the Pythagorean theorem!
+        Explanation: Drop a perpendicular from the point $(x,y)$ to the $x$-axis to form a right triangle with legs $x$ (adjacent) and $y$ (opposite) and hypotenuse $r$ (the distance to the origin). By definition of cosine and sine in a right triangle, $\cos(\theta)=\dfrac{x}{r}$ and $\sin(\theta)=\dfrac{y}{r}$. Solving for $x$ and $y$ gives $x=r\cos\theta$ and $y=r\sin\theta$. The unit-circle visualization shows the same idea scaled to $r=1$, where the coordinates on the circle are exactly $(\cos\theta,\sin\theta)$.
     \end{feedback}
 \end{problem}
 
@@ -135,6 +168,40 @@ This gives us polar coordinates $(r,\theta)$.
         
         $x = \answer{5}$ and $y = \answer{0}$
     \end{enumerate}
+    
+        \begin{feedback}
+                Graphical solution for part (2): the point $(3,4)$ forms a right triangle with legs of length $3$ (adjacent) and $4$ (opposite) and hypotenuse $r=5$. Below are two visuals to make this clear.
+
+                \begin{center}
+                \begin{tikzpicture}[scale=0.8]
+                    % axes
+                    \draw[->] (0,0) -- (4.5,0) node[right] {$x$};
+                    \draw[->] (0,0) -- (0,4.5) node[above] {$y$};
+                    % point and projections
+                    \coordinate (P) at (3,4);
+                    \draw[fill] (P) circle (1.5pt) node[above right] {$(3,4)$};
+                    \draw[dashed] (P) -- (3,0) node[midway,right] {} -- (0,0);
+                    % triangle sides
+                    \draw[thick] (0,0) -- (3,0) node[midway,below] {$3$};
+                    \draw[thick] (3,0) -- (3,4) node[midway,right] {$4$};
+                    \draw[thick] (0,0) -- (3,4) node[midway,above left] {$5$};
+                    % angle
+                    \draw[->] (0.4,0) arc (0:53.13:0.4) node[right] {$\theta$};
+                \end{tikzpicture}
+                \qquad
+                \begin{tikzpicture}[scale=0.9]
+                    % unit-circle style to show arctan relation
+                    \draw[thick] (0,0) circle (1);
+                    \coordinate (U) at (0.6,0.8); % same slope 4/3 scaled
+                    \draw[fill] (U) circle (1.5pt) node[above right] {direction};
+                    \draw[dashed] (U) -- (0.6,0) node[midway,below] {$\dfrac{3}{5}$} -- (0,0);
+                    \node at (0.35,0.45) [right] {$\dfrac{4}{5}$};
+                    \draw[->] (0.2,0) arc (0:53.13:0.2) node[right] {$\theta$};
+                \end{tikzpicture}
+                \end{center}
+
+                Calculation: $r=\sqrt{3^2+4^2}=5$. The angle satisfies $\tan\theta=\dfrac{4}{3}$, so $\theta=\arctan(4/3)$ (adjusted for quadrant if needed). Thus the polar coordinates are $(5,\arctan(4/3))$.
+        \end{feedback}
 \end{problem}
 
 \section*{Working in Three Dimensions}
@@ -155,16 +222,17 @@ Now we extend our thinking to three dimensions, where we have three variables: $
     Using the GeoGebra applet above, experiment with the $z$ slider.
     
     \begin{enumerate}
-        \item When $z = 0$, you see a slice of the surface in the $x$-$y$ plane. This slice is a \wordChoice{\choice[correct]{circle}\choice{parabola}\choice{line}\choice{point}}.
+        \item When $z = 0$, you see a slice of the surface in the $x$-$y$ plane. This slice is a \wordChoice{\choice[correct]{ellipse}\choice{parabola}\choice{line}\choice{circle}}.
         
-        \item As you increase $z$, the slices \wordChoice{\choice{get larger}\choice[correct]{get smaller}\choice{stay the same size}}.
+        \item As you increase $z$ from $-1.25$ to $1.25$ the slices \wordChoice{\choice{get larger}\choice{get smaller}\choice{stay the same size}\choice[correct]{get larger then smaller}\choice{get smaller then larger}}.
         
         \item What 3D shape does this surface represent?
         \begin{multipleChoice}
             \choice{A cylinder}
-            \choice[correct]{A cone}
+            \choice{A cone}
             \choice{A sphere}
             \choice{A paraboloid}
+            \choice[correct]{An ellipsoid}
         \end{multipleChoice}
     \end{enumerate}
     
@@ -189,28 +257,5 @@ Now we extend our thinking to three dimensions, where we have three variables: $
     \end{enumerate}
 \end{problem}
 
-\section*{Summary and Reflection}
-
-\begin{problem}
-    Reflect on what you've learned:
-    
-    \begin{enumerate}
-        \item Why might you choose polar coordinates over Cartesian coordinates?
-        \begin{selectAll}
-            \choice[correct]{To describe circular or spiral patterns more easily}
-            \choice{To make all problems simpler}
-            \choice[correct]{When the natural description involves distances and angles}
-            \choice{Because they're always better than Cartesian coordinates}
-        \end{selectAll}
-        
-        \item The key strategy for understanding 3D relationships is:
-        \begin{multipleChoice}
-            \choice{Always convert to polar coordinates}
-            \choice{Memorize formulas for every possible surface}
-            \choice[correct]{Fix one variable at a time and analyze 2D slices}
-            \choice{Avoid 3D problems whenever possible}
-        \end{multipleChoice}
-    \end{enumerate}
-\end{problem}
 
 \end{document}
