@@ -119,7 +119,7 @@ You are asked to recreate this approximation yourself in the live script using M
 The code breaks down the process by giving you the lists of segment lengths and the midpoint densities, only requiring that you multiply the individual entries together and then sum them to get a total mass approximation.
 
 
-Remember that mass is approximated by the product $M = \rho \cdot L$, "density times the length". If we had the lengths and densities of our wire after breaking it up into $N$ pieces, we could just multiply those densities and lengths to get the mass of each individual piece.
+Remember that mass is approximated by the product $M = \rho \cdot L$, ``density times the length''. If we had the lengths and densities of our wire after breaking it up into $N$ pieces, we could just multiply those densities and lengths to get the mass of each individual piece.
 
 You're also asked to write out a formula symbolically to describe what MATLAB is doing in the code.
 
@@ -172,16 +172,16 @@ Let's see if we can use integrals to get a more exact measure, and double check 
 
 The key with integrating is that we're still adding up small bits of mass to get an exact measure of mass.
 
-The small bit of mass are the differential bits whose ``total sum" is really the limit of the finit sums.
+The small bit of mass are the differential bits whose ``total sum'' is really the limit of the finite sums.
 
 \subsection*{Symbolizing}
 Let's translate our finite approximations into integrals to get an idea of how we want to set up the integral for computation.
 
 \begin{enumerate}
 
-\item The approximation equation $M\approx \Sigma\Delta M$ becomes the integral equation $M=\int dM$, ``add up tiny bits of mass to get the total mass".
+\item The approximation equation $M\approx \Sigma\Delta M$ becomes the integral equation $M=\int dM$, ``add up tiny bits of mass to get the total mass''.
 
-\item The small bit of mass comes from the density*length products on a small bit of arc length along the curve, $dL$, so our equation for mass becomes $M=\int dM=\int \rho dL$. "The total mass comes from adding up small density \* length products along the wire".
+\item The small bit of mass comes from the density*length products on a small bit of arc length along the curve, $dL$, so our equation for mass becomes $M=\int dM=\int \rho dL$. ``The total mass comes from adding up small density \* length products along the wire''.
 \end{enumerate}
 
 
