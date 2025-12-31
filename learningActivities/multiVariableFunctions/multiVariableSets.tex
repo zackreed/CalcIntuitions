@@ -21,6 +21,10 @@ For most of your mathematical career, you've used the Cartesian coordinate syste
     Using the GeoGebra applet above, drag point $P$ to the location $(3,2)$.
     
     The point $P=(3,2)$ means you move $\answer{3}$ units \wordChoice{\choice[correct]{right}\choice{left}} and $\answer{2}$ units \wordChoice{\choice[correct]{up}\choice{down}} from the origin.
+    
+    The point $Q=(-1,4)$ means you move $\answer{1}$ unit \wordChoice{\choice{right}\choice[correct]{left}} and $\answer{4}$ units \wordChoice{\choice[correct]{up}\choice{down}} from the origin.
+
+    The point $R=(-1,-3)$ means you move $\answer{1}$ unit \wordChoice{\choice{right}\choice[correct]{left}} and $\answer{3}$ units \wordChoice{\choice[correct]{down}\choice{up}} from the origin.
 \end{problem}
 
 \section*{Describing Sets in Cartesian Coordinates}
@@ -37,20 +41,35 @@ A \emph{set} is a collection of points $P$. We can describe sets using condition
     \begin{enumerate}
         \item The rectangular region is described by points $(x,y)$ where $\answer{0} \leq x \leq \answer{3}$ and $\answer{1} \leq y \leq \answer{3}$.
         
+        The point $(2,2)$ is \wordChoice{\choice[correct]{inside}\choice{outside}} the rectangular region.
+
+        The point $(4,2)$ is \wordChoice{\choice{inside}\choice[correct]{outside}} the rectangular region.
+
+        The point $(2,0)$ is \wordChoice{\choice{inside}\choice[correct]{outside}} the rectangular region.
+
+        The point $(0,1)$ is \wordChoice{\choice[correct]{inside}\choice{outside}} the rectangular region.
+        
         \item The circle is described by the equation $x^2 + y^2 = \answer{1}$.
         
-        \item Which set would be most difficult to describe using only conditions on $x$ and $y$?
-        \begin{multipleChoice}
-            \choice{The rectangular region}
-            \choice{The circle}
-            \choice{The region between $y=x$ and $y=x^2$}
-            \choice[correct]{The spiral region (Set 4)}
-        \end{multipleChoice}
+        The point $(0.5,0.5)$ is \wordChoice{\choice[correct]{inside}\choice{on}\choice{outside}} the circle because $0.5^2 + 0.5^2 = \answer{0.5}$ which is \wordChoice{\choice[correct]{less than}\choice{equal to}\choice{greater than}} $1$.
+
+        The point $(\sqrt{2}/2,\sqrt{2}/2)$ is \wordChoice{\choice{inside}\choice[correct]{on}\choice{outside}} the circle because $(\sqrt{2}/2)^2 + (\sqrt{2}/2)^2 = \answer{1}$ which is \wordChoice{\choice{less than}\choice[correct]{equal to}\choice{greater than}} $1$.
+
+        The point $(-1,-1)$ is \wordChoice{\choice{inside}\choice{on}\choice[correct]{outside}} the circle because $(-1)^2 + (-1)^2 = \answer{2}$ which is \wordChoice{\choice{less than}\choice{equal to}\choice[correct]{greater than}} $1$.
+        
+        \item Set 3 is determined by the $x$ interval $\answer{0} \leq x \leq \answer{1}$ and the $y$ interval $\answer{x^2} \leq y \leq \answer{x}$.
+        
+        The point $(0.5,0.3)$ is \wordChoice{\choice[correct]{inside}\choice{outside}} Set 3 because $0.5^2 \leq 0.3 \leq 0.5$ is \wordChoice{\choice[correct]{true}\choice{false}}.
+
+        The point $(0.5,0.2)$ is \wordChoice{\choice{inside}\choice[correct]{outside}} Set 3 because $0.5^2 \leq 0.2 \leq 0.5$ is \wordChoice{\choice{true}\choice[correct]{false}}.
+
+        \item While we can see the spiral region and use the applet to explore points in it, describing this set using $x$ and $y$ is quite difficult!
+        
+        The point $(-4, 2)$ is \wordChoice{\choice[correct]{inside}\choice{outside}\choice{hard to determine whether it is inside or outside of}} the spiral region.
+
+        The point $(-4, 4.5)$ is \wordChoice{\choice{inside}\choice{outside}\choice[correct]{hard to determine whether it is inside or outside of}} the spiral region.
     \end{enumerate}
     
-    \begin{feedback}
-        The spiral region is very difficult to describe using Cartesian coordinates! This motivates finding a different coordinate system.
-    \end{feedback}
 \end{problem}
 
 \section*{Introducing Polar Coordinates}
@@ -74,6 +93,13 @@ This gives us polar coordinates $(r,\theta)$.
         \item When point $P$ is at Cartesian coordinates $(1,0)$, the polar coordinates are $(r,\theta) = (\answer{1},\answer{0})$.
         
         \item When point $P$ is at Cartesian coordinates $(0,1)$, the polar coordinates are $(r,\theta) = (\answer{1},\answer[tolerance=0.01]{\pi/2})$.
+        
+        %repeat the points from the earlier cartesian problem
+        \item When point $P$ is at Cartesian coordinates $(3,2)$, the polar coordinates are $(r,\theta) = (\answer[tolerance=0.01]{3.605},\answer[tolerance=0.01]{.588})$.
+        
+        \item When point $P$ is at Cartesian coordinates $(-1,4)$, the polar coordinates are $(r,\theta) = (\answer[tolerance=0.01]{4.123},\answer[tolerance=0.01]{1.8215})$.
+        
+        \item When point $P$ is at Cartesian coordinates $(-1,-3)$, the polar coordinates are $(r,\theta) = (\answer[tolerance=0.01]{3.162},\answer[tolerance=0.01]{4.39})$.
         
         \item As you move $P$ further from the origin, the value of $r$ \wordChoice{\choice[correct]{increases}\choice{decreases}\choice{stays the same}}.
         
@@ -100,7 +126,7 @@ This gives us polar coordinates $(r,\theta)$.
 \section*{Converting Between Coordinate Systems}
 
 \begin{problem}
-    The simplest relationships between Cartesian $(x,y)$ and polar $(r,\theta)$ coordinates are:
+    Here are some relationships between Cartesian $(x,y)$ and polar $(r,\theta)$ coordinates that let you efficiently convert between the two systems:
     \begin{align*}
         x &= r\cos(\theta) \\
         y &= r\sin(\theta)
@@ -122,29 +148,29 @@ This gives us polar coordinates $(r,\theta)$.
     \end{tikzpicture}
     \qquad
     % Diagram 2: right triangle emphasising trig
-    \begin{tikzpicture}[scale=1]
-      \def\R{1.6}
-      \coordinate (A) at (0,0);
-      \coordinate (B) at (\R,0);
-      \coordinate (C) at (\R*0.766,\R*0.643); % angle ~40 deg
-      \draw[thick] (A) -- (B) -- (C) -- cycle;
-      \draw[->] (0.2,0) arc (0:40:0.2) node[right] {$\theta$};
-      \node at ($(B)!0.5!(C)$) [right] {$y$};
-      \node at ($(A)!0.5!(B)$) [below] {$x$};
-      \node at ($(A)!0.5!(C)$) [left] {$r$};
-      \node at (C) [above right] {$(x,y)$};
-    \end{tikzpicture}
-    \qquad
-    % Diagram 3: unit circle with cos and sin projection
-    \begin{tikzpicture}[scale=1]
-      \draw[thick] (0,0) circle (1);
-      \coordinate (U) at (40:1);
-      \draw[dashed] (U) -- (40:0) coordinate (UX) -- (0,0);
-      \draw[->] (0.2,0) arc (0:40:0.2) node[right] {$\theta$};
-      \draw[thin] (0,0) -- (U) node[midway,left] {$1$};
-      \node at (UX) [below] {$\cos\theta$};
-      \node at ($(U)!0.5!(UX)$) [right] {$\sin\theta$};
-    \end{tikzpicture}
+        \begin{tikzpicture}[scale=1]
+            % Axes
+            \draw[->] (-0.2,0) -- (2,0) node[right] {$x$};
+            \draw[->] (0,-0.2) -- (0,2) node[above] {$y$};
+            % Circle
+            \def\R{1.6}
+            \draw[thick] (0,0) circle (\R);
+            % Right triangle (angle 40 deg)
+            \coordinate (A) at (0,0);
+            \coordinate (B) at (\R*0.766,0); % x = r cos(theta), y = 0
+            \coordinate (C) at (\R*0.766,\R*0.643); % x = r cos(theta), y = r sin(theta)
+            \draw[thick] (A) -- (B) -- (C) -- cycle;
+            % Angle arc
+            \draw[->] (0.25,0) arc (0:40:0.25);
+            \node at (0.38,0.08) {$\theta$};
+            % Sides
+            \node at ($(A)!0.5!(B)$) [below] {$x$};
+            \node at ($(B)!0.5!(C)$) [right] {$y$};
+            \node at ($(A)!0.5!(C)$) [left] {$r$};
+            % Point label
+            \node at (C) [above right] {$(x,y)$};
+        \end{tikzpicture}
+        % Removed third circle diagram as requested
     \end{center}
 
     \begin{feedback}
