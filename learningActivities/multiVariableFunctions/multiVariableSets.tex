@@ -134,28 +134,28 @@ This gives us polar coordinates $(r,\theta)$.
 
     \begin{center}
     % Diagram 1: circle showing r, x, y triangle
-    \begin{tikzpicture}[scale=1]
-      \def\R{1.6}
-      \draw[thick] (0,0) circle (\R);
-      \coordinate (P) at (40:\R);
-      \draw[dashed] (0,0) -- (P);
-      \draw[thin] (0,0) -- (P) node[midway,left] {$r$};
-      \draw[thin] (P) -- (40:0) coordinate (X) -- (0,0);
-      \draw[->] (0.2,0) arc (0:40:0.2) node[right] {$\theta$};
-      \node at (P) [above right] {$(x,y)$};
-      \node at (X) [below right] {$x$};
-      \node at (0.1,0.8) [left] {$y$};
-    \end{tikzpicture}
-    \qquad
-    % Diagram 2: right triangle emphasising trig
+        % Left: Circle with axes
         \begin{tikzpicture}[scale=1]
+            \def\R{1.6}
             % Axes
             \draw[->] (-0.2,0) -- (2,0) node[right] {$x$};
             \draw[->] (0,-0.2) -- (0,2) node[above] {$y$};
             % Circle
-            \def\R{1.6}
             \draw[thick] (0,0) circle (\R);
-            % Right triangle (angle 40 deg)
+            % Point and radius
+            \coordinate (P) at (40:\R);
+            \draw[dashed] (0,0) -- (P);
+            \draw[thin] (0,0) -- (P) node[midway,left] {$r$};
+            \draw[thin] (P) -- (40:0) coordinate (X) -- (0,0);
+            \draw[->] (0.2,0) arc (0:40:0.2) node[right] {$\theta$};
+            \node at (P) [above right] {$(x,y)$};
+            \node at (X) [below right] {$x$};
+            \node at (0.1,0.8) [left] {$y$};
+        \end{tikzpicture}
+        \qquad
+        % Right: Just the right triangle (no axes/circle)
+        \begin{tikzpicture}[scale=1]
+            \def\R{1.6}
             \coordinate (A) at (0,0);
             \coordinate (B) at (\R*0.766,0); % x = r cos(theta), y = 0
             \coordinate (C) at (\R*0.766,\R*0.643); % x = r cos(theta), y = r sin(theta)
@@ -170,7 +170,6 @@ This gives us polar coordinates $(r,\theta)$.
             % Point label
             \node at (C) [above right] {$(x,y)$};
         \end{tikzpicture}
-        % Removed third circle diagram as requested
     \end{center}
 
     \begin{feedback}
