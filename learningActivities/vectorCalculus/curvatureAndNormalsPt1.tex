@@ -1,0 +1,246 @@
+\documentclass{ximera}
+
+\title{Curvature and Acceleration}
+\author{Zack Reed}
+
+\begin{document}
+\begin{abstract}
+In this activity we explore how curves bend in space.
+\end{abstract}
+\maketitle
+
+\section*{Introduction: From Single-Variable to Vector Calculus}
+
+We are continuing our study of curves in space, building from past intuitions to examine time-independent properties of curves and motion.
+
+\subsection*{Review: Concavity and Second Derivatives}
+
+In MATH 241, while the first derivative gave us insight into how a function increases or decreases with forward motion, the second derivative relates more to the curvature of a function. That is, near any one point how does the graph bend quadratically?
+
+In MATH 242, we tied this to the idea of quadratic approximation. The second derivative tells us what kind of a quadratic function best approximates our function near a point.
+
+In the following applet, return to these ideas momentarily to examine the bending of a function near a point.
+
+\begin{center}
+\geogebra{awkjxttr}{843}{463}
+\end{center}
+
+\begin{remark}
+The following is a loose summary of the main ways to interpret the first two derivatives graphcially:
+\begin{itemize}
+    \item The first derivative $f'$ tells us the rates of change corresponding to forward motion (whether $f$ increases or decreases)
+    \item The second derivative $f''$ tells us about how the function bends (concavity)
+\end{itemize}
+\end{remark}
+
+\begin{problem}
+Let's also briefly examine some other interpretations of the second derivative.
+
+For a function $f$ where $f''(x)  > 0$, how does the rates of $f$ change as you move from left to right along the graph? (Select All that are true.)
+\begin{selectAll}
+    \choice[correct]{The rates given by $f'$ increase (the function increases faster)}
+    \choice{The rates given by $f'$ decrease (the function increases slower)}
+    \choice[correct]{The derivative function $f'$ is increasing}
+    \choice{The derivative function $f'$ is decreasing}
+    \choice{The rates given by $f'$ alternate between increasing and decreasing}
+\end{selectAll}
+
+In the above applet, near $x=8$, the derivative $f'$ is \wordChoice{\choice[correct]{zero}\choice{positive}\choice{negative}} and is \wordChoice{\choice{increasing}\choice[correct]{decreasing}} because $f''(8)$ is \wordChoice{\choice{positive}\choice[correct]{negative}}.
+
+In the above applet, near $x=3.5$ the derivative $f'$ is \wordChoice{\choice{zero}\choice{positive}\choice[correct]{negative}} and is \wordChoice{\choice[correct]{increasing}\choice{decreasing}} because $f''(3.5)$ is \wordChoice{\choice[correct]{positive}\choice{negative}}.
+
+\begin{feedback}
+Remember that $f''$ is the derivative \emph{of} the derivative $f'$. So if $f''(x) > 0$, then $f'$ is increasing at $x$ (its rates of change are going up). Conversely, if $f''(x) < 0$, then $f'$ is decreasing at $x$ (its rates of change are going down).
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Now explore the implications of the second derivative in greater depth in the following applet.
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Read the text on screen and advance the animation by clicking the buttons (in red or black text) to view new text, tangent lines, and portions of the graph. Use the reset button at the bottom left to start over.
+\end{expandable}
+
+\begin{center}
+\geogebra{uervaqau}{757}{611}
+\end{center}
+
+After exploring the applet, identify what you observed (Select All that are true):
+\begin{selectAll}
+    \choice[correct]{When $f''(x)  > 0$, the graph bends upward}
+    \choice[correct]{When $f''(x) < 0$, the graph bends downward}
+    \choice{When $f''(x) = 0$, the graph is always a straight line}
+    \choice{The second derivative measures the slope of the function}
+\end{selectAll}
+
+\begin{feedback}
+The second derivative measures how the first derivative (slope) changes, not the slope itself. This rate of change of slope is what we call concavity.
+\end{feedback}
+\end{problem}
+
+\section*{Curvature in Space}
+
+\subsection*{The Challenge: Measuring Bending in Space, Not Acceleration}
+
+The goal of measuring aspects of curves, such as curvature, requires attention to the measurement process. Let's return to Torty and Harry for a moment. 
+
+The second derivative of a vector function $\vec{r}$ is the acceleration vector $\vec{a} = \frac{d\vec{v}}{dt}$. However, acceleration depends on how fast the particle is moving along the curve. 
+
+Examine the Torty and Harry applet below and consider why acceleration is not a good measure of how ``bendy'' the racetrack is:
+
+\begin{center}
+\geogebra{yzxdk5uw}{844}{629}
+\end{center}
+
+\begin{problem}
+Select all that are true about Torty, Harry, and the racetrack:
+
+\begin{selectAll}
+    \choice[correct]{Torty and Harry run along the same curve but at different speeds}
+    \choice{Torty and Harry have the same acceleration at each point on the track}
+    \choice[correct]{Torty and Harry experience different accelerations at each point on the track}
+    \choice[correct]{The racetrack's geometry is the same for both Torty and Harry}
+    \choice[correct]{The bending of the track does not depend on how fast Torty or Harry run}
+    \choice{The bending of the track depends on how fast Torty or Harry run}
+\end{selectAll}
+
+\begin{feedback}
+Remember that acceleration depends on the time parameter, and so Torty's slowing down and speeding up affects his acceleration. However, the racetrack's shape (its geometry) is independent of how fast either runner moves along it.
+\end{feedback}
+\end{problem}
+
+\begin{remark}
+    We need to use a time-independent conceptualization of the curve's geometry to measure anything about the curve itself. This is why we will leverage \textbf{arc length} as our parameter of choice when measuring curvature.
+\end{remark}
+
+\subsection*{Why Arc Length?}
+
+As a particle moves along a smooth curve in the plane or space, we want to define the curvature of the curve independent of how fast the particle is moving. A particle could race along a gentle curve or crawl along a sharp turn—the geometry of the curve itself doesn't change.
+
+\begin{problem}
+Why should we use arc length $s$ instead of time $t$ to measure curvature?
+
+\begin{center}
+\geogebra{nrnm8k7p}{780}{438}
+\end{center}
+
+\begin{multipleChoice}
+    \choice{Arc length is easier to calculate than time}
+    \choice[correct]{Arc length only accounts for distance traveled along the curve, not speed}
+    \choice{Time doesn't exist for curves in space}
+    \choice{Arc length is the same as displacement}
+\end{multipleChoice}
+
+\begin{feedback}
+Arc length parameterization gives us a ``speed-independent'' way to describe curves. Two particles moving at different speeds along the same curve experience the same curvature at each point—curvature is a geometric property of the curve itself, not of the motion.
+\end{feedback}
+\end{problem}
+
+\subsection*{Unit Tangent Vector: A Time-Independent First Derivative}
+
+We first define a time-independent tangent vector, the \emph{Unit Tangent Vector}. This removes the influence of acceleration by only characterizing where the curve is heading, not how fast.
+
+\begin{definition}
+The \textbf{Unit Tangent Vector} $\mathbf{T}$ is defined as:
+
+\[\mathbf{T} = \frac{d\mathbf{r}}{ds}\]
+
+Using the chain rule, we can calcualte the unit tangent vector in terms of time:
+
+\[\mathbf{T}=\frac{d\mathbf{r}}{ds}=\frac{d\mathbf{r}}{dt}\frac{dt}{ds}=\frac{\vec{v}}{|\vec{v}|}\]
+\end{definition}
+
+\begin{remark}
+    We just said the point of the unit-tangent vector is to remove the influence of speed, so why are we still characterizing it in terms of time?
+
+    For most curves, we need some parameter to even define or characterize them. While this makes the computations more complex, it doesn't change the fact that the underlying \emph{measurements} are still independent of time.
+\end{remark}
+
+\begin{problem}
+    Now let's see the Torty and Harry applet again, this time focusing on the unit tangent vector $\mathbf{T}$.
+
+\begin{center}
+\geogebra{apd4zgcb}{905}{516}
+\end{center}
+
+Whicjh of the following statements are true? (Select All that apply.)
+\begin{selectAll}
+    \choice[correct]{Torty and Harry have the same unit tangent vector $\mathbf{T}$ at each point on the track}
+    \choice{Torty and Harry the same unit tangent vector $\mathbf{T}$ at each time}
+    \choice{Torty and Harry have different unit tangent vectors $\mathbf{T}$ at each point on the track}
+    \choice[correct]{The unit tangent vector $\mathbf{T}$ depends only on the geometry of the track, not on speed}
+    \choice{The unit tangent vector $\mathbf{T}$ depends on how fast Torty or Harry run}
+\end{selectAll}
+
+\begin{feedback}
+The unit tangent vector $\mathbf{T}$ points in the direction of motion along the curve, regardless of how fast the particle is moving. Therefore, both Torty and Harry have the same $\mathbf{T}$ at each point on the track, since they are following the same path.
+
+Since Torty and Harry occupy different positions at different times, their unit tangent vectors at those times may differ, but at any given point on the track, they share the same $\mathbf{T}$.
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Let's practice computing $\mathbf{T}$. If $\mathbf{r}(t) = \langle 2t, 3t^2, t^3 \rangle$, compute $\mathbf{T}$ at $t=1$.
+
+First, find $\vec{v} = \mathbf{r}'(t) = \langle \answer{2}, \answer{6t}, \answer{3t^2} \rangle$
+
+At $t=1$: $\vec{v}(1) = \langle \answer{2}, \answer{6}, \answer{3} \rangle$
+
+The magnitude is $|\vec{v}(1)| = \sqrt{4 + 36 + 9} = \answer{7}$
+
+Therefore, $\mathbf{T}(1) = \langle \answer{2/7}, \answer{6/7}, \answer{3/7} \rangle$
+
+The vector $\mathbf{T}(1)$ represents:
+
+\begin{multipleChoice}
+    \choice{The direction and speed of the particle at $t=1$}
+    \choice[correct]{The direction of motion of the particle at $t=1$}
+    \choice{The acceleration of the particle at $t=1$}
+    \choice{The position of the particle at $t=1$}
+\end{multipleChoice}
+
+The time $t=1$ corresponds with the arc length 
+
+$$s=\int^{\answer{1}}_0 |\vec{v}(t)| dt = \int_0^1 \sqrt{4 + 36t^2 + 9t^4} \, dt \approx \answer{3.9337}$$
+
+So, in the language of derivatives you would write this unit tangent vector with respect to arc length as:
+
+$$\frac{d\mathbf{r}}{ds}\bigg|_{s \approx 3.9337} = \langle \answer{2/7}, \answer{6/7}, \answer{3/7} \rangle$$
+
+\begin{feedback}
+The unit tangent vector $\mathbf{T}$ always has length 1 and points in the direction of motion. Since it's a unit vector, its length remains constant and only its direction changes as the particle moves along the curve.
+
+The arc length $s$ at $t=1$ is found by integrating the speed from $0$ to $1$. This gives us the total distance traveled along the curve up to that time.
+\end{feedback}
+\end{problem}
+
+Let's use this idea of thinking about arc length as a variable (or parameter) to do a mock measurement of Torty's ``tiredness''. Suppose the hills are making Torty tired and he has to momentarily rest when he reaches a certain level of tiredness.
+
+%make up a tiredness function that reaches a threshold each pi units
+\begin{problem}
+
+The following applet displays Torty's arclength $s$ along the track. Torty's tiredness is modeled by the function $T(s)=\sin\left(\frac{\pi s}{7.16}\right)$, and it resets after he rests momentarily.Torty must rest whenever his tiredness reaches 1.
+
+\geogebra{j7sw2tak}{761}{472}
+
+At what arc lengths does Torty need to rest if he must rest whenever his tiredness reaches 2 (Assume the tiredness function restarts after each rest)?
+\begin{multipleChoice}
+    \choice{$s = 2\pi, 4\pi, 6\pi, \ldots$}
+    \choice{$s = \pi, 3\pi, 5\pi, \ldots$}
+    \choice[correct]{$s= 3.58, 7.16, 10.74, 14.32, \ldots$}
+    \choice{Torty never needs to rest.}
+\end{multipleChoice}
+
+
+At what times does Torty need to rest, according to the applet?
+\begin{multipleChoice}
+    \choice[correct]{$t = \pi, 2\pi, 3\pi, 4\pi, \ldots$}
+    \choice{$t = \frac{\pi}{2}, \frac{5\pi}{2}, \frac{9\pi}{2}, \ldots$}
+    \choice{$t= 3.58, 7.16, 10.74, 14.32, \ldots$}
+    \choice{Torty never needs to rest.}
+\end{multipleChoice}
+
+
+\end{problem}
+
+\end{document}

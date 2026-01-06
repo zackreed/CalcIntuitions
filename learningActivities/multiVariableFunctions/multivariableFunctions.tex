@@ -6,31 +6,31 @@
 
 \begin{document}
 \begin{abstract}
-In this activity we explore functions with multiple variable inputs and single-variable outputs. We'll build intuition through real-world examples and interactive visualizations.
+In this activity we explore functions with multiple variable inputs and single-variable outputs.
 \end{abstract}
 \maketitle
 
 \section*{Introduction: From Vector Functions to Multivariable Functions}
 
-After analyzing vector functions (where we input one variable and output a vector), we now examine scalar functions that have multiple input variables. These \emph{multivariate} (or \emph{multivariable}) functions are fundamental to conceptualizing the complexities of the world around us. We will extend our experience with single-variable scalar functions to account for more complex relationships between variables.
+After analyzing vector functions (where we input one variable and output a vector), we now examine scalar functions that have multiple input variables. These \emph{multivariable} functions are fundamental to conceptualizing the complexities of the world around us.
 
 \subsection*{Review: What is a Function?}
 
-Recall that we previously defined functions as relationships between variables that have an input-output (or dependent-independent) relationship. Let's review this carefully before extending to multiple variables.
+Let's review some terminology from single-variable functions.
 
 \begin{definition}
 For a single-variable function $y = f(x)$, at each $x$-value we have a \textbf{single} assigned $y$-value. We say:
 \begin{itemize}
     \item $x$ is the \textbf{input} (independent variable)
     \item $y = f(x)$ is the \textbf{output} (dependent variable)
-    \item The graph comprises points $(x, y) = (x, f(x))$
+    \item The graph is all of the pairs $(x, y) = (x, f(x))$ that link the input to the output
 \end{itemize}
 
 The variable $y$ \emph{depends on} $x$ because you can alter the $y$-value by altering the $x$-value.
 \end{definition}
 
 \begin{problem}
-Let's make sure we understand the single-variable case first. For a function $y = f(x)$, which statements are true?
+For a function $y = f(x)$, which statements are true? (Select all that apply.)
 
 \begin{selectAll}
     \choice[correct]{Each $x$-value produces exactly one $y$-value}
@@ -65,6 +65,14 @@ After exploring the applet, answer: As you move the slider, what primarily contr
     \choice{Both $x$ and $y$ are independent}
 \end{multipleChoice}
 
+Complete the following expressions detailing the relationship between $x$ and $y$ and the graph of $f$:
+
+\begin{enumerate}
+    \item $f(3)$ is the \wordChoice{\choice{input}\choice[correct]{output}} when $x = 3$. $f(3)$ has a value of approximately $\answer[tolerance=.05]{.74}$. Its value is represented by the length of the \wordChoice{\choice{horizontal green}\choice[correct]{vertical blue}}.
+    \item The graph has a height of approximately $1.18$ at \wordChoice{\choice{zero}\choice{one}\choice{two}\choice[correct]{three}} input values because for each of these \wordChoice{\choice[correct]{$x$}\choice{$y$}}-values, $f(\answer{x}) \approx 1.18$. These input values are represented by the \wordChoice{\choice[correct]{horizontal green}\choice{vertical blue}} lines in the applet.
+    \item The point $(9,2.22)$ is a(n) \wordChoice{\choice{input}\choice{output}\choice[correct]{neither an input nor an output}} value of the function. The point expresses the relationship that when $x = \answer{9}$, then $f(9) \approx \answer{2.22}$.
+\end{enumerate}
+
 \begin{feedback}
 This is the essence of a function: we change $y$ by first changing $x$. The output depends on the input!
 \end{feedback}
@@ -82,6 +90,15 @@ Before seeing the definition, predict: If we have a function of two variables $x
     \choice[correct]{The output is a single number that depends on both $x$ and $y$}
     \choice{The output is a vector}
     \choice{The output is a curve}
+\end{multipleChoice}
+
+Also, thinking about the graph of such a function, what should it look like?
+
+\begin{multipleChoice}
+    \choice{A curve in 2D made of points $(x, y)$}
+    \choice{A curve in 3D made of points $(x, y, z)$}
+    \choice[correct]{A surface in 3D made of points $(x, y, z)$}
+    \choice{A volume in 3D made of points $(x, y, z)$}
 \end{multipleChoice}
 
 \begin{feedback}
@@ -112,15 +129,17 @@ Now visualize a multivariable function with this interactive applet.
 \geogebra{krfy4jsw}{751}{652}
 \end{center}
 
-After exploring, identify what you observed:
+After exploring, identify what you observed (select all that apply):
 
 \begin{selectAll}
     \choice[correct]{Both $x$ and $y$ can be changed independently}
     \choice[correct]{Changing either $x$ or $y$ changes the $z$-value}
     \choice{Only one variable can change at a time}
-    \choice[correct]{The graph is a surface in 3D, not a curve}
+    \choice[correct]{The graph is a surface in 3D made of points $(x, y, z)$}
     \choice[correct]{Each $(x,y)$ pair produces exactly one $z$-value}
 \end{selectAll}
+
+The specific way that $z$ relates to $x$ and $y$ is given by the function equation $z = f(x,y)$. $f$ describes how to build $z$ from operations on $x$ and $y$.
 
 \begin{feedback}
 Just as in the single-variable case, we have a dependent-independent relationship. The primary difference is that we now have two separate variables, $x$ and $y$, that can both be altered to change the value of $z = f(x,y)$.
@@ -129,29 +148,16 @@ This forms the foundation of the rest of our study of multivariable calculus!
 \end{feedback}
 \end{problem}
 
-\section*{Task One: Real-World Examples}
+\section*{Examples of Multivariable Functions}
 
 Let's explore concrete examples of multivariable functions.
 
 \subsection*{Example 1: Volume of a Cylinder}
 
 \begin{problem}
-The volume formula is $V = \pi r^2 h$, a function: $V(r, h) = \answer{\pi r^2 h}$
+The volume formula is $V = \pi r^2 h$, a function: $V(r, h) = \answer{\pi r^2 h}$ can describe the volume of a cylinder based on radius $r$ and height $h$ that defines the cylinder. Both $r$ and $h$ are independent variables that we can change freely, and the volume $V$ depends on both.
 
-If a cylinder has radius $r = 3$ cm and height $h = 5$ cm:
-$V(3, 5) = \pi \cdot (\answer{3})^2 \cdot \answer{5} = \answer{45}\pi$ cubic cm
-
-If we double the radius: $V(6, 5) = \answer{180}\pi$ cubic cm
-
-Doubling the radius \wordChoice{\choice{doubles the volume}\choice{triples the volume}\choice[correct]{quadruples the volume}} because radius is squared.
-
-\begin{feedback}
-To evaluate $V(3,5)$, substitute $r=3$ and $h=5$. Both variables are needed to determine volume.
-\end{feedback}
-\end{problem}
-
-\begin{problem}
-Now explore the interactive visualization of the cylinder volume function.
+Use the following applet to explore the interactive visualization of the cylinder volume function. For the sake of visualization, the ``$x$-$y$ plane'' is shifted lower than in typical graphs.
 
 \begin{expandable}{stuff}{GeoGebra Instructions}
     Use the sliders to adjust the radius and height. Watch how the cylinder's volume changes. Notice how the function depends on both variables simultaneously.
@@ -160,6 +166,15 @@ Now explore the interactive visualization of the cylinder volume function.
 \begin{center}
 \geogebra{vss2d9yc}{733}{520}
 \end{center}
+
+If a cylinder has radius $r = 3$ cm and height $h = 5$ cm:
+$V(3, 5) = \pi \cdot (\answer{3})^2 \cdot \answer{5} = \answer{45}\pi$ cubic cm
+
+If we double the radius: $V(6, 5) = \answer{180}\pi$ cubic cm
+
+Doubling the radius \wordChoice{\choice{doubles the volume}\choice{triples the volume}\choice[correct]{quadruples the volume}} because radius is squared.
+
+
 
 After exploring, answer: If you fix the height at $h=4$ and vary only the radius, the volume:
 \begin{multipleChoice}
@@ -179,6 +194,8 @@ If you fix the radius at $r=2$ and vary only the height, the volume:
 
 \begin{feedback}
 The volume is proportional to $r^2$ (quadratic in $r$) but proportional to $h$ (linear in $h$). This shows how the function responds differently to changes in different variables!
+
+To evaluate $V(3,5)$, substitute $r=3$ and $h=5$. Both variables are needed to determine volume.
 \end{feedback}
 \end{problem}
 
