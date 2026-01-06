@@ -1,6 +1,6 @@
 \documentclass{ximera}
 
-\title{Polar Coordinates and Multivariable Sets}
+\title{New Coordinate Systems: Polar}
 \author{Zack Reed}
 
 \begin{document}
@@ -228,65 +228,5 @@ This gives us polar coordinates $(r,\theta)$.
                 Calculation: $r=\sqrt{3^2+4^2}=5$. The angle satisfies $\tan\theta=\dfrac{4}{3}$, so $\theta=\arctan(4/3)$ (adjusted for quadrant if needed). Thus the polar coordinates are $(5,\arctan(4/3))$.
         \end{feedback}
 \end{problem}
-
-\section*{Working in Three Dimensions}
-
-Now we extend our thinking to three dimensions, where we have three variables: $x$, $y$, and $z$.
-
-\begin{problem}
-    A key strategy for understanding 3D relationships is to \emph{fix one variable and see what happens with the other two}.
-    
-    This creates a \emph{cross-section} or \emph{slice} of the 3D object.
-\end{problem}
-
-\begin{center}
-\geogebra{xypfhkea}{732}{506}
-\end{center}
-
-\begin{problem}
-    Using the GeoGebra applet above, experiment with the $z$ slider.
-    
-    \begin{enumerate}
-        \item When $z = 0$, you see a slice of the surface in the $x$-$y$ plane. This slice is a \wordChoice{\choice[correct]{ellipse}\choice{parabola}\choice{line}\choice{circle}}.
-        
-        \item As you increase $z$ from $-1.25$ to $1.25$ the slices \wordChoice{\choice{get larger}\choice{get smaller}\choice{stay the same size}\choice[correct]{get larger then smaller}\choice{get smaller then larger}}.
-        
-        \item The point $(1,0,0)$ is \wordChoice{\choice[correct]{within}\choice{on}\choice{outside of}} the surface because $1^2 + 3 \cdot 0^2 +3 \cdot 0^2$ is \wordChoice{\choice[correct]{less than}\choice{equal to}\choice{greater than}} $4$.
-        
-        \item The point $(1,1,1)$ is \wordChoice{\choice{within}\choice{on}\choice[correct]{outside of}} the surface because $1^2 + 3 \cdot 1^2 +3 \cdot 1^2$ is \wordChoice{\choice{less than}\choice{equal to}\choice[correct]{greater than}} $4$.
-        
-        \item The point $(1,1,0)$ is \wordChoice{\choice{within}\choice[correct]{on}\choice{outside of}} the surface because $1^2 + 3 \cdot 1^2 +3 \cdot 0^2$ is \wordChoice{\choice{less than}\choice[correct]{equal to}\choice{greater than}} $4$.
-        
-        \item What 3D shape does this surface represent?
-        \begin{multipleChoice}
-            \choice{A cylinder}
-            \choice{A cone}
-            \choice{A sphere}
-            \choice{A paraboloid}
-            \choice[correct]{An ellipsoid}
-        \end{multipleChoice}
-    \end{enumerate}
-    
-    \begin{feedback}
-        By looking at slices, we can understand complex 3D shapes by breaking them down into familiar 2D curves!
-    \end{feedback}
-\end{problem}
-
-\begin{center}
-\geogebra{rf4mpv5m}{732}{506}
-\end{center}
-
-\begin{problem}
-    Using the second GeoGebra applet, explore slices in different directions.
-    
-    \begin{enumerate}
-        \item Select ``Show x-Slice'' and move the slider. When we fix $x$ and look at the $y$-$z$ plane, we see the relationship between \wordChoice{\choice{$x$ and $y$}\choice{$x$ and $z$}\choice[correct]{$y$ and $z$}}.
-        
-        \item Select ``Show y-Slice'' and move the slider. When we fix $y$ and look at the $x$-$z$ plane, we see the relationship between \wordChoice{\choice{$x$ and $y$}\choice[correct]{$x$ and $z$}\choice{$y$ and $z$}}.
-        
-        \item By rotating the view to look directly at each slice, you reduce the problem to a familiar \wordChoice{\choice[correct]{2-dimensional}\choice{1-dimensional}\choice{4-dimensional}} perspective.
-    \end{enumerate}
-\end{problem}
-
 
 \end{document}
