@@ -1,4 +1,5 @@
 \documentclass{ximera}
+
 % \input{../../xmpreamble.tex}
 
 \title{Activity: Introduction to Multivariable Functions}
@@ -199,60 +200,133 @@ To evaluate $V(3,5)$, substitute $r=3$ and $h=5$. Both variables are needed to d
 \end{feedback}
 \end{problem}
 
-\subsection*{Example 2: Speed of Sound in Seawater}
+\begin{remark}
+    \textbf{Level Sets:} Often, because of software constraints or formatting issues, we cannot visualize full 3D surfaces. Instead, we can visualize \emph{level sets} (or \emph{contour plots}), which are curves in the $xy$-plane where the function takes on a constant value.
+
+    That is, we find the 2D curves (or later 3D surfaces) where the function takes on a specific output value. This is akin to horizontally slicing 3D surfaces as we did in the last module. 
+
+    As an example, the level sets of the cylinder volume function $V(r,h) = \pi r^2 h$ are given by fixing $V = k$ for some constant $k$:
+
+    \begin{center}
+    \begin{tikzpicture}
+    \begin{axis}[xlabel=$r$, ylabel=$h$, xmin=0, xmax=6, ymin=0, ymax=10, width=0.6\textwidth, legend pos=north east]
+    \addplot[blue, thick, domain=0.2:6] {20/(pi * x^2)}; \addlegendentry{$V=20\pi$}
+    \addplot[red, thick, domain=0.2:6] {50/(pi * x^2)}; \addlegendentry{$V=50\pi$}
+    \addplot[green!60!black, thick, domain=0.2:6] {100/(pi * x^2)}; \addlegendentry{$V=100\pi$}
+    \end{axis}
+    \end{tikzpicture}
+    \end{center}
+
+    Here, we're looking \textbf{at the domain} of the function. Remember, it's important to keep in mind where you're looking. This still gives us some information about the function's behavior and even what the surface might look like. We can see that the function takes on higher values as you away from the origin, and there is an inverse square relationship between $r$ and $h$ for fixed volume.
+\end{remark}
+
+\subsection*{Example 2: Temperature on a Plate}
 
 \begin{problem}
-The speed of sound $c(S, T)$ depends on salinity $S$ and temperature $T$.
+Consider a metal plate where the temperature (in degrees) at a point $(x,y)$ is given by
+\[ T(x,y) = 100 - x^2 - y^2. \]
 
-As temperature increases, sound speed:
-\begin{multipleChoice}
-    \choice[correct]{Increases (faster in warmer water)}
-    \choice{Decreases (slower in warmer water)}
-    \choice{Stays the same}
-\end{multipleChoice}
+What this function means is that a $10\times 10$ square plate is in the first quadrant (where $0 \le x \le 10$ and $0 \le y \le 10$), and there is a heat source at the origin $(0,0)$ producing a maximum temperature of $100$ degrees. The temperature decreases as you move away from the origin, and the height of the surface represents the temperature at each point.
 
-As salinity increases, sound speed:
-\begin{multipleChoice}
-    \choice[correct]{Increases (faster in saltier water)}
-    \choice{Decreases (slower in saltier water)}
-    \choice{Stays the same}
-\end{multipleChoice}
+The surface of the function $z = T(x,y)$ over the box $0 \le x \le 10$, $0 \le y \le 10$ looks like the following:
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[view={60}{30}, xlabel=$x$, ylabel=$y$, zlabel={$T$}, domain=0:10, y domain=0:10, colormap/viridis, samples=40, samples y=40, width=0.7\textwidth]
+\addplot3[surf, shader=flat] {100 - x^2 - y^2};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+The level curves of the temperature function $T(x,y)$ are given by fixing $T = k$ for some constant $k$:
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[xlabel=$x$, ylabel=$y$, xmin=0, xmax=10, ymin=0, ymax=10, width=0.6\textwidth, legend pos=north east]
+% Quarter-circles (contours) for T(x,y)=100-x^2-y^2
+\addplot[blue, samples=200, domain=0:90] ({3.1623*cos(x)},{3.1623*sin(x)}); \addlegendentry{$T=90$}
+\addplot[red, samples=200, domain=0:90] ({5*cos(x)},{5*sin(x)}); \addlegendentry{$T=75$}
+\addplot[green!60!black, samples=200, domain=0:90] ({7.0711*cos(x)},{7.0711*sin(x)}); \addlegendentry{$T=50$}
+\addplot[orange, samples=200, domain=0:90] ({8.6603*cos(x)},{8.6603*sin(x)}); \addlegendentry{$T=25$}
+\addplot[purple, samples=200, domain=0:90] ({10*cos(x)},{10*sin(x)}); \addlegendentry{$T=0$}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+Answer the following questions:
+
+\begin{enumerate}
+\item The maximum temperature in the domain $0\le x\le 10$ ,$0 \le y \le 10$ is $\answer{100}$ degrees at the point $(\answer{0},\answer{0})$.
+\item $T(3,4)=\answer{75}$ degrees.
+\item According to the level curves, the temperature at $(\frac{3\sqrt{2}}{2},\frac{3\sqrt{2}}{2})$ is $\answer{90}$ degrees. (Hint: Think about the level curves and the unit circle.)
+\item The level curve $T=0$ is the \wordChoice{\choice{square}\choice{ellipsoid}\choice[correct]{circle}\choice{sphere}} defined by the equation $x^2 + y^2 = \answer{100}$ and is all points $(x,y)$ where the temperature is $\answer{0}$ degrees.
+\end{enumerate}
 
 \begin{feedback}
-Both higher temperature and salinity increase sound speed—important for sonar and underwater acoustics!
+Remember that levels curves live in the domain, and are the sets of points $(x,y)$ where the function takes on a set, specific value. Here, the level curves are quarter-circles centered at the origin, showing how temperature decreases as you move away from the heat source.
 \end{feedback}
 \end{problem}
 
-\subsection*{Example 3: Mortgage Payments}
+\subsection*{Example 3: Bacterial Growth (Nutrient × Time)}
 
 \begin{problem}
-Monthly payment $M(P, i, t)$ depends on principal $P$, interest rate $i$, and loan term $t$.
+A bacterial population is modeled by
+\[ N(t,c) = c\,e^{0.5t}, \]
+where $t$ is time (in hours) and $c$ is the initial nutrient level which scales the initial population.
 
-If you increase principal (keeping others fixed), the payment:
-\begin{multipleChoice}
-    \choice[correct]{Increases}
-    \choice{Decreases}
-\end{multipleChoice}
+Graph $N$ for small positive times (e.g., $0\le t\le 5$) and try several values of $c$ (for example $c=1,2,5$). Observe how changing $t$ and $c$ affects $N$.
 
-If you increase the term (longer payoff), the monthly payment:
-\begin{multipleChoice}
-    \choice{Increases}
-    \choice[correct]{Decreases}
-\end{multipleChoice}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[view={-40}{60}, xlabel=$t$, ylabel=$c$, zlabel={$N$}, domain=0:5, y domain=0:6, colormap/viridis, samples=40, samples y=40, width=0.7\textwidth]
+\addplot3[surf, shader=flat] {y*exp(0.5*x)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[xlabel=$t$, ylabel=$c$, xmin=0, xmax=5, ymin=0, ymax=6, width=0.6\textwidth, legend pos=north east]
+% Contour curves N(t,c)=k => c = k e^{-0.5 t}
+\addplot[blue, thick, domain=0:5, samples=200] {1*exp(-0.5*x)}; \addlegendentry{$N=1$}
+\addplot[red, thick, domain=0:5, samples=200] {2*exp(-0.5*x)}; \addlegendentry{$N=2$}
+\addplot[green!60!black, thick, domain=0:5, samples=200] {5*exp(-0.5*x)}; \addlegendentry{$N=5$}
+\addplot[orange, thick, domain=0:5, samples=200] {10*exp(-0.5*x)}; \addlegendentry{$N=10$}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+Answer the following:
+\begin{enumerate}
+\item According to the level curves, when $c=2$ and $t=0$, the population is $N(0,2) = \answer{2}$.
+\item When $c=5$ and $t=2$, the population is $N(2,5) = \answer{5e^{1}} \approx \answer{13.5914}$.
+\item Which of the following statements are true? (Select all)
+    \begin{selectAll}
+        \choice{For fixed $c$, $N$ grows linearly in $t$}
+        \choice[correct]{For fixed $c$, $N$ grows exponentially in $t$}
+        \choice{For fixed $c$, $N$ decreases with $t$}
+        \choice[correct]{For fixed $t$, $N$ is linear in $c$}
+        \choice{For fixed $t$, $N$ is exponential in $c$}
+    \end{selectAll}
+\end{enumerate}
+
+
 
 \begin{feedback}
-Borrowing more increases payments, but longer terms decrease monthly amounts (though total interest paid increases).
+For fixed $c$, $N(t,c)=c e^{0.5t}$ increases exponentially in $t$ (rapid growth). For fixed $t$, $N$ is linear in $c$ (doubling $c$ doubles $N$). Note $N(0,c)=c$, the initial population, and $N(2,5)=5e^{1}\approx 13.5914$.
 \end{feedback}
 \end{problem}
 
-\section*{Task Two: Notation and Evaluation}
+\section*{Practice and Checking Understanding}
 
+Let's do some practice problems and some quick checks about our visual intuitions.
 \begin{problem}
-For $f(x, y) = x^2 + 3xy - y^2$, evaluate:
+Consider the function $f(x, y) = x^2 + 3xy - y^2$, evaluate:
 
-At $(2, 1)$: $f(2, 1) = (\answer{2})^2 + 3(\answer{2})(\answer{1}) - (\answer{1})^2 = \answer{9}$
+$$f(2, 1) = (\answer{2})^2 + 3(\answer{2})(\answer{1}) - (\answer{1})^2 = \answer{9}$$
 
-At $(-1, 2)$: $f(-1, 2) = (\answer{-1})^2 + 3(\answer{-1})(\answer{2}) - (\answer{2})^2 = \answer{-9}$
+$$f(-1, 2) = (\answer{-1})^2 + 3(\answer{-1})(\answer{2}) - (\answer{2})^2 = \answer{-9}$$
 
 \begin{feedback}
 To evaluate $f(x,y)$ at $(a,b)$, substitute $x=a$ and $y=b$. Order matters!
@@ -260,64 +334,67 @@ To evaluate $f(x,y)$ at $(a,b)$, substitute $x=a$ and $y=b$. Order matters!
 \end{problem}
 
 \begin{problem}
-For three variables, let $g(x, y, z) = xy + yz + xz$. Evaluate:
+Consider the three-variable function $g(x, y, z) = xy + yz + xz$. Evaluate:
 
-At $(1, 2, 3)$: $g(1, 2, 3) = (\answer{1})(\answer{2}) + (\answer{2})(\answer{3}) + (\answer{1})(\answer{3}) = \answer{11}$
+$$g(1, 2, 3) = (\answer{1})(\answer{2}) + (\answer{2})(\answer{3}) + (\answer{1})(\answer{3}) = \answer{11}$$
 
-At $(0, 5, 10)$: $g(0, 5, 10) = \answer{50}$
-
-\begin{feedback}
-For three-variable functions, use ordered triples $(x, y, z)$.
-\end{feedback}
+$$g(0, 5, 10) = \answer{50}$$
 \end{problem}
 
-\begin{problem}
-For $f(x, y) = \sqrt{x + y}$, which points are in the domain?
-
-\begin{selectAll}
-    \choice[correct]{$(5, 3)$ because $5 + 3 = 8 \geq 0$}
-    \choice[correct]{$(0, 0)$ because $0 + 0 = 0 \geq 0$}
-    \choice{$(-5, 3)$ because $-5 + 3 = -2 < 0$}
-    \choice[correct]{$(-2, 5)$ because $-2 + 5 = 3 \geq 0$}
-\end{selectAll}
-
-The domain is all points $(x, y)$ where:
-\begin{multipleChoice}
-    \choice{$x \geq 0$ and $y \geq 0$}
-    \choice[correct]{$x + y \geq 0$}
-    \choice{$x \geq 0$ or $y \geq 0$}
-\end{multipleChoice}
-
-\begin{feedback}
-We need $x + y \geq 0$ for the square root. This is a half-plane, not just the first quadrant!
-\end{feedback}
-\end{problem}
-
-\section*{Task Three: Visualizing Functions}
-
+Now let's think about some visual intuitions.
 \begin{problem}
 For two-variable functions $z = f(x,y)$, the graph is:
 \begin{multipleChoice}
     \choice{A curve in 2D}
+    \choice{A curve in 3D}
     \choice[correct]{A surface in 3D}
     \choice{A volume in 3D}
 \end{multipleChoice}
 
+The set $z\leq f(x,y)$ represents:
+\begin{multipleChoice}
+    \choice{A curve in 2D}
+    \choice{A curve in 3D}
+    \choice{A surface in 3D}
+    \choice[correct]{A volume in 3D}
+\end{multipleChoice}
+
+The set $(x,y)$ such that $f(x,y) = 4$ represents:
+\begin{multipleChoice}
+    \choice[correct]{A curve in 2D}
+    \choice{A curve in 3D}
+    \choice{A surface in 3D}
+    \choice{A volume in 3D}
+\end{multipleChoice}
+
 \begin{feedback}
-Each point $(x, y)$ gives a height $z = f(x, y)$, creating a surface—like a landscape!
+Each point $(x, y)$ gives a height $z = f(x, y)$, creating a surface—like a landscape! If we consider all points below that surface ($z \leq f(x,y)$), we get a volume. Finally, fixing $f(x,y) = 4$ gives a contour line (level curve) in the $xy$-plane.
 \end{feedback}
 \end{problem}
 
 \begin{problem}
 Consider $f(x, y) = x^2 + y^2$. Evaluate at key points: 
-$(0, 0)$: $f(0, 0) = \answer{0}$;  $(1, 1)$: $f(1, 1) = \answer{2}$;  $(2, 2)$: $f(2, 2) = \answer{8}$
 
-This surface resembles:
+$$f(0, 0) = \answer{0}$$  
+
+$$f(1, 1) = \answer{2}$$
+
+$$f(2, 2) = \answer{8}$$
+
+Using MATLAB or some graphing software, this surface resembles:
 \begin{multipleChoice}
     \choice{A plane}
     \choice{A saddle}
     \choice[correct]{A paraboloid (bowl) opening upward}
     \choice{A sphere}
+\end{multipleChoice}
+
+If you slice the surface horizontally at different $z$-values, the level curves are:
+\begin{multipleChoice}
+    \choice{Lines}
+    \choice{Ellipses}
+    \choice[correct]{Circles}
+    \choice{Parabolas}
 \end{multipleChoice}
 
 \begin{feedback}
@@ -328,24 +405,37 @@ Since $f(x,y) = x^2 + y^2 \geq 0$ and increases away from the origin, it forms a
 \begin{problem}
 Now consider $g(x, y) = x^2 - y^2$. Evaluate:
 
-$(0, 0)$: $g(0, 0) = \answer{0}$;  $(1, 0)$: $g(1, 0) = \answer{1}$;  $(0, 1)$: $g(0, 1) = \answer{-1}$
+$$g(0, 0) = \answer{0}$$
 
-Notice: $g$ is positive along the $x$-axis but negative along the $y$-axis. This creates:
+$$g(1, 0) = \answer{1}$$
+
+$$g(0, 1) = \answer{-1}$$
+
+Using MATLAB or graphing software, this surface resembles:
 \begin{multipleChoice}
     \choice{A bowl}
     \choice[correct]{A saddle (curves up in one direction, down in another)}
     \choice{A plane}
 \end{multipleChoice}
 
+Slicing the surface horizontally at different $z$-values, the level curves are:
+\begin{multipleChoice}
+    \choice{Circles}
+    \choice{Ellipses}
+    \choice[correct]{Hyperbolas}
+    \choice{Parabolas}
+\end{multipleChoice}
+
 \begin{feedback}
-Saddle points will be important when studying critical points!
+The function $g(x,y) = x^2 - y^2$ creates a saddle shape because it curves upward in the $x$-direction and downward in the $y$-direction. The level curves are hyperbolas, reflecting this mixed curvature.
 \end{feedback}
 \end{problem}
 
-\section*{Task Four: Higher Dimensions}
+\section*{Extending to More Variables}
 
 \begin{problem}
 Functions can have any number of variables! For $f(x, y, z, w)$ of four variables, the domain consists of:
+
 \begin{multipleChoice}
     \choice{Points in 3D space}
     \choice[correct]{Ordered 4-tuples $(x, y, z, w)$}
@@ -366,24 +456,6 @@ $h(-1, 3, 2) = \answer{-1} + 2(\answer{3}) + 3(\answer{2}) = \answer{11}$
 
 \begin{feedback}
 Same process: substitute and calculate!
-\end{feedback}
-\end{problem}
-
-\section*{Summary}
-
-\begin{problem}
-Select all TRUE statements:
-
-\begin{selectAll}
-    \choice[correct]{Multivariable functions take multiple inputs, produce one output}
-    \choice[correct]{The graph of $z = f(x,y)$ is a surface in 3D}
-    \choice[correct]{Real-world quantities often depend on multiple variables}
-    \choice[correct]{We evaluate by substituting values for all variables}
-    \choice{Curvature depends on how fast a particle moves}
-\end{selectAll}
-
-\begin{feedback}
-Next, we'll learn partial derivatives to analyze how multivariable functions change!
 \end{feedback}
 \end{problem}
 

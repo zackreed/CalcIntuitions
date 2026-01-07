@@ -11,9 +11,45 @@ We extend our understanding of derivatives from single-variable curves to multiv
 
 \section*{From Single Variables to Multiple Variables}
 
-In single-variable calculus, we studied functions $f(x)$ that created curves in 2D space. Now we're moving to functions $f(x,y)$ that create surfaces in 3D space. But here's the key insight: **we can still think about curves, but now these curves come from slicing through surfaces**.
+In single-variable calculus, we studied functions $f(x)$ that created curves in 2D space. Now we're moving to functions $f(x,y)$ that create surfaces in 3D space. This requires some extra care when it comes to taking derivatives, which currently only make sense with respect to curves.
 
-\section*{The Domain Perspective}
+\section*{Recap: Derivatives of Curves}
+
+Right now, we have a few ways of taking derivatives, but they rely on having graphs or curves in space. 
+
+\begin{problem}
+
+For example, we've extensively examined the race between Torty and Harry, as seen in the following applet:
+
+\begin{center}
+\geogebra{yzxdk5uw}{844}{629}
+\end{center}
+
+Now that we have some experience with multivariable functions, we can actually describe the racetrack in greater detail. 
+
+The ``hill'' is the surface from the function $z = f(x,y) = xy^2$. The racetrack is the curve that follows the hill, specifically along the unit circle in the $xy$-plane. The unit circle is parametrized by $\vec{r}(t) = \langle \cos(t), \sin(t) \rangle$, so we get the vector function (for Harry):
+
+$$\vec{C}(t) = \langle \cos(t), \sin(t), f(\cos(t), \sin(t)) \rangle = \langle \cos(t), \sin(t), \cos(t) \sin^2(t) \rangle$$
+
+Mark all of the following statements that are true:
+
+\begin{selectAll}
+\choice[correct]{The racetrack is a curve on the surface defined by $z = f(x,y)$.}
+\choice{The racetrack is a surface defined by $z = f(x,y)$.}
+\choice[correct]{The racetrack can be represented as a vector function $\vec{C}(t)$.}
+\choice{The racetrack cannot be represented as a vector function because it is on a surface.}
+\choice[correct]{The racetrack is created by following a path through the domain of $f(x,y)$.}
+\choice{The racetrack is created by following a path on the surface of $f(x,y)$.}
+\end{selectAll}
+
+Importantly, we need to keep track of whethere we're in the domain or the plot of the function. The curve lives in 3D space on the surface, but we create it by following a path through the 2D domain.
+
+\end{problem}
+
+This process of creating a curve on a surface by isolating a path through the domain is key to initially understanding derivatives of multivariable functions.
+
+
+\section*{Direction of Derivatives: Cutting through the Domain}
 
 Consider a function $z = f(x,y) = x^2 + y^2$. The domain is the $xy$-plane, and the output is a height $z$ above each point $(x,y)$.
 
@@ -45,7 +81,7 @@ When we draw a line through the domain (like the red line above), we're essentia
 
 \section*{Creating Curves from Surfaces}
 
-Now here's the magic: when we follow that red line through the domain and look at the corresponding function values, we get a curve in 3D space!
+When we follow a line through the domain and look at the corresponding function values, we get a curve in 3D space!
 
 If our line through the domain is parametrized as:
 $$\vec{r}(t) = \langle x(t), y(t) \rangle$$
@@ -53,7 +89,11 @@ $$\vec{r}(t) = \langle x(t), y(t) \rangle$$
 Then the resulting curve in 3D space is:
 $$\vec{C}(t) = \langle x(t), y(t), f(x(t), y(t)) \rangle$$
 
-\begin{exercise}
+This is just like the creation of the racetrack earlier. The main point is that at each $(x,y)$ pair along the line, we find the height $z = f(x,y)$ to get the full 3D point.
+
+Let's practice generating a curve from a surface before moving on.
+
+\begin{problem}
 Consider $f(x,y) = x^2 + y^2$ and the line through the domain given by $x(t) = t$, $y(t) = 2t$.
 
 The resulting curve in 3D space is $\vec{C}(t) = \langle t, 2t, \answer{5t^2} \rangle$.
@@ -61,7 +101,71 @@ The resulting curve in 3D space is $\vec{C}(t) = \langle t, 2t, \answer{5t^2} \r
 \begin{feedback}
 Since $f(x,y) = x^2 + y^2$, we have $f(t, 2t) = t^2 + (2t)^2 = t^2 + 4t^2 = 5t^2$.
 \end{feedback}
-\end{exercise}
+\end{problem}
+
+% 3D surface with the curve from x=t, y=2t
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+    view={45}{30},
+    axis lines=center,
+    xlabel={$x$},
+    ylabel={$y$},
+    zlabel={$z$},
+    xmin=-2, xmax=2,
+    ymin=-2, ymax=2,
+    zmin=0, zmax=20,
+    samples=30,
+    samples y=30,
+    domain=-2:2,
+    domain y=-2:2,
+]
+
+% Surface: z = x^2 + y^2
+\addplot3[
+    surf,
+    draw=none,
+    opacity=0.7,
+]
+{x^2 + y^2};
+
+% First half
+\addplot3[
+    very thick,
+    red,
+    domain=-1:0,
+    samples=50,
+]
+({x},{2*x},{5*x^2});
+
+% Second half
+\addplot3[
+    very thick,
+    red,
+    domain=0:1,
+    samples=50,
+]
+({x},{2*x},{5*x^2});
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{center}
+\textit{Top view (domain): the line $y=2x$ in the $xy$-plane that generates the red curve above.}
+\end{center}
+
+% Domain plot with the line y=2x
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[xlabel=$x$, ylabel=$y$, xmin=-2.5, xmax=2.5, ymin=-2.5, ymax=2.5, grid=major, width=0.6\textwidth]
+\addplot[fill=blue!10, draw=none] coordinates {(-2.5,-2.5) (2.5,-2.5) (2.5,2.5) (-2.5,2.5) (-2.5,-2.5)};
+\addplot[thick, red, domain=-2:2] {2*x};
+\node[red] at (axis cs:1.4,1.6) {$y=2x$};
+\addplot[only marks, mark=*, mark size=2pt, blue] coordinates {(0,0) (1,2)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
 
 \section*{Derivatives Along These Curves}
 
