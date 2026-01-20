@@ -17,7 +17,7 @@ The key idea was that \emph{treating a function like a line} significantly reduc
 
 $$dy=f'(a) \cdot dx,$$
 
-where $dy$ is a tiny ``differential'' (meaning linear) change in the output of the function and $dx$ is a tiny ``differential'' change in the input. In this context, ``differential'' is a special keyword for linear, but linear only in a tiny window around the point $(a,f(a))$.
+where $dy$ is a tiny ``differential'' (meaning locally linear) change in the output of the function and $dx$ is a tiny ``differential'' change in the input. In this context, ``differential'' is a special keyword for linear, but linear only in a tiny window around the point $(a,f(a))$.
 
 Here, we extend this idea to multivariable functions, but instead of treating a function like a line, we will treat it like a plane in a small region near a point on the surface $(a,b,f(a,b))$.
 
@@ -101,7 +101,7 @@ For $\frac{\partial g}{\partial x}$: treat $y$ as constant, so $e^{xy}$ differen
 
 \subsection*{Approach 2: Tangent Planes}
 
-The truest extension of tangent lines is the \textbf{tangent plane}. Instead of just treating a function as if it were a line near the point $(a,f(a))$, we treat the function as if it were a plane near $(a,b,f(a,b))$. This maintains the idea of \emph{local linearity} since planes (and hyperplanes in higher dimensions) are linear.
+The truest extension of tangent lines is the \textbf{tangent plane}. Instead of just treating a function as if it were a line near the point $(a,f(a))$, we treat the function as if it were a plane near $(a,b,f(a,b))$. This maintains the idea of \emph{local linearity} since planes (and hyperplanes in higher dimensions) are linear versions of surfaces (and hypersurfaces in higher dimensions).
 
 \begin{problem}
 In the following GeoGebra applet you can adjust the point $(x,y)$ in the domain and see the resulting tangent plane approximation to the surface.
@@ -116,12 +116,13 @@ In the following GeoGebra applet you can adjust the point $(x,y)$ in the domain 
 
 Notice that if you zoom in near the point, moving along the plane is is not much different from moving along the surface itself!
 
-The tangent plane is defined by:
+Recalling our understanding of planes from prior modules, and using $dx$, $dy$, and $dz$ to represent tiny changes in $x$, $y$, and $z$ respectively, which of the following expressions best represents $dz$ in terms of $dx$ and $dy$?
+
 \begin{multipleChoice}
-    \choice{Only $\frac{\partial f}{\partial x}$}
-    \choice{Only $\frac{\partial f}{\partial y}$}
-    \choice[correct]{Both $\frac{\partial f}{\partial x}$ and $\frac{\partial f}{\partial y}$ together}
-    \choice{The gradient magnitude}
+    \choice{ $dz = \frac{\partial f}{\partial x}(a,b) \cdot dx$ }
+    \choice{ $dz = \frac{\partial f}{\partial y}(a,b) \cdot dy$ }
+    \choice[correct]{ $dz = \frac{\partial f}{\partial x}(a,b) \cdot dx + \frac{\partial f}{\partial y}(a,b) \cdot dy$ }
+    \choice{ $dz = f(a,b) + \frac{\partial f}{\partial x}(a,b) \cdot dx + \frac{\partial f}{\partial y}(a,b) \cdot dy$ }
 \end{multipleChoice}
 
 \begin{feedback}
