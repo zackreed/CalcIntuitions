@@ -13,6 +13,14 @@ In this activity we extend local linearity from single-variable calculus to mult
 
 One of the central ideas from Calculus I was \textbf{local linearity}. For a function $f(x)$, if its derivative $f'(a)$ exists, then we can treat $f$ \textit{as if it were a line} with slope $f'(a)$ if we don't move too far from the point $(a, f(a))$.
 
+The key idea was that \emph{treating a function like a line} significantly reduced the complexity of the function's changes down to simple multiplication: 
+
+$$dy=f'(a) \cdot dx,$$
+
+where $dy$ is a tiny ``differential'' (meaning linear) change in the output of the function and $dx$ is a tiny ``differential'' change in the input. In this context, ``differential'' is a special keyword for linear, but linear only in a tiny window around the point $(a,f(a))$.
+
+Here, we extend this idea to multivariable functions, but instead of treating a function like a line, we will treat it like a plane in a small region near a point on the surface $(a,b,f(a,b))$.
+
 \begin{problem}
 Let's review local linearity from single-variable calculus.
 
@@ -24,13 +32,15 @@ Let's review local linearity from single-variable calculus.
 \geogebra{msnbuymg}{786}{584}
 \end{center}
 
-After exploring, answer: What does the tangent line represent?
-\begin{multipleChoice}
-    \choice{The exact function $f(x)$}
-    \choice[correct]{A linear approximation of $f(x)$ near the point of tangency}
-    \choice{The derivative $f'(x)$}
-    \choice{The area under the curve}
-\end{multipleChoice}
+Answer the following questions:
+\begin{enumerate}
+
+\item At the point $(1,.297)$, the function \wordChoice{\choice{is a line of slope $-.463$}\choice[correct]{can be treated like a line with slope $-.463$}\choice{is not differentiable}}. This means that if you move a tiny amount $dx$ away from $x=1$, the change to $y$ \wordChoice{\choice{is exactly}\choice[correct]{is approximately}} $dy=$\wordChoice{\choice[correct]{$-.463\cdot dx$}\choice{$-.463$}\choice{$f(1+dx)$}}.
+
+
+\item The ``tangent line'' represents \wordChoice{\choice{the actual function}\choice[correct]{the linear approximation of the function at that point}\choice{the derivative function}}.
+
+\end{enumerate}
 
 \begin{feedback}
 The tangent line gives us a simple linear approximation: $f(x) \approx f(a) + f'(a)(x-a)$ near $x=a$.
@@ -39,54 +49,21 @@ The tangent line gives us a simple linear approximation: $f(x) \approx f(a) + f'
 
 \section*{Extending to Multiple Variables}
 
-Now with multivariable functions, we need to account for variation in at least two variables simultaneously. We have two complementary approaches:
+Now with multivariable functions, we need to account for variation in at least two variables simultaneously.
 
-\begin{enumerate}
-    \item \textbf{Reduce complexity}: Look at slices along lines (directional derivatives)
-    \item \textbf{Full extension}: Create tangent planes (using all partial derivatives together)
-\end{enumerate}
+We concluded the last module looking at the partial derivatives $\frac{\partial f}{\partial x}$ and $\frac{\partial f}{\partial y}$, which measure the rate of change of $f$ in the $x$-direction and $y$-direction, respectively.
 
-\subsection*{Approach 1: Slicing Along Lines}
-
-Rather than dealing with complexity of multiple variables for $f(x,y)$, we can consider how $f$ changes along a single line—which behaves like the $x$-axis in single-variable calculus.
-
-\begin{problem}
-Explore directional derivatives by slicing the surface.
-
-\begin{expandable}{stuff}{GeoGebra Instructions}
-    Drag the point $(x,y)$ on the right screen to shift the input point (you may need to hide the surface).
-    
-    Drag the green point at the end of the $\vec{u}$ vector to change the direction of the line.
-    
-    Select ``Zoom to Differential'' to see the tangent line along that direction.
-\end{expandable}
-
-\begin{center}
-\geogebra{y3bnsnbv}{740}{612}
-\end{center}
-
-The differentials $ds$ and $df$ have the same interpretation along the chosen line as $dx$ and $df$ did in single-variable calculus!
-
-When you rotate $\vec{u}$ to be horizontal or vertical, you get:
-\begin{selectAll}
-    \choice[correct]{Partial derivatives with respect to $x$ or $y$}
-    \choice{The full gradient}
-    \choice[correct]{Rates of change while holding one variable constant}
-    \choice{The tangent plane}
-\end{selectAll}
-
-\begin{feedback}
-Horizontal direction gives $\frac{\partial f}{\partial x}$ (holding $y$ constant), vertical gives $\frac{\partial f}{\partial y}$ (holding $x$ constant).
-\end{feedback}
-\end{problem}
+We hinted that these two derivatives were all we needed to build more complex derivatives in other directions because any direction vector $\vec{v}$ can be broken down into $x$ and $y$ components. We now build on this idea and also discuss how we use the partial derivatives $\frac{\partial f}{\partial x}$ and $\frac{\partial f}{\partial y}$ to build the tangent plane approximation of $f$ near a point.
 
 \section*{Partial Derivatives}
+
+First, let's review and more formally define partial derivatives.
 
 \begin{definition}
 The \textbf{partial derivative} of $f(x,y)$ with respect to $x$ at $(a,b)$ is:
 $$\frac{\partial f}{\partial x}(a,b) = \lim_{h \to 0} \frac{f(a+h,b) - f(a,b)}{h}$$
 
-This measures the rate of change in the $x$-direction while holding $y$ constant.
+This measures the rate of change of $f$ in the $x$-direction while holding $y$ constant.
 
 Similarly, the partial derivative with respect to $y$ is:
 $$\frac{\partial f}{\partial y}(a,b) = \lim_{h \to 0} \frac{f(a,b+h) - f(a,b)}{h}$$
@@ -124,10 +101,10 @@ For $\frac{\partial g}{\partial x}$: treat $y$ as constant, so $e^{xy}$ differen
 
 \subsection*{Approach 2: Tangent Planes}
 
-The truest extension of tangent lines is the \textbf{tangent plane}—a plane that approximates the function near a point, using linear variation in each direction.
+The truest extension of tangent lines is the \textbf{tangent plane}. Instead of just treating a function as if it were a line near the point $(a,f(a))$, we treat the function as if it were a plane near $(a,b,f(a,b))$. This maintains the idea of \emph{local linearity} since planes (and hyperplanes in higher dimensions) are linear.
 
 \begin{problem}
-Visualize the tangent plane.
+In the following GeoGebra applet you can adjust the point $(x,y)$ in the domain and see the resulting tangent plane approximation to the surface.
 
 \begin{expandable}{stuff}{GeoGebra Instructions}
     Drag the point $(x,y)$ on the right screen to alter the location of the tangency point (you may need to hide the surface).
@@ -137,7 +114,7 @@ Visualize the tangent plane.
 \geogebra{pkdrny3n}{741}{581}
 \end{center}
 
-Notice the similarity to single-variable local linearity! The tangent plane approximates $f(x,y)$ when we don't move too far from $(a,b,f(a,b))$.
+Notice that if you zoom in near the point, moving along the plane is is not much different from moving along the surface itself!
 
 The tangent plane is defined by:
 \begin{multipleChoice}
