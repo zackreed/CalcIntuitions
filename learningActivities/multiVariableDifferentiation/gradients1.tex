@@ -1,6 +1,6 @@
 \documentclass{ximera}
 
-\title{Gradients and Directional Derivatives}
+\title{Tangent Planes and Differentials}
 \author{Zack Reed}
 
 \begin{document}
@@ -99,7 +99,7 @@ For $\frac{\partial g}{\partial x}$: treat $y$ as constant, so $e^{xy}$ differen
 \end{feedback}
 \end{problem}
 
-\subsection*{Approach 2: Tangent Planes}
+\subsection*{Tangent Planes}
 
 The truest extension of tangent lines is the \textbf{tangent plane}. Instead of just treating a function as if it were a line near the point $(a,f(a))$, we treat the function as if it were a plane near $(a,b,f(a,b))$. This maintains the idea of \emph{local linearity} since planes (and hyperplanes in higher dimensions) are linear versions of surfaces (and hypersurfaces in higher dimensions).
 
@@ -127,6 +127,10 @@ If the tangent plane is to linearly approximate the surface $z = f(x,y)$ just li
     \choice[correct]{$B$ should be related to the rate of change of $z$ with respect to $y$}
     \choice{We can choose any values for $A$, $B$, and $C$ as long as the point $(a,b,f(a,b))$ is on the plane}
     \choice{Any change to the height $\Delta z$ along the surface should equal $dz$ exactly}
+    \choice[correct]{The tangent plane approximates the surface near the point of tangency}
+    \choice{The tangent plane always has the same slope}
+    \choice[correct]{The tangent plane ``tips'' differently at different points}
+
 \end{selectAll}
 
 
@@ -150,8 +154,23 @@ This determines the linear approximation of changes in $f$ when moving a tiny am
 
 \end{definition}
 
+
+The idea of the total differential formalizes what was discussed at the end of the last module. If you need a review, examine the following GeoGebra application to visually see that movement in $x$, then movement in $y$, using the partial derivatives as the underlying rates of change, both contribute to the total height change ($dz$).
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+ In this applet, you can move the blue black point on the left screen to change $(x,y)$. This changes where you're taking the derivative of $f$. You can also move the green dot at the end of the vector to change the direction in which you're taking the derivative. As you do so, note that a different curve is created on the 3D surface on the right.
+
+For any given direction, if you select the ``Zoom to Differential'' button, the right screen will move close to the point on the surface and you can see the directional derivative vector. You can also check the ``Show Directoinal Derivative'' and ``Show Differential Build for dz'' boxes to see how the directional derivative is computed geometrically.
+\end{expandable}
+
+\begin{center}
+\geogebra{gqa2xchz}{856}{440}
+\end{center}
+
+The new information we're adding this module is that the construction of $dz$ actually generates a tangent plane, made of all the vectors possibly constructed from $\frac{\partial f}{\partial x}\cdot dx+\frac{\partial f}{\partial y}\cdot dy$.
+
 \begin{problem}
-For $f(x,y) = x^2 + 2xy + y^2$ at the point $(1,2)$:
+Find the tangent plane for $f(x,y) = x^2 + 2xy + y^2$ at the point $(1,2)$:
 
 First compute partial derivatives:
 $$\frac{\partial f}{\partial x} = \answer{2x + 2y}$$
@@ -172,237 +191,62 @@ The tangent plane provides a linear approximation: $f(x,y) \approx f(a,b) + f_x(
 \end{feedback}
 \end{problem}
 
-\section*{Directional Derivatives}
+\begin{remark}
+    You'll notice that the equation for the total differential also defines the equation for a tangent plane, but its format is slightly different. The following equation for a tangent plane uses notation a little closer to what you'll remember from past modules.
 
-What if we want the rate of change in a direction other than purely $x$ or $y$?
 
-\begin{definition}
-The \textbf{directional derivative} of $f$ at $(a,b)$ in the direction of unit vector $\vec{u} = \langle u_1, u_2 \rangle$ is:
-$$D_{\vec{u}}f(a,b) = \frac{df}{ds} = \frac{\partial f}{\partial x}(a,b) \cdot u_1 + \frac{\partial f}{\partial y}(a,b) \cdot u_2$$
+    The \textbf{tangent plane} to the surface $z=f(x,y)$ at the point $(a,b,f(a,b))$ is given by:
+    $$z = f(a,b) + f_x(a,b)(x-a) + f_y(a,b)(y-b)$$
 
-where $s$ is arc length along the direction $\vec{u}$.
-\end{definition}
+    Notice that the small changes $dx$, $dy$, and $dz$ are just the differences $(x-a)$, $(y-b)$, and $(z-f(a,b))$, so the two equations (for differential and for tangent plane) are really saying the same thing.
+
+\end{remark}
 
 \begin{problem}
-Explore directional derivatives interactively.
+Let's find a tangent plane equation. For $f(x,y) = x^2 + y^2$ at the point $(1,2)$:
 
-\begin{expandable}{stuff}{GeoGebra Instructions}
-    Drag the tip of $\vec{u}$ on the right screen to change direction. Check ``Show Directional Derivative'' to visualize $dz$ and $ds$.
-\end{expandable}
+\textbf{Step 1: Find the partial derivatives}
+$$f_x = \answer{2x}$$
+$$f_y = \answer{2y}$$
 
-\begin{center}
-\geogebra{y3bnsnbv}{740}{612}
-\end{center}
+\textbf{Step 2: Evaluate at $(1,2)$}
+$$f(1,2) = 1^2 + 2^2 = \answer{5}$$
+$$f_x(1,2) = \answer{2}$$
+$$f_y(1,2) = \answer{4}$$
 
-Check ``Show Differential Build'' to see how $ds$ breaks down into $dx$ and $dy$ components!
+\textbf{Step 3: Write the tangent plane equation}
+$$z = 5 + 2(x-1) + 4(y-2)$$
 
-The directional derivative depends on:
-\begin{selectAll}
-    \choice[correct]{The direction vector $\vec{u}$}
-    \choice[correct]{Both partial derivatives $f_x$ and $f_y$}
-    \choice{Only the partial derivative in the chosen direction}
-    \choice[correct]{The dot product structure}
-\end{selectAll}
+Simplifying:
+$$z = 5 + 2x - 2 + 4y - 8 = 2x + 4y - \answer{5}$$
 
 \begin{feedback}
-Since $\vec{u} = \langle u_1, u_2 \rangle$ runs along a line, its derivatives $\frac{dx}{ds} = u_1$ and $\frac{dy}{ds} = u_2$ are simply its components!
+The coefficients $2$ and $4$ tell us the slope of the plane in the $x$ and $y$ directions respectively!
 \end{feedback}
 \end{problem}
 
 \begin{problem}
-Let's compute a directional derivative. For $f(x,y) = x^2 - xy + y^2$ at $(2,1)$ in the direction of $\vec{v} = \langle 3, 4 \rangle$:
+Find the tangent plane to $g(x,y) = xy + y^2$ at $(2,1)$:
 
-First, normalize $\vec{v}$ to get the unit vector:
-$$|\vec{v}| = \sqrt{9 + 16} = \answer{5}$$
-$$\vec{u} = \frac{1}{5}\langle 3, 4 \rangle = \langle \answer{0.6}, \answer{0.8} \rangle$$
-
-Compute partial derivatives:
-$$f_x = \answer{2x - y}$$
-$$f_y = \answer{-x + 2y}$$
+First, compute partial derivatives:
+$$g_x = \answer{y}$$
+$$g_y = \answer{x + 2y}$$
 
 At $(2,1)$:
-$$f_x(2,1) = \answer{3}$$
-$$f_y(2,1) = \answer{0}$$
+$$g(2,1) = 2(1) + 1^2 = \answer{3}$$
+$$g_x(2,1) = \answer{1}$$
+$$g_y(2,1) = 2 + 2(1) = \answer{4}$$
 
-The directional derivative is:
-$$D_{\vec{u}}f(2,1) = 3(0.6) + 0(0.8) = \answer{1.8}$$
+The tangent plane equation is:
+$$z = 3 + 1(x-2) + 4(y-1)$$
+
+Simplified form:
+$$z = x + 4y - \answer{3}$$
 
 \begin{feedback}
-This means if we move from $(2,1)$ in the direction $\langle 0.6, 0.8 \rangle$, the function increases at a rate of $1.8$ per unit distance.
+Great! You can now find tangent plane equations by using both partial derivatives together.
 \end{feedback}
 \end{problem}
 
-\section*{The Gradient Vector}
-
-Notice that the directional derivative formula:
-$$D_{\vec{u}}f = f_x \cdot u_1 + f_y \cdot u_2$$
-
-is actually a dot product!
-
-\begin{definition}
-The \textbf{gradient} of $f$ at $(a,b)$ is the vector:
-$$\nabla f(a,b) = \left\langle \frac{\partial f}{\partial x}(a,b), \frac{\partial f}{\partial y}(a,b) \right\rangle$$
-
-The directional derivative is then:
-$$D_{\vec{u}}f = \nabla f \cdot \vec{u}$$
-\end{definition}
-
-\begin{problem}
-Explore the gradient vector interactively!
-
-\begin{expandable}{stuff}{GeoGebra Instructions}
-    Check the ``Show Gradient'' box and uncheck others to remove clutter. Drag $\vec{u}$ around to see how the directional derivative changes.
-\end{expandable}
-
-\begin{center}
-\geogebra{y3bnsnbv}{740}{612}
-\end{center}
-
-Observe: When is the directional derivative largest?
-\begin{multipleChoice}
-    \choice{When $\vec{u}$ is perpendicular to $\nabla f$}
-    \choice[correct]{When $\vec{u}$ points in the same direction as $\nabla f$}
-    \choice{When $\vec{u}$ points opposite to $\nabla f$}
-    \choice{It's always the same regardless of direction}
-\end{multipleChoice}
-
-\begin{feedback}
-Since $D_{\vec{u}}f = \nabla f \cdot \vec{u} = |\nabla f||\vec{u}|\cos\theta$ and $|\vec{u}| = 1$, the maximum occurs when $\cos\theta = 1$, i.e., when $\vec{u}$ and $\nabla f$ are aligned!
-\end{feedback}
-\end{problem}
-
-\subsection*{Key Property of the Gradient}
-
-\begin{problem}
-The gradient has a special geometric meaning:
-
-\begin{selectAll}
-    \choice[correct]{$\nabla f$ points in the direction of steepest increase}
-    \choice[correct]{$|\nabla f|$ gives the maximum rate of increase}
-    \choice[correct]{$-\nabla f$ points in the direction of steepest decrease}
-    \choice{$\nabla f$ is always perpendicular to the surface}
-    \choice[correct]{When $\vec{u} \perp \nabla f$, the directional derivative is zero}
-\end{selectAll}
-
-\begin{feedback}
-When $\vec{u} \perp \nabla f$, we have $\nabla f \cdot \vec{u} = 0$, meaning no change in that direction—this defines a level curve!
-\end{feedback}
-\end{problem}
-
-\begin{problem}
-Compute gradients for the following functions:
-
-\begin{enumerate}
-    \item For $f(x,y) = 3x^2 + 4y^2$:
-    
-    $$\nabla f = \langle \answer{6x}, \answer{8y} \rangle$$
-    
-    At $(1,2)$: $\nabla f(1,2) = \langle \answer{6}, \answer{16} \rangle$
-    
-    \item For $g(x,y) = xe^y + \sin(xy)$:
-    
-    $$\nabla g = \langle \answer{e^y + y\cos(xy)}, \answer{xe^y + x\cos(xy)} \rangle$$
-    
-    \item For $h(x,y,z) = x^2 + y^2 + z^2$:
-    
-    $$\nabla h = \langle \answer{2x}, \answer{2y}, \answer{2z} \rangle$$
-    
-    This gradient points \wordChoice{\choice{toward the origin}\choice[correct]{away from the origin}\choice{tangent to the sphere}}.
-\end{enumerate}
-
-\begin{feedback}
-For a sphere $x^2 + y^2 + z^2 = r^2$, the gradient at any point is the position vector, pointing radially outward—perpendicular to the sphere!
-\end{feedback}
-\end{problem}
-
-\section*{Applications of the Gradient}
-
-\subsection*{Finding Level Curves}
-
-\begin{problem}
-Level curves are paths along which $f$ is constant. Since $\nabla f \cdot \vec{u} = 0$ when moving along a level curve:
-
-The gradient is \wordChoice{\choice{tangent to}\choice[correct]{perpendicular to}\choice{parallel to}} level curves.
-
-For $f(x,y) = x^2 + y^2$, the level curves are circles centered at the origin. The gradient $\nabla f = \langle 2x, 2y \rangle$ points:
-\begin{multipleChoice}
-    \choice{Tangent to the circles}
-    \choice[correct]{Radially outward from the origin}
-    \choice{Toward the origin}
-    \choice{Tangent to the surface}
-\end{multipleChoice}
-
-\begin{feedback}
-The gradient always points perpendicular to level curves, in the direction of greatest increase!
-\end{feedback}
-\end{problem}
-
-\subsection*{Optimization Preview}
-
-\begin{problem}
-At a local maximum or minimum of $f(x,y)$, what must be true about $\nabla f$?
-
-\begin{multipleChoice}
-    \choice{$\nabla f$ points upward}
-    \choice{$\nabla f$ points downward}
-    \choice[correct]{$\nabla f = \langle 0, 0 \rangle$ (gradient is zero)}
-    \choice{$\nabla f$ has maximum magnitude}
-\end{multipleChoice}
-
-\begin{feedback}
-At extrema, there's no direction of increase or decrease, so the gradient must be zero. This is the multivariable version of setting $f'(x) = 0$!
-\end{feedback}
-\end{problem}
-
-\section*{Summary and Synthesis}
-
-\begin{problem}
-Let's bring it all together. For $f(x,y) = x^2 - 2xy + y^2$ at the point $(1,1)$:
-
-\textbf{Step 1: Partial Derivatives}
-$$f_x = \answer{2x - 2y}$$
-$$f_y = \answer{-2x + 2y}$$
-
-At $(1,1)$: $f_x(1,1) = \answer{0}$ and $f_y(1,1) = \answer{0}$
-
-\textbf{Step 2: Gradient}
-$$\nabla f(1,1) = \langle \answer{0}, \answer{0} \rangle$$
-
-\textbf{Step 3: Interpretation}
-Since $\nabla f(1,1) = \vec{0}$, the point $(1,1)$ is a:
-\begin{multipleChoice}
-    \choice{Local maximum}
-    \choice{Local minimum}
-    \choice[correct]{Critical point (could be max, min, or saddle)}
-    \choice{Not a critical point}
-\end{multipleChoice}
-
-\textbf{Step 4: Directional Derivatives}
-The directional derivative in any direction at $(1,1)$ is:
-$$D_{\vec{u}}f(1,1) = \nabla f(1,1) \cdot \vec{u} = \answer{0}$$
-
-\begin{feedback}
-When the gradient is zero, all directional derivatives are zero—the function is ``flat'' in all directions at that point. We'll need second derivatives (the Hessian) to classify it further!
-\end{feedback}
-\end{problem}
-
-\begin{problem}
-Final check: Select all TRUE statements about gradients.
-
-\begin{selectAll}
-    \choice[correct]{The gradient points in the direction of steepest ascent}
-    \choice[correct]{The gradient magnitude is the maximum rate of increase}
-    \choice[correct]{The gradient is perpendicular to level curves}
-    \choice{The gradient always has magnitude 1}
-    \choice[correct]{Directional derivatives are computed using the dot product with the gradient}
-    \choice[correct]{When $\nabla f = \vec{0}$, we have a critical point}
-    \choice{The gradient points upward on the surface}
-    \choice[correct]{$D_{\vec{u}}f = \nabla f \cdot \vec{u}$ for unit vector $\vec{u}$}
-\end{selectAll}
-
-\begin{feedback}
-Excellent! You've mastered the gradient—one of the most important concepts in multivariable calculus. The gradient connects partial derivatives, directional derivatives, optimization, and level curves in a beautiful unified framework!
-\end{feedback}
-\end{problem}
 
 \end{document}
