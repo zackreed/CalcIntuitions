@@ -116,28 +116,39 @@ In the following GeoGebra applet you can adjust the point $(x,y)$ in the domain 
 
 Notice that if you zoom in near the point, moving along the plane is is not much different from moving along the surface itself!
 
-Recalling our understanding of planes from prior modules, and using $dx$, $dy$, and $dz$ to represent tiny changes in $x$, $y$, and $z$ respectively, which of the following expressions best represents $dz$ in terms of $dx$ and $dy$?
+Recalling our understanding of planes from prior modules, and using $dx$, $dy$, and $dz$ to represent tiny changes in $x$, $y$, and $z$ respectively, the tangent plane should be expressed in the following way:
 
-\begin{multipleChoice}
-    \choice{ $dz = \frac{\partial f}{\partial x}(a,b) \cdot dx$ }
-    \choice{ $dz = \frac{\partial f}{\partial y}(a,b) \cdot dy$ }
-    \choice[correct]{ $dz = \frac{\partial f}{\partial x}(a,b) \cdot dx + \frac{\partial f}{\partial y}(a,b) \cdot dy$ }
-    \choice{ $dz = f(a,b) + \frac{\partial f}{\partial x}(a,b) \cdot dx + \frac{\partial f}{\partial y}(a,b) \cdot dy$ }
-\end{multipleChoice}
+$$A\cdot dx + B \cdot dy + C \cdot dz = 0$$
+
+If the tangent plane is to linearly approximate the surface $z = f(x,y)$ just like the tangent line approximated $y = f(x)$, which of the following must be true (Select All that Apply):
+\begin{selectAll}
+    \choice[correct]{Small changes to the height $\Delta z$ should not differ much from $dz$ if you don't move too far from $(a,b)$}
+    \choice[correct]{$A$ should be related to the rate of change of $z$ with respect to $x$}
+    \choice[correct]{$B$ should be related to the rate of change of $z$ with respect to $y$}
+    \choice{We can choose any values for $A$, $B$, and $C$ as long as the point $(a,b,f(a,b))$ is on the plane}
+    \choice{Any change to the height $\Delta z$ along the surface should equal $dz$ exactly}
+\end{selectAll}
+
 
 \begin{feedback}
-Both partial derivatives are needed because we have two dimensions of variation in the input!
+Remember that the whole idea is \emph{local} linearity, so small changes should be approximately equal, not exactly equal. Also, since we can move away from $(a,b)$ in both $x$ and $y$ directions, both $A$ and $B$ must relate to rates of change in those directions.
 \end{feedback}
 \end{problem}
 
 \section*{The Total Differential and Tangent Planes}
 
-In single-variable calculus, vertical motion was determined by $df = f'(a) \cdot dx$.
+In single-variable calculus, motion along a linear approximation was determined by $dy = \frac{df}{dx} \cdot dx$.
 
-For multivariable functions, we have the \textbf{total differential}:
-$$dz = \frac{\partial f}{\partial x}(a,b) \cdot dx + \frac{\partial f}{\partial y}(a,b) \cdot dy$$
+For multivariable functions, we have the \textbf{total differential}, which combines the effects of changes in both $x$ and $y$.Since movement in the domain is entirely characterized by two-dimensions, we only need rates of change in those two directions, which are given by the partial derivatives.
 
-This determines motion along the tangent plane away from $(a,b,f(a,b))$.
+\begin{definition}
+The \textbf{total differential} of $f(x,y)$ at the point $(a,b)$ is:
+
+$$dz = \frac{\partial f}{\partial x} \cdot dx + \frac{\partial f}{\partial y} \cdot dy$$
+
+This determines the linear approximation of changes in $f$ when moving a tiny amount $dx$ in the $x$-direction and $dy$ in the $y$-direction.
+
+\end{definition}
 
 \begin{problem}
 For $f(x,y) = x^2 + 2xy + y^2$ at the point $(1,2)$:
