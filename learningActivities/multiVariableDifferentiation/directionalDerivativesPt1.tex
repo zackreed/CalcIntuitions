@@ -15,7 +15,7 @@ In single-variable calculus, we studied functions $f(x)$ that created curves in 
 
 \section*{Recap: Derivatives of Curves}
 
-Right now our methods for differentiating rely on having graphs or curves in space. We will first use this to introduce the idea of a derivative at a point on a surface in a certain direction, and then will finish with a more general method for computing these derivatives.
+Right now our methods for differentiating utilize curves in space. We will first use this to introduce the idea of a derivative at a point on a surface in a certain direction, and then will finish with a more general method for computing these derivatives.
 
 The following video sets up the context for the problem below:
 \begin{center}
@@ -47,7 +47,7 @@ Mark all of the following statements that are true:
 \choice{The racetrack is created by following a path on the surface of $f(x,y)$.}
 \end{selectAll}
 
-Importantly, we need to keep track of whethere we're in the domain or the plot of the function. The curve lives in 3D space on the surface, but we create it by following a path through the 2D domain.
+Moving forward, we'll often need to check whether a calculation or object is in the domain of the function, or is a vector or other quantity in the space in which the surface lives. The output curve lives in 3D space on the surface, but we create it by following a path through the 2D domain.
 
 \end{problem}
 
@@ -56,7 +56,7 @@ This process of creating a curve on a surface by isolating a path through the do
 
 \section*{Direction of Derivatives: Cutting through the Domain}
 
-Consider a function $z = f(x,y) = x^2 + y^2$. The domain is the $xy$-plane, and the output is a height $z$ above each point $(x,y)$.
+Consider a function $z = f(x,y)$. The domain (input space) is the $xy$-plane, and the output is a height $z$ above each point $(x,y)$.
 
 The plot below gives an example line cutting through the domain of a function.
 
@@ -79,16 +79,15 @@ The plot below gives an example line cutting through the domain of a function.
 
 % Draw a line through the domain
 \addplot[thick, red, domain=-3:3] {0.5*x + 1};
-\node[red] at (axis cs:2,2.5) {A line through domain};
+\node[red] at (axis cs:1.5,2.5) {A line through domain};
 
 \end{axis}
 \end{tikzpicture}
 
-When we draw a line through the domain (like the red line above), we're essentially choosing a path $(x(t), y(t))$ through the $xy$-plane.
 
 \section*{Creating Curves from Surfaces}
 
-When we follow a line through the domain and look at the corresponding function values, we get a curve in 3D space!
+When we follow a line through the domain of a function and look at the corresponding function values, we get a curve in 3D space!
 
 If our line through the domain is parametrized as:
 $$\vec{r}(t) = \langle x(t), y(t) \rangle$$
@@ -121,25 +120,27 @@ Consider the hill of the Torty Harry Race, $h(x,y) = xy^2$. Lines through the do
 
 Let's look at a specific point in the domain, and a direction in which to move. 
 
-Our function is $f(x,y) = xy^2$. We will take a derivative at the point $(0,1)$ in the direction given by $\vec{u} = \langle 1, 2 \rangle$. This selection of a point is the same as picking a point for the derivative in single-variable calculus, the addition of a direction for the derivative is new, and is important for our new context of having multiple input variables.
+Our function is $f(x,y) = xy^2$. We will take a derivative at the point $(0,1)$ in the direction given by $\vec{u} = \langle \frac{\sqrt{2}}{2}, \frac{\sqrt{2}}{2} \rangle$. This selection of a point is the same as picking a point for the derivative in single-variable calculus, the addition of a direction for the derivative is new, and is important for our new context of having multiple input variables.
 
-The direction gives us a line in the domain. The specific line given by $x(t) = \answer{1}t+ \answer{0}$, $y(t) = 2t + \answer{1}$.
+The direction gives us a line in the domain. The specific line given by $x(t) = \answer[tolerance=.1]{\frac{\sqrt{2}}{2}}t+ \answer{0}$, $y(t) = \frac{\sqrt{2}}{2}t + \answer{1}$.
 
 We now need to make a curve in 3D space resulting from evaluation of the function along this line. The height of our point $(0,1)$ on the surface is $f(0,1) = 0 \cdot 1^2 = \answer{0}$.
 
 Since the height of our curve is given by $f(x(t), y(t))$, we have (answer with a formula in terms of $t$):
 
-$$f(x(t), y(t)) = f(t, 2t + 1) = t(2t + 1)^2 = t(4t^2 + 4t + 1) = \answer{4t^3 + 4t^2 + t}$$
+$$f(x(t), y(t)) = f\left(\frac{\sqrt{2}}{2}t, \frac{\sqrt{2}}{2}t + 1\right) = \left(\frac{\sqrt{2}}{2}t\right)\left(\frac{\sqrt{2}}{2}t + 1\right)^2$$
 
-The resulting curve in 3D space is $\vec{C}(t) = \langle t, 2t + 1, \answer{4t^3 + 4t^2 + t} \rangle$.
+This simplifies to $\answer[tolerance=.1]{\frac{\sqrt{2}}{4}}t^3 + \answer[tolerance=.1]{1}t^2 + \answer[tolerance=.1]{\frac{\sqrt{2}}{2}}t$.
+
+The resulting curve in 3D space is $\vec{C}(t) = \left\langle \frac{\sqrt{2}}{2}t, \frac{\sqrt{2}}{2}t + 1, \answer[tolerance=.1]{\frac{\sqrt{2}}{4}}t^3 + \answer[tolerance=.1]{1}t^2 + \answer[tolerance=.1]{\frac{\sqrt{2}}{2}}t \right\rangle$.
 
 \begin{feedback}
-Since $f(x,y) = xy^2$ and we want the derivative at $(0,1)$ in the direction $\vec{u} = \langle 1,2 \rangle$, we can parametrize the line through the domain as:
-$$x(t) = 1 \cdot t + 0 = t$$
-$$y(t) = 2 \cdot t + 1 = 2t + 1$$
+Since $f(x,y) = xy^2$ and we want the derivative at $(0,1)$ in the direction $\vec{u} = \langle \frac{\sqrt{2}}{2}, \frac{\sqrt{2}}{2} \rangle$, we can parametrize the line through the domain as:
+$$x(t) = \frac{\sqrt{2}}{2} \cdot t + 0 = \frac{\sqrt{2}}{2}t$$
+$$y(t) = \frac{\sqrt{2}}{2} \cdot t + 1 = \frac{\sqrt{2}}{2}t + 1$$
 
 Evaluating the function along this line:
-$$f(x(t), y(t)) = f(t, 2t + 1) = t(2t + 1)^2 = t(4t^2 + 4t + 1) = 4t^3 + 4t^2 + t$$
+$$f(x(t), y(t)) = f\left(\frac{\sqrt{2}}{2}t, \frac{\sqrt{2}}{2}t + 1\right) = \left(\frac{\sqrt{2}}{2}t\right)\left(\frac{\sqrt{2}}{2}t + 1\right)^2$$
 \end{feedback}
 \end{problem}
 
@@ -156,99 +157,103 @@ $$\vec{C}'(t) = \left\langle \frac{dx}{dt}, \frac{dy}{dt}, \frac{df}{dt} \right\
 Let's see what this directional derivative would be with our hill example.
 
 \begin{problem}
-For the function $f(x,y) = xy^2$ at the point $(0,1)$ in the direction $\vec{u} = \langle 1,2 \rangle$, we found the curve:
-$$\vec{C}(t) = \langle t, 2t + 1, 4t^3 + 4t^2 + t \rangle$$
+For the function $f(x,y) = xy^2$ at the point $(0,1)$ in the direction $\vec{u} = \langle \frac{\sqrt{2}}{2}, \frac{\sqrt{2}}{2} \rangle$, we found the curve:
+$$\vec{C}(t) = \left\langle \frac{\sqrt{2}}{2}t, \frac{\sqrt{2}}{2}t + 1, \frac{\sqrt{2}}{4}t^3 + 1\cdot t^2 + \frac{\sqrt{2}}{2}t \right\rangle$$
 
 We might want to know the following question which directly extends our single-variable derivative concept: 
 
 ``If we stand at the point $(0,1)$ on the surface and move in the direction $\vec{u}$, how fast does the hill height change?''
 
-Notice that we are explicitly asking about the rate of change only of the height of the hill. This is really important for udnerstanding multivariable derivatives! Since the output of multivariable functions is a single variable, the derivatives tell us only how that output variable changes. All other information is given to us, and relates to the input variables.
+Notice that we are explicitly asking about the rate of change only of the height of the hill. 
+
+Since the output of multivariable functions is a single variable, the derivatives tell us only how that output variable changes. All other information is given to us, and relates to the input variables.
 
 Let's answer the question explicitly since we have the curve.
 
-The height of the hill along the curve is given by the third component of $\vec{C}(t)$, which is $f(x(t), y(t)) = 4t^3 + 4t^2 + t$.
+The height of the hill along the curve is given by the third component of $\vec{C}(t)$, which is $f(x(t), y(t)) = \frac{\sqrt{2}}{4}t^3 + 1\cdot t^2 + \frac{\sqrt{2}}{2}t$.
 
 Therefore, the rate of change of the hill height as we move along the curve is given by:
-$$\frac{d}{dt}[f(x(t), y(t))] = \frac{d}{dt}[4t^3 + 4t^2 + t] = \answer{12t^2 + 8t + 1}$$
+$$\frac{d}{dt}[f(x(t), y(t))] = \frac{d}{dt}\left[\frac{\sqrt{2}}{4}t^3 + 1\cdot t^2 + \frac{\sqrt{2}}{2}t\right] = \answer[tolerance=.1]{\frac{3\sqrt{2}}{4}}t^2 + \answer[tolerance=.1]{2}t + \answer[tolerance=.1]{\frac{\sqrt{2}}{2}}$$
 
 At our point of interest $(0,1)$, $t = 0$, so the rate of change of the hill height at $(0,1)$ in the direction $\vec{u}$ is:
-$$\frac{d}{dt}[f(x(t), y(t))]\bigg|_{t=0} = \answer{1}$$
+$$\frac{d}{dt}[f(x(t), y(t))]\bigg|_{t=0} = \answer[tolerance=.1]{\frac{\sqrt{2}}{2}}$$
 
 This means:
 
 \begin{multipleChoice}
 \choice{The hill height does not change as we move in the direction $\vec{u}$ from the point $(0,1)$.}
-\choice[correct]{The hill height increases at a rate of 1 unit of height per unit of movement in the direction $\vec{u}$ from the point $(0,1)$.}
-\choice{The hill height decreases at a rate of 1 unit of height per unit of movement in the direction $\vec{u}$ from the point $(0,1)$.}
-\choice{The hill height increases at a rate of 1 units of height per unit of movement in the $x$ direction from the point $(0,1)$.}
-\choice{The hill height increases at a rate of 1 units of height per unit of movement in the $y$ direction from the point $(0,1)$.}
+\choice[correct]{The hill height increases at a rate of $\frac{\sqrt{2}}{2}$ units of height per unit of movement in the direction $\vec{u}$ from the point $(0,1)$.}
+\choice{The hill height decreases at a rate of $\frac{\sqrt{2}}{2}$ units of height per unit of movement in the direction $\vec{u}$ from the point $(0,1)$.}
+\choice{The hill height increases at a rate of $\frac{\sqrt{2}}{2}$ units of height per unit of movement in the $x$ direction from the point $(0,1)$.}
+\choice{The hill height increases at a rate of $\frac{\sqrt{2}}{2}$ units of height per unit of movement in the $y$ direction from the point $(0,1)$.}
 \end{multipleChoice}
 \end{problem}
 
 Let's practice computing these derivatives directly from the curves to get the main idea, and then we will introduce easier and more general methods for computing these same derivatives.
-\begin{exercise}
+
+\begin{problem}
 Compute the following directional derivatives and answer the provided questions.
 \begin{enumerate}
-  \item  $f(x,y) = x^2 + y^2$ at the point $(1,2)$ in the direction $\vec{u} = \langle 3,4 \rangle$.
+  \item  $f(x,y) = x^2 + y^2$ at the point $(1,2)$ in the direction $\vec{u} = \langle -0.15, 0.989 \rangle$.
   
   Step 1: Parametrize the line through the domain:
-  $$x(t) = \answer{3}t + \answer{1}$$
-  $$y(t) = 4t + \answer{2}$$
-
+  $$x(t) = \answer[tolerance=.1]{-0.15}t + \answer{1}$$
+  $$y(t) = \answer[tolerance=.1]{0.989}t + \answer{2}$$
   Step 2: Create the curve in 3D space:
-  $$f(x(t), y(t)) = f(3t + 1, 4t + 2) = (3t + 1)^2 + (4t + 2)^2 = \answer{25t^2 + 22t + 5}$$
+  $$f(x(t), y(t)) = f(-0.15t + 1, 0.989t + 2) = (-0.15t + 1)^2 + (0.989t + 2)^2$$ 
+  $$= \answer[tolerance=.1]{1}t^2 + \answer[tolerance=.1]{3.656}t + \answer{5}$$
 
   Step 3: Differentiate the height function:
-  $$\frac{d}{dt}[f(x(t), y(t))] = \answer{50t + 22}$$
+  $$\frac{d}{dt}[f(x(t), y(t))] = \answer[tolerance=.1]{3.656} + \answer[tolerance=.1]{2}t$$
 
   Step 4: Evaluate at the point of interest. Since we are at $(1,2)$, $t = 0$:
-  $$\frac{d}{dt}[f(x(t), y(t))]\bigg|_{t=0} = \answer{22}$$
+  $$\frac{d}{dt}[f(x(t), y(t))]\bigg|_{t=0} = \answer[tolerance=.1]{3.656}$$
 
-  \item  $f(x,y) = x^2 + y^2$ at the point $(0,0)$ in the direction $\vec{u} = \langle 1,2 \rangle$.
+  \item  $f(x,y) = x^2 + y^2$ at the point $(0,0)$ in the direction $\vec{u} = \langle -1/2,\frac{\sqrt{3}}{2} \rangle$.
   
   Step 1: Parametrize the line through the domain:
-  $$x(t) = \answer{1}t + \answer{0}$$
-  $$y(t) = 2t + \answer{0}$$
-
+  $$x(t) = \answer{-\frac{1}{2}}t + \answer{0}$$
+  $$y(t) = \answer{\frac{\sqrt{3}}{2}}t + \answer{0}$$
   Step 2: Create the curve in 3D space:
-  $$f(x(t), y(t)) = f(t, 2t) = t^2 + (2t)^2 = \answer{5t^2}$$
+  $$f(x(t), y(t)) = f\left(-\frac{1}{2}t, \frac{\sqrt{3}}{2}t\right) = \left(-\frac{1}{2}t\right)^2 + \left(\frac{\sqrt{3}}{2}t\right)^2 = \answer{t^2}$$
 
   Step 3: Differentiate the height function:
-  $$\frac{d}{dt}[f(x(t), y(t))] = \answer{10t}$$
+  $$\frac{d}{dt}[f(x(t), y(t))] = \answer{2t}$$
 
   Step 4: Evaluate at the point of interest. Since we are at $(0,0)$, $t = 0$:
   $$\frac{d}{dt}[f(x(t), y(t))]\bigg|_{t=0} = \answer{0}$$
 
-  \item  $f(x,y) = cos(x)*sin(y)$ at the point $(\frac{\pi}{2}, \frac{\pi}{2})$ in the direction $\vec{u} = \langle 1,1 \rangle$.
+  \item  $f(x,y) = \cos(x)\cdot\sin(y)$ at the point $(\frac{\pi}{2}, \frac{\pi}{2})$ in the direction $\vec{u} = \langle 0.53, 0.85 \rangle$.
   
   Step 1: Parametrize the line through the domain:
-  $$x(t) = \answer{1}t + \answer{\frac{\pi}{2}}$$
-  $$y(t) = 1t + \answer{\frac{\pi}{2}}$$
+  $$x(t) = \answer[tolerance=.1]{0.53}t + \answer{\frac{\pi}{2}}$$
+  $$y(t) = \answer[tolerance=.1]{0.85}t + \answer{\frac{\pi}{2}}$$
 
   Step 2: Create the curve in 3D space:
-  $$f(x(t), y(t)) = f(t + \frac{\pi}{2}, t + \frac{\pi}{2}) = \cos(t + \frac{\pi}{2}) \cdot \sin(t + \frac{\pi}{2}) = \answer{-\frac{1}{2} \sin(2t)}$$
+  $$f(x(t), y(t)) = f(0.53t + \frac{\pi}{2}, 0.85t + \frac{\pi}{2}) = \cos(0.53t + \frac{\pi}{2}) \cdot \sin(0.85t + \frac{\pi}{2}) = -\sin(0.53t)\cos(0.85t)$$
 
   Step 3: Differentiate the height function:
-  $$\frac{d}{dt}[f(x(t), y(t))] = \answer{-\cos(2t)}$$
+  $$\frac{d}{dt}[f(x(t), y(t))] = -0.53\cos(0.53t)\cos(0.85t) + 0.85\sin(0.53t)\sin(0.85t)$$
 
-  Step 4: Evaluate at the point of interest. Since we are at $(\frac{\pi}{2}, \frac{\pi}{2})$, $t = 0$:
-  $$\frac{d}{dt}[f(x(t), y(t))]\bigg|_{t=0} = \answer{-1}$$
-
-  \item Which of the following statements is true about the directional derivatives computed above?
-  \begin{multipleChoice}
-  \choice{Directoinal derivatives give the rate of change of all input variables.}
-  \choice[correct]{Directional derivatives give the rate of change of the output variable in a certain direction through the domain.}
-  \choice{Directional derivatives give the rate of change of the input variables in a certain direction through the domain.}
-  \choice{Directional derivatives give the rate of change of all output variables.}
-  \end{multipleChoice}
-  
+  Step 4: Evaluate at the point of interest. Since we are at $(\pi/2, \pi/2)$, $t = 0$:
+  $$\frac{d}{dt}[f(x(t), y(t))]\bigg|_{t=0} = \answer[tolerance=.1]{-0.53}$$
 
 \end{enumerate}
+
+\end{problem}
+
+\begin{problem}
+Which of the following statements is true about the directional derivatives computed above?
+\begin{multipleChoice}
+\choice{Directoinal derivatives give the rate of change of all input variables.}
+\choice[correct]{Directional derivatives give the rate of change of the output variable in a certain direction through the domain.}
+\choice{Directional derivatives give the rate of change of the input variables in a certain direction through the domain.}
+\choice{Directional derivatives give the rate of change of all output variables.}
+\end{multipleChoice}
 
 \begin{feedback}
 Directional derivatives only give the rate of change of the output variable (the function value) as we move in a certain direction through the domain. The input variables are given to us by the parametrization of the line through the domain.
 \end{feedback}
-\end{exercise}
+\end{problem}
 
 \end{document}

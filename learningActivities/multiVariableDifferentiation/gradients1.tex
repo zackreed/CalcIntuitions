@@ -187,7 +187,7 @@ If we move $dx = 0.1$ and $dy = 0.05$, the approximate change in $f$ is:
 $$dz \approx 6(0.1) + 6(0.05) = \answer{0.9}$$
 
 \begin{feedback}
-The tangent plane provides a linear approximation: $f(x,y) \approx f(a,b) + f_x(a,b)(x-a) + f_y(a,b)(y-b)$.
+The tangent plane provides a linear approximation: $f(x,y) \approx f(a,b) + \frac{\partial f}{\partial x}(a,b)(x-a) + \frac{\partial f}{\partial y}(a,b)(y-b)$.
 \end{feedback}
 \end{problem}
 
@@ -196,7 +196,7 @@ The tangent plane provides a linear approximation: $f(x,y) \approx f(a,b) + f_x(
 
 
     The \textbf{tangent plane} to the surface $z=f(x,y)$ at the point $(a,b,f(a,b))$ is given by:
-    $$z = f(a,b) + f_x(a,b)(x-a) + f_y(a,b)(y-b)$$
+    $$z = f(a,b) + \frac{\partial f}{\partial x}(x-a) + \frac{\partial f}{\partial y}(y-b)$$
 
     Notice that the small changes $dx$, $dy$, and $dz$ are just the differences $(x-a)$, $(y-b)$, and $(z-f(a,b))$, so the two equations (for differential and for tangent plane) are really saying the same thing.
 
@@ -206,13 +206,13 @@ The tangent plane provides a linear approximation: $f(x,y) \approx f(a,b) + f_x(
 Let's find a tangent plane equation. For $f(x,y) = x^2 + y^2$ at the point $(1,2)$:
 
 \textbf{Step 1: Find the partial derivatives}
-$$f_x = \answer{2x}$$
-$$f_y = \answer{2y}$$
+$$\frac{\partial f}{\partial x} = \answer{2x}$$
+$$\frac{\partial f}{\partial y} = \answer{2y}$$
 
 \textbf{Step 2: Evaluate at $(1,2)$}
 $$f(1,2) = 1^2 + 2^2 = \answer{5}$$
-$$f_x(1,2) = \answer{2}$$
-$$f_y(1,2) = \answer{4}$$
+$$\frac{\partial f}{\partial x}(1,2) = \answer{2}$$
+$$\frac{\partial f}{\partial y}(1,2) = \answer{4}$$
 
 \textbf{Step 3: Write the tangent plane equation}
 $$z = 5 + 2(x-1) + 4(y-2)$$
@@ -229,13 +229,13 @@ The coefficients $2$ and $4$ tell us the slope of the plane in the $x$ and $y$ d
 Find the tangent plane to $g(x,y) = xy + y^2$ at $(2,1)$:
 
 First, compute partial derivatives:
-$$g_x = \answer{y}$$
-$$g_y = \answer{x + 2y}$$
+$$\frac{\partial g}{\partial x} = \answer{y}$$
+$$\frac{\partial g}{\partial y} = \answer{x + 2y}$$
 
 At $(2,1)$:
 $$g(2,1) = 2(1) + 1^2 = \answer{3}$$
-$$g_x(2,1) = \answer{1}$$
-$$g_y(2,1) = 2 + 2(1) = \answer{4}$$
+$$\frac{\partial g}{\partial x}(2,1) = \answer{1}$$
+$$\frac{\partial g}{\partial y}(2,1) = \answer{4}$$
 
 The tangent plane equation is:
 $$z = 3 + 1(x-2) + 4(y-1)$$
