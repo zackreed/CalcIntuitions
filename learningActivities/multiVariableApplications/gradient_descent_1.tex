@@ -1,6 +1,6 @@
 \documentclass{ximera}
 
-\title{Multivariable Optimization}
+\title{Gradient Descent Basics}
 \author{Zack Reed}
 
 \begin{document}
@@ -45,6 +45,14 @@ Suppose we are at the point $(1,1)$. In what direction should we move to most dr
 This is the first key insight for optimization: To minimize a function, we should move in the direction of the \textbf{negative} gradient. The question that remains is \textbf{how far} to move in that direction. We'll answer that question next.
 
 \subsection*{The Gradient Descent Algorithm}
+
+When you imagine gradient descent, you want to imagine rolling a ball down a hill. If the bottom of the hill is a small bowl, the ball will hit the bowl, maybe roll around a bit, and eventually settle at the bottom.
+
+This intuition is conveyed in the following animation. Note that arrows point the direction in which the ball should move to roll downhill. The arrow represents the gradients we will calculate in higher dimensional settings.
+
+\begin{center}
+    \youtube{HZr6lsyinaE}
+\end{center}
 
 Here's how gradient descent works:
 
@@ -96,6 +104,12 @@ The function value decreased from $f(4,3) = \answer{25}$ to $f(3.2, 2.4) = \answ
     We moved closer to the minimum at $(0,0)$! Repeating this process many times converges to the minimum.
 \end{feedback}
 \end{problem}
+
+The following animation shows this playing out on a bumpy surface. Imagine dropping many balls all over the surface, note that the balls will settle not in a single minimum point, but in the nearest minimum point to the ball's starting location.
+
+% \begin{center}
+%     \youtube{}
+% \end{center}
 
 In the next activity, we'll learn more about why the learning rate is important and how to choose it wisely.
 

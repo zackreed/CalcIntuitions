@@ -12,7 +12,7 @@ In this activity we explore quadratic approximations of functions of multiple va
 
 \section*{Quadratic Approximations of Functions: The Hessian Matrix and the Second Derivative Test}
 
-Just as $f''(x)$ tells us about concavity in single-variable calculus, the \textbf{Hessian matrix} captures second-order information in multiple variables.
+Just as $f''(x)$ tells us about concavity in single-variable calculus, the \textbf{Hessian matrix} captures second-order information in multiple variables. While we'll gloss over some details, the important takeaway is that from the Hessian matrix we build a quadratic approximation of the function at a point, just like the 2nd degree Taylor polynomial in single-variable calculus.
 
 \subsection*{Defining the Hessian}
 
@@ -74,9 +74,7 @@ $$H(1,1) = \begin{bmatrix} \answer{6} & \answer{-3} \\ \answer{-3} & \answer{6} 
 
 \begin{definition}
 Let $(x_0, y_0)$ be a critical point and let $H$ be the Hessian evaluated at that point. Define:
-$$D = \det(H) = f_{xx} f_{yy} - (f_{xy})^2$$
-
-This is called the \textbf{discriminant}.
+$$D = \det(H) = f_{xx} f_{yy} - (f_{xy})^2$$ to be the \emph{discriminant} at $(x_0, y_0)$. If you have some experience with matrices, this is the \emph{determinant} of the Hessian matrix.
 
 Then:
 \begin{itemize}
@@ -86,6 +84,65 @@ Then:
     \item If $D = 0$: \textbf{test is inconclusive}
 \end{itemize}
 \end{definition}
+
+Let's see what each of these cases looks like graphically:
+
+\begin{enumerate}
+    \item $D > 0$, $f_{xx} > 0$ (local minimum):
+    
+    \begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            domain=-2:2,
+            samples=30,
+            xlabel=$x$,
+            ylabel=$y$,
+            zlabel={$f(x,y)$},
+            colormap/cool,
+            ]
+            \addplot3[surf] {x^2 + y^2};
+        \end{axis}
+    \end{tikzpicture}
+    \end{center}
+
+    \item $D > 0$, $f_{xx} < 0$ (local maximum):
+    %build an example with tikz
+    \begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            domain=-2:2,
+            samples=30,
+            xlabel=$x$,
+            ylabel=$y$,
+            zlabel={$f(x,y)$},
+            colormap/cool,
+            ]
+            \addplot3[surf] {-x^2 - y^2};
+        \end{axis}
+    \end{tikzpicture}
+    \end{center}
+
+    \item $D < 0$ (saddle point):
+    %build an example with tikz
+    \begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            domain=-2:2,
+            samples=30,
+            xlabel=$x$,
+            ylabel=$y$,
+            zlabel={$f(x,y)$},
+            colormap/cool,
+            ]
+            \addplot3[surf] {x^2 - y^2};
+        \end{axis}
+    \end{tikzpicture}
+    \end{center}
+
+    \item If $D = 0$, the test is inconclusive. The function could have a flat region, a cusp, or other complex behavior that requires further analysis.
+\end{enumerate}
+
+
 
 \begin{problem}
 Why does the sign of $f_{xx}$ matter when $D > 0$?
@@ -97,13 +154,27 @@ Why does the sign of $f_{xx}$ matter when $D > 0$?
     \choice{It doesn't actually matter}
 \end{multipleChoice}
 
-\begin{feedback}
-    When $D > 0$, both eigenvalues of the Hessian have the same sign. If $f_{xx} > 0$, both are positive (curving up = minimum). If $f_{xx} < 0$, both are negative (curving down = maximum).
-\end{feedback}
 \end{problem}
 
 \begin{problem}
 Let's classify the critical point of $f(x,y) = x^2 + y^2 - 4x + 6y + 5$ at $(2, -3)$.
+
+\begin{center}
+\begin{tikzpicture}
+    \begin{axis}[
+        domain=-2:6,
+        y domain=-7:1,
+        samples=30,
+        xlabel=$x$,
+        ylabel=$y$,
+        zlabel={$f(x,y)$},
+        colormap/cool,
+        view={120}{30},
+        ]
+        \addplot3[surf] {x^2 + y^2 - 4*x + 6*y + 5};
+    \end{axis}
+\end{tikzpicture}
+\end{center}
 
 We found earlier that the Hessian is:
 $$H = \begin{bmatrix} 2 & 0 \\ 0 & 2 \end{bmatrix}$$
@@ -124,6 +195,22 @@ $$f(2,-3) = 4 + 9 - 8 - 18 + 5 = \answer{-8}$$
 \begin{problem}
 Classify the critical point of $f(x,y) = x^2 - y^2$ at $(0,0)$.
 
+\begin{center}
+\begin{tikzpicture}
+    \begin{axis}[
+        domain=-2:2,
+        samples=30,
+        xlabel=$x$,
+        ylabel=$y$,
+        zlabel={$f(x,y)$},
+        colormap/cool,
+        view={120}{30},
+        ]
+        \addplot3[surf] {x^2 - y^2};
+    \end{axis}
+\end{tikzpicture}
+\end{center}
+
 The Hessian is:
 $$H = \begin{bmatrix} 2 & 0 \\ 0 & -2 \end{bmatrix}$$
 
@@ -133,13 +220,29 @@ $$D = (2)(-2) - (0)^2 = \answer{-4}$$
 Since $D < 0$, the critical point is a \wordChoice{\choice{local minimum}\choice{local maximum}\choice[correct]{saddle point}}.
 
 \begin{feedback}
-    When $D < 0$, the Hessian has eigenvalues of opposite sign - the function curves up in one direction and down in another, creating a saddle shape.
+    When $D < 0$,the function curves up in one direction and down in another, creating a saddle shape.
 \end{feedback}
 \end{problem}
 
 \begin{problem}
 Now a complete example. Find and classify all critical points of:
 $$f(x,y) = x^3 + y^3 - 3xy$$
+
+\begin{center}
+\begin{tikzpicture}
+    \begin{axis}[
+        domain=-1:2,
+        samples=30,
+        xlabel=$x$,
+        ylabel=$y$,
+        zlabel={$f(x,y)$},
+        colormap/cool,
+        view={120}{30},
+        ]
+        \addplot3[surf] {x^3 + y^3 - 3*x*y};
+    \end{axis}
+\end{tikzpicture}
+\end{center}
 
 \textbf{Step 1: Find critical points}
 
