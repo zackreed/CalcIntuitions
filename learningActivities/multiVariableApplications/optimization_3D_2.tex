@@ -1,6 +1,6 @@
 \documentclass{ximera}
 
-\title{Multivariable Optimization}
+\title{Multivariable Optimization: Second Derivatives}
 \author{Zack Reed}
 
 \begin{document}
@@ -12,7 +12,9 @@ In this activity we explore quadratic approximations of functions of multiple va
 
 \section*{Quadratic Approximations of Functions: The Hessian Matrix and the Second Derivative Test}
 
-Just as $f''(x)$ tells us about concavity in single-variable calculus, the \textbf{Hessian matrix} captures second-order information in multiple variables. While we'll gloss over some details, the important takeaway is that from the Hessian matrix we build a quadratic approximation of the function at a point, just like the 2nd degree Taylor polynomial in single-variable calculus.
+Just as $f^{\prime\prime}(x)$ tells us about concavity in single-variable calculus, the \textbf{Hessian matrix} captures second-order information in multiple variables. 
+
+While we'll gloss over some details, the important takeaway is that from the Hessian matrix we build a quadratic approximation of the function at a point, just like the 2nd degree Taylor polynomial in single-variable calculus.
 
 \subsection*{Defining the Hessian}
 
@@ -44,9 +46,8 @@ $$f_{xy} = \frac{\partial}{\partial y}(2x) = \answer{0}$$
 The Hessian matrix is:
 $$H = \begin{bmatrix} \answer{2} & \answer{0} \\ \answer{0} & \answer{2} \end{bmatrix}$$
 
-\begin{feedback}
-    Notice that this Hessian is constant - it doesn't depend on $(x,y)$! This happens for quadratic functions.
-\end{feedback}
+
+Notice that this Hessian is constant - it doesn't depend on $(x,y)$! This mirrors the properties of quadratic functions in single-variable calculus, where the second derivative is constant.
 \end{problem}
 
 \begin{problem}
@@ -60,15 +61,109 @@ $$f_{yy} = \answer{6y}$$
 $$f_{xy} = \answer{-3}$$
 
 The Hessian matrix is:
-$$H = \begin{bmatrix} 6x & -3 \\ -3 & 6y \end{bmatrix}$$
+$$H = \begin{bmatrix} \answer{6x} & \answer{-3} \\ \answer{-3} & \answer{6y} \end{bmatrix}$$
 
-At the critical point $(1,1)$:
-$$H(1,1) = \begin{bmatrix} \answer{6} & \answer{-3} \\ \answer{-3} & \answer{6} \end{bmatrix}$$
+Now, the second derivatives change according to the location of the point $(x,y)$.
 
-\begin{feedback}
-    Unlike the previous example, this Hessian changes depending on where we evaluate it. We'll need to evaluate at critical points to classify them.
-\end{feedback}
+Let's see what the Hessian is at different points:
+
+\begin{enumerate}
+    \item At the point $(0,0)$, we have:
+    $$H(0,0) = \begin{bmatrix} \answer{0} & \answer{-3} \\ \answer{-3} & \answer{0} \end{bmatrix}$$
+
+    \item At the point $(1,1)$, we have:
+    $$H(1,1) = \begin{bmatrix} \answer{6} & \answer{-3} \\ \answer{-3} & \answer{6} \end{bmatrix}$$
+
+    \item At the poitn $(1,-1)$, we have:
+    $$H(1,-1) = \begin{bmatrix} \answer{6} & \answer{-3} \\ \answer{-3} & \answer{-6} \end{bmatrix}$$
+\end{enumerate}
 \end{problem}
+
+\section*{Quadratic Approximations}
+
+Much like quadratic Taylor approximations in single-variable calculus, we can use the Hessian to build a quadratic approximation of a multivariable function at a point.
+
+\begin{definition}
+The \textbf{quadratic approximation} of $f(x,y)$ at the point $(x_0, y_0)$ is:
+\begin{align*}
+Q(x,y) = & f(x_0, y_0) + \frac{\partial f}{\partial x}(x - x_0) + \frac{\partial f}{\partial y}(y - y_0) \\
+& + \frac{1}{2} \left(\frac{\partial^2 f}{\partial x^2}(x - x_0)^2 + 2\frac{\partial^2 f}{\partial x \partial y}(x - x_0)(y - y_0) + \frac{\partial^2 f}{\partial y^2}(y - y_0)^2 \right)
+\end{align*}
+
+Here, all of the derivatives are calculated at the point $(x_0, y_0)$.
+\end{definition}
+
+
+In single-variable calculus, we had three standard cases for classifying critical points using the second derivative: 
+\begin{itemize}
+    \item If $f^{\prime\prime}(x_0) > 0$, local minimum
+    \item If $f^{\prime\prime}(x_0) < 0$, local maximum
+    \item If $f^{\prime\prime}(x_0) = 0$, test is inconclusive
+\end{itemize}
+
+This idea came from quadratic approximation. Quadratic functions either open up, open down, or are flat.
+
+In multiple variables, quadratic surfaces can take on three forms instead of two:
+
+%list out and visualize each case with an actual quadratic formula for the surface
+\begin{itemize}
+    \item Bowl-shaped (local min or max)
+    
+    The following quadratic surface is $f(x,y) = x^2 + y^2$, which has a local minimum at the origin. Quadratic approximations behaving like this indicate local minima (and their negatives indicate local maxima).
+    
+    \begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            domain=-2:2,
+            samples=30,
+            xlabel=$x$,
+            ylabel=$y$,
+            zlabel={$f(x,y)$},
+            colormap/cool,
+            ]
+            \addplot3[surf] {x^2 + y^2};
+        \end{axis}
+    \end{tikzpicture}
+    \end{center}
+
+    \item Saddle-shaped (saddle point)
+    
+    The following quadratic surface is $f(x,y) = x^2 - y^2$, which has a saddle point at the origin. Quadratic approximations behaving like this indicate saddle points.
+    \begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            domain=-2:2,
+            samples=30,
+            xlabel=$x$,
+            ylabel=$y$,
+            zlabel={$f(x,y)$},
+            colormap/cool,
+            ]
+            \addplot3[surf] {x^2 - y^2};
+        \end{axis}
+    \end{tikzpicture}
+    \end{center}
+
+    \item Flat or complex (test inconclusive)
+    
+    The following quadratic surface is $f(x,y) = x^3 - y^3$, which has a flat region at the origin. Quadratic approximations behaving like this indicate that the second derivative test is inconclusive.
+    \begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            domain=-2:2,
+            samples=30,
+            xlabel=$x$,
+            ylabel=$y$,
+            zlabel={$f(x,y)$},
+            colormap/cool,
+            ]
+            \addplot3[surf] {x^3 - y^3};
+        \end{axis}
+    \end{tikzpicture}
+    \end{center}
+\end{itemize}
+
+
 
 \subsection*{The Second Derivative Test}
 

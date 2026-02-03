@@ -1,0 +1,122 @@
+\documentclass{ximera}
+
+\title{Multivariable Optimization: First Derivatives}
+\author{Zack Reed}
+
+\begin{document}
+\begin{abstract}
+In this activity we extend single-variable optimization techniques to multivariable settings.
+\end{abstract}
+\maketitle
+
+
+\subsection*{Generalizing to Higher Dimensions: From First Derivatives to The Gradient Vector}
+
+\begin{definition}
+For a function $f(x,y)$, the \textbf{gradient} is the vector of partial derivatives:
+$$\nabla f = \left\langle \frac{\partial f}{\partial x}, \frac{\partial f}{\partial y} \right\rangle$$
+\end{definition}
+
+In single-variable calculus, we found points where $f'(x) = 0$ to locate possible min and max values. This was because nonzero derivatives meant the function \wordChoice{\choice{possibly increased or decreased}\choice[correct]{had to either increase or decrease}\choice{was constant}} at that point.
+
+Similarly, in multivariable calculus, if the gradient $\nabla f$ is nonzero at a point, then the function \wordChoice{\choice{possibly increases or decreases}\choice[correct]{must either increase or decrease}\choice{is constant}} in some direction at that point. This is because the directional derivative \wordChoice{\choice{is independent of the gradient}\choice[correct]{depends on a dot product with the gradient}}.
+
+So, the only possible locations for maximum or minimum values are \wordChoice{\choice{where the gradient is nonzero}\choice[correct]{where the gradient is zero}}.
+
+\begin{definition}
+A point $(x_0, y_0)$ is a \textbf{critical point} of $f(x,y)$ if:
+$$\nabla f(x_0, y_0) = \langle 0, 0 \rangle$$.
+
+This means:
+$$\frac{\partial f}{\partial x}(x_0, y_0) = 0 \quad \text{and} \quad \frac{\partial f}{\partial y}(x_0, y_0) = 0$$
+\end{definition}
+
+\begin{remark}
+Technically, we also care about when the derivative (or graident) is undefined, but for this activity we will focus on where it is zero.
+\end{remark}
+
+\begin{problem}
+Why do we care about critical points?
+
+\begin{multipleChoice}
+    \choice{They are always minima}
+    \choice{They are always maxima}
+    \choice[correct]{Local extrema must occur at critical points (if they exist in the interior)}
+    \choice{The function is undefined at critical points}
+\end{multipleChoice}
+\end{problem}
+
+\begin{problem}
+Find the critical points of $f(x,y) = x^2 + y^2 - 4x + 6y + 5$.
+
+First, compute the partial derivatives:
+$$\frac{\partial f}{\partial x} = \answer{2x - 4}$$
+$$\frac{\partial f}{\partial y} = \answer{2y + 6}$$
+
+Set them equal to zero and solve:
+$$2x - 4 = 0 \Rightarrow x = \answer{2}$$
+$$2y + 6 = 0 \Rightarrow y = \answer{-3}$$
+
+The critical point is $(\answer{2}, \answer{-3})$.
+
+This is a paraboloid (bowl shape). Based on the shape, we can guess this critical point is a \wordChoice{\choice{maximum}\choice[correct]{minimum}\choice{saddle point}}.
+
+%plot the function
+\begin{center}
+\begin{tikzpicture}
+    \begin{axis}[
+        axis lines = center,
+        xlabel = $x$,
+        ylabel = {$y$},
+        title = {Graph of $f(x,y) = x^2 + y^2 - 4x + 6y + 5$},
+        width=10cm,
+        height=8cm,
+        grid=major,
+        view={60}{30},
+    ]
+    \addplot3[surf,domain=-1:5,y domain=-5:1,samples=20] {x ^2 + y ^2 - 4*x + 6*y + 5};
+    \end{axis}
+\end{tikzpicture}
+\end{center}
+
+\end{problem}
+
+\section*{Caution: Not All Critical Points are Extrema!}
+
+In single-variable calculus, we weren't always guaranteed a max or min at critical points. The same is true in multivariable calculus. Let's explore a common phenomenon where a critical point exists but no maximum or minimum occurs, called a \emph{saddle point}.
+
+
+\begin{problem}
+Find the critical points of $f(x,y) = x^2 - y^2$.
+
+The partial derivatives are:
+$$\frac{\partial f}{\partial x} = \answer{2x}$$
+$$\frac{\partial f}{\partial y} = \answer{-2y}$$
+
+Setting both equal to zero: $x = \answer{0}$ and $y = \answer{0}$.
+
+The critical point is $(\answer{0}, \answer{0})$.
+
+This function looks like a saddle at the origin - it curves up in one direction and down in another. The critical point is neither a minimum nor a maximum! This is called a saddle point.
+
+\end{problem}
+
+\begin{center}
+\begin{tikzpicture}
+    \begin{axis}[
+        axis lines = center,
+        xlabel = $x$,
+        ylabel = {$y$},
+        title = {Graph of $f(x,y) = x^2 - y^2$},
+        width=10cm,
+        height=8cm,
+        grid=major,
+        view={60}{30},
+    ]
+    \addplot3[surf,domain=-2:2,y domain=-2:2,samples=20] {x ^2 - y ^2};
+    \end{axis}
+\end{tikzpicture}
+\end{center}
+
+
+\end{document}
