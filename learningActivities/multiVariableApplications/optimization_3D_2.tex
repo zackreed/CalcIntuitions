@@ -27,21 +27,21 @@ $$H = \begin{bmatrix}
 
 The entries are:
 \begin{itemize}
-    \item $f_{xx}$: second partial derivative with respect to $x$
-    \item $f_{yy}$: second partial derivative with respect to $y$
-    \item $f_{xy}$ and $f_{yx}$: mixed partial derivatives (usually equal)
+    \item $\frac{\partial^2 f}{\partial x^2}$: second partial derivative with respect to $x$
+    \item $\frac{\partial^2 f}{\partial y^2}$: second partial derivative with respect to $y$
+    \item $\frac{\partial^2 f}{\partial x \partial y}$ and $\frac{\partial^2 f}{\partial y \partial x}$: mixed partial derivatives (usually equal)
 \end{itemize}
 \end{definition}
 
 \begin{problem}
 Let's compute the Hessian of $f(x,y) = x^2 + y^2$.
 
-First derivatives: $f_x = 2x$ and $f_y = 2y$
+First derivatives: $\frac{\partial f}{\partial x} = 2x$ and $\frac{\partial f}{\partial y} = 2y$
 
 Second derivatives:
-$$f_{xx} = \frac{\partial}{\partial x}(2x) = \answer{2}$$
-$$f_{yy} = \frac{\partial}{\partial y}(2y) = \answer{2}$$
-$$f_{xy} = \frac{\partial}{\partial y}(2x) = \answer{0}$$
+$$\frac{\partial^2 f}{\partial x^2} = \frac{\partial}{\partial x}(2x) = \answer{2}$$
+$$\frac{\partial^2 f}{\partial y^2} = \frac{\partial}{\partial y}(2y) = \answer{2}$$
+$$\frac{\partial^2 f}{\partial x \partial y} = \frac{\partial}{\partial y}(2x) = \answer{0}$$
 
 The Hessian matrix is:
 $$H = \begin{bmatrix} \answer{2} & \answer{0} \\ \answer{0} & \answer{2} \end{bmatrix}$$
@@ -53,12 +53,12 @@ Notice that this Hessian is constant - it doesn't depend on $(x,y)$! This mirror
 \begin{problem}
 Compute the Hessian of $f(x,y) = x^3 + y^3 - 3xy$.
 
-First derivatives: $f_x = 3x^2 - 3y$ and $f_y = 3y^2 - 3x$
+First derivatives: $\frac{\partial f}{\partial x} = 3x^2 - 3y$ and $\frac{\partial f}{\partial y} = 3y^2 - 3x$
 
 Second derivatives:
-$$f_{xx} = \answer{6x}$$
-$$f_{yy} = \answer{6y}$$
-$$f_{xy} = \answer{-3}$$
+$$\frac{\partial^2 f}{\partial x^2} = \answer{6x}$$
+$$\frac{\partial^2 f}{\partial y^2} = \answer{6y}$$
+$$\frac{\partial^2 f}{\partial x \partial y} = \answer{-3}$$
 
 The Hessian matrix is:
 $$H = \begin{bmatrix} \answer{6x} & \answer{-3} \\ \answer{-3} & \answer{6y} \end{bmatrix}$$
@@ -167,80 +167,37 @@ In multiple variables, quadratic surfaces can take on three forms instead of two
 
 \subsection*{The Second Derivative Test}
 
+Much like how we only needed to know the sign of the second derivative in single-variable calculus, we can classify critical points in multiple variables using just a couple values from the Hessian matrix.
+
+We use a pseudo-equivalent to looking at the sign, taking what is called the \emph{determinant} of the Hessian.
+
 \begin{definition}
 Let $(x_0, y_0)$ be a critical point and let $H$ be the Hessian evaluated at that point. Define:
-$$D = \det(H) = f_{xx} f_{yy} - (f_{xy})^2$$ to be the \emph{discriminant} at $(x_0, y_0)$. If you have some experience with matrices, this is the \emph{determinant} of the Hessian matrix.
+
+$$D = \det(H) = \frac{\partial^2 f}{\partial x^2} \frac{\partial^2 f}{\partial y^2} - \left(\frac{\partial^2 f}{\partial x \partial y}\right)^2$$ 
+
+to be the \emph{determinant} of the Hessian matrix at $(x_0, y_0)$. In typical multivariable calculus textbooks this is called the \emph{descriminant}, but we find it important to make connections when we can, so we're going to describe this in terms of determinants, which come up in later courses.
 
 Then:
 \begin{itemize}
-    \item If $D > 0$ and $f_{xx} > 0$: \textbf{local minimum}
-    \item If $D > 0$ and $f_{xx} < 0$: \textbf{local maximum}
+    \item If $D > 0$ and $\frac{\partial^2 f}{\partial x^2} > 0$: \textbf{local minimum}
+    \item If $D > 0$ and $\frac{\partial^2 f}{\partial x^2} < 0$: \textbf{local maximum}
     \item If $D < 0$: \textbf{saddle point}
     \item If $D = 0$: \textbf{test is inconclusive}
 \end{itemize}
 \end{definition}
 
-Let's see what each of these cases looks like graphically:
 
-\begin{enumerate}
-    \item $D > 0$, $f_{xx} > 0$ (local minimum):
-    
-    \begin{center}
-    \begin{tikzpicture}
-        \begin{axis}[
-            domain=-2:2,
-            samples=30,
-            xlabel=$x$,
-            ylabel=$y$,
-            zlabel={$f(x,y)$},
-            colormap/cool,
-            ]
-            \addplot3[surf] {x^2 + y^2};
-        \end{axis}
-    \end{tikzpicture}
-    \end{center}
+The following video visualizes the process of quadratic approximation, the finding of the Hessian, and the second derivative test.
 
-    \item $D > 0$, $f_{xx} < 0$ (local maximum):
-    %build an example with tikz
-    \begin{center}
-    \begin{tikzpicture}
-        \begin{axis}[
-            domain=-2:2,
-            samples=30,
-            xlabel=$x$,
-            ylabel=$y$,
-            zlabel={$f(x,y)$},
-            colormap/cool,
-            ]
-            \addplot3[surf] {-x^2 - y^2};
-        \end{axis}
-    \end{tikzpicture}
-    \end{center}
+\begin{center}
+\youtube{PTrbdL7Pkiw}
+\end{center}
 
-    \item $D < 0$ (saddle point):
-    %build an example with tikz
-    \begin{center}
-    \begin{tikzpicture}
-        \begin{axis}[
-            domain=-2:2,
-            samples=30,
-            xlabel=$x$,
-            ylabel=$y$,
-            zlabel={$f(x,y)$},
-            colormap/cool,
-            ]
-            \addplot3[surf] {x^2 - y^2};
-        \end{axis}
-    \end{tikzpicture}
-    \end{center}
-
-    \item If $D = 0$, the test is inconclusive. The function could have a flat region, a cusp, or other complex behavior that requires further analysis.
-\end{enumerate}
-
-
+Let's practice using the second derivative test on a few cases that we've already seen.
 
 \begin{problem}
-Why does the sign of $f_{xx}$ matter when $D > 0$?
+Why does the sign of $\frac{\partial^2 f}{\partial x^2}$ matter when $D > 0$?
 
 \begin{multipleChoice}
     \choice{It determines whether the function is differentiable}
@@ -277,7 +234,7 @@ $$H = \begin{bmatrix} 2 & 0 \\ 0 & 2 \end{bmatrix}$$
 The discriminant is:
 $$D = (2)(2) - (0)^2 = \answer{4}$$
 
-Since $D > 0$ and $f_{xx} = 2 > 0$, the critical point is a \wordChoice{\choice[correct]{local minimum}\choice{local maximum}\choice{saddle point}}.
+Since $D > 0$ and $\frac{\partial^2 f}{\partial x^2} = 2 > 0$, the critical point is a \wordChoice{\choice[correct]{local minimum}\choice{local maximum}\choice{saddle point}}.
 
 The minimum value is:
 $$f(2,-3) = 4 + 9 - 8 - 18 + 5 = \answer{-8}$$
@@ -371,7 +328,7 @@ $$H(1,1) = \begin{bmatrix} 6 & -3 \\ -3 & 6 \end{bmatrix}$$
 
 $$D = (6)(6) - (-3)^2 = 36 - 9 = \answer{27}$$
 
-Since $D > 0$ and $f_{xx} = 6 > 0$, $(1,1)$ is a \wordChoice{\choice[correct]{local minimum}\choice{local maximum}\choice{saddle point}}.
+Since $D > 0$ and $\frac{\partial^2 f}{\partial x^2} = 6 > 0$, $(1,1)$ is a \wordChoice{\choice[correct]{local minimum}\choice{local maximum}\choice{saddle point}}.
 
 The minimum value is: $f(1,1) = 1 + 1 - 3 = \answer{-1}$
 
