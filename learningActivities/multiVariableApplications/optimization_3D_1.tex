@@ -32,8 +32,49 @@ $$\frac{\partial f}{\partial x}(x_0, y_0) = 0 \quad \text{and} \quad \frac{\part
 \end{definition}
 
 \begin{remark}
-Technically, we also care about when the derivative (or graident) is undefined, but for this activity we will focus on where it is zero.
+Technically, we also care about when the derivative (or gradient) is undefined, but for this activity we will focus on where it is zero.
 \end{remark}
+
+%show a plot of a bumpy function with critical points marked and with small tangent planes
+\begin{center}
+\begin{tikzpicture}
+    \begin{axis}[
+        axis lines = center,
+        xlabel = $x$,
+        ylabel = {$y$},
+        title = {Graph of $f(x,y) = \sin(x)\cos(y)$ with Critical Points},
+        width=12cm,
+        height=9cm,
+        grid=major,
+        view={120}{45},
+        colormap/viridis,
+    ]
+    % Plot the bumpy function sin(x)*cos(y)
+    \addplot3[surf,domain=-180:180,y domain=-180:180,samples=40,opacity=0.8] {sin(x)*cos(y)};
+    
+    % Mark critical points (at multiples of 90 degrees)
+    \addplot3[only marks, mark=*, mark size=3pt, color=red] coordinates {
+        (90, 0, 1)      % local max
+        (-90, 0, -1)    % local min
+        % (0, 0, 0)       % saddle point
+        (90, 180, -1)   % local min
+    };
+    
+    % Add tangent planes at critical points (all horizontal since gradient is zero)
+    % Tangent plane at (90, 0): z = 1
+    \addplot3[surf,domain=60:120,y domain=-30:30,samples=5,opacity=0.6,color=yellow] {1};
+    
+    % Tangent plane at (-90, 0): z = -1
+    \addplot3[surf,domain=-120:-60,y domain=-30:30,samples=5,opacity=0.6,color=cyan] {-1};
+    
+    % Tangent plane at (0, 0): z = 0
+    % \addplot3[surf,domain=-30:30,y domain=-30:30,samples=5,opacity=0.6,color=orange] {0};
+    
+    % Tangent plane at (90, 180): z = -1
+    \addplot3[surf,domain=60:120,y domain=150:210,samples=5,opacity=0.6,color=magenta] {-1};
+    \end{axis}
+\end{tikzpicture}
+\end{center}
 
 \begin{problem}
 Why do we care about critical points?
