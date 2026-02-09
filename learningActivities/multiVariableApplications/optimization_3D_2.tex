@@ -283,7 +283,7 @@ $$f(x,y) = x^3 + y^3 - 3xy$$
 \begin{center}
 \begin{tikzpicture}
     \begin{axis}[
-        domain=-1:2,
+        domain=-3:3,
         samples=30,
         xlabel=$x$,
         ylabel=$y$,
@@ -306,9 +306,10 @@ $$y^2 - x = 0 \Rightarrow y^2 = x$$
 
 Substituting: $(x^2)^2 = x \Rightarrow x^4 - x = 0 \Rightarrow x(x^3-1) = 0$
 
-So $x = \answer{0}$ or $x = \answer{1}$
+So $x = \answer{0}$ or $x = \answer{1}$ (put the smaller number first)
 
-The critical points are: $(\answer{0}, \answer{0})$ and $(\answer{1}, \answer{1})$
+The critical points are: $(\answer{0}, \answer{0})$ and $(\answer{1}, \answer{1})$.
+
 
 \textbf{Step 2: Compute the Hessian}
 
@@ -322,6 +323,25 @@ $$D = (0)(0) - (-3)^2 = \answer{-9}$$
 
 Since $D < 0$, $(0,0)$ is a \wordChoice{\choice{local minimum}\choice{local maximum}\choice[correct]{saddle point}}.
 
+% %show the same surface but with a quadratic approximation at (0,0) to visualize the saddle shape
+% \begin{center}
+% \begin{tikzpicture}
+%     \begin{axis}[
+%         domain=-3:3,
+%         samples=30,
+%         xlabel=$x$,
+%         ylabel=$y$,
+%         zlabel={$f(x,y)$},
+%         colormap/cool,
+%         view={120}{30},
+%         ]
+%             % \addplot3[surf] {x^3 + y^3 - 3*x*y};
+%         \addplot3[surf, opacity=0.5] {0 -3*x*y};
+%     \end{axis}
+% \end{tikzpicture}
+% \end{center}
+
+
 \textbf{Step 4: Classify $(1,1)$}
 
 $$H(1,1) = \begin{bmatrix} 6 & -3 \\ -3 & 6 \end{bmatrix}$$
@@ -330,7 +350,26 @@ $$D = (6)(6) - (-3)^2 = 36 - 9 = \answer{27}$$
 
 Since $D > 0$ and $\frac{\partial^2 f}{\partial x^2} = 6 > 0$, $(1,1)$ is a \wordChoice{\choice[correct]{local minimum}\choice{local maximum}\choice{saddle point}}.
 
-The minimum value is: $f(1,1) = 1 + 1 - 3 = \answer{-1}$
+The extreme value is: $f(1,1) = 1 + 1 - 3 = \answer{-1}$
+
+% %show the same surface but with a quadratic approximation at (1,1) to visualize the bowl shape
+% \begin{center}
+% \begin{tikzpicture}
+%     \begin{axis}[
+%         domain=-3:3,
+%         samples=30,
+%         xlabel=$x$,
+%         ylabel=$y$,
+%         zlabel={$f(x,y)$},
+%         colormap/cool,
+%         view={120}{30},
+%         ]
+%         % \addplot3[surf] {x^3 + y^3 - 3*x*y};
+%         %quadratic approximation from hessian values
+%         \addplot3[surf, opacity=0.5] {1 -3*(x-1)-3*(y-1)+.5*(6*(x-1)^2 - 6*(x-1)*(y-1) + 6*(y-1)^2)};
+%     \end{axis}
+% \end{tikzpicture}
+% \end{center}
 
 \begin{feedback}
     This function has both a saddle point and a local minimum! Real-world optimization problems often have complex landscapes with multiple critical points.
