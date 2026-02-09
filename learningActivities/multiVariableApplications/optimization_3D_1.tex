@@ -48,9 +48,10 @@ Technically, we also care about when the derivative (or gradient) is undefined, 
         grid=major,
         view={120}{45},
         colormap/viridis,
+        trig format=deg,
     ]
     % Plot the bumpy function sin(x)*cos(y)
-    \addplot3[surf,domain=-180:180,y domain=-180:180,samples=40,opacity=0.8] {sin(x)*cos(y)};
+    \addplot3[surf,domain=-180:180,y domain=-180:180,samples=25,opacity=0.8] {sin(x)*cos(y)};
     
     % Mark critical points (at multiples of 90 degrees)
     \addplot3[only marks, mark=*, mark size=3pt, color=red] coordinates {
