@@ -1,6 +1,6 @@
 \documentclass{ximera}
 
-\title{Double Integrals and Polar Coordinates}
+\title{Adding up Pieces: Double Integrals}
 \author{Zack Reed}
 
 \begin{document}
@@ -9,41 +9,82 @@ In this activity we extend single-variable integration to functions of two varia
 \end{abstract}
 \maketitle
 
-\section*{Introduction: From Single to Double Integrals}
+\section*{The Philosophy: Adding Up Pieces}
 
-APPLETS FOR REFERENCE
-% https://www.geogebra.org/m/bqqfyjdm
-% https://www.geogebra.org/m/sebfhwzx
-% https://www.geogebra.org/m/xqrs44yg
-% https://www.geogebra.org/m/hv9rk7hj
-% https://www.geogebra.org/m/sgevexqr
-% https://www.geogebra.org/m/yukegeqk
-% https://www.geogebra.org/m/rwjghwbb
 
-In single-variable calculus, the definite integral $\int_a^b f(x)\,dx$ sums up infinitely many small ``bits'' of area under a curve. For multivariable functions, we extend this idea to sum over two-dimensional regions.
+
+Throughout calculus, we've developed one powerful idea: \textbf{integration as ``adding up pieces.''} 
+
+What we mean by this is that if we want to find the total value of some quantity $M$, and can break it up into tiny pieces $dM$, then we can sum all those pieces using an integral: $M = \int dM$ ($\int$ can be thought of as ``sum'').
+
+Because of the Fundamental Theorem of Calculus, if $dM$ can be written as a ``rate times a small change'' (like $dM=f(x)dx$), then we can get an easy-to-evaluate formula for $M$ by finding an antiderivative.
+
+Now, we apply similar principles to more complex scenarios, in multiple dimensions.
 
 \begin{problem}
-The fundamental concept remains unchanged:
-\begin{center}
-\textbf{An integral is the sum of small pieces of a measurement.}
-\end{center}
+Definite integration allows us to extend simple multiplication to complex scenarios. 
 
-What changes from single to double integrals?
+Which of the following are examples where we ``add up pieces''?
 \begin{selectAll}
-    \choice[correct]{We sum over a 2D region instead of a 1D interval}
-    \choice[correct]{We have two differentials: $dx$ and $dy$}
-    \choice{The idea of Riemann sums no longer applies}
-    \choice[correct]{We can compute volumes under surfaces}
+    \choice[correct]{Finding area under a curve by summing rectangular areas $dA=h\cdot dw$}
+    \choice[correct]{Computing work when force varies with position using small changes $dW=F\cdot dD$}
+    \choice[correct]{Calculating arc length along a curve using small segments $ds=\sqrt{dx^2+dy^2}$}
+    \choice{Finding the speed at which an object is moving at a specific time}
+    \choice[correct]{Computing volume by stacking cross-sections}
 \end{selectAll}
 
 \begin{feedback}
-The core idea is the same! We're just increasing the complexity of how we build the regions over which we sum.
+All integral applications follow the same pattern: identify a small piece, express its contribution, then sum its pieces together and take a limit.
 \end{feedback}
 \end{problem}
 
-\section*{Motivating Example: Hydrostatic Force on a Dam}
+\section*{Review: Work and Variable Force}
 
-Let's revisit a classic single-variable problem and see how double integrals naturally arise.
+\begin{problem}
+For uniform force, work is a simple product: $W = F \cdot D$. In this example we'll call it ``energy'' instead of work, for ``energy expended''.
+
+But when compressing a spring, the force increases with distance. For example, $F(D) = 55D$ Newtons for a spring with stiffness 55 N/m.
+
+The basic model of multiplication $E = F \cdot D$ \wordChoice{\choice{still works}\choice[correct]{doesn't work}\choice{needs modification}} in a spring context because:
+\begin{multipleChoice}
+    \choice{The distance is zero}
+    \choice[correct]{There's no single force value to use}
+    \choice{Energy spent is undefined for springs}
+    \choice{The force is negative}
+\end{multipleChoice}
+
+Instead, we consider a small distance $dD$. Over this tiny interval, the force is approximately constant at $F(D)$.
+
+The following applet shows the basic idea.
+
+\begin{center}
+\geogebra{amcsb2hz}{650}{461}
+\end{center}
+
+
+The small work contribution is: $dE = \answer{55*D} \cdot dD$
+
+Total work is found by: $E = \int \answer{55*D}\,dD$
+
+Because of the funamental Theorem of Calculus, and our knowledge that $\frac{dE}{dD} = F(D)$, we know that an antiderivative of $55D$ can be used to efficiently find the value of the integral $\int 55D\,dD$ without needing to compute a limit of Riemann sums.
+
+If $\frac{dE}{dD} = F(D)$, then a formula for $E$ is: $E = \answer{\frac{55D^2}{2}} + C$.
+
+This makes the total energy to compress the spring from 0 to 1 meters: $E = \left[\frac{55D^2}{2}\right]_0^1 = \answer[tolerance=.1]{\frac{55}{2}}$ Joules.
+
+\begin{feedback}
+This is ``adding up pieces''! Each piece $dE = F(D)\,dD$ represents energy over an infinitesimal distance, and integration sums all pieces.
+\end{feedback}
+\end{problem}
+
+
+
+\section*{Extension to Multiple Integrals}
+
+
+The same ``adding up pieces'' philosophy extends to multiple integrals, we simply further break down the ``pieces'' along multiple dimensions.
+
+We'll start by examining hydrostatic force on a dam, in which we can break down the unit of ``area'' $dA$ on the dam not just in the dimension of depth, but also in the dimension of width. This leads us to double integrals.
 
 \begin{problem}
 Consider a rectangular dam that is 12 meters deep and 5 meters wide.
@@ -64,27 +105,25 @@ Why does the force curve bend upward?
     \choice{The water density changes}
 \end{multipleChoice}
 
-\begin{feedback}
+
 Pressure at depth $D$ is $P(D) = 9800 \cdot D$ (in Pascals). As we go deeper, pressure increases linearly!
-\end{feedback}
+
 \end{problem}
 
 \subsection*{Single-Variable Approach}
 
 \begin{problem}
-In the single-variable approach, we fixed the width at 5 meters and varied only the depth.
+In the single-variable approach, we noted that since pressure increased with depth only, then small area elements $dA$ could be expressed as ``width times depth'', so we fixed the width at 5 meters and varied only the depth.
 
-The small bit of force at depth $D$ is: $dF = P(D) \cdot 5 \cdot dD = \answer{9800 \cdot D \cdot 5} \cdot dD$
+So, knowing that $P=9800 \cdot D$, and $dA = 5 \cdot dD$, we can say that a small bit of force $dF$ at depth $D$ is expressed as: $dF = P \cdot dA = P \cdot 5 \cdot dD = \answer{9800 \cdot D \cdot 5} \cdot dD$
 
-The total force becomes:
+The total force with depth up to 12 meters becomes:
 $$F = \int_0^{12} 9800 \cdot D \cdot 5 \,dD$$
 
-Compute this integral:
-$$F = 9800 \cdot 5 \cdot \left[\frac{D^2}{2}\right]_0^{12} = 9800 \cdot 5 \cdot \answer{72} = \answer{3528000} \text{ N}$$
+Using the FTC, we can find an antiderivative of $9800 \cdot D \cdot 5$ to evaluate this integral:
+If $\frac{dF}{dD} = 9800 \cdot D \cdot 5$, then $F = \answer{\frac{9800 \cdot D^2 \cdot 5}{2}} + C$.
+$$F = \left[\frac{9800 \cdot D^2 \cdot 5}{2}\right]_0^{12} = \answer{3528000} \text{ N}$$
 
-\begin{feedback}
-We integrated over a one-dimensional depth line, treating width as constant.
-\end{feedback}
 \end{problem}
 
 \subsection*{Double Integral Approach}
@@ -92,69 +131,34 @@ We integrated over a one-dimensional depth line, treating width as constant.
 \begin{problem}
 Now let's incorporate the entire 2D area of the dam using \textbf{two} variables: depth $D$ and width $w$.
 
-The small area element is: $dA = \answer{dD \cdot dw}$
+The small area element is: $dA = dD \cdot dw$
 
-The pressure at any point $(D,w)$ depends only on depth: $P(D,w) = \answer{9800 \cdot D}$
+The pressure at any point $(D,w)$ depends only on depth, but we can still consider pressure to be a two-variable function: $P(D,w) = \answer{9800 \cdot D}$
 
 The small bit of force is:
 $$dF = P(A) \cdot dA = \answer{9800 \cdot D} \cdot dD \cdot dw$$
 
-The double integral becomes:
+We now have two dimensions of variation to sum over, $w$ and $D$. This will become more formal below, but just as partial derivatives treated off-variables as constants, we can treat off-variables as constants when integrating with respect to one variable at a time.
+
+So we can integrate across the width first, treating depth as constant, then integrate across depth, treating width as constant.
+
+The width of the dam is 5 meters, so we integrate across width from $w=0$ to $w=5$. 
+
+The differential $dF$ is constant with respect to $w$, so our first integral becomes
+
+$$\int_0^5 9800 \cdot D \,dw = 9800 \cdot D \cdot [w]_0^5 = 5\cdot 9800 \cdot D$$
+
+This was exactly the same as our single-variable approach! So we now proceed exactly as before, integrating across depth from $D=0$ to $D=12$: 
+
+$$F=\int_0^{12} 5\cdot 9800 \cdot D \,dD$$
+
+We express the process of integrating in two dimensions as a \textbf{double integral} with the notation $\iint$ to indicate we're summing over a 2D region, and we specify the region of integration $R$ in the subscript:
+
 $$F = \iint_R dF = \int_0^{12}\int_0^5 9800 \cdot D \,dw\,dD$$
 
-Let's evaluate this step by step using Fubini's Theorem!
-
-\textbf{Inner integral (with respect to $w$):}
-$$\int_0^5 9800 \cdot D \,dw = 9800 \cdot D \cdot [w]_0^5 = \answer{49000 \cdot D}$$
-
-\textbf{Outer integral (with respect to $D$):}
-$$\int_0^{12} 49000 \cdot D \,dD = 49000 \cdot \left[\frac{D^2}{2}\right]_0^{12} = \answer{3528000} \text{ N}$$
-
-Notice we got the same answer! This makes sense because:
-\begin{multipleChoice}
-    \choice{Double integrals are always equal to single integrals}
-    \choice[correct]{We're measuring the same physical quantity, just with different coordinate representations}
-    \choice{The force doesn't actually depend on width}
-\end{multipleChoice}
-
-\begin{feedback}
-The key insight: double integrals have two sum symbols (the two integral signs) and identify the 2D region over which we sum!
-\end{feedback}
 \end{problem}
 
-\section*{Double Integrals for Volume}
-
-The most common interpretation of double integrals is computing volume under a surface.
-
-\begin{definition}
-For a function $f(x,y) \geq 0$ over a region $R$ in the $xy$-plane, the \textbf{double integral}
-$$V = \iint_R f(x,y)\,dA = \iint_R f(x,y)\,dx\,dy$$
-represents the volume between the surface $z=f(x,y)$ and the region $R$.
-\end{definition}
-
-\begin{problem}
-Explore double integral approximations visually.
-
-\begin{expandable}{stuff}{GeoGebra Instructions}
-    Alter the rectangle dimensions by dragging the top right corner. Change grid fineness with the sliders. Select a specific area element $dA$ to see the corresponding volume approximation $dV = f(a,b) \cdot dA$.
-\end{expandable}
-
-\begin{center}
-\geogebra{yukegeqk}{755}{628}
-\end{center}
-
-As the grid becomes finer (smaller $dA$), the approximation:
-\begin{multipleChoice}
-    \choice{Gets worse}
-    \choice[correct]{Gets better and approaches the true volume}
-    \choice{Stays the same}
-    \choice{Oscillates}
-\end{multipleChoice}
-
-\begin{feedback}
-This is exactly like Riemann sums in single-variable calculus! The limit of these approximations as $dA \to 0$ gives the exact double integral.
-\end{feedback}
-\end{problem}
+This process of integrating across variables one at a time is called using \textbf{iterated integrals}, and the order of integration can be switched as well. We can't always assume that this is possible, but we have a theorem that gives us conditions for when we can integrate one variable at a time across a multi-dimensional domain: \textbf{Fubini's Theorem}.
 
 \section*{Computing Double Integrals: Fubini's Theorem}
 
@@ -198,177 +202,6 @@ For rectangular regions, the order of integration doesn't matter—we get the sa
 \end{feedback}
 \end{problem}
 
-\section*{Non-Rectangular Regions}
 
-For non-rectangular regions, the bounds of integration become functions.
-
-\begin{problem}
-Find the volume under $f(x,y) = x + y$ over the triangular region with vertices $(0,0)$, $(1,0)$, $(1,1)$.
-
-The region can be described as: $0 \leq x \leq 1$ and $0 \leq y \leq \answer{x}$
-
-The double integral is:
-$$V = \int_0^1 \int_0^x (x+y)\,dy\,dx$$
-
-\textbf{Inner integral:}
-$$\int_0^x (x+y)\,dy = \left[xy + \frac{y^2}{2}\right]_0^x = x^2 + \frac{x^2}{2} = \answer{3x^2/2}$$
-
-\textbf{Outer integral:}
-$$\int_0^1 \frac{3x^2}{2}\,dx = \frac{3}{2} \cdot \left[\frac{x^3}{3}\right]_0^1 = \frac{3}{2} \cdot \frac{1}{3} = \answer{1/2}$$
-
-\begin{feedback}
-When the region is not rectangular, the bounds of the inner integral often depend on the outer variable!
-\end{feedback}
-\end{problem}
-
-\section*{Polar Coordinates}
-
-For circular or radial regions, polar coordinates often simplify the integral dramatically.
-
-\begin{problem}
-Why use polar coordinates for integration?
-\begin{selectAll}
-    \choice[correct]{Circular regions have simpler bounds: $0 \leq r \leq R$, $0 \leq \theta \leq 2\pi$}
-    \choice{Polar coordinates always make integrals easier}
-    \choice[correct]{Functions with $x^2 + y^2$ simplify to $r^2$}
-    \choice[correct]{Radial symmetry becomes apparent}
-\end{selectAll}
-
-\begin{feedback}
-Polar coordinates are ideal when the region or function has circular/radial symmetry!
-\end{feedback}
-\end{problem}
-
-\subsection*{The Polar Area Element}
-
-\begin{problem}
-The key question: What is $dA$ in polar coordinates?
-
-\begin{expandable}{stuff}{GeoGebra Instructions}
-    Use the ``Shift Radius'' and ``Shift $\theta$'' sliders to move the area element $dA$ around. Check ``Show Volume'' to see the approximating cylinder. Use ``Zoom to Unit Circle'' and drag to view from above.
-\end{expandable}
-
-\begin{center}
-\geogebra{uucwvg4g}{740}{481}
-\end{center}
-
-The area element $dA$ is bounded between:
-\begin{itemize}
-    \item Circles of radius $r - \frac{dr}{2}$ and $r + \frac{dr}{2}$
-    \item Angles $\theta - \frac{d\theta}{2}$ and $\theta + \frac{d\theta}{2}$
-\end{itemize}
-
-The area of this annular sector is approximately:
-$$dA = \frac{d\theta}{2}(r+\frac{dr}{2})^2 - \frac{d\theta}{2}(r-\frac{dr}{2})^2$$
-
-After algebra, this simplifies to: $dA = \answer{r} \cdot dr \cdot d\theta$
-
-The extra factor $r$ is crucial! Without it:
-\begin{multipleChoice}
-    \choice{The integral would be easier}
-    \choice[correct]{We'd get the wrong answer}
-    \choice{Nothing would change}
-\end{multipleChoice}
-
-\begin{feedback}
-The polar area element is $dA = r\,dr\,d\theta$. That extra $r$ accounts for the curved geometry!
-\end{feedback}
-\end{problem}
-
-\subsection*{Polar Integral Example}
-
-\begin{problem}
-Let's integrate $f(x,y) = xy$ over the unit disk $x^2 + y^2 \leq 1$.
-
-\textbf{In rectangular coordinates (yuck!):}
-$$\int_{-1}^1\int_{-\sqrt{1-x^2}}^{\sqrt{1-x^2}} xy\,dy\,dx$$
-
-Those square root bounds are messy!
-
-\textbf{In polar coordinates:}
-\begin{itemize}
-    \item Region: $0 \leq r \leq \answer{1}$, $0 \leq \theta \leq \answer{2\pi}$
-    \item Function: $f(x,y) = xy = (r\cos\theta)(r\sin\theta) = \answer{r^2 \sin\theta \cos\theta}$
-    \item Area element: $dA = \answer{r}\,dr\,d\theta$
-\end{itemize}
-
-The integral becomes:
-$$V = \int_0^{2\pi}\int_0^1 r^2\sin\theta\cos\theta \cdot r\,dr\,d\theta = \int_0^{2\pi}\int_0^1 r^3\sin\theta\cos\theta\,dr\,d\theta$$
-
-\textbf{Inner integral (with respect to $r$):}
-$$\int_0^1 r^3\,dr = \left[\frac{r^4}{4}\right]_0^1 = \answer{1/4}$$
-
-\textbf{Outer integral (with respect to $\theta$):}
-$$\int_0^{2\pi} \frac{1}{4}\sin\theta\cos\theta\,d\theta = \frac{1}{4}\int_0^{2\pi} \frac{1}{2}\sin(2\theta)\,d\theta$$
-$$= \frac{1}{8}\left[-\frac{1}{2}\cos(2\theta)\right]_0^{2\pi} = \frac{1}{8} \cdot 0 = \answer{0}$$
-
-Why is the volume zero?
-\begin{multipleChoice}
-    \choice{We made a calculation error}
-    \choice[correct]{The function $xy$ is negative in two quadrants and positive in two quadrants, so they cancel}
-    \choice{The unit disk has zero area}
-\end{multipleChoice}
-
-\begin{feedback}
-The symmetry of $xy$ means equal positive and negative volumes that cancel! Polar coordinates made this much cleaner to compute.
-\end{feedback}
-\end{problem}
-
-\section*{Practice Problems}
-
-\begin{problem}
-Compute $\displaystyle\int_0^{\pi/2}\int_0^{\cos\theta} r^2\,dr\,d\theta$ in polar coordinates.
-
-\textbf{Inner integral:}
-$$\int_0^{\cos\theta} r^2\,dr = \left[\frac{r^3}{3}\right]_0^{\cos\theta} = \answer{\cos^3\theta / 3}$$
-
-\textbf{Outer integral:}
-$$\int_0^{\pi/2} \frac{\cos^3\theta}{3}\,d\theta = \frac{1}{3}\int_0^{\pi/2} \cos^3\theta\,d\theta$$
-
-Using $\cos^3\theta = \cos\theta(1-\sin^2\theta)$ and substitution $u = \sin\theta$:
-$$= \frac{1}{3}\left[\sin\theta - \frac{\sin^3\theta}{3}\right]_0^{\pi/2} = \frac{1}{3}\left(1 - \frac{1}{3}\right) = \answer{2/9}$$
-
-\begin{feedback}
-Great work! This integral computed the volume of a region bounded by a cosine curve in polar coordinates.
-\end{feedback}
-\end{problem}
-
-\begin{problem}
-Set up (but don't evaluate) the integral for the area of a circle of radius $R$ using polar coordinates.
-
-Area formula: $A = \iint_R dA$
-
-In polar: $A = \int_{\answer{0}}^{\answer{2\pi}}\int_{\answer{0}}^{\answer{R}} \answer{r}\,dr\,d\theta$
-
-Evaluating quickly:
-$$A = \int_0^{2\pi} \left[\frac{r^2}{2}\right]_0^R d\theta = \int_0^{2\pi} \frac{R^2}{2}\,d\theta = \frac{R^2}{2} \cdot 2\pi = \answer{\pi R^2}$$
-
-Does this match the familiar formula? \wordChoice{\choice[correct]{Yes!}\choice{No}}
-
-\begin{feedback}
-Perfect! Double integrals can compute areas (by integrating $f=1$), volumes (by integrating $f(x,y)$), and many other quantities!
-\end{feedback}
-\end{problem}
-
-\section*{Summary and Key Concepts}
-
-\begin{problem}
-Select all TRUE statements about double integrals:
-
-\begin{selectAll}
-    \choice[correct]{Double integrals sum over 2D regions}
-    \choice[correct]{Fubini's Theorem allows us to compute them as iterated integrals}
-    \choice{The order of integration always matters}
-    \choice[correct]{In polar coordinates, $dA = r\,dr\,d\theta$}
-    \choice[correct]{Polar coordinates simplify integrals over circular regions}
-    \choice{Every double integral represents a volume}
-    \choice[correct]{We can integrate to find areas, volumes, masses, and more}
-    \choice[correct]{For non-rectangular regions, bounds may depend on the other variable}
-\end{selectAll}
-
-\begin{feedback}
-Excellent! You've mastered the fundamentals of double integrals—a powerful tool for computing quantities over planar regions!
-\end{feedback}
-\end{problem}
 
 \end{document}

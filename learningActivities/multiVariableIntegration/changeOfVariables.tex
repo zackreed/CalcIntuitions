@@ -32,6 +32,138 @@ The derivative $g'(x)$ accounts for the ``stretching'' or ``compression'' when w
 \end{feedback}
 \end{problem}
 
+
+\section*{Polar Coordinates}
+
+For circular or radial regions, polar coordinates often simplify the integral dramatically.
+
+\begin{problem}
+Why use polar coordinates for integration?
+\begin{selectAll}
+    \choice[correct]{Circular regions have simpler bounds: $0 \leq r \leq R$, $0 \leq \theta \leq 2\pi$}
+    \choice{Polar coordinates always make integrals easier}
+    \choice[correct]{Functions with $x^2 + y^2$ simplify to $r^2$}
+    \choice[correct]{Radial symmetry becomes apparent}
+\end{selectAll}
+
+\begin{feedback}
+Polar coordinates are ideal when the region or function has circular/radial symmetry!
+\end{feedback}
+\end{problem}
+
+\subsection*{The Polar Area Element}
+
+\begin{problem}
+The key question: What is $dA$ in polar coordinates?
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Use the ``Shift Radius'' and ``Shift $\theta$'' sliders to move the area element $dA$ around. Check ``Show Volume'' to see the approximating cylinder. Use ``Zoom to Unit Circle'' and drag to view from above.
+\end{expandable}
+
+\begin{center}
+\geogebra{uucwvg4g}{740}{481}
+\end{center}
+
+The area element $dA$ is bounded between:
+\begin{itemize}
+    \item Circles of radius $r - \frac{dr}{2}$ and $r + \frac{dr}{2}$
+    \item Angles $\theta - \frac{d\theta}{2}$ and $\theta + \frac{d\theta}{2}$
+\end{itemize}
+
+The area of this annular sector is approximately:
+$$dA = \frac{d\theta}{2}(r+\frac{dr}{2})^2 - \frac{d\theta}{2}(r-\frac{dr}{2})^2$$
+
+After algebra, this simplifies to: $dA = \answer{r} \cdot dr \cdot d\theta$
+
+The extra factor $r$ is crucial! Without it:
+\begin{multipleChoice}
+    \choice{The integral would be easier}
+    \choice[correct]{We'd get the wrong answer}
+    \choice{Nothing would change}
+\end{multipleChoice}
+
+\begin{feedback}
+The polar area element is $dA = r\,dr\,d\theta$. That extra $r$ accounts for the curved geometry!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+\textbf{Heat Distribution in a Circular Plate}
+
+A circular metal plate of radius 3 meters has temperature $T(r,\theta) = 50 + 20\cos(2\theta)$ degrees Celsius, where $(r,\theta)$ are polar coordinates.
+
+The heat energy density (energy per unit area) is $E(r,\theta) = cT(r,\theta)$ where $c$ is a constant.
+
+\textbf{Construct the differential element carefully:}
+
+In polar coordinates, the area element is: $dA = \answer{r}\,dr\,d\theta$
+
+Why not just $dr\,d\theta$?
+\begin{multipleChoice}
+    \choice{It's a convention}
+    \choice{To make the integral harder}
+    \choice[correct]{The ``width'' of an angular slice is $r\,d\theta$, not $d\theta$}
+    \choice{It's only true for circles}
+\end{multipleChoice}
+
+The small heat energy is: $dE = E(r,\theta) \cdot dA = c(50 + 20\cos(2\theta)) \cdot \answer{r}\,dr\,d\theta$
+
+Total heat energy in the plate:
+$$E_{\text{total}} = \int_{\answer{0}}^{\answer{2\pi}} \int_{\answer{0}}^{\answer{3}} c(50 + 20\cos(2\theta)) \cdot r\,dr\,d\theta$$
+
+The temperature varies with $\theta$ but not $r$, meaning:
+\begin{multipleChoice}
+    \choice{The plate is hotter at the edge}
+    \choice[correct]{Temperature varies around the circle but is constant along any ray from the center}
+    \choice{The plate is uniformly heated}
+    \choice{There's an error in the problem}
+\end{multipleChoice}
+
+\begin{feedback}
+Great work! You recognized that in polar coordinates, the area element $dA = r\,dr\,d\theta$ accounts for the geometry. The factor of $r$ appears because angular slices get wider as you move away from the origin!
+\end{feedback}
+\end{problem}
+
+\subsection*{Polar Integral Example}
+
+\begin{problem}
+Let's integrate $f(x,y) = xy$ over the unit disk $x^2 + y^2 \leq 1$.
+
+\textbf{In rectangular coordinates (yuck!):}
+$$\int_{-1}^1\int_{-\sqrt{1-x^2}}^{\sqrt{1-x^2}} xy\,dy\,dx$$
+
+Those square root bounds are messy!
+
+\textbf{In polar coordinates:}
+\begin{itemize}
+    \item Region: $0 \leq r \leq \answer{1}$, $0 \leq \theta \leq \answer{2\pi}$
+    \item Function: $f(x,y) = xy = (r\cos\theta)(r\sin\theta) = \answer{r^2 \sin\theta \cos\theta}$
+    \item Area element: $dA = \answer{r}\,dr\,d\theta$
+\end{itemize}
+
+The integral becomes:
+$$V = \int_0^{2\pi}\int_0^1 r^2\sin\theta\cos\theta \cdot r\,dr\,d\theta = \int_0^{2\pi}\int_0^1 r^3\sin\theta\cos\theta\,dr\,d\theta$$
+
+\textbf{Inner integral (with respect to $r$):}
+$$\int_0^1 r^3\,dr = \left[\frac{r^4}{4}\right]_0^1 = \answer{1/4}$$
+
+\textbf{Outer integral (with respect to $\theta$):}
+$$\int_0^{2\pi} \frac{1}{4}\sin\theta\cos\theta\,d\theta = \frac{1}{4}\int_0^{2\pi} \frac{1}{2}\sin(2\theta)\,d\theta$$
+$$= \frac{1}{8}\left[-\frac{1}{2}\cos(2\theta)\right]_0^{2\pi} = \frac{1}{8} \cdot 0 = \answer{0}$$
+
+Why is the volume zero?
+\begin{multipleChoice}
+    \choice{We made a calculation error}
+    \choice[correct]{The function $xy$ is negative in two quadrants and positive in two quadrants, so they cancel}
+    \choice{The unit disk has zero area}
+\end{multipleChoice}
+
+\begin{feedback}
+The symmetry of $xy$ means equal positive and negative volumes that cancel! Polar coordinates made this much cleaner to compute.
+\end{feedback}
+\end{problem}
+
+
 \section*{Review: Polar Coordinates Revisited}
 
 Let's examine what happens when we transform from rectangular to polar coordinates.
@@ -72,489 +204,375 @@ The factor $r$ tells us how much a small area in the $r\theta$-plane expands or 
 \end{feedback}
 \end{problem}
 
-\section*{The General Problem}
+
+\section*{Practice Problems}
 
 \begin{problem}
-Consider a transformation $T$ from $uv$-coordinates to $xy$-coordinates:
-\begin{align*}
-x &= x(u,v)\\
-y &= y(u,v)
-\end{align*}
+Compute $\displaystyle\int_0^{\pi/2}\int_0^{\cos\theta} r^2\,dr\,d\theta$ in polar coordinates.
 
-We want to evaluate:
-$$\iint_R f(x,y)\,dx\,dy$$
+\textbf{Inner integral:}
+$$\int_0^{\cos\theta} r^2\,dr = \left[\frac{r^3}{3}\right]_0^{\cos\theta} = \answer{\cos^3\theta / 3}$$
 
-But the region $R$ is easier to describe in $uv$-coordinates!
+\textbf{Outer integral:}
+$$\int_0^{\pi/2} \frac{\cos^3\theta}{3}\,d\theta = \frac{1}{3}\int_0^{\pi/2} \cos^3\theta\,d\theta$$
 
-The transformation allows us to write:
-$$\iint_R f(x,y)\,dx\,dy = \iint_S f(x(u,v), y(u,v)) \cdot \answer{|J|} \,du\,dv$$
-
-where $|J|$ is the \wordChoice{\choice{derivative}\choice{partial derivative}\choice[correct]{Jacobian determinant}\choice{gradient}}.
+Using $\cos^3\theta = \cos\theta(1-\sin^2\theta)$ and substitution $u = \sin\theta$:
+$$= \frac{1}{3}\left[\sin\theta - \frac{\sin^3\theta}{3}\right]_0^{\pi/2} = \frac{1}{3}\left(1 - \frac{1}{3}\right) = \answer{2/9}$$
 
 \begin{feedback}
-The Jacobian determinant $|J|$ is the multivariable analog of $g'(x)$ from u-substitution!
+Great work! This integral computed the volume of a region bounded by a cosine curve in polar coordinates.
 \end{feedback}
 \end{problem}
 
-\section*{Visualizing Transformations}
-
 \begin{problem}
-A transformation $T: (u,v) \mapsto (x,y)$ can:
+Set up (but don't evaluate) the integral for the area of a circle of radius $R$ using polar coordinates.
+
+Area formula: $A = \iint_R dA$
+
+In polar: $A = \int_{\answer{0}}^{\answer{2\pi}}\int_{\answer{0}}^{\answer{R}} \answer{r}\,dr\,d\theta$
+
+Evaluating quickly:
+$$A = \int_0^{2\pi} \left[\frac{r^2}{2}\right]_0^R d\theta = \int_0^{2\pi} \frac{R^2}{2}\,d\theta = \frac{R^2}{2} \cdot 2\pi = \answer{\pi R^2}$$
+
+Does this match the familiar formula? \wordChoice{\choice[correct]{Yes!}\choice{No}}
+
+\begin{feedback}
+Perfect! Double integrals can compute areas (by integrating $f=1$), volumes (by integrating $f(x,y)$), and many other quantities!
+\end{feedback}
+\end{problem}
+
+
+\textbf{Mass of Fluid in a Rotating Container}
+
+A cylindrical container (radius 2 m, height 5 m) rotates, causing the fluid density to vary:
+$$\delta(r,z) = 1000 + 50r^2 - 20z \text{ kg/m}^3$$
+
+where $(r, \theta, z)$ are cylindrical coordinates.
+
+In cylindrical coordinates, the volume element is:
+$$dV = \answer{r}\,dr\,d\theta\,dz$$
+
+Why does $r$ appear here?
+\begin{multipleChoice}
+    \choice{It's always there in 3D}
+    \choice[correct]{The cylindrical shell at radius $r$ has circumference $2\pi r$, making volume proportional to $r$}
+    \choice{To account for rotation}
+    \choice{It's a mistake}
+\end{multipleChoice}
+
+The small mass element: $dM = \delta(r,z) \cdot dV = (1000 + 50r^2 - 20z) \cdot \answer{r}\,dr\,d\theta\,dz$
+
+The integral setup for total mass:
+$$M = \int_{\answer{0}}^{\answer{2\pi}} \int_{\answer{0}}^{\answer{5}} \int_{\answer{0}}^{\answer{2}} (1000 + 50r^2 - 20z) \cdot r\,dr\,dz\,d\theta$$
+
+Notice the density:
 \begin{selectAll}
-    \choice[correct]{Stretch regions}
-    \choice[correct]{Rotate regions}
-    \choice[correct]{Shear regions}
-    \choice[correct]{Change areas}
-    \choice{Create area from nothing}
+    \choice[correct]{Increases with distance from the axis (centrifugal effect)}
+    \choice[correct]{Decreases with height (pressure effect)}
+    \choice{Depends on angle $\theta$}
+    \choice[correct]{Is independent of angle (axial symmetry)}
 \end{selectAll}
 
-Example transformations:
-\begin{enumerate}
-    \item \textbf{Scaling:} $x = 2u$, $y = 3v$
-    
-    A $1 \times 1$ square in the $uv$-plane becomes a $\answer{2} \times \answer{3}$ rectangle in the $xy$-plane.
-    
-    The area scales by a factor of: $\answer{6}$
-    
-    \item \textbf{Rotation by $\pi/4$:} $x = \frac{u-v}{\sqrt{2}}$, $y = \frac{u+v}{\sqrt{2}}$
-    
-    Rotations preserve area: the scaling factor is $\answer{1}$
-    
-    \item \textbf{Polar:} $x = r\cos\theta$, $y = r\sin\theta$
-    
-    The scaling factor depends on position and equals: $\answer{r}$
-\end{enumerate}
-
 \begin{feedback}
-Different transformations affect areas differently! The Jacobian captures exactly how much the area changes.
+Perfect! You've unpacked $dM = \delta \cdot dV$ in cylindrical coordinates, recognizing that $dV = r\,dr\,d\theta\,dz$ reflects the geometry of cylindrical shells. The density function models realistic physical effects in a rotating container!
 \end{feedback}
 \end{problem}
 
-\section*{Worked Example: Linear Transformation}
+
+\section*{Application: Mass of 3D Objects}
 
 \begin{problem}
-Consider the transformation:
-\begin{align*}
-x &= 2u + v\\
-y &= u + 3v
-\end{align*}
+We'll work with two shapes with variable density:
 
-Let's compute the Jacobian step by step (we'll learn the formula in the next activity).
+\textbf{Shape 1 (Cone):} 
+\begin{itemize}
+    \item Height: 5 meters
+    \item Base radius: 4 meters
+    \item Density: $\delta = 3 + 2h$ kg/m$^3$, where $h$ is height from tip
+\end{itemize}
 
-The transformation maps the square $0 \leq u,v \leq 1$ to a parallelogram in the $xy$-plane.
+\textbf{Shape 2 (Sphere):}
+\begin{itemize}
+    \item Radius: 5 meters
+    \item Density: $\delta = 3 + 2\rho$ kg/m$^3$, where $\rho$ is distance from center
+\end{itemize}
 
-\textbf{Find the corners:}
-
-$(u,v) = (0,0) \mapsto (x,y) = (\answer{0}, \answer{0})$
-
-$(u,v) = (1,0) \mapsto (x,y) = (\answer{2}, \answer{1})$
-
-$(u,v) = (0,1) \mapsto (x,y) = (\answer{1}, \answer{3})$
-
-$(u,v) = (1,1) \mapsto (x,y) = (\answer{3}, \answer{4})$
-
-The Jacobian determinant for this linear transformation is $|J| = 5$.
-
-If we integrate $f(x,y) = 1$ over the parallelogram to find its area:
-$$\text{Area} = \iint_{\text{parallelogram}} dx\,dy = \int_0^1\int_0^1 |J|\,du\,dv = \int_0^1\int_0^1 5\,du\,dv = \answer{5}$$
-
-\begin{feedback}
-The Jacobian told us that the $1 \times 1$ square (area = 1) in the $uv$-plane maps to a parallelogram with area = 5 in the $xy$-plane!
-\end{feedback}
-\end{problem}
-
-\section*{Setting Up Integrals with Change of Variables}
-
-Here's an applet for reference
-
-% https://www.geogebra.org/m/bqqfyjdm
-% https://www.geogebra.org/m/sebfhwzx
-% https://www.geogebra.org/m/xqrs44yg
-% https://www.geogebra.org/m/hv9rk7hj
-% https://www.geogebra.org/m/sgevexqr
-% https://www.geogebra.org/m/yukegeqk
-% https://www.geogebra.org/m/rwjghwbb
-
-\begin{problem}
-To change variables in a double integral, follow these steps:
-
-\textbf{Step 1:} Identify the transformation
-$$x = x(u,v), \quad y = y(u,v)$$
-
-\textbf{Step 2:} Find the Jacobian determinant $|J|$
-
-\textbf{Step 3:} Express the function in new coordinates
-$$f(x,y) = f(x(u,v), y(u,v))$$
-
-\textbf{Step 4:} Determine the new bounds (region $S$ in $uv$-plane)
-
-\textbf{Step 5:} Write the transformed integral
-$$\iint_R f(x,y)\,dx\,dy = \iint_S f(x(u,v), y(u,v)) |J|\,du\,dv$$
-
-Which step is most critical?
+For the cone, which coordinate system is most natural?
 \begin{multipleChoice}
-    \choice{Step 1 - identifying the transformation}
-    \choice[correct]{Step 2 - computing the Jacobian (all steps are important!)}
-    \choice{Step 3 - substituting the function}
-    \choice{Step 4 - finding new bounds}
+    \choice{Rectangular $(x,y,z)$}
+    \choice[correct]{Cylindrical $(r,\theta,z)$}
+    \choice{Spherical $(\rho,\phi,\theta)$}
+\end{multipleChoice}
+
+For the sphere, which coordinate system is most natural?
+\begin{multipleChoice}
+    \choice{Rectangular $(x,y,z)$}
+    \choice{Cylindrical $(r,\theta,z)$}
+    \choice[correct]{Spherical $(\rho,\phi,\theta)$}
 \end{multipleChoice}
 
 \begin{feedback}
-Actually, all steps are crucial! Miss any one and the integral will be wrong. But the Jacobian is what makes the integral correct.
+Choose coordinates that match the geometry! Cones have circular cross-sections (cylindrical), spheres have radial symmetry (spherical).
 \end{feedback}
 \end{problem}
 
-\section*{Example: Ellipse to Circle}
+\begin{center}
+\geogebra{ssum9mnc}{885}{543}
+\end{center}
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+\begin{itemize}
+    \item Check ``Show Cone'' or ``Show Sphere'' to view each shape
+    \item Drag the 3D view to rotate; scroll to zoom
+    \item Use ``Zoom Out'' for global view, ``Zoom In'' for detail
+    \item Adjust sliders to move the volume element $dV$
+    \item Observe how $dV$ changes position in cylindrical (cone) or spherical (sphere) coordinates
+\end{itemize}
+\end{expandable}
 
 \begin{problem}
-Integrate $f(x,y) = 1$ over the ellipse $\frac{x^2}{4} + y^2 \leq 1$.
+\textbf{Part A: Finding Mass}
 
-\textbf{Bad approach:} Use rectangular coordinates directly. The bounds are messy!
+For the cone with density $\delta = 3 + 2z$ (where $z$ is height from tip):
 
-\textbf{Better approach:} Transform the ellipse to a circle.
+In cylindrical coordinates, the volume element is: $dV = \answer{r}\,dr\,d\theta\,dz$
 
-Define: $u = \frac{x}{2}$, $v = y$
+The mass element is: $dM = \delta \cdot dV = (3 + 2z) \cdot \answer{r}\,dr\,d\theta\,dz$
 
-Then: $x = \answer{2u}$, $y = \answer{v}$
+At height $z$, the cone's radius varies. If the base has radius 4 m at height 5 m, then at height $z$:
+$$r_{\text{max}}(z) = \frac{4z}{5}$$
 
-The ellipse becomes: $u^2 + v^2 \leq \answer{1}$ (a unit circle!)
-
-Now we can use polar: $u = r\cos\theta$, $v = r\sin\theta$
-
-Chain the transformations:
-\begin{align*}
-x &= 2u = 2r\cos\theta\\
-y &= v = r\sin\theta
-\end{align*}
-
-The combined Jacobian is: $|J| = 2r$ (we'll verify this in the next activity)
-
-The integral becomes:
-$$\text{Area} = \int_0^{2\pi}\int_0^1 2r\,dr\,d\theta$$
-
-Evaluate:
-$$= \int_0^{2\pi} \left[\answer{r^2}\right]_0^1 d\theta = \int_0^{2\pi} 1\,d\theta = \answer{2\pi}$$
-
-This is the area of an ellipse with semi-axes $a=2, b=1$: Area $= \pi ab = \pi(2)(1) = 2\pi$ \checkmark
+The mass integral setup is:
+$$M = \int_0^{\answer{2\pi}} \int_0^{\answer{5}} \int_0^{4z/5} (3+2z) \cdot r\,dr\,dz\,d\theta$$
 
 \begin{feedback}
-By transforming to simpler coordinates, we turned a difficult integral into an easy one!
+Setting up the integral requires understanding the geometry and choosing bounds carefully!
 \end{feedback}
 \end{problem}
 
-\section*{Triple Integrals: Cylindrical Coordinates}
+
+\section*{Cylindrical Coordinates}
+
+For regions with cylindrical symmetry (cylinders, cones), cylindrical coordinates simplify the integral.
+
+\begin{definition}
+\textbf{Cylindrical coordinates} $(r, \theta, z)$ extend polar coordinates into 3D:
+\begin{itemize}
+    \item $x = r\cos\theta$
+    \item $y = r\sin\theta$
+    \item $z = z$
+\end{itemize}
+
+The volume element is: $dV = r\,dr\,d\theta\,dz$
+\end{definition}
 
 \begin{problem}
-For cylindrical coordinates:
-\begin{align*}
-x &= r\cos\theta\\
-y &= r\sin\theta\\
-z &= z
-\end{align*}
+Cylindrical coordinates are built from:
+\begin{selectAll}
+    \choice[correct]{Polar coordinates $(r,\theta)$ in the $xy$-plane}
+    \choice[correct]{Height $z$ perpendicular to the plane}
+    \choice{Spherical shells}
+    \choice[correct]{The familiar extra factor of $r$ from polar integrals}
+\end{selectAll}
 
-The volume element transforms as:
-$$dV = dx\,dy\,dz = \answer{r}\,dr\,d\theta\,dz$$
-
-This is really just:
+The volume element $dV = r\,dr\,d\theta\,dz$ comes from:
 \begin{multipleChoice}
-    \choice{A random formula}
-    \choice[correct]{Polar in the $xy$-plane, times $dz$ for height}
-    \choice{Spherical coordinates}
+    \choice{Multiplying all three differentials}
+    \choice[correct]{Taking a polar area element $dA = r\,dr\,d\theta$ and extending it by height $dz$}
+    \choice{Spherical geometry}
 \end{multipleChoice}
 
-Evaluate: $\displaystyle\iiint_E z\,dV$ where $E$ is the cylinder $x^2 + y^2 \leq 4$, $0 \leq z \leq 3$.
+\begin{feedback}
+Cylindrical coordinates = polar coordinates + vertical height! The volume element is literally $(r\,dr\,d\theta) \times dz$.
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Explore cylindrical coordinates visually.
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Select ``Show Cylinder'' view. Use sliders to change $r$, $\theta$, and $z$. Click ``Zoom to Volume Element'' to see the small piece $dV = r\,dr\,d\theta\,dz$.
+\end{expandable}
+
+\begin{center}
+\geogebra{xqrs44yg}{750}{675}
+\end{center}
+
+As you vary $r$, $\theta$, $z$, observe:
+\begin{selectAll}
+    \choice[correct]{$r$ controls distance from the $z$-axis}
+    \choice[correct]{$\theta$ controls rotation around the $z$-axis}
+    \choice[correct]{$z$ controls height}
+    \choice{The volume element shape is always a cube}
+\end{selectAll}
+
+\begin{feedback}
+The volume element in cylindrical coordinates is a tiny curved box that fits the cylindrical geometry!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Find the volume of a cylinder of radius $R$ and height $H$.
 
 In cylindrical coordinates:
 \begin{itemize}
-    \item $0 \leq r \leq \answer{2}$
+    \item $0 \leq r \leq \answer{R}$
     \item $0 \leq \theta \leq \answer{2\pi}$
-    \item $0 \leq z \leq \answer{3}$
+    \item $0 \leq z \leq \answer{H}$
 \end{itemize}
 
-$$\iiint_E z\,dV = \int_0^{2\pi}\int_0^2\int_0^3 z \cdot r\,dz\,dr\,d\theta$$
+$$V = \int_0^{2\pi}\int_0^R\int_0^H r\,dz\,dr\,d\theta$$
 
-Evaluate from inside out:
-$$\int_0^3 z\,dz = \left[\frac{z^2}{2}\right]_0^3 = \answer{9/2}$$
+\textbf{Inner integral:}
+$$\int_0^H r\,dz = r \cdot H = \answer{rH}$$
 
-$$\int_0^2 \frac{9r}{2}\,dr = \frac{9}{2}\left[\frac{r^2}{2}\right]_0^2 = \frac{9}{2} \cdot 2 = \answer{9}$$
+\textbf{Middle integral:}
+$$\int_0^R rH\,dr = H \left[\frac{r^2}{2}\right]_0^R = \answer{HR^2/2}$$
 
-$$\int_0^{2\pi} 9\,d\theta = 9 \cdot 2\pi = \answer{18\pi}$$
+\textbf{Outer integral:}
+$$\int_0^{2\pi} \frac{HR^2}{2}\,d\theta = \frac{HR^2}{2} \cdot 2\pi = \answer{\pi R^2 H}$$
+
+Does this match the familiar cylinder volume formula? \wordChoice{\choice[correct]{Yes!}\choice{No}}
 
 \begin{feedback}
-Cylindrical coordinates turned this into a straightforward computation with constant bounds!
+Perfect! Cylindrical coordinates make this integral trivial with constant bounds.
 \end{feedback}
 \end{problem}
 
-\section*{Triple Integrals: Spherical Coordinates}
+\section*{Spherical Coordinates}
+
+For regions with spherical symmetry (spheres, cones), spherical coordinates are ideal.
+
+\begin{definition}
+\textbf{Spherical coordinates} $(\rho, \phi, \theta)$ describe a point by:
+\begin{itemize}
+    \item $\rho$ = distance from origin
+    \item $\phi$ = angle down from positive $z$-axis
+    \item $\theta$ = angle of rotation around $z$-axis (same as in cylindrical)
+\end{itemize}
+
+Conversion formulas:
+\begin{itemize}
+    \item $x = \rho\sin\phi\cos\theta$
+    \item $y = \rho\sin\phi\sin\theta$
+    \item $z = \rho\cos\phi$
+\end{itemize}
+
+The volume element is: $dV = \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$
+\end{definition}
 
 \begin{problem}
-For spherical coordinates:
-\begin{align*}
-x &= \rho\sin\phi\cos\theta\\
-y &= \rho\sin\phi\sin\theta\\
-z &= \rho\cos\phi
-\end{align*}
+The spherical volume element $dV = \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$ has:
 
-The volume element is:
-$$dV = dx\,dy\,dz = \answer{\rho^2\sin\phi}\,d\rho\,d\phi\,d\theta$$
+An extra factor of $\rho^2$: \wordChoice{\choice[correct]{Yes}\choice{No}}
 
-The Jacobian $\rho^2\sin\phi$ accounts for:
+An extra factor of $\sin\phi$: \wordChoice{\choice[correct]{Yes}\choice{No}}
+
+These factors account for:
+\begin{multipleChoice}
+    \choice{Mathematical complexity}
+    \choice[correct]{The geometry of spherical shells and how they expand with radius}
+    \choice{Random constants}
+\end{multipleChoice}
+
+\begin{feedback}
+The $\rho^2\sin\phi$ factor is crucial! It accounts for how spherical volume elements grow with radius and latitude.
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Explore spherical coordinates visually.
+
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Select ``Show Sphere'' view. Use sliders for $\rho$, $\phi$, $\theta$. Zoom to see the volume element shape—it's like a tiny curved box on a sphere!
+\end{expandable}
+
+\begin{center}
+\geogebra{xqrs44yg}{750}{675}
+\end{center}
+
+In spherical coordinates:
 \begin{selectAll}
-    \choice[correct]{How spherical shells expand with radius}
-    \choice[correct]{The latitude effect (circles are smaller near poles)}
-    \choice{Random factors}
-    \choice[correct]{The geometry of spherical coordinates}
+    \choice[correct]{$\rho$ measures distance from origin}
+    \choice[correct]{$\phi$ measures angle from the positive $z$-axis (colatitude)}
+    \choice[correct]{$\theta$ measures rotation around $z$-axis (azimuth)}
+    \choice{All angles range from $0$ to $2\pi$}
 \end{selectAll}
 
-Find the volume of a cone: $z \geq \sqrt{x^2+y^2}$, $0 \leq z \leq 1$.
-
-In spherical coordinates, $z = \rho\cos\phi$ and $\sqrt{x^2+y^2} = \rho\sin\phi$.
-
-The condition $z \geq \sqrt{x^2+y^2}$ becomes:
-$$\rho\cos\phi \geq \rho\sin\phi \Rightarrow \cos\phi \geq \sin\phi$$
-
-This is satisfied when $\phi \leq \answer{\pi/4}$ (the cone angle from the $z$-axis).
-
-The condition $0 \leq z \leq 1$ with $z = \rho\cos\phi$ gives $\rho \leq \frac{1}{\cos\phi}$ (for $\phi \leq \pi/4$).
-
-Bounds:
+Typical ranges are:
 \begin{itemize}
-    \item $0 \leq \rho \leq \frac{1}{\cos\phi}$
-    \item $0 \leq \phi \leq \pi/4$
-    \item $0 \leq \theta \leq 2\pi$
-\end{itemize}
-
-$$V = \int_0^{2\pi}\int_0^{\pi/4}\int_0^{1/\cos\phi} \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$$
-
-This evaluates to $V = \frac{\pi(2-\sqrt{2})}{3}$ (computation omitted).
-
-\begin{feedback}
-Spherical coordinates naturally describe cones and spheres with their radial and angular structure!
-\end{feedback}
-\end{problem}
-
-\section*{When to Change Variables}
-
-\begin{problem}
-Consider changing variables when:
-\begin{selectAll}
-    \choice[correct]{The region has circular, cylindrical, or spherical symmetry}
-    \choice[correct]{The function simplifies in other coordinates ($x^2+y^2$ suggests polar)}
-    \choice[correct]{The bounds become constants in new coordinates}
-    \choice[correct]{An ellipse can be transformed to a circle}
-    \choice{You want to make the problem harder}
-    \choice[correct]{The Jacobian is easy to compute}
-\end{selectAll}
-
-Match the coordinate system to the region:
-
-\textbf{1. Cylinder $x^2+y^2 \leq R^2$, $0 \leq z \leq H$:}
-\wordChoice{\choice{Rectangular}\choice[correct]{Cylindrical}\choice{Spherical}}
-
-\textbf{2. Sphere $x^2+y^2+z^2 \leq R^2$:}
-\wordChoice{\choice{Rectangular}\choice{Cylindrical}\choice[correct]{Spherical}}
-
-\textbf{3. Rectangle $0 \leq x \leq a$, $0 \leq y \leq b$:}
-\wordChoice{\choice[correct]{Rectangular}\choice{Cylindrical}\choice{Spherical}}
-
-\textbf{4. Disk $x^2+y^2 \leq R^2$:}
-\wordChoice{\choice{Rectangular}\choice[correct]{Polar}\choice{Spherical}}
-
-\begin{feedback}
-Match the coordinate system to the geometry! This is the key to simplifying integrals.
-\end{feedback}
-\end{problem}
-
-\section*{Converting Between Coordinate Systems}
-
-\begin{problem}
-\textbf{From Cylindrical to Spherical Coordinates}
-
-Sometimes a problem is initially set up in one coordinate system but would be simpler in another!
-
-Consider the integral in cylindrical coordinates:
-$$I = \int_0^{2\pi} \int_0^{\pi/4} \int_0^{2\cos z} r\sqrt{r^2+z^2}\,dr\,dz\,d\theta$$
-
-The region is complicated in cylindrical coordinates. Let's analyze it:
-\begin{itemize}
-    \item The bound $0 \leq r \leq 2\cos z$ suggests the radius depends on height
-    \item The expression $\sqrt{r^2+z^2}$ appears—this is the distance from the origin!
-\end{itemize}
-
-In cylindrical coordinates: $r$ (radial from $z$-axis), $\theta$ (angle), $z$ (height)
-
-In spherical coordinates: $\rho$ (distance from origin), $\phi$ (angle from $z$-axis), $\theta$ (azimuthal angle)
-
-The relationship between systems:
-\begin{align*}
-r &= \rho\sin\phi\\
-z &= \rho\cos\phi\\
-\theta &= \theta
-\end{align*}
-
-Importantly: $r^2 + z^2 = \rho^2\sin^2\phi + \rho^2\cos^2\phi = \answer{\rho^2}$
-
-So $\sqrt{r^2+z^2} = \answer{\rho}$ (assuming $\rho \geq 0$)
-
-The integrand simplifies: $r\sqrt{r^2+z^2} = (\rho\sin\phi)(\rho) = \answer{\rho^2\sin\phi}$
-
-\textbf{Converting the bounds:}
-
-The upper bound $r = 2\cos z$ becomes:
-$$\rho\sin\phi = 2\cos(\rho\cos\phi)$$
-
-Wait, this is messy! Let's reconsider the region description.
-
-Actually, for $0 \leq z \leq \pi/4$ and $0 \leq r \leq 2\cos z$, as $z$ increases from 0 to $\pi/4$:
-\begin{itemize}
-    \item When $z = 0$: $r$ can be from 0 to $2\cos(0) = 2$
-    \item When $z = \pi/4$: $r$ can be from 0 to $2\cos(\pi/4) = \sqrt{2}$
-\end{itemize}
-
-In spherical coordinates, $\phi$ is angle from the $z$-axis, so:
-\begin{itemize}
-    \item $0 \leq \phi \leq \answer{\pi/4}$ (covers the cone-like region)
-    \item $0 \leq \rho \leq \answer{2}$ (maximum radius)
+    \item $\rho \geq 0$
+    \item $0 \leq \phi \leq \answer{\pi}$ (from north pole to south pole)
     \item $0 \leq \theta \leq \answer{2\pi}$ (full rotation)
 \end{itemize}
 
-The volume element transforms: $r\,dr\,dz\,d\theta \to \answer{\rho^2\sin\phi}\,d\rho\,d\phi\,d\theta$
-
-The integral becomes:
-$$I = \int_0^{2\pi} \int_0^{\pi/4} \int_0^{2} \rho^2\sin\phi \cdot \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$$
-
-Simplifying: $\rho^2\sin\phi \cdot \rho^2\sin\phi = \answer{\rho^4\sin^2\phi}$
-
-$$I = \int_0^{2\pi} \int_0^{\pi/4} \int_0^{2} \rho^4\sin^2\phi\,d\rho\,d\phi\,d\theta$$
-
-This is much easier to evaluate! The bounds are constants, and the integrand separates nicely.
-
 \begin{feedback}
-Converting between coordinate systems requires understanding how the variables relate and how volume elements transform. The key insight was recognizing that $\sqrt{r^2+z^2} = \rho$ in spherical coordinates, which simplified the integrand dramatically!
+Spherical coordinates are perfect for spheres, cones, and any geometry with radial symmetry!
 \end{feedback}
 \end{problem}
 
 \begin{problem}
-\textbf{Another Example: Ice Cream Cone}
+Find the volume of a sphere of radius $R$.
 
-Evaluate the mass of an ``ice cream cone'' region:
-\begin{itemize}
-    \item Below the hemisphere $z = \sqrt{4 - x^2 - y^2}$ (radius 2, centered at origin)
-    \item Above the cone $z = \sqrt{x^2+y^2}$
-    \item With density $\delta = z$
-\end{itemize}
+In spherical coordinates, the sphere is simply: $0 \leq \rho \leq \answer{R}$
 
-This is initially in rectangular coordinates. Let's try cylindrical first:
+Full angular coverage: $0 \leq \phi \leq \answer{\pi}$, $0 \leq \theta \leq \answer{2\pi}$
 
-In cylindrical: $x^2+y^2 = r^2$, so:
-\begin{itemize}
-    \item Hemisphere: $z = \sqrt{4-r^2}$
-    \item Cone: $z = r$
-\end{itemize}
+$$V = \int_0^{2\pi}\int_0^{\pi}\int_0^R \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$$
 
-The cone and hemisphere intersect when:
-$$r = \sqrt{4-r^2} \implies r^2 = 4-r^2 \implies 2r^2 = 4 \implies r = \answer{\sqrt{2}}$$
+\textbf{Inner integral (w.r.t. $\rho$):}
+$$\int_0^R \rho^2\,d\rho = \left[\frac{\rho^3}{3}\right]_0^R = \answer{R^3/3}$$
 
-In cylindrical coordinates:
-$$M = \int_0^{2\pi} \int_0^{\sqrt{2}} \int_r^{\sqrt{4-r^2}} z \cdot r\,dz\,dr\,d\theta$$
+\textbf{Middle integral (w.r.t. $\phi$):}
+$$\int_0^{\pi} \frac{R^3}{3}\sin\phi\,d\phi = \frac{R^3}{3}[-\cos\phi]_0^{\pi} = \frac{R^3}{3}[1-(-1)] = \answer{2R^3/3}$$
 
-The $z$-integral is: $\int_r^{\sqrt{4-r^2}} z\,dz = \left[\frac{z^2}{2}\right]_r^{\sqrt{4-r^2}} = \frac{4-r^2}{2} - \frac{r^2}{2} = \answer{2-r^2}$
+\textbf{Outer integral (w.r.t. $\theta$):}
+$$\int_0^{2\pi} \frac{2R^3}{3}\,d\theta = \frac{2R^3}{3} \cdot 2\pi = \answer{4\pi R^3/3}$$
 
-But what if we use spherical coordinates instead?
+This is the familiar sphere volume formula: $V = \frac{4}{3}\pi R^3$! \wordChoice{\choice[correct]{Correct!}\choice{Incorrect}}
 
-In spherical coordinates:
-\begin{itemize}
-    \item The hemisphere is simply: $\rho = \answer{2}$
-    \item The cone $z = \sqrt{x^2+y^2}$ becomes: $\rho\cos\phi = \rho\sin\phi$, so $\tan\phi = 1$, giving $\phi = \answer{\pi/4}$
-\end{itemize}
+\begin{feedback}
+Spherical coordinates make the sphere volume calculation elegant with simple constant bounds!
+\end{feedback}
+\end{problem}
 
-The density $\delta = z = \rho\cos\phi$
+\section*{Choosing the Right Coordinate System}
 
-In spherical:
-$$M = \int_0^{2\pi} \int_0^{\pi/4} \int_0^{2} (\rho\cos\phi) \cdot \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$$
+\begin{problem}
+Match each region type with the best coordinate system:
 
-$$= \int_0^{2\pi} d\theta \int_0^{\pi/4} \cos\phi\sin\phi\,d\phi \int_0^{2} \rho^3\,d\rho$$
-
-Which coordinate system is easier here?
+For a cylinder aligned with the $z$-axis:
 \begin{multipleChoice}
-    \choice{Cylindrical - the bounds are more familiar}
-    \choice[correct]{Spherical - the bounds are constants and the integral separates}
-    \choice{Rectangular - it's always safest}
-    \choice{They're equally difficult}
+    \choice{Rectangular}
+    \choice[correct]{Cylindrical}
+    \choice{Spherical}
 \end{multipleChoice}
 
-The spherical integral separates into three independent integrals:
-\begin{itemize}
-    \item $\int_0^{2\pi} d\theta = \answer{2\pi}$
-    \item $\int_0^{\pi/4} \cos\phi\sin\phi\,d\phi = \int_0^{\pi/4} \frac{1}{2}\sin(2\phi)\,d\phi = \answer{1/4}$
-    \item $\int_0^{2} \rho^3\,d\rho = \left[\frac{\rho^4}{4}\right]_0^2 = \answer{4}$
-\end{itemize}
-
-Total mass: $M = 2\pi \cdot \frac{1}{4} \cdot 4 = \answer{2\pi}$
-
-\begin{feedback}
-Excellent! The spherical coordinate system matched the geometry perfectly—both the hemisphere and cone had simple descriptions, and the integral separated into three easy pieces. This demonstrates the power of choosing the right coordinate system!
-\end{feedback}
-\end{problem}
-
-\section*{Summary of Coordinate Transformations}
-
-\begin{problem}
-Complete the transformation summary:
-
-\textbf{Polar Coordinates:}
-\begin{itemize}
-    \item Transformation: $x = r\cos\theta$, $y = r\sin\theta$
-    \item Jacobian: $|J| = \answer{r}$
-    \item Element: $dA = \answer{r\,dr\,d\theta}$
-\end{itemize}
-
-\textbf{Cylindrical Coordinates:}
-\begin{itemize}
-    \item Transformation: $x = r\cos\theta$, $y = r\sin\theta$, $z = z$
-    \item Jacobian: $|J| = \answer{r}$
-    \item Element: $dV = \answer{r\,dr\,d\theta\,dz}$
-\end{itemize}
-
-\textbf{Spherical Coordinates:}
-\begin{itemize}
-    \item Transformation: $x = \rho\sin\phi\cos\theta$, $y = \rho\sin\phi\sin\theta$, $z = \rho\cos\phi$
-    \item Jacobian: $|J| = \answer{\rho^2\sin\phi}$
-    \item Element: $dV = \answer{\rho^2\sin\phi\,d\rho\,d\phi\,d\theta}$
-\end{itemize}
-
-The Jacobian in each case tells us:
+For a sphere centered at the origin:
 \begin{multipleChoice}
-    \choice{The function value}
-    \choice[correct]{How volume elements scale under the transformation}
-    \choice{The bounds of integration}
-    \choice{The region shape}
+    \choice{Rectangular}
+    \choice{Cylindrical}
+    \choice[correct]{Spherical}
+\end{multipleChoice}
+
+For a rectangular box:
+\begin{multipleChoice}
+    \choice[correct]{Rectangular}
+    \choice{Cylindrical}
+    \choice{Spherical}
+\end{multipleChoice}
+
+For a cone:
+\begin{multipleChoice}
+    \choice{Rectangular}
+    \choice{Cylindrical}
+    \choice[correct]{Either cylindrical or spherical work well}
 \end{multipleChoice}
 
 \begin{feedback}
-These standard transformations and their Jacobians should be memorized—they appear constantly in applications!
+Choose coordinates that match your region's symmetry! This makes bounds simpler and integrals easier to evaluate.
 \end{feedback}
 \end{problem}
 
-\section*{Final Practice}
-
-\begin{problem}
-Select all TRUE statements about changing variables:
-
-\begin{selectAll}
-    \choice[correct]{The Jacobian accounts for how areas/volumes change}
-    \choice[correct]{Change of variables extends u-substitution to multiple dimensions}
-    \choice{The Jacobian is always 1}
-    \choice[correct]{Polar, cylindrical, and spherical are the most common transformations}
-    \choice[correct]{Good coordinate choice simplifies both bounds and integrands}
-    \choice{You can ignore the Jacobian if the transformation is simple}
-    \choice[correct]{The Jacobian can be computed using partial derivatives}
-    \choice[correct]{Linear transformations have constant Jacobians}
-\end{selectAll}
-
-\begin{feedback}
-Perfect! In the next activity, we'll learn exactly how to compute the Jacobian determinant for any transformation.
-\end{feedback}
-\end{problem}
 
 \end{document}

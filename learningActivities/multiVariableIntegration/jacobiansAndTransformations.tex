@@ -9,6 +9,494 @@ In this activity we learn how to compute the Jacobian determinant for coordinate
 \end{abstract}
 \maketitle
 
+
+
+\section*{The General Problem}
+
+\begin{problem}
+Consider a transformation $T$ from $uv$-coordinates to $xy$-coordinates:
+\begin{align*}
+x &= x(u,v)\\
+y &= y(u,v)
+\end{align*}
+
+We want to evaluate:
+$$\iint_R f(x,y)\,dx\,dy$$
+
+But the region $R$ is easier to describe in $uv$-coordinates!
+
+The transformation allows us to write:
+$$\iint_R f(x,y)\,dx\,dy = \iint_S f(x(u,v), y(u,v)) \cdot \answer{|J|} \,du\,dv$$
+
+where $|J|$ is the \wordChoice{\choice{derivative}\choice{partial derivative}\choice[correct]{Jacobian determinant}\choice{gradient}}.
+
+\begin{feedback}
+The Jacobian determinant $|J|$ is the multivariable analog of $g'(x)$ from u-substitution!
+\end{feedback}
+\end{problem}
+
+\section*{Visualizing Transformations}
+
+\begin{problem}
+A transformation $T: (u,v) \mapsto (x,y)$ can:
+\begin{selectAll}
+    \choice[correct]{Stretch regions}
+    \choice[correct]{Rotate regions}
+    \choice[correct]{Shear regions}
+    \choice[correct]{Change areas}
+    \choice{Create area from nothing}
+\end{selectAll}
+
+Example transformations:
+\begin{enumerate}
+    \item \textbf{Scaling:} $x = 2u$, $y = 3v$
+    
+    A $1 \times 1$ square in the $uv$-plane becomes a $\answer{2} \times \answer{3}$ rectangle in the $xy$-plane.
+    
+    The area scales by a factor of: $\answer{6}$
+    
+    \item \textbf{Rotation by $\pi/4$:} $x = \frac{u-v}{\sqrt{2}}$, $y = \frac{u+v}{\sqrt{2}}$
+    
+    Rotations preserve area: the scaling factor is $\answer{1}$
+    
+    \item \textbf{Polar:} $x = r\cos\theta$, $y = r\sin\theta$
+    
+    The scaling factor depends on position and equals: $\answer{r}$
+\end{enumerate}
+
+\begin{feedback}
+Different transformations affect areas differently! The Jacobian captures exactly how much the area changes.
+\end{feedback}
+\end{problem}
+
+\section*{Worked Example: Linear Transformation}
+
+\begin{problem}
+Consider the transformation:
+\begin{align*}
+x &= 2u + v\\
+y &= u + 3v
+\end{align*}
+
+Let's compute the Jacobian step by step (we'll learn the formula in the next activity).
+
+The transformation maps the square $0 \leq u,v \leq 1$ to a parallelogram in the $xy$-plane.
+
+\textbf{Find the corners:}
+
+$(u,v) = (0,0) \mapsto (x,y) = (\answer{0}, \answer{0})$
+
+$(u,v) = (1,0) \mapsto (x,y) = (\answer{2}, \answer{1})$
+
+$(u,v) = (0,1) \mapsto (x,y) = (\answer{1}, \answer{3})$
+
+$(u,v) = (1,1) \mapsto (x,y) = (\answer{3}, \answer{4})$
+
+The Jacobian determinant for this linear transformation is $|J| = 5$.
+
+If we integrate $f(x,y) = 1$ over the parallelogram to find its area:
+$$\text{Area} = \iint_{\text{parallelogram}} dx\,dy = \int_0^1\int_0^1 |J|\,du\,dv = \int_0^1\int_0^1 5\,du\,dv = \answer{5}$$
+
+\begin{feedback}
+The Jacobian told us that the $1 \times 1$ square (area = 1) in the $uv$-plane maps to a parallelogram with area = 5 in the $xy$-plane!
+\end{feedback}
+\end{problem}
+
+\section*{Setting Up Integrals with Change of Variables}
+
+Here's an applet for reference
+
+% https://www.geogebra.org/m/bqqfyjdm
+% https://www.geogebra.org/m/sebfhwzx
+% https://www.geogebra.org/m/xqrs44yg
+% https://www.geogebra.org/m/hv9rk7hj
+% https://www.geogebra.org/m/sgevexqr
+% https://www.geogebra.org/m/yukegeqk
+% https://www.geogebra.org/m/rwjghwbb
+
+\begin{problem}
+To change variables in a double integral, follow these steps:
+
+\textbf{Step 1:} Identify the transformation
+$$x = x(u,v), \quad y = y(u,v)$$
+
+\textbf{Step 2:} Find the Jacobian determinant $|J|$
+
+\textbf{Step 3:} Express the function in new coordinates
+$$f(x,y) = f(x(u,v), y(u,v))$$
+
+\textbf{Step 4:} Determine the new bounds (region $S$ in $uv$-plane)
+
+\textbf{Step 5:} Write the transformed integral
+$$\iint_R f(x,y)\,dx\,dy = \iint_S f(x(u,v), y(u,v)) |J|\,du\,dv$$
+
+Which step is most critical?
+\begin{multipleChoice}
+    \choice{Step 1 - identifying the transformation}
+    \choice[correct]{Step 2 - computing the Jacobian (all steps are important!)}
+    \choice{Step 3 - substituting the function}
+    \choice{Step 4 - finding new bounds}
+\end{multipleChoice}
+
+\begin{feedback}
+Actually, all steps are crucial! Miss any one and the integral will be wrong. But the Jacobian is what makes the integral correct.
+\end{feedback}
+\end{problem}
+
+\section*{Example: Ellipse to Circle}
+
+\begin{problem}
+Integrate $f(x,y) = 1$ over the ellipse $\frac{x^2}{4} + y^2 \leq 1$.
+
+\textbf{Bad approach:} Use rectangular coordinates directly. The bounds are messy!
+
+\textbf{Better approach:} Transform the ellipse to a circle.
+
+Define: $u = \frac{x}{2}$, $v = y$
+
+Then: $x = \answer{2u}$, $y = \answer{v}$
+
+The ellipse becomes: $u^2 + v^2 \leq \answer{1}$ (a unit circle!)
+
+Now we can use polar: $u = r\cos\theta$, $v = r\sin\theta$
+
+Chain the transformations:
+\begin{align*}
+x &= 2u = 2r\cos\theta\\
+y &= v = r\sin\theta
+\end{align*}
+
+The combined Jacobian is: $|J| = 2r$ (we'll verify this in the next activity)
+
+The integral becomes:
+$$\text{Area} = \int_0^{2\pi}\int_0^1 2r\,dr\,d\theta$$
+
+Evaluate:
+$$= \int_0^{2\pi} \left[\answer{r^2}\right]_0^1 d\theta = \int_0^{2\pi} 1\,d\theta = \answer{2\pi}$$
+
+This is the area of an ellipse with semi-axes $a=2, b=1$: Area $= \pi ab = \pi(2)(1) = 2\pi$ \checkmark
+
+\begin{feedback}
+By transforming to simpler coordinates, we turned a difficult integral into an easy one!
+\end{feedback}
+\end{problem}
+
+\section*{Triple Integrals: Cylindrical Coordinates}
+
+\begin{problem}
+For cylindrical coordinates:
+\begin{align*}
+x &= r\cos\theta\\
+y &= r\sin\theta\\
+z &= z
+\end{align*}
+
+The volume element transforms as:
+$$dV = dx\,dy\,dz = \answer{r}\,dr\,d\theta\,dz$$
+
+This is really just:
+\begin{multipleChoice}
+    \choice{A random formula}
+    \choice[correct]{Polar in the $xy$-plane, times $dz$ for height}
+    \choice{Spherical coordinates}
+\end{multipleChoice}
+
+Evaluate: $\displaystyle\iiint_E z\,dV$ where $E$ is the cylinder $x^2 + y^2 \leq 4$, $0 \leq z \leq 3$.
+
+In cylindrical coordinates:
+\begin{itemize}
+    \item $0 \leq r \leq \answer{2}$
+    \item $0 \leq \theta \leq \answer{2\pi}$
+    \item $0 \leq z \leq \answer{3}$
+\end{itemize}
+
+$$\iiint_E z\,dV = \int_0^{2\pi}\int_0^2\int_0^3 z \cdot r\,dz\,dr\,d\theta$$
+
+Evaluate from inside out:
+$$\int_0^3 z\,dz = \left[\frac{z^2}{2}\right]_0^3 = \answer{9/2}$$
+
+$$\int_0^2 \frac{9r}{2}\,dr = \frac{9}{2}\left[\frac{r^2}{2}\right]_0^2 = \frac{9}{2} \cdot 2 = \answer{9}$$
+
+$$\int_0^{2\pi} 9\,d\theta = 9 \cdot 2\pi = \answer{18\pi}$$
+
+\begin{feedback}
+Cylindrical coordinates turned this into a straightforward computation with constant bounds!
+\end{feedback}
+\end{problem}
+
+\section*{Triple Integrals: Spherical Coordinates}
+
+\begin{problem}
+For spherical coordinates:
+\begin{align*}
+x &= \rho\sin\phi\cos\theta\\
+y &= \rho\sin\phi\sin\theta\\
+z &= \rho\cos\phi
+\end{align*}
+
+The volume element is:
+$$dV = dx\,dy\,dz = \answer{\rho^2\sin\phi}\,d\rho\,d\phi\,d\theta$$
+
+The Jacobian $\rho^2\sin\phi$ accounts for:
+\begin{selectAll}
+    \choice[correct]{How spherical shells expand with radius}
+    \choice[correct]{The latitude effect (circles are smaller near poles)}
+    \choice{Random factors}
+    \choice[correct]{The geometry of spherical coordinates}
+\end{selectAll}
+
+Find the volume of a cone: $z \geq \sqrt{x^2+y^2}$, $0 \leq z \leq 1$.
+
+In spherical coordinates, $z = \rho\cos\phi$ and $\sqrt{x^2+y^2} = \rho\sin\phi$.
+
+The condition $z \geq \sqrt{x^2+y^2}$ becomes:
+$$\rho\cos\phi \geq \rho\sin\phi \Rightarrow \cos\phi \geq \sin\phi$$
+
+This is satisfied when $\phi \leq \answer{\pi/4}$ (the cone angle from the $z$-axis).
+
+The condition $0 \leq z \leq 1$ with $z = \rho\cos\phi$ gives $\rho \leq \frac{1}{\cos\phi}$ (for $\phi \leq \pi/4$).
+
+Bounds:
+\begin{itemize}
+    \item $0 \leq \rho \leq \frac{1}{\cos\phi}$
+    \item $0 \leq \phi \leq \pi/4$
+    \item $0 \leq \theta \leq 2\pi$
+\end{itemize}
+
+$$V = \int_0^{2\pi}\int_0^{\pi/4}\int_0^{1/\cos\phi} \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$$
+
+This evaluates to $V = \frac{\pi(2-\sqrt{2})}{3}$ (computation omitted).
+
+\begin{feedback}
+Spherical coordinates naturally describe cones and spheres with their radial and angular structure!
+\end{feedback}
+\end{problem}
+
+\section*{When to Change Variables}
+
+\begin{problem}
+Consider changing variables when:
+\begin{selectAll}
+    \choice[correct]{The region has circular, cylindrical, or spherical symmetry}
+    \choice[correct]{The function simplifies in other coordinates ($x^2+y^2$ suggests polar)}
+    \choice[correct]{The bounds become constants in new coordinates}
+    \choice[correct]{An ellipse can be transformed to a circle}
+    \choice{You want to make the problem harder}
+    \choice[correct]{The Jacobian is easy to compute}
+\end{selectAll}
+
+Match the coordinate system to the region:
+
+\textbf{1. Cylinder $x^2+y^2 \leq R^2$, $0 \leq z \leq H$:}
+\wordChoice{\choice{Rectangular}\choice[correct]{Cylindrical}\choice{Spherical}}
+
+\textbf{2. Sphere $x^2+y^2+z^2 \leq R^2$:}
+\wordChoice{\choice{Rectangular}\choice{Cylindrical}\choice[correct]{Spherical}}
+
+\textbf{3. Rectangle $0 \leq x \leq a$, $0 \leq y \leq b$:}
+\wordChoice{\choice[correct]{Rectangular}\choice{Cylindrical}\choice{Spherical}}
+
+\textbf{4. Disk $x^2+y^2 \leq R^2$:}
+\wordChoice{\choice{Rectangular}\choice[correct]{Polar}\choice{Spherical}}
+
+\begin{feedback}
+Match the coordinate system to the geometry! This is the key to simplifying integrals.
+\end{feedback}
+\end{problem}
+
+\section*{Converting Between Coordinate Systems}
+
+\begin{problem}
+\textbf{From Cylindrical to Spherical Coordinates}
+
+Sometimes a problem is initially set up in one coordinate system but would be simpler in another!
+
+Consider the integral in cylindrical coordinates:
+$$I = \int_0^{2\pi} \int_0^{\pi/4} \int_0^{2\cos z} r\sqrt{r^2+z^2}\,dr\,dz\,d\theta$$
+
+The region is complicated in cylindrical coordinates. Let's analyze it:
+\begin{itemize}
+    \item The bound $0 \leq r \leq 2\cos z$ suggests the radius depends on height
+    \item The expression $\sqrt{r^2+z^2}$ appears—this is the distance from the origin!
+\end{itemize}
+
+In cylindrical coordinates: $r$ (radial from $z$-axis), $\theta$ (angle), $z$ (height)
+
+In spherical coordinates: $\rho$ (distance from origin), $\phi$ (angle from $z$-axis), $\theta$ (azimuthal angle)
+
+The relationship between systems:
+\begin{align*}
+r &= \rho\sin\phi\\
+z &= \rho\cos\phi\\
+\theta &= \theta
+\end{align*}
+
+Importantly: $r^2 + z^2 = \rho^2\sin^2\phi + \rho^2\cos^2\phi = \answer{\rho^2}$
+
+So $\sqrt{r^2+z^2} = \answer{\rho}$ (assuming $\rho \geq 0$)
+
+The integrand simplifies: $r\sqrt{r^2+z^2} = (\rho\sin\phi)(\rho) = \answer{\rho^2\sin\phi}$
+
+\textbf{Converting the bounds:}
+
+The upper bound $r = 2\cos z$ becomes:
+$$\rho\sin\phi = 2\cos(\rho\cos\phi)$$
+
+Wait, this is messy! Let's reconsider the region description.
+
+Actually, for $0 \leq z \leq \pi/4$ and $0 \leq r \leq 2\cos z$, as $z$ increases from 0 to $\pi/4$:
+\begin{itemize}
+    \item When $z = 0$: $r$ can be from 0 to $2\cos(0) = 2$
+    \item When $z = \pi/4$: $r$ can be from 0 to $2\cos(\pi/4) = \sqrt{2}$
+\end{itemize}
+
+In spherical coordinates, $\phi$ is angle from the $z$-axis, so:
+\begin{itemize}
+    \item $0 \leq \phi \leq \answer{\pi/4}$ (covers the cone-like region)
+    \item $0 \leq \rho \leq \answer{2}$ (maximum radius)
+    \item $0 \leq \theta \leq \answer{2\pi}$ (full rotation)
+\end{itemize}
+
+The volume element transforms: $r\,dr\,dz\,d\theta \to \answer{\rho^2\sin\phi}\,d\rho\,d\phi\,d\theta$
+
+The integral becomes:
+$$I = \int_0^{2\pi} \int_0^{\pi/4} \int_0^{2} \rho^2\sin\phi \cdot \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$$
+
+Simplifying: $\rho^2\sin\phi \cdot \rho^2\sin\phi = \answer{\rho^4\sin^2\phi}$
+
+$$I = \int_0^{2\pi} \int_0^{\pi/4} \int_0^{2} \rho^4\sin^2\phi\,d\rho\,d\phi\,d\theta$$
+
+This is much easier to evaluate! The bounds are constants, and the integrand separates nicely.
+
+\begin{feedback}
+Converting between coordinate systems requires understanding how the variables relate and how volume elements transform. The key insight was recognizing that $\sqrt{r^2+z^2} = \rho$ in spherical coordinates, which simplified the integrand dramatically!
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+\textbf{Another Example: Ice Cream Cone}
+
+Evaluate the mass of an ``ice cream cone'' region:
+\begin{itemize}
+    \item Below the hemisphere $z = \sqrt{4 - x^2 - y^2}$ (radius 2, centered at origin)
+    \item Above the cone $z = \sqrt{x^2+y^2}$
+    \item With density $\delta = z$
+\end{itemize}
+
+This is initially in rectangular coordinates. Let's try cylindrical first:
+
+In cylindrical: $x^2+y^2 = r^2$, so:
+\begin{itemize}
+    \item Hemisphere: $z = \sqrt{4-r^2}$
+    \item Cone: $z = r$
+\end{itemize}
+
+The cone and hemisphere intersect when:
+$$r = \sqrt{4-r^2} \implies r^2 = 4-r^2 \implies 2r^2 = 4 \implies r = \answer{\sqrt{2}}$$
+
+In cylindrical coordinates:
+$$M = \int_0^{2\pi} \int_0^{\sqrt{2}} \int_r^{\sqrt{4-r^2}} z \cdot r\,dz\,dr\,d\theta$$
+
+The $z$-integral is: $\int_r^{\sqrt{4-r^2}} z\,dz = \left[\frac{z^2}{2}\right]_r^{\sqrt{4-r^2}} = \frac{4-r^2}{2} - \frac{r^2}{2} = \answer{2-r^2}$
+
+But what if we use spherical coordinates instead?
+
+In spherical coordinates:
+\begin{itemize}
+    \item The hemisphere is simply: $\rho = \answer{2}$
+    \item The cone $z = \sqrt{x^2+y^2}$ becomes: $\rho\cos\phi = \rho\sin\phi$, so $\tan\phi = 1$, giving $\phi = \answer{\pi/4}$
+\end{itemize}
+
+The density $\delta = z = \rho\cos\phi$
+
+In spherical:
+$$M = \int_0^{2\pi} \int_0^{\pi/4} \int_0^{2} (\rho\cos\phi) \cdot \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$$
+
+$$= \int_0^{2\pi} d\theta \int_0^{\pi/4} \cos\phi\sin\phi\,d\phi \int_0^{2} \rho^3\,d\rho$$
+
+Which coordinate system is easier here?
+\begin{multipleChoice}
+    \choice{Cylindrical - the bounds are more familiar}
+    \choice[correct]{Spherical - the bounds are constants and the integral separates}
+    \choice{Rectangular - it's always safest}
+    \choice{They're equally difficult}
+\end{multipleChoice}
+
+The spherical integral separates into three independent integrals:
+\begin{itemize}
+    \item $\int_0^{2\pi} d\theta = \answer{2\pi}$
+    \item $\int_0^{\pi/4} \cos\phi\sin\phi\,d\phi = \int_0^{\pi/4} \frac{1}{2}\sin(2\phi)\,d\phi = \answer{1/4}$
+    \item $\int_0^{2} \rho^3\,d\rho = \left[\frac{\rho^4}{4}\right]_0^2 = \answer{4}$
+\end{itemize}
+
+Total mass: $M = 2\pi \cdot \frac{1}{4} \cdot 4 = \answer{2\pi}$
+
+\begin{feedback}
+Excellent! The spherical coordinate system matched the geometry perfectly—both the hemisphere and cone had simple descriptions, and the integral separated into three easy pieces. This demonstrates the power of choosing the right coordinate system!
+\end{feedback}
+\end{problem}
+
+\section*{Summary of Coordinate Transformations}
+
+\begin{problem}
+Complete the transformation summary:
+
+\textbf{Polar Coordinates:}
+\begin{itemize}
+    \item Transformation: $x = r\cos\theta$, $y = r\sin\theta$
+    \item Jacobian: $|J| = \answer{r}$
+    \item Element: $dA = \answer{r\,dr\,d\theta}$
+\end{itemize}
+
+\textbf{Cylindrical Coordinates:}
+\begin{itemize}
+    \item Transformation: $x = r\cos\theta$, $y = r\sin\theta$, $z = z$
+    \item Jacobian: $|J| = \answer{r}$
+    \item Element: $dV = \answer{r\,dr\,d\theta\,dz}$
+\end{itemize}
+
+\textbf{Spherical Coordinates:}
+\begin{itemize}
+    \item Transformation: $x = \rho\sin\phi\cos\theta$, $y = \rho\sin\phi\sin\theta$, $z = \rho\cos\phi$
+    \item Jacobian: $|J| = \answer{\rho^2\sin\phi}$
+    \item Element: $dV = \answer{\rho^2\sin\phi\,d\rho\,d\phi\,d\theta}$
+\end{itemize}
+
+The Jacobian in each case tells us:
+\begin{multipleChoice}
+    \choice{The function value}
+    \choice[correct]{How volume elements scale under the transformation}
+    \choice{The bounds of integration}
+    \choice{The region shape}
+\end{multipleChoice}
+
+\begin{feedback}
+These standard transformations and their Jacobians should be memorized—they appear constantly in applications!
+\end{feedback}
+\end{problem}
+
+\section*{Final Practice}
+
+\begin{problem}
+Select all TRUE statements about changing variables:
+
+\begin{selectAll}
+    \choice[correct]{The Jacobian accounts for how areas/volumes change}
+    \choice[correct]{Change of variables extends u-substitution to multiple dimensions}
+    \choice{The Jacobian is always 1}
+    \choice[correct]{Polar, cylindrical, and spherical are the most common transformations}
+    \choice[correct]{Good coordinate choice simplifies both bounds and integrands}
+    \choice{You can ignore the Jacobian if the transformation is simple}
+    \choice[correct]{The Jacobian can be computed using partial derivatives}
+    \choice[correct]{Linear transformations have constant Jacobians}
+\end{selectAll}
+
+\begin{feedback}
+Perfect! In the next activity, we'll learn exactly how to compute the Jacobian determinant for any transformation.
+\end{feedback}
+\end{problem}
+
+
 \section*{Introduction: What is a Jacobian?}
 
 The Jacobian is the multivariable calculus tool that tells us how areas and volumes change under coordinate transformations.
@@ -105,6 +593,45 @@ Why do we use $|J|$ (absolute value) in integrals?
 The absolute value ensures we get a positive area scaling factor. The sign of $J$ tells us about orientation (which way the transformation ``flips'' things).
 \end{feedback}
 \end{problem}
+
+\begin{problem}
+\textbf{Electric Charge on an Ellipse}
+
+An elliptical region defined by $\frac{x^2}{9} + \frac{y^2}{4} \leq 1$ has surface charge density:
+$$\sigma(x,y) = \frac{5}{1 + x^2} \text{ charge per square meter}$$
+
+\textbf{Strategy: Use a transformation!}
+
+Let $u = \frac{x}{3}$ and $v = \frac{y}{2}$. Then the ellipse transforms to the unit circle: $u^2 + v^2 \leq 1$.
+
+From the transformations: $x = \answer{3u}$ and $y = \answer{2v}$
+
+The Jacobian is:
+$$J = \frac{\partial(x,y)}{\partial(u,v)} = \begin{vmatrix} \frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\ \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v} \end{vmatrix} = \begin{vmatrix} \answer{3} & \answer{0} \\ \answer{0} & \answer{2} \end{vmatrix} = \answer{6}$$
+
+The differential element transforms: $dA = dx\,dy = |J|\,du\,dv = \answer{6}\,du\,dv$
+
+The charge density in new coordinates: $\sigma(x,y) = \frac{5}{1+x^2} = \frac{5}{1+(3u)^2} = \frac{5}{1+9u^2}$
+
+The small charge element: $dQ = \sigma(x,y)\,dA = \frac{5}{1+9u^2} \cdot \answer{6}\,du\,dv$
+
+Total charge (using polar coordinates $u = r\cos\theta$, $v = r\sin\theta$ in the unit circle):
+$$Q = \int_0^{2\pi} \int_0^1 \frac{5}{1+9r^2\cos^2\theta} \cdot 6 \cdot \answer{r}\,dr\,d\theta$$
+
+The key steps were:
+\begin{selectAll}
+    \choice[correct]{Transform the ellipse to a circle}
+    \choice[correct]{Compute the Jacobian for area scaling}
+    \choice[correct]{Express the charge density in new coordinates}
+    \choice[correct]{Use polar coordinates in the unit circle}
+    \choice{Ignore the geometry}
+\end{selectAll}
+
+\begin{feedback}
+Outstanding! You've combined coordinate transformations with careful differential construction. The ellipse problem became manageable by transforming to a circle, but you had to track how $dA$ changes (via the Jacobian) and how the charge density function transforms!
+\end{feedback}
+\end{problem}
+
 
 \section*{Computing Jacobians: Step by Step}
 
