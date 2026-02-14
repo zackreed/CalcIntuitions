@@ -21,6 +21,20 @@ Because of the Fundamental Theorem of Calculus, if $dM$ can be written as a ``ra
 
 Now, we apply similar principles to more complex scenarios, in multiple dimensions.
 
+Before diving in, here are two short videos exploring this idea of ``adding up pieces'' as youw would traditionally understand it in an area context, and then as you would apply it to a STEM context, in this case kinetic energy.
+
+First, let's review the very traditional context of ``area under a curve'' through the lens of ``adding up pieces''.
+\begin{center}
+\youtube{I9YgfVzBK5k}
+\end{center}
+
+Now, let's see how we apply the exact same idea of ``adding up pieces'' to a STEM context, in this case kinetic energy.
+\begin{center}
+\youtube{a2y9FRvqRas}
+\end{center}
+
+The main takeaway is that the use of the integral is the same across contexts where integration applies. Let's review some examples from the past where we have applied this idea of ``adding up pieces''.
+
 \begin{problem}
 Definite integration allows us to extend simple multiplication to complex scenarios. 
 
@@ -66,19 +80,21 @@ The following applet shows the basic idea.
 \geogebra{amcsb2hz}{650}{461}
 \end{center}
 
+Now, because Ximera mostly likes to work with $x$ and $y$ instead of $D$, let's rewrite our energy equation using $x$ instead of $D$:
+$$dE = F(x) \cdot dx$$
 
-For the example where the force to hold in a spring at $D$ is given by $F(D)=55D$ Newtons, the small energy needed to move inward a distance $dD$ is: $dE = \answer{55*D} \cdot dD$
+For the example where the force to hold in a spring at $x$ is given by $F(x)=55x$ Newtons, the small energy needed to move inward a distance $dx$ is: $dE = \answer{55 \cdot x} \cdot dx$
 
-Total energy to move in a spring a total distance $X$ is found by: $E = \int_0^{\answer{X}} \answer{55*D}\,dD$
+Total energy to move in a spring a total distance $X$ is found by: $E = \int_0^{\answer{X}} \answer{55 \cdot x}\,dx$
 
-Because of the funamental Theorem of Calculus, and our knowledge that $\frac{dE}{dD} = F(D)$, we know that an antiderivative of $55D$ can be used to efficiently find the value of the integral $\int 55D\,dD$ without needing to compute a limit of Riemann sums.
+Because of the funamental Theorem of Calculus, and our knowledge that $\frac{dE}{dx} = F(x)$, we know that an antiderivative of $55 \cdot x$ can be used to efficiently find the value of the integral $\int 55 x\,dx$ without needing to compute a limit of Riemann sums.
 
-If $\frac{dE}{dD} = F(D)$, then a formula for $E$ is: $E = \answer{\frac{55D^2}{2}} + C$.
+If $\frac{dE}{dx} = F(x)$, then a formula for $E$ is: $E = \answer{\frac{55 \cdot x^2}{2}} + C$.
 
-This makes the total energy to compress the spring from 0 to 1 meters: $E = \left[\frac{55D^2}{2}\right]_0^1 = \answer[tolerance=.1]{\frac{55}{2}}$ Joules.
+This makes the total energy to compress the spring from 0 to 1 meters: $E = \left[\frac{55x^2}{2}\right]_0^1 = \answer[tolerance=.1]{\frac{55}{2}}$ Joules.
 
 \begin{feedback}
-This is ``adding up pieces''! Each piece $dE = F(D)\,dD$ represents energy over an infinitesimal distance, and integration sums all pieces.
+This is ``adding up pieces''! Each piece $dE = F(x)\,dx$ represents energy over an tiny distance, and integration sums all pieces.
 \end{feedback}
 \end{problem}
 
@@ -120,46 +136,48 @@ Pressure at depth $D$ is $P(D) = 9800 \cdot D$ (in Pascals). As we go deeper, pr
 \begin{problem}
 In the single-variable approach, we noted that since pressure increased with depth only, then small area elements $dA$ could be expressed as ``width times depth'', so we fixed the width at 5 meters and varied only the depth.
 
-So, knowing that $P=9800 \cdot D$, and $dA = 5 \cdot dD$, we can say that a small bit of force $dF$ at depth $D$ is expressed as: $dF = P \cdot dA = P \cdot 5 \cdot dD = \answer{9800 \cdot D \cdot 5} \cdot dD$
+Again, we're going to switch to $x$ and $y$ instead of $D$ and $w$, so we can express the small area element as $dA = 5 \cdot dy$.
+
+So, knowing that $P=9800 \cdot x$, and $dA = 5 \cdot dx$, we can say that a small bit of force $dF$ at depth $x$ is expressed as: $dF = P \cdot dA = P \cdot 5 \cdot dx = \answer{9800 \cdot x \cdot 5} \cdot dx$
 
 The total force with depth up to 12 meters becomes:
-$$F = \int_0^{12} 9800 \cdot D \cdot 5 \,dD$$
+$$F = \int_0^{12} 9800 \cdot x \cdot 5 \,dx$$
 
-Using the FTC, we can find an antiderivative of $9800 \cdot D \cdot 5$ to evaluate this integral:
-If $\frac{dF}{dD} = 9800 \cdot D \cdot 5$, then $F = \answer{\frac{9800 \cdot D^2 \cdot 5}{2}} + C$.
-$$F = \left[\frac{9800 \cdot D^2 \cdot 5}{2}\right]_0^{12} = \answer{3528000} \text{ N}$$
+Using the FTC, we can find an antiderivative of $9800 \cdot x \cdot 5$ to evaluate this integral:
+If $\frac{dF}{dx} = 9800 \cdot x \cdot 5$, then $F = \answer{\frac{9800 \cdot x^2 \cdot 5}{2}} + C$.
+$$F = \left[\frac{9800 \cdot x^2 \cdot 5}{2}\right]_0^{12} = \answer{3528000} \text{ N}$$
 
 \end{problem}
 
 \subsection*{Double Integral Approach}
 
 \begin{problem}
-Now let's incorporate the entire 2D area of the dam using \textbf{two} variables: depth $D$ and width $w$.
+Now let's incorporate the entire 2D area of the dam using \textbf{two} variables: depth $y$ and width $x$.
 
-The small area element is: $dA = dD \cdot dw$
+The small area element is: $dA = dy \cdot dx$
 
-The pressure at any point $(D,w)$ depends only on depth, but we can still consider pressure to be a two-variable function: $P(D,w) = \answer{9800 \cdot D}$
+The pressure at any point $(x,y)$ depends only on depth, but we can still consider pressure to be a two-variable function: $P(x,y) = \answer{9800 \cdot y}$
 
 The small bit of force is:
-$$dF = P(A) \cdot dA = \answer{9800 \cdot D} \cdot dD \cdot dw$$
+$$dF = P(A) \cdot dA = \answer{9800 \cdot y} \cdot dy \cdot dx$$
 
-We now have two dimensions of variation to sum over, $w$ and $D$. This will become more formal below, but just as partial derivatives treated off-variables as constants, we can treat off-variables as constants when integrating with respect to one variable at a time.
+We now have two dimensions of variation to sum over, $x$ and $y$. This will become more formal below, but just as partial derivatives treated off-variables as constants, we can treat off-variables as constants when integrating with respect to one variable at a time.
 
 So we can integrate across the width first, treating depth as constant, then integrate across depth, treating width as constant.
 
-The width of the dam is 5 meters, so we integrate across width from $w=0$ to $w=5$. 
+The width of the dam is 5 meters, so we integrate across width from $x=0$ to $x=5$. 
 
-The differential $dF$ is constant with respect to $w$, so our first integral becomes
+The differential $dF$ is constant with respect to $x$, so our first integral becomes
 
-$$\int_0^5 9800 \cdot D \,dw = 9800 \cdot D \cdot [w]_0^5 = 5\cdot 9800 \cdot D$$
+$$\int_0^5 9800 \cdot y \,dx = 9800 \cdot y \cdot [x]_0^5 = 5\cdot 9800 \cdot y$$
 
-This was exactly the same as our single-variable approach! So we now proceed exactly as before, integrating across depth from $D=0$ to $D=12$: 
+This was exactly the same as our single-variable approach! So we now proceed exactly as before, integrating across depth from $y=0$ to $y=12$: 
 
-$$F=\int_0^{12} 5\cdot 9800 \cdot D \,dD$$
+$$F=\int_0^{12} 5\cdot 9800 \cdot y \,dy$$
 
 We express the process of integrating in two dimensions as a \textbf{double integral} with the notation $\iint$ to indicate we're summing over a 2D region, and we specify the region of integration $R$ in the subscript:
 
-$$F = \iint_R dF = \int_0^{12}\int_0^5 9800 \cdot D \,dw\,dD$$
+$$F = \iint_R dF = \int_0^{12}\int_0^5 9800 \cdot y \,dx\,dy$$
 
 \end{problem}
 
@@ -178,11 +196,11 @@ We can compute double integrals as \textbf{iterated integrals}, evaluating one v
 Evaluate $\displaystyle\int_0^2\int_1^3 (x^2 + 2y)\,dy\,dx$.
 
 \textbf{Step 1: Inner integral (with respect to $y$)}
-$$\int_1^3 (x^2 + 2y)\,dy = \left[x^2 y + y^2\right]_1^3$$
+$$\int_1^3 (x^2 + 2y)\,dy = \left[\answer{x^2 y + y^2}\right]_1^3$$
 $$= (x^2 \cdot 3 + 9) - (x^2 \cdot 1 + 1) = \answer{2x^2 + 8}$$
 
 \textbf{Step 2: Outer integral (with respect to $x$)}
-$$\int_0^2 (2x^2 + 8)\,dx = \left[\frac{2x^3}{3} + 8x\right]_0^2$$
+$$\int_0^2 (2x^2 + 8)\,dx = \left[\answer{\frac{2x^3}{3} + 8x}\right]_0^2$$
 $$= \frac{16}{3} + 16 = \answer{64/3}$$
 
 \begin{feedback}
@@ -199,10 +217,10 @@ Here's a visual walkthrough of this process.
 Now try the other order: $\displaystyle\int_1^3\int_0^2 (x^2 + 2y)\,dx\,dy$.
 
 \textbf{Inner integral (with respect to $x$):}
-$$\int_0^2 (x^2 + 2y)\,dx = \left[\frac{x^3}{3} + 2xy\right]_0^2 = \answer{8/3 + 4y}$$
+$$\int_0^2 (x^2 + 2y)\,dx = \left[\answer{\frac{x^3}{3} + 2xy}\right]_0^2 = \answer{8/3 + 4y}$$
 
 \textbf{Outer integral (with respect to $y$):}
-$$\int_1^3 \left(\frac{8}{3} + 4y\right)\,dy = \left[\frac{8y}{3} + 2y^2\right]_1^3$$
+$$\int_1^3 \left(\frac{8}{3} + 4y\right)\,dy = \left[\answer{\frac{8y}{3} + 2y^2}\right]_1^3$$
 $$= \left(\frac{24}{3} + 18\right) - \left(\frac{8}{3} + 2\right) = \answer{64/3}$$
 
 Did you get the same answer? \wordChoice{\choice[correct]{Yes!}\choice{No}}

@@ -78,10 +78,10 @@ $$V = \iint dV=\iint x+y\,dA=\int_0^1 \int_0^x (x+y)\,dy\,dx$$
 We break this down into two steps, evaluating the ``inner'' integral and then the ``outer'' integral.
 
 \textbf{Inner integral:}
-$$\int_0^x (x+y)\,dy = \left[xy + \frac{y^2}{2}\right]_0^x = x^2 + \frac{x^2}{2} = \answer{3x^2/2}$$
+$$\int_0^x (x+y)\,dy = \left[\answer{xy + \frac{y^2}{2}}\right]_0^x = x^2 + \frac{x^2}{2} = \answer{3x^2/2}$$
 
 \textbf{Outer integral:}
-$$\int_0^1 \frac{3x^2}{2}\,dx = \frac{3}{2} \cdot \left[\frac{x^3}{3}\right]_0^1 = \frac{3}{2} \cdot \frac{1}{3} = \answer{1/2}$$
+$$\int_0^1 \frac{3x^2}{2}\,dx = \frac{3}{2} \cdot \left[\answer{\frac{x^3}{3}}\right]_0^1 = \frac{3}{2} \cdot \frac{1}{3} = \answer{1/2}$$
 
 \begin{feedback}
 When the region is not rectangular, the bounds of the inner integral often depend on the outer variable!
@@ -101,19 +101,29 @@ $$\rho(x,y) = \frac{100}{1+x^2+y^2} \text{ people/km}^2$$
 
 The city occupies the region bounded by $y = x^2$ (below) and $y = 4$ (above).
 
+%a tikz plot of the region
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+    \draw[->] (-3,0) -- (3,0) node[right] {$x$};
+    \draw[->] (0,-1) -- (0,5) node[above] {$y$};
+    \draw[domain=-2:2, smooth, variable=\x, blue] plot ({\x}, {\x*\x}) node[below] {$y=x^2$};
+    \draw[domain=-3:3, smooth, variable=\x, red] plot ({\x}, {4}) node[right] {$y=4$};
+\end{tikzpicture}
+\end{center}
+
 \textbf{Step 1: Construct the differential element}
 
 For a small rectangular area element with dimensions $dx$ by $dy$:
 
-The small area is: $dA = \answer{dx}\,dy$
+The small area is: $dA = dx\,dy$
 
-The small population in this area is: $dP = \rho(x,y) \cdot \answer{dA} = \frac{100}{1+x^2+y^2}\,\answer{dx\,dy}$
+The small population in this area is: $dP = \rho \cdot dA = \rho(x,y)\answer{dx\,dy}=\answer{\frac{100}{1+x^2+y^2}}\cdot\answer{dx\,dy}$
 
 This represents:
 \begin{multipleChoice}
     \choice{The total population}
     \choice{The population density}
-    \choice[correct]{The number of people in an infinitesimal rectangle}
+    \choice[correct]{The population in a tiny rectangular region}
     \choice{The average density}
 \end{multipleChoice}
 
@@ -121,7 +131,32 @@ This represents:
 
 The region is bounded by $y = x^2$ below and $y = 4$ above.
 
+%a tikz plot of th e region with a vertical slice at x=.5
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+    \draw[->] (-3,0) -- (3,0) node[right] {$x$};
+    \draw[->] (0,-1) -- (0,5) node[above] {$y$};
+    %put the label on the bottom side of the graph
+    \draw[domain=-2:2, smooth, variable=\x, blue] plot ({\x}, {\x*\x}) node[below] {$y=x^2$};
+    \draw[domain=-3:3, smooth, variable=\x, red] plot ({\x}, {4}) node[right] {$y=4$};
+    \draw[thick, dashed, purple] (0.5,0.25) -- (0.5,4);
+    \node at (2.5,4.5) {Vertical Slice at $x=0.5$};
+\end{tikzpicture}
+\end{center}
+
 For a vertical slice at position $x$, $y$ ranges from $\answer{x^2}$ to $\answer{4}$.
+
+%a tikz plot of the region showing the intersection points of y=x^2 and y=4 as big dots
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+    \draw[->] (-3,0) -- (3,0) node[right] {$x$};
+    \draw[->] (0,-1) -- (0,5) node[above] {$y$};
+    \draw[domain=-2:2, smooth, variable=\x, blue] plot ({\x}, {\x*\x}) node[below] {$y=x^2$};
+    \draw[domain=-3:3, smooth, variable=\x, red] plot ({\x}, {4}) node[right] {$y=4$};
+    \fill[black] (-2,4) circle (3pt) node[above] {(?,4)};
+    \fill[black] (2,4) circle (3pt) node[above] {(?,4)};
+\end{tikzpicture}
+\end{center}
 
 To cover the entire region, we need $x$ from $\answer{-2}$ to $\answer{2}$ (where does $x^2 = 4$?).
 
