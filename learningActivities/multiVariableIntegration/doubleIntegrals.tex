@@ -53,18 +53,23 @@ The basic model of multiplication $E = F \cdot D$ \wordChoice{\choice{still work
     \choice{The force is negative}
 \end{multipleChoice}
 
-Instead, we consider a small distance $dD$. Over this tiny interval, the force is approximately constant at $F(D)$.
+Instead, we consider a small distance $dD$. Over this tiny interval, the force is approximately constant at $F(D)$ and the small amount of energy can be well-approximated by $dE = F(D) \cdot dD$.
 
 The following applet shows the basic idea.
+
+%geogebra instructions
+\begin{expandable}{stuff}{GeoGebra Instructions}
+    Alter the ``Stopping Distance'' slider to change the total distance the spring is compressed, alter the ``View Differential Change Element'' slider to see the small piece of energy $dE$ being added up as we compress the spring along a small distance $dD$.
+\end{expandable}
 
 \begin{center}
 \geogebra{amcsb2hz}{650}{461}
 \end{center}
 
 
-The small work contribution is: $dE = \answer{55*D} \cdot dD$
+For the example where the force to hold in a spring at $D$ is given by $F(D)=55D$ Newtons, the small energy needed to move inward a distance $dD$ is: $dE = \answer{55*D} \cdot dD$
 
-Total work is found by: $E = \int \answer{55*D}\,dD$
+Total energy to move in a spring a total distance $X$ is found by: $E = \int_0^{\answer{X}} \answer{55*D}\,dD$
 
 Because of the funamental Theorem of Calculus, and our knowledge that $\frac{dE}{dD} = F(D)$, we know that an antiderivative of $55D$ can be used to efficiently find the value of the integral $\int 55D\,dD$ without needing to compute a limit of Riemann sums.
 
@@ -184,6 +189,11 @@ $$= \frac{16}{3} + 16 = \answer{64/3}$$
 Fubini's Theorem lets us break a double integral into two single-variable integrals!
 \end{feedback}
 \end{problem}
+
+Here's a visual walkthrough of this process.
+\begin{center}
+\youtube{DkaMXRWhdOg}
+\end{center}
 
 \begin{problem}
 Now try the other order: $\displaystyle\int_1^3\int_0^2 (x^2 + 2y)\,dx\,dy$.
