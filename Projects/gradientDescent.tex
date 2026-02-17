@@ -18,6 +18,12 @@ For this mini-project we'll explore how to use \textbf{gradient descent} to appr
 
 This uses optimization to solve the real-world problem of \textbf{model selection}: what function best represents observed data?
 
+First, the following video introduces the main contextual goal: modeling data with polynomials.
+
+\begin{center}
+\youtube{ognisQ_d2kY}
+\end{center}
+
 \section*{Modeling Data With Polynomials}
 A basic data analysis technique in many fields is looking for patterns or trends in data that follow nice simple functions, such as polynomials. 
 
@@ -62,6 +68,12 @@ Let's look at one more example, this time with cubic data:
 In all of these examples, we use simple polynomial functions to model data. There are various reasons why polynomials are good choices for this particular data, but we will leave that discussion for other statistics or data science courses.
 
 In this mini project, you will learn a common way that gradients are used to learn the parameters of models. This particular example of polynomial fitting doesn't require the use of gradients, but it's a good introductory context that fits within the scope of this course.
+
+Now watch a video exploring the idea of generating and then minimizing data.
+
+\begin{center}
+\youtube{6Hu-FNg1L9w}
+\end{center}
 
 \section*{Measuring Error: What does ``Close'' Mean?}
 
@@ -123,6 +135,12 @@ Let's take a look at some examples of the possible error between data and models
 
   In this case, the quadratic model is a \wordChoice{\choice[correct]{good}\choice{poor}} fit for the data. You can see especially \wordChoice{\choice[correct]{small}\choice{large}} vertical distances between the data points and the model curve throughout the plot, which would mean a \wordChoice{\choice{small}\choice[correct]{large}} MSE value.
 \end{example}
+
+Now we can start using gradient descent to find minimum values and learn a model to fit our data. First check out the following video:
+
+\begin{center}
+\youtube{kCyFjSRovMA}
+\end{center}
 
 \section*{Minimizing Error: Gradient Descent}
 A key property that makes $\text{MSE}$ very nice is that we can turn the coefficients of the polynomial models into variables, which can then be used as input variables for a minimization process.
@@ -262,6 +280,10 @@ We can still view the resulting curves from each of the $(a_0, a_1, a_2)$ triple
 
 \section*{Your Turn: Finding a Good Fit}
 Now it's your turn! To finish out the warm up activity, you will generate your own data and analyze it!
+
+\begin{center}
+\youtube{QQNyVe68mw8}
+\end{center}
 
 The data will either be quadratic or cubic, and you have to decide which gives a better fit both by doing some gradient descent, but also by using the optimization tools from the book!
 
