@@ -64,6 +64,32 @@ For non-rectangular regions, the bounds of integration become functions.
 \begin{problem}
 Find the volume under $f(x,y) = x + y$ over the triangular region with vertices $(0,0)$, $(1,0)$, $(1,1)$.
 
+\begin{center}
+\begin{tikzpicture}[scale=3]
+    \draw[->] (-0.1,0) -- (1.3,0) node[right] {$x$};
+    \draw[->] (0,-0.1) -- (0,1.3) node[above] {$y$};
+    
+    % Fill the triangular region
+    \fill[blue!20, opacity=0.5] (0,0) -- (1,0) -- (1,1) -- cycle;
+    
+    % Draw the edges of the region
+    \draw[thick, blue] (0,0) -- (1,0) node[midway, below] {};
+    \draw[thick, blue] (1,0) -- (1,1) node[midway, right] {};
+    \draw[thick, blue] (0,0) -- (1,1) node[midway, above left] {$y=x$};
+    
+    % Mark vertices
+    \fill[black] (0,0) circle (0.5pt) node[below left] {$(0,0)$};
+    \fill[black] (1,0) circle (0.5pt) node[below right] {$(1,0)$};
+    \fill[black] (1,1) circle (0.5pt) node[above right] {$(1,1)$};
+    
+    % Add tick marks
+    \foreach \x in {1}
+        \draw (\x,0.02) -- (\x,-0.02) node[below] {$\x$};
+    \foreach \y in {1}
+        \draw (0.02,\y) -- (-0.02,\y) node[left] {$\y$};
+\end{tikzpicture}
+\end{center}
+
 Even though the region is not rectangular, we can still use functions of $x$ and $y$ to describe the bounds of integration.
 
 In this case, if we say that $x$ goes from 0 to 1, then for each fixed $x$, $y$ goes from 0 up to the line connecting $(0,0)$ and $(1,1)$, which has equation $y = x$.
@@ -82,6 +108,66 @@ $$\int_0^x (x+y)\,dy = \left[\answer{xy + \frac{y^2}{2}}\right]_0^x = x^2 + \fra
 
 \textbf{Outer integral:}
 $$\int_0^1 \frac{3x^2}{2}\,dx = \frac{3}{2} \cdot \left[\answer{\frac{x^3}{3}}\right]_0^1 = \frac{3}{2} \cdot \frac{1}{3} = \answer{1/2}$$
+
+\begin{center}
+\begin{tikzpicture}[x={(0.9cm,-0.3cm)}, y={(0.9cm,0.3cm)}, z={(0cm,1cm)}, scale=2.2]
+    % Draw axes
+    \draw[->] (0,0,0) -- (1.3,0,0) node[right] {$x$};
+    \draw[->] (0,0,0) -- (0,1.3,0) node[above] {$y$};
+    \draw[->] (0,0,0) -- (0,0,2.3) node[above] {$z$};
+    
+    % Draw the triangular base
+    \fill[blue!20, opacity=0.4] (0,0,0) -- (1,0,0) -- (1,1,0) -- cycle;
+    \draw[thick, blue] (0,0,0) -- (1,0,0) -- (1,1,0) -- cycle;
+    
+    % Draw vertical edges (not filled, just outlines)
+    \draw[thick, gray!60] (0,0,0) -- (0,0,0);
+    \draw[thick, gray!60] (1,0,0) -- (1,0,1);
+    \draw[thick, gray!60] (1,1,0) -- (1,1,2);
+    
+    % Fill the top surface with triangular mesh
+    \foreach \i in {0,1,...,9} {
+        \foreach \j in {0,1,...,\i} {
+            \pgfmathsetmacro{\xa}{(\i+1)/10}
+            \pgfmathsetmacro{\ya}{\j/10}
+            \pgfmathsetmacro{\xb}{\i/10}
+            \pgfmathsetmacro{\yb}{\j/10}
+            \pgfmathsetmacro{\yc}{(\j+1)/10}
+            \pgfmathsetmacro{\za}{\xa+\ya}
+            \pgfmathsetmacro{\zb}{\xb+\yb}
+            \pgfmathsetmacro{\zc}{\xb+\yc}
+            \fill[orange!50!red, opacity=0.75] 
+                (\xa,\ya,\za) -- (\xb,\yb,\zb) -- (\xb,\yc,\zc) -- cycle;
+        }
+    }
+    
+    % Draw boundary edges of the faces (outlines only)
+    % Front face outline (y=0)
+    \draw[thick, orange!70!black] (0,0,0) -- (1,0,1) -- (1,0,0);
+    % Diagonal face outline (y=x)
+    \draw[thick, red!70!black] (0,0,0) -- (1,1,2) -- (1,1,0);
+    % Right face outline (x=1)
+    \draw[thick, yellow!70!black] (1,0,1) -- (1,1,2) -- (1,1,0) -- (1,0,0);
+    
+    % Draw top surface edges
+    \draw[thick, red!50!black] (0,0,0) -- (1,0,1);
+    \draw[thick, red!50!black] (1,0,1) -- (1,1,2);
+    \draw[thick, red!50!black] (0,0,0) -- (1,1,2);
+    
+    % Redraw axes on top
+    \draw[->] (0,0,0) -- (1.3,0,0) node[right] {$x$};
+    \draw[->] (0,0,0) -- (0,1.3,0) node[above] {$y$};
+    \draw[->] (0,0,0) -- (0,0,2.3) node[above] {$z$};
+    
+    % Label surface
+    \node at (0.5, 0.7, 1.6) {$z=x+y$};
+    
+    % Mark vertices
+    \fill[black] (0,0,0) circle (0.7pt) node[below left] {$(0,0,0)$};
+    \fill[black] (1,0,1) circle (0.7pt) node[right] {$(1,0,1)$};
+    \fill[black] (1,1,2) circle (0.7pt) node[above] {$(1,1,2)$};
+\end{tikzpicture}
+\end{center}
 
 \begin{feedback}
 When the region is not rectangular, the bounds of the inner integral often depend on the outer variable!
@@ -172,6 +258,70 @@ The order of integration matters because:
     \choice{It always matters}
     \choice{We need to use Fubini's Theorem}
 \end{multipleChoice}
+
+\textbf{3D Visualization of Population Density}
+
+Here's what the population density function looks like over the region:
+
+\begin{center}
+\begin{tikzpicture}[x={(0.8cm,-0.4cm)}, y={(0.5cm,0.3cm)}, z={(0cm,1.2cm)}, scale=1.4]
+    % Draw axes
+    \draw[->] (-2.5,0,0) -- (2.5,0,0) node[right] {$x$};
+    \draw[->] (0,0,0) -- (0,4.5,0) node[above] {$y$};
+    \draw[->] (0,0,0) -- (0,0,1.2) node[above] {$\rho$};
+    
+    % Draw the base region
+    \fill[blue!15, opacity=0.3] 
+        plot[domain=-2:2, samples=50, smooth, variable=\x] (\x, {\x*\x}, 0)
+        -- (2, 4, 0) -- (-2, 4, 0) -- cycle;
+    \draw[thick, blue] plot[domain=-2:2, samples=50, smooth, variable=\x] (\x, {\x*\x}, 0);
+    \draw[thick, red] (-2, 4, 0) -- (2, 4, 0);
+    
+    % Draw filled surface patches
+    \foreach \xi in {-2,-1.75,...,1.75} {
+        \pgfmathsetmacro{\xii}{\xi+0.25}
+        \pgfmathsetmacro{\ystart}{max(0,\xi*\xi)}
+        \pgfmathsetmacro{\ystartnext}{max(0,\xii*\xii)}
+        \foreach \yi [evaluate=\yi as \yii using \yi+0.5] in {0,0.5,...,3.5} {
+            \pgfmathsetmacro{\yval}{max(\ystart,\yi)}
+            \pgfmathsetmacro{\yvalnext}{min(4,\yii)}
+            \pgfmathsetmacro{\yvaltwo}{max(\ystartnext,\yi)}
+            \pgfmathsetmacro{\yvalnexttwo}{min(4,\yii)}
+            \pgfmathsetmacro{\zone}{100/(1+\xi*\xi+\yval*\yval)/100}
+            \pgfmathsetmacro{\ztwo}{100/(1+\xi*\xi+\yvalnext*\yvalnext)/100}
+            \pgfmathsetmacro{\zthree}{100/(1+\xii*\xii+\yvalnexttwo*\yvalnexttwo)/100}
+            \pgfmathsetmacro{\zfour}{100/(1+\xii*\xii+\yvaltwo*\yvaltwo)/100}
+            \pgfmathsetmacro{\cavg}{(\zone+\ztwo+\zthree+\zfour)*25}
+            \fill[blue!\cavg!red, opacity=0.7] 
+                (\xi,\yval,\zone) -- (\xi,\yvalnext,\ztwo) -- 
+                (\xii,\yvalnexttwo,\zthree) -- (\xii,\yvaltwo,\zfour) -- cycle;
+        }
+    }
+    
+    % Draw boundary curves
+    \draw[thick, purple, domain=-2:2, samples=50, smooth, variable=\x] 
+        plot (\x, {\x*\x}, {100/(1+\x*\x+\x*\x*\x*\x)/100});
+    \draw[thick, purple, domain=-2:2, samples=50, smooth, variable=\x] 
+        plot (\x, 4, {100/(1+\x*\x+16)/100});
+    \draw[thick, purple, domain=0:4, samples=30, smooth, variable=\y] 
+        plot (-2, \y, {100/(1+4+\y*\y)/100});
+    \draw[thick, purple, domain=0:4, samples=30, smooth, variable=\y] 
+        plot (2, \y, {100/(1+4+\y*\y)/100});
+    
+    % Draw vertical line at origin to show peak
+    \draw[gray, dashed, thick] (0, 0, 0) -- (0, 0, 1.0);
+    \fill[black] (0,0,1.0) circle (1pt);
+    \node at (0.7, 0.5, 1.05) {\small $\rho(0,0)=100$};
+    
+    % Tick marks
+    \draw (-2,0,-0.02) -- (-2,0,0.02) node[below] {$-2$};
+    \draw (2,0,-0.02) -- (2,0,0.02) node[below] {$2$};
+    \draw (0,4,-0.02) -- (0,4,0.02) node[left] {$4$};
+    \draw (0,0,0.5) -- (0.15,0,0.5) node[right] {$50$};
+    \draw (0,0,1.0) -- (0.15,0,1.0) node[right] {$100$};
+    
+\end{tikzpicture}
+\end{center}
 
 \begin{feedback}
 Excellent! You've carefully unpacked $dP = \rho(x,y)\,dA$ and set up bounds for a non-rectangular region. The density function decreases as you move away from the origin—the city center is most densely populated!

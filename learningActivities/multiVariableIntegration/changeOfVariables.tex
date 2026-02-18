@@ -32,6 +32,161 @@ The derivative $g'(x)$ accounts for the ``stretching'' or ``compression'' when w
 \end{feedback}
 \end{problem}
 
+\section*{Revisiting a Problem: From Cartesian to Cylindrical}
+
+\begin{problem}
+\textbf{Example: Mass Under a Paraboloid (Revisited)}
+
+In the last module, we encountered this problem: Find the mass of a solid bounded below by the $xy$-plane and above by the paraboloid $z = 4 - x^2 - y^2$, with a circular base of radius 1, if the density is $\rho(x,y,z) = z$ (denser at higher altitudes).
+
+\begin{center}
+\begin{tikzpicture}[x={(0.8cm,-0.4cm)}, y={(0.8cm,0.4cm)}, z={(0cm,1.1cm)}, scale=1.8]
+    % Draw axes
+    \draw[->] (-1.3,0,0) -- (1.3,0,0) node[right] {$x$};
+    \draw[->] (0,-1.3,0) -- (0,1.3,0) node[above] {$y$};
+    \draw[->] (0,0,0) -- (0,0,3.5) node[above] {$z$};
+    
+    % Draw the circular base
+    \draw[thick, blue] (0,0,0) circle (1);
+    \fill[blue!20, opacity=0.3] (0,0,0) circle (1);
+    
+    % Draw the paraboloid surface as a smooth cap
+    \foreach \r in {0,0.1,...,0.9} {
+        \pgfmathsetmacro{\rnext}{\r+0.1}
+        \pgfmathsetmacro{\zr}{4-\r*\r}
+        \pgfmathsetmacro{\zrnext}{4-\rnext*\rnext}
+        \foreach \theta in {0,20,...,340} {
+            \pgfmathsetmacro{\thetanext}{\theta+20}
+            \pgfmathsetmacro{\xa}{\r*cos(\theta)}
+            \pgfmathsetmacro{\ya}{\r*sin(\theta)}
+            \pgfmathsetmacro{\xb}{\rnext*cos(\theta)}
+            \pgfmathsetmacro{\yb}{\rnext*sin(\theta)}
+            \pgfmathsetmacro{\xc}{\rnext*cos(\thetanext)}
+            \pgfmathsetmacro{\yc}{\rnext*sin(\thetanext)}
+            \pgfmathsetmacro{\xd}{\r*cos(\thetanext)}
+            \pgfmathsetmacro{\yd}{\r*sin(\thetanext)}
+            \pgfmathsetmacro{\cavg}{(\zr+\zrnext)/2*20}
+            \fill[blue!\cavg!red, opacity=0.75] 
+                (\xa,\ya,\zr) -- (\xb,\yb,\zrnext) -- (\xc,\yc,\zrnext) -- (\xd,\yd,\zr) -- cycle;
+        }
+    }
+    
+    % Draw boundary circle on top at r=1
+    \draw[thick, purple, domain=0:360, samples=60, smooth, variable=\t] 
+        plot ({cos(\t)}, {sin(\t)}, {3});
+    
+    % Draw some vertical edges for reference
+    \draw[gray, dashed, thin] (1,0,0) -- (1,0,3);
+    \draw[gray, dashed, thin] (-1,0,0) -- (-1,0,3);
+    \draw[gray, dashed, thin] (0,1,0) -- (0,1,3);
+    \draw[gray, dashed, thin] (0,-1,0) -- (0,-1,3);
+    
+    % Label
+    \node at (0.6, 0.6, 2.5) {$z=4-x^2-y^2$};
+    \node at (0, -1.5, 0) {Base: $x^2+y^2 \leq 1$};
+\end{tikzpicture}
+\end{center}
+
+\textbf{Review: The Cartesian Approach}
+
+Last module, we set this up in rectangular coordinates with order $dz\,dy\,dx$:
+
+The region: $x^2 + y^2 \leq 1$ and $0 \leq z \leq 4-x^2-y^2$
+
+\textbf{Bounds:}
+\begin{itemize}
+    \item $z$ bounds: $0 \leq z \leq 4-x^2-y^2$ (curved paraboloid!)
+    \item $y$ bounds: $-\sqrt{1-x^2} \leq y \leq \sqrt{1-x^2}$ (messy square roots!)
+    \item $x$ bounds: $-1 \leq x \leq 1$
+\end{itemize}
+
+\textbf{The mass integral:}
+$$M = \int_{-1}^{1} \int_{-\sqrt{1-x^2}}^{\sqrt{1-x^2}} \int_0^{4-x^2-y^2} z\,dz\,dy\,dx$$
+
+After the $z$ integration: 
+$$M = \int_{-1}^{1} \int_{-\sqrt{1-x^2}}^{\sqrt{1-x^2}} \frac{(4-x^2-y^2)^2}{2}\,dy\,dx$$
+
+This becomes quite complex! Those square root bounds and the $(4-x^2-y^2)^2$ term make this tedious.
+
+\textbf{Recognizing the Pattern:}
+
+Notice the key features:
+\begin{selectAll}
+    \choice[correct]{The base is circular: $x^2 + y^2 \leq 1$}
+    \choice[correct]{The function involves $x^2 + y^2$}
+    \choice[correct]{There's radial symmetry}
+    \choice{The region is a rectangular box}
+\end{selectAll}
+
+When you see $x^2 + y^2$ and circular regions, think: \wordChoice{\choice{Rectangular}\choice[correct]{Cylindrical}\choice{Spherical}} coordinates!
+
+\textbf{Step 1: The Cylindrical Transformation}
+
+Cylindrical coordinates relate to Cartesian via:
+\begin{align*}
+x &= r\cos\theta\\
+y &= r\sin\theta\\
+z &= z
+\end{align*}
+
+The key observation: $x^2 + y^2 = \answer{r^2}$
+
+And the volume element transforms: $dV = dx\,dy\,dz = \answer{r}\,dr\,d\theta\,dz$
+
+\textbf{Step 2: Transform the Region}
+
+The base $x^2 + y^2 \leq 1$ becomes: $r^2 \leq 1$, so $0 \leq r \leq \answer{1}$
+
+The angle goes full circle: $0 \leq \theta \leq \answer{2\pi}$
+
+The paraboloid $z = 4 - x^2 - y^2$ becomes: $z = 4 - r^2$
+
+So: $0 \leq z \leq \answer{4-r^2}$
+
+\textbf{Step 3: Transform the Density}
+
+The density was $\rho(x,y,z) = z$
+
+In cylindrical coordinates, this is still just: $\rho(r,\theta,z) = \answer{z}$
+
+\textbf{Step 4: Set Up the Integral in Cylindrical Coordinates}
+
+$$M = \int_{\answer{0}}^{\answer{2\pi}} \int_{\answer{0}}^{\answer{1}} \int_{\answer{0}}^{\answer{4-r^2}} z \cdot \answer{r}\,dz\,dr\,d\theta$$
+
+Notice:
+\begin{itemize}
+    \item No more square roots!
+    \item Simple constant bounds for $r$ and $\theta$
+    \item The factor of $r$ accounts for the geometry
+\end{itemize}
+
+\textbf{Step 5: Evaluate the Integral}
+
+\textbf{Inner integral ($z$):}
+$$\int_0^{4-r^2} z\,dz = \left[\frac{z^2}{2}\right]_0^{4-r^2} = \frac{(4-r^2)^2}{2} = \answer{\frac{(4-r^2)^2}{2}}$$
+
+Now we have:
+$$M = \int_0^{2\pi} \int_0^1 \frac{(4-r^2)^2}{2} \cdot r\,dr\,d\theta$$
+
+\textbf{Middle integral ($r$):}
+$$\int_0^1 \frac{r(4-r^2)^2}{2}\,dr$$
+
+Let $u = 4-r^2$, so $du = -2r\,dr$, or $r\,dr = -\frac{1}{2}du$
+
+When $r=0$: $u = 4$; when $r=1$: $u = 3$
+
+$$= \int_4^3 \frac{u^2}{2} \cdot \left(-\frac{1}{2}\right)\,du = \frac{1}{4}\int_3^4 u^2\,du = \frac{1}{4}\left[\frac{u^3}{3}\right]_3^4$$
+$$= \frac{1}{12}(64-27) = \frac{37}{12}$$
+
+\textbf{Outer integral ($\theta$):}
+$$M = \int_0^{2\pi} \frac{37}{12}\,d\theta = \frac{37}{12} \cdot 2\pi = \answer{\frac{37\pi}{6}}$$
+
+\begin{feedback}
+By switching to cylindrical coordinates, we transformed a difficult integral with square root bounds into one with constant bounds! The circular symmetry of the problem made cylindrical coordinates the natural choice. This is the power of choosing the right coordinate system!
+\end{feedback}
+\end{problem}
+
+
 
 \section*{Polar Coordinates}
 
@@ -537,6 +692,295 @@ This is the familiar sphere volume formula: $V = \frac{4}{3}\pi R^3$! \wordChoic
 Spherical coordinates make the sphere volume calculation elegant with simple constant bounds!
 \end{feedback}
 \end{problem}
+
+
+\section*{Strategic Coordinate Changes: From Cartesian to Spherical}
+
+\begin{problem}
+\textbf{Example: Region Between Curved Surfaces}
+
+Find the mass of the solid bounded by:
+\begin{itemize}
+    \item Below: the cone $z = \sqrt{x^2 + y^2}$
+    \item Above: the sphere $x^2 + y^2 + z^2 = 4$
+\end{itemize}
+with density $\rho(x,y,z) = z$ (increasing with height).
+
+\textbf{The Cone:} $z = \sqrt{x^2 + y^2}$
+
+\begin{center}
+\begin{tikzpicture}[x={(0.8cm,-0.4cm)}, y={(0.8cm,0.4cm)}, z={(0cm,1.1cm)}, scale=1.5]
+    % Draw axes
+    \draw[->] (-1.5,0,0) -- (1.5,0,0) node[right] {$x$};
+    \draw[->] (0,-1.5,0) -- (0,1.5,0) node[above] {$y$};
+    \draw[->] (0,0,0) -- (0,0,2.5) node[above] {$z$};
+    
+    % Draw solid cone
+    \foreach \z in {0.1,0.2,...,2} {
+        \pgfmathsetmacro{\radius}{\z}
+        \foreach \theta in {0,15,...,345} {
+            \pgfmathsetmacro{\thetanext}{\theta+15}
+            \pgfmathsetmacro{\xa}{\radius*cos(\theta)}
+            \pgfmathsetmacro{\ya}{\radius*sin(\theta)}
+            \pgfmathsetmacro{\xb}{\radius*cos(\thetanext)}
+            \pgfmathsetmacro{\yb}{\radius*sin(\thetanext)}
+            \fill[orange!70!red, opacity=0.8] (0,0,0) -- (\xa,\ya,\z) -- (\xb,\yb,\z) -- cycle;
+        }
+    }
+    
+    % Draw boundary circles
+    \foreach \z in {0.5,1,1.414,2} {
+        \draw[orange!70!black, thin, domain=0:360, samples=60, smooth, variable=\t] 
+            plot ({\z*cos(\t)}, {\z*sin(\t)}, {\z});
+    }
+    
+    % Draw generating lines
+    \foreach \theta in {0,45,...,315} {
+        \draw[orange!40!black, thin] (0,0,0) -- ({2*cos(\theta)}, {2*sin(\theta)}, 2);
+    }
+    
+    % Label
+    \node at (0, -0.5, 1.7) {$z=\sqrt{x^2+y^2}$};
+\end{tikzpicture}
+\end{center}
+
+\textbf{The Sphere:} $x^2 + y^2 + z^2 = 4$ (radius 2, centered at origin)
+
+\begin{center}
+\begin{tikzpicture}[x={(0.8cm,-0.4cm)}, y={(0.8cm,0.4cm)}, z={(0cm,1.1cm)}, scale=1.5]
+    % Draw axes
+    \draw[->] (-1.5,0,0) -- (1.5,0,0) node[right] {$x$};
+    \draw[->] (0,-1.5,0) -- (0,1.5,0) node[above] {$y$};
+    \draw[->] (0,0,0) -- (0,0,2.5) node[above] {$z$};
+    
+    % Draw solid upper hemisphere
+    \foreach \phi in {0,5,...,85} {
+        \pgfmathsetmacro{\phinext}{\phi+5}
+        \pgfmathsetmacro{\ra}{2*sin(\phi)}
+        \pgfmathsetmacro{\za}{2*cos(\phi)}
+        \pgfmathsetmacro{\rb}{2*sin(\phinext)}
+        \pgfmathsetmacro{\zb}{2*cos(\phinext)}
+        \foreach \theta in {0,15,...,345} {
+            \pgfmathsetmacro{\thetanext}{\theta+15}
+            \pgfmathsetmacro{\xa}{\ra*cos(\theta)}
+            \pgfmathsetmacro{\ya}{\ra*sin(\theta)}
+            \pgfmathsetmacro{\xb}{\rb*cos(\theta)}
+            \pgfmathsetmacro{\yb}{\rb*sin(\theta)}
+            \pgfmathsetmacro{\xc}{\rb*cos(\thetanext)}
+            \pgfmathsetmacro{\yc}{\rb*sin(\thetanext)}
+            \pgfmathsetmacro{\xd}{\ra*cos(\thetanext)}
+            \pgfmathsetmacro{\yd}{\ra*sin(\thetanext)}
+            \fill[blue!60!cyan, opacity=0.8] (\xa,\ya,\za) -- (\xb,\yb,\zb) -- (\xc,\yc,\zb) -- (\xd,\yd,\za) -- cycle;
+        }
+    }
+    
+    % Draw latitude circles
+    \foreach \phi in {30,45,60,75} {
+        \pgfmathsetmacro{\r}{2*sin(\phi)}
+        \pgfmathsetmacro{\z}{2*cos(\phi)}
+        \draw[blue!70!black, thin, domain=0:360, samples=60, smooth, variable=\t] 
+            plot ({\r*cos(\t)}, {\r*sin(\t)}, {\z});
+    }
+    
+    % Draw equator
+    \draw[blue!70!black, thick, domain=0:360, samples=60, smooth, variable=\t] 
+        plot ({2*cos(\t)}, {2*sin(\t)}, 0);
+    
+    % Label
+    \node at (0, -0.5, 3) {$x^2+y^2+z^2=4$};
+\end{tikzpicture}
+\end{center}
+
+\textbf{The Intersection Region:} Between cone (below) and sphere (above)
+
+\begin{center}
+\begin{tikzpicture}[x={(0.8cm,-0.4cm)}, y={(0.8cm,0.4cm)}, z={(0cm,1.1cm)}, scale=1.5]
+    % Draw axes
+    \draw[->] (-1.5,0,0) -- (1.5,0,0) node[right] {$x$};
+    \draw[->] (0,-1.5,0) -- (0,1.5,0) node[above] {$y$};
+    \draw[->] (0,0,0) -- (0,0,2.5) node[above] {$z$};
+    
+    % Fill the solid region between cone and sphere
+    % For z from 0 to sqrt(2), radius is z (cone constraint)
+    \foreach \z in {0.1,0.2,...,1.414} {
+        \pgfmathsetmacro{\radius}{\z}
+        \foreach \theta in {0,15,...,345} {
+            \pgfmathsetmacro{\thetanext}{\theta+15}
+            \pgfmathsetmacro{\xa}{\radius*cos(\theta)}
+            \pgfmathsetmacro{\ya}{\radius*sin(\theta)}
+            \pgfmathsetmacro{\xb}{\radius*cos(\thetanext)}
+            \pgfmathsetmacro{\yb}{\radius*sin(\thetanext)}
+            \pgfmathsetmacro{\rsphere}{sqrt(4-\z*\z)}
+            \pgfmathsetmacro{\xc}{\rsphere*cos(\theta)}
+            \pgfmathsetmacro{\yc}{\rsphere*sin(\theta)}
+            \pgfmathsetmacro{\xd}{\rsphere*cos(\thetanext)}
+            \pgfmathsetmacro{\yd}{\rsphere*sin(\thetanext)}
+            % Fill the annular region at height z
+            \fill[green!50!cyan, opacity=0.7] (\xa,\ya,\z) -- (\xb,\yb,\z) -- (\xd,\yd,\z) -- (\xc,\yc,\z) -- cycle;
+        }
+    }
+    
+    % Draw cone surface (transparent)
+    \foreach \z in {0.5,1,1.414} {
+        \draw[orange!70!black, dashed, thin, domain=0:360, samples=60, smooth, variable=\t] 
+            plot ({\z*cos(\t)}, {\z*sin(\t)}, {\z});
+    }
+    
+    % Draw sphere surface (transparent)
+    \foreach \theta in {0,30,...,330} {
+        \draw[blue!70!black, dashed, thin, domain=0:1.414, samples=30, smooth, variable=\r] 
+            plot ({\r*cos(\theta)}, {\r*sin(\theta)}, {sqrt(4-\r*\r)});
+    }
+    
+    % Draw intersection circle at z = sqrt(2)
+    \pgfmathsetmacro{\zint}{1.414}
+    \pgfmathsetmacro{\rint}{1.414}
+    \draw[thick, purple, domain=0:360, samples=60, smooth, variable=\t] 
+        plot ({\rint*cos(\t)}, {\rint*sin(\t)}, {\zint});
+    
+    % Label
+    \node at (.5, 0.5, 2.4) {\small Our Region};
+    \node[purple] at (1.8, 0, 1) {\small $z=\sqrt{2}$};
+\end{tikzpicture}
+\end{center}
+
+\textbf{Step 1: Understanding the Cartesian Challenge}
+
+The cone and sphere intersect where $z = \sqrt{x^2+y^2}$ and $x^2+y^2+z^2=4$.
+
+Substituting: $x^2+y^2+(\sqrt{x^2+y^2})^2 = 4$, so $2(x^2+y^2) = 4$, giving $x^2+y^2 = \answer{2}$.
+
+At the intersection: $z = \sqrt{2}$ and the circle has radius $\sqrt{2}$.
+
+\textbf{In Cartesian coordinates with order $dz\,dy\,dx$:}
+
+For fixed $(x,y)$ with $x^2+y^2 \leq 2$:
+$$\sqrt{x^2+y^2} \leq z \leq \sqrt{4-x^2-y^2}$$
+
+For fixed $x$: $-\sqrt{2-x^2} \leq y \leq \sqrt{2-x^2}$
+
+Overall: $-\sqrt{2} \leq x \leq \sqrt{2}$
+
+$$M = \int_{-\sqrt{2}}^{\sqrt{2}} \int_{-\sqrt{2-x^2}}^{\sqrt{2-x^2}} \int_{\sqrt{x^2+y^2}}^{\sqrt{4-x^2-y^2}} z\,dz\,dy\,dx$$
+
+This is quite messy! Square roots everywhere, and the bounds depend on each other in complicated ways.
+
+\textbf{Step 2: Recognizing the Pattern}
+
+What features suggest a better coordinate system?
+\begin{selectAll}
+    \choice[correct]{The sphere equation is $x^2 + y^2 + z^2 = 4$ (radial from origin)}
+    \choice[correct]{The cone equation involves $\sqrt{x^2 + y^2}$ (cylindrical symmetry)}
+    \choice[correct]{Both surfaces are centered at the origin}
+    \choice{The region is rectangular}
+\end{selectAll}
+
+For a sphere centered at the origin, which coordinate system is best?
+\begin{multipleChoice}
+    \choice{Cartesian}
+    \choice{Cylindrical}
+    \choice[correct]{Spherical}
+\end{multipleChoice}
+
+\textbf{Step 3: The Spherical Coordinate Transformation}
+
+Spherical coordinates $(\rho, \phi, \theta)$ relate to Cartesian via:
+\begin{align*}
+x &= \rho\sin\phi\cos\theta\\
+y &= \rho\sin\phi\sin\theta\\
+z &= \rho\cos\phi
+\end{align*}
+
+where:
+\begin{itemize}
+    \item $\rho \geq 0$ is the distance from the origin
+    \item $0 \leq \phi \leq \pi$ is the angle down from the positive $z$-axis
+    \item $0 \leq \theta < 2\pi$ is the azimuthal angle (same as cylindrical)
+\end{itemize}
+
+Key relation: $x^2 + y^2 + z^2 = \answer{\rho^2}$
+
+The volume element transforms: $dV = \answer{\rho^2 \sin\phi}\,d\rho\,d\phi\,d\theta$
+
+\textbf{Step 4: Transform the Surfaces}
+
+\textbf{The sphere:} $x^2 + y^2 + z^2 = 4$ becomes $\rho^2 = 4$, so $\rho = \answer{2}$
+
+This is beautiful! A constant bound.
+
+\textbf{The cone:} $z = \sqrt{x^2 + y^2}$
+
+Using $z = \rho\cos\phi$ and $\sqrt{x^2+y^2} = \rho\sin\phi$:
+$$\rho\cos\phi = \rho\sin\phi$$
+
+Dividing by $\rho$: $\cos\phi = \sin\phi$, so $\tan\phi = 1$, giving $\phi = \answer{\pi/4}$
+
+The cone is a constant angle! The region is between the cone ($\phi = \pi/4$) and the north pole ($\phi = 0$).
+
+So: $0 \leq \phi \leq \answer{\pi/4}$
+
+\textbf{Step 5: Transform the Density}
+
+The density was $\rho(x,y,z) = z$
+
+In spherical coordinates: $z = \rho\cos\phi$
+
+So the density becomes: $\rho(\rho,\phi,\theta) = \answer{\rho\cos\phi}$
+
+(Note: We're using $\rho$ for both the density function and the spherical coordinate. Context makes it clear!)
+
+\textbf{Step 6: Set Up the Integral in Spherical Coordinates}
+
+The bounds are:
+\begin{itemize}
+    \item $0 \leq \rho \leq 2$ (from origin to sphere)
+    \item $0 \leq \phi \leq \pi/4$ (from $z$-axis to cone)
+    \item $0 \leq \theta \leq 2\pi$ (full rotation)
+\end{itemize}
+
+$$M = \int_{\answer{0}}^{\answer{2\pi}} \int_{\answer{0}}^{\answer{\pi/4}} \int_{\answer{0}}^{\answer{2}} (\rho\cos\phi) \cdot \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$$
+
+Simplifying: 
+$$M = \int_0^{2\pi} \int_0^{\pi/4} \int_0^2 \rho^3\cos\phi\sin\phi\,d\rho\,d\phi\,d\theta$$
+
+\textbf{Step 7: Evaluate the Integral}
+
+The variables separate! Let's do each integral:
+
+\textbf{Inner integral ($\rho$):}
+$$\int_0^2 \rho^3\,d\rho = \left[\frac{\rho^4}{4}\right]_0^2 = \frac{16}{4} = \answer{4}$$
+
+\textbf{Middle integral ($\phi$):}
+$$\int_0^{\pi/4} \cos\phi\sin\phi\,d\phi = \int_0^{\pi/4} \frac{1}{2}\sin(2\phi)\,d\phi$$
+$$= \frac{1}{2}\left[-\frac{1}{2}\cos(2\phi)\right]_0^{\pi/4} = -\frac{1}{4}[\cos(\pi/2) - \cos(0)]$$
+$$= -\frac{1}{4}[0 - 1] = \answer{1/4}$$
+
+\textbf{Outer integral ($\theta$):}
+$$\int_0^{2\pi} d\theta = \answer{2\pi}$$
+
+\textbf{Final answer:}
+$$M = 4 \cdot \frac{1}{4} \cdot 2\pi = \answer{2\pi}$$
+
+\begin{feedback}
+Compare the two approaches! In Cartesian coordinates, we had:
+\begin{itemize}
+    \item Square root bounds: $-\sqrt{2-x^2} \leq y \leq \sqrt{2-x^2}$
+    \item Nested dependence of bounds
+    \item Complex expressions like $\sqrt{4-x^2-y^2}$
+\end{itemize}
+
+In spherical coordinates, we had:
+\begin{itemize}
+    \item Constant bounds: $0 \leq \rho \leq 2$, $0 \leq \phi \leq \pi/4$, $0 \leq \theta \leq 2\pi$
+    \item Separable integral
+    \item The sphere became $\rho = 2$ (one equation!)
+    \item The cone became $\phi = \pi/4$ (one equation!)
+\end{itemize}
+
+This is the power of choosing the right coordinate system! The geometry of the problem guides us to the natural coordinates.
+\end{feedback}
+\end{problem}
+
 
 \section*{Choosing the Right Coordinate System}
 
