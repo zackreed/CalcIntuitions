@@ -520,25 +520,23 @@ where $(r, \theta, z)$ are cylindrical coordinates.
 \end{center}
 
 
-In cylindrical coordinates, the volume element is:
-$$dV = \answer{r}\,dr\,d\theta\,dz$$
-
 \begin{problem}
 
 
 The small mass element: $dM = \delta(r,z) \cdot dV = \answer{(1000 + 50r^2 - 20z) \cdot r}\,dr\,d\theta\,dz$
 
+Let's build the bounds of integration:
+
+The radius $r$ goes from the center to the edge of the cylinder: $\answer{0} \leq r \leq \answer{2}$
+
+The height $z$ goes from the bottom to the top of the cylinder: $\answer{0} \leq z \leq \answer{5}$
+
+The angle $\theta$ goes all the way around the cylinder: $\answer{0} \leq \theta \leq \answer{2\pi}$
+
 The integral setup for total mass:
-$$M = \int_{\answer{0}}^{\answer{2\pi}} \int_{\answer{0}}^{\answer{5}} \int_{\answer{0}}^{\answer{2}} (1000 + 50r^2 - 20z) \cdot r\,dr\,dz\,d\theta$$
+$$M = \int_{\answer{0}}^{\answer{2\pi}} \int_{\answer{0}}^{\answer{5}} \int_{\answer{0}}^{\answer{2}} \answer{(1000 + 50r^2 - 20z) \cdot r}\,dr\,dz\,d\theta$$
 
-Notice the density:
-\begin{selectAll}
-    \choice[correct]{Increases with distance from the axis (centrifugal effect)}
-    \choice[correct]{Decreases with height (pressure effect)}
-    \choice{Depends on angle $\theta$}
-    \choice[correct]{Is independent of angle (axial symmetry)}
-\end{selectAll}
-
+This turns out to be only a couple of power rule applications, so we'll leave the rest to you. But the point is, the mass integral was fairly straightforward in both set up and execution once we chose the right coordinate system!
 
 \end{problem}
 
@@ -621,176 +619,173 @@ Conversion formulas:
 The volume element is: $dV = \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$
 \end{definition}
 
-\textbf{Where does $\rho^2\sin\phi$ come from?  Three curved arc lengths in the linear approximation.}
+\textbf{Where does $\rho^2\sin\phi$ come from?}
+
+The following video from Dr. Pierce's Physics \& Math goes through a pretty quick and intuitive description of how to build spherical coordinates (in addition to cylindrical and cartesian).
 
 \begin{center}
-\begin{tikzpicture}[x={(0.85cm,-0.40cm)}, y={(0.85cm,0.40cm)}, z={(0cm,1.05cm)}, scale=1.6]
-% Spherical dV element — drawn curved on the actual sphere surface,
-% labeled to show WHY each side has length d_rho, rho*d_phi, rho*sin(phi)*d_theta.
-% Parameters: rho in [1.0, 1.55], phi in [38, 58 deg], theta in [20, 50 deg]
-\def\rI{1.0}  \def\rO{1.55}
-\def\phA{38}  \def\phB{58}
-\def\thA{20}  \def\thB{50}
-\pgfmathsetmacro{\phM}{(\phA+\phB)/2}
-\pgfmathsetmacro{\thM}{(\thA+\thB)/2}
-
-% ---- Sphere shell context (partial wireframe, thin & dashed) ----
-% A few latitude arcs in the phi range, front-facing
-\foreach \ph in {30,45,60} {
-  \pgfmathsetmacro{\rr}{\rO*sin(\ph)} \pgfmathsetmacro{\zz}{\rO*cos(\ph)}
-  \draw[blue!25!black,very thin,dashed,domain=10:60,smooth,samples=8,variable=\t]
-    plot ({\rr*cos(\t)},{\rr*sin(\t)},\zz);
-}
-% A few meridian arcs in the theta range
-\foreach \th in {15,35,55} {
-  \draw[blue!25!black,very thin,dashed,domain=30:65,smooth,samples=8,variable=\p]
-    plot ({\rO*sin(\p)*cos(\th)},{\rO*sin(\p)*sin(\th)},{\rO*cos(\p)});
-}
-
-% ---- Faces of the curved dV element ----
-% Inner face (rho=rI)
-\fill[yellow!35,opacity=0.75]
-  ({\rI*sin(\phA)*cos(\thA)},{\rI*sin(\phA)*sin(\thA)},{\rI*cos(\phA)})
-  -- ({\rI*sin(\phB)*cos(\thA)},{\rI*sin(\phB)*sin(\thA)},{\rI*cos(\phB)})
-  -- ({\rI*sin(\phB)*cos(\thB)},{\rI*sin(\phB)*sin(\thB)},{\rI*cos(\phB)})
-  -- ({\rI*sin(\phA)*cos(\thB)},{\rI*sin(\phA)*sin(\thB)},{\rI*cos(\phA)}) -- cycle;
-% Outer face (rho=rO)
-\fill[yellow!60,opacity=0.85]
-  ({\rO*sin(\phA)*cos(\thA)},{\rO*sin(\phA)*sin(\thA)},{\rO*cos(\phA)})
-  -- ({\rO*sin(\phB)*cos(\thA)},{\rO*sin(\phB)*sin(\thA)},{\rO*cos(\phB)})
-  -- ({\rO*sin(\phB)*cos(\thB)},{\rO*sin(\phB)*sin(\thB)},{\rO*cos(\phB)})
-  -- ({\rO*sin(\phA)*cos(\thB)},{\rO*sin(\phA)*sin(\thB)},{\rO*cos(\phA)}) -- cycle;
-% phi=phA face (top)
-\fill[orange!25,opacity=0.70]
-  ({\rI*sin(\phA)*cos(\thA)},{\rI*sin(\phA)*sin(\thA)},{\rI*cos(\phA)})
-  -- ({\rO*sin(\phA)*cos(\thA)},{\rO*sin(\phA)*sin(\thA)},{\rO*cos(\phA)})
-  -- ({\rO*sin(\phA)*cos(\thB)},{\rO*sin(\phA)*sin(\thB)},{\rO*cos(\phA)})
-  -- ({\rI*sin(\phA)*cos(\thB)},{\rI*sin(\phA)*sin(\thB)},{\rI*cos(\phA)}) -- cycle;
-% phi=phB face (bottom)
-\fill[orange!20,opacity=0.65]
-  ({\rI*sin(\phB)*cos(\thA)},{\rI*sin(\phB)*sin(\thA)},{\rI*cos(\phB)})
-  -- ({\rO*sin(\phB)*cos(\thA)},{\rO*sin(\phB)*sin(\thA)},{\rO*cos(\phB)})
-  -- ({\rO*sin(\phB)*cos(\thB)},{\rO*sin(\phB)*sin(\thB)},{\rO*cos(\phB)})
-  -- ({\rI*sin(\phB)*cos(\thB)},{\rI*sin(\phB)*sin(\thB)},{\rI*cos(\phB)}) -- cycle;
-% theta=thA face (front meridian)
-\fill[green!20,opacity=0.72]
-  ({\rI*sin(\phA)*cos(\thA)},{\rI*sin(\phA)*sin(\thA)},{\rI*cos(\phA)})
-  -- ({\rI*sin(\phB)*cos(\thA)},{\rI*sin(\phB)*sin(\thA)},{\rI*cos(\phB)})
-  -- ({\rO*sin(\phB)*cos(\thA)},{\rO*sin(\phB)*sin(\thA)},{\rO*cos(\phB)})
-  -- ({\rO*sin(\phA)*cos(\thA)},{\rO*sin(\phA)*sin(\thA)},{\rO*cos(\phA)}) -- cycle;
-% theta=thB face (back)
-\fill[green!15,opacity=0.55]
-  ({\rI*sin(\phA)*cos(\thB)},{\rI*sin(\phA)*sin(\thB)},{\rI*cos(\phA)})
-  -- ({\rI*sin(\phB)*cos(\thB)},{\rI*sin(\phB)*sin(\thB)},{\rI*cos(\phB)})
-  -- ({\rO*sin(\phB)*cos(\thB)},{\rO*sin(\phB)*sin(\thB)},{\rO*cos(\phB)})
-  -- ({\rO*sin(\phA)*cos(\thB)},{\rO*sin(\phA)*sin(\thB)},{\rO*cos(\phA)}) -- cycle;
-
-% ---- Edges of the curved dV element ----
-\draw[orange!90!black,very thick]
-  ({\rI*sin(\phA)*cos(\thA)},{\rI*sin(\phA)*sin(\thA)},{\rI*cos(\phA)})
-  -- ({\rI*sin(\phB)*cos(\thA)},{\rI*sin(\phB)*sin(\thA)},{\rI*cos(\phB)})
-  -- ({\rO*sin(\phB)*cos(\thA)},{\rO*sin(\phB)*sin(\thA)},{\rO*cos(\phB)})
-  -- ({\rO*sin(\phA)*cos(\thA)},{\rO*sin(\phA)*sin(\thA)},{\rO*cos(\phA)}) -- cycle;
-\draw[orange!90!black,very thick]
-  ({\rI*sin(\phA)*cos(\thB)},{\rI*sin(\phA)*sin(\thB)},{\rI*cos(\phA)})
-  -- ({\rI*sin(\phB)*cos(\thB)},{\rI*sin(\phB)*sin(\thB)},{\rI*cos(\phB)})
-  -- ({\rO*sin(\phB)*cos(\thB)},{\rO*sin(\phB)*sin(\thB)},{\rO*cos(\phB)})
-  -- ({\rO*sin(\phA)*cos(\thB)},{\rO*sin(\phA)*sin(\thB)},{\rO*cos(\phA)}) -- cycle;
-\draw[orange!90!black,very thick]
-  ({\rI*sin(\phA)*cos(\thA)},{\rI*sin(\phA)*sin(\thA)},{\rI*cos(\phA)})
-  -- ({\rI*sin(\phA)*cos(\thB)},{\rI*sin(\phA)*sin(\thB)},{\rI*cos(\phA)});
-\draw[orange!90!black,very thick]
-  ({\rI*sin(\phB)*cos(\thA)},{\rI*sin(\phB)*sin(\thA)},{\rI*cos(\phB)})
-  -- ({\rI*sin(\phB)*cos(\thB)},{\rI*sin(\phB)*sin(\thB)},{\rI*cos(\phB)});
-\draw[orange!90!black,very thick]
-  ({\rO*sin(\phA)*cos(\thA)},{\rO*sin(\phA)*sin(\thA)},{\rO*cos(\phA)})
-  -- ({\rO*sin(\phA)*cos(\thB)},{\rO*sin(\phA)*sin(\thB)},{\rO*cos(\phA)});
-\draw[orange!90!black,very thick]
-  ({\rO*sin(\phB)*cos(\thA)},{\rO*sin(\phB)*sin(\thA)},{\rO*cos(\phB)})
-  -- ({\rO*sin(\phB)*cos(\thB)},{\rO*sin(\phB)*sin(\thB)},{\rO*cos(\phB)});
-
-% ---- d_rho label: radial edge on front-top corner ----
-\draw[red!70!black,<->,thick]
-  ({\rI*sin(\phA)*cos(\thA)},{\rI*sin(\phA)*sin(\thA)},{\rI*cos(\phA)})
-  -- ({\rO*sin(\phA)*cos(\thA)},{\rO*sin(\phA)*sin(\thA)},{\rO*cos(\phA)})
-  node[midway,above,font=\scriptsize,red!70!black]{$d\rho$};
-
-% ---- rho*d_phi label: phi-arc on front face (theta=thA, rho=rO) ----
-% Draw the actual arc along phi direction
-\draw[green!55!black,very thick]
-  plot[domain=\phA:\phB,samples=8,variable=\p]
-    ({\rO*sin(\p)*cos(\thA)},{\rO*sin(\p)*sin(\thA)},{\rO*cos(\p)});
-\pgfmathsetmacro{\labphx}{\rO*sin(\phM)*cos(\thA)}
-\pgfmathsetmacro{\labphy}{\rO*sin(\phM)*sin(\thA)}
-\pgfmathsetmacro{\labphz}{\rO*cos(\phM)}
-\node[green!55!black,font=\scriptsize,right] at (\labphx,\labphy,\labphz)
-  {arc $= \rho\,d\phi$};
-
-% ---- rho*sin(phi)*d_theta label: theta-arc on outer-bottom face (phi=phB, rho=rO) ----
-% The horizontal circle at phi=phB has radius rO*sin(phB)
-\draw[blue!65!black,very thick]
-  plot[domain=\thA:\thB,samples=8,variable=\t]
-    ({\rO*sin(\phB)*cos(\t)},{\rO*sin(\phB)*sin(\t)},{\rO*cos(\phB)});
-\pgfmathsetmacro{\labthx}{\rO*sin(\phB)*cos(\thM)}
-\pgfmathsetmacro{\labthy}{\rO*sin(\phB)*sin(\thM)}
-\pgfmathsetmacro{\labthz}{\rO*cos(\phB)}
-\node[blue!65!black,font=\scriptsize,below] at (\labthx,\labthy,{\labthz-0.05})
-  {arc $= \rho\sin\phi\,d\theta$};
-
-% ---- rho vector from origin to near element ----
-\draw[violet,thick,->] (0,0,0)
-  -- ({\rO*sin(\phA)*cos(\thA)},{\rO*sin(\phA)*sin(\thA)},{\rO*cos(\phA)})
-  node[midway,above,font=\scriptsize,violet]{$\rho$};
-
-% ---- phi angle arc (in meridian plane for thA edge) ----
-% Draw arc from z-axis down to phi=phA
-\draw[orange!70!black,thick,->]
-  ({0.4*cos(0)},{0.4*sin(0)},{\rO*0.4/\rO})
-  arc[start angle=90,delta angle={-\phA},radius=0.4];
-\node[orange!70!black,font=\tiny] at ({0.28*sin(\phA/2)*cos(\thA)},{0.28*sin(\phA/2)*sin(\thA)},{0.42*cos(\phA/2)}) {$\phi$};
-
-% ---- theta angle arc (on equatorial plane, inner ring) ----
-\draw[blue!55!black,thick,->]
-  ({0.55*cos(\thA)},{0.55*sin(\thA)},0) arc[start angle=\thA,end angle=\thB,radius=0.55];
-\node[blue!55!black,font=\tiny] at ({0.5*cos(\thM)},{0.5*sin(\thM)},0.18) {$d\theta$};
-
-% Dashed z-axis reference
-\draw[gray!45,dashed,thin] (0,0,0) -- (0,0,{\rO+0.3}) node[above,font=\tiny,gray!45]{$z$};
-
-% ---- dV formula annotation ----
-\node[font=\scriptsize,align=left,orange!80!black] at (1.8,-0.5,1.7) {
-  $dV = d\rho$\\[2pt]
-  $\;\times\;\rho\,d\phi$\\[2pt]
-  $\;\times\;\rho\sin\!\phi\,d\theta$\\[4pt]
-  $= \rho^2\!\sin\phi\;d\rho\,d\phi\,d\theta$
-};
-
-\end{tikzpicture}
+\youtube{K3bzF4WcE14?si=wmDD2cCOV6rFXmyB}
 \end{center}
 
-\textbf{The three physical edge lengths} of the infinitesimal spherical box are: a purely radial step $d\rho$; a meridional arc of length $\rho\,d\phi$ (sweeping angle $d\phi$ along a circle of radius $\rho$); and an azimuthal arc of length $\rho\sin\phi\,d\theta$ (sweeping angle $d\theta$ along the horizontal circle at colatitude $\phi$, which has radius $\rho\sin\phi$ --- shrinking to zero at the poles where $\sin\phi=0$).  Linearizing and multiplying gives $dV = \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$.
+% \begin{center}
+% \begin{tikzpicture}[x={(0.85cm,-0.40cm)}, y={(0.85cm,0.40cm)}, z={(0cm,1.05cm)}, scale=1.6]
+% % Spherical dV element — drawn curved on the actual sphere surface,
+% % labeled to show WHY each side has length d_rho, rho*d_phi, rho*sin(phi)*d_theta.
+% % Parameters: rho in [1.0, 1.55], phi in [38, 58 deg], theta in [20, 50 deg]
+% \def\rI{1.0}  \def\rO{1.55}
+% \def\phA{38}  \def\phB{58}
+% \def\thA{20}  \def\thB{50}
+% \pgfmathsetmacro{\phM}{(\phA+\phB)/2}
+% \pgfmathsetmacro{\thM}{(\thA+\thB)/2}
+
+% % ---- Sphere shell context (partial wireframe, thin & dashed) ----
+% % A few latitude arcs in the phi range, front-facing
+% \foreach \ph in {30,45,60} {
+%   \pgfmathsetmacro{\rr}{\rO*sin(\ph)} \pgfmathsetmacro{\zz}{\rO*cos(\ph)}
+%   \draw[blue!25!black,very thin,dashed,domain=10:60,smooth,samples=8,variable=\t]
+%     plot ({\rr*cos(\t)},{\rr*sin(\t)},\zz);
+% }
+% % A few meridian arcs in the theta range
+% \foreach \th in {15,35,55} {
+%   \draw[blue!25!black,very thin,dashed,domain=30:65,smooth,samples=8,variable=\p]
+%     plot ({\rO*sin(\p)*cos(\th)},{\rO*sin(\p)*sin(\th)},{\rO*cos(\p)});
+% }
+
+% % ---- Faces of the curved dV element ----
+% % Inner face (rho=rI)
+% \fill[yellow!35,opacity=0.75]
+%   ({\rI*sin(\phA)*cos(\thA)},{\rI*sin(\phA)*sin(\thA)},{\rI*cos(\phA)})
+%   -- ({\rI*sin(\phB)*cos(\thA)},{\rI*sin(\phB)*sin(\thA)},{\rI*cos(\phB)})
+%   -- ({\rI*sin(\phB)*cos(\thB)},{\rI*sin(\phB)*sin(\thB)},{\rI*cos(\phB)})
+%   -- ({\rI*sin(\phA)*cos(\thB)},{\rI*sin(\phA)*sin(\thB)},{\rI*cos(\phA)}) -- cycle;
+% % Outer face (rho=rO)
+% \fill[yellow!60,opacity=0.85]
+%   ({\rO*sin(\phA)*cos(\thA)},{\rO*sin(\phA)*sin(\thA)},{\rO*cos(\phA)})
+%   -- ({\rO*sin(\phB)*cos(\thA)},{\rO*sin(\phB)*sin(\thA)},{\rO*cos(\phB)})
+%   -- ({\rO*sin(\phB)*cos(\thB)},{\rO*sin(\phB)*sin(\thB)},{\rO*cos(\phB)})
+%   -- ({\rO*sin(\phA)*cos(\thB)},{\rO*sin(\phA)*sin(\thB)},{\rO*cos(\phA)}) -- cycle;
+% % phi=phA face (top)
+% \fill[orange!25,opacity=0.70]
+%   ({\rI*sin(\phA)*cos(\thA)},{\rI*sin(\phA)*sin(\thA)},{\rI*cos(\phA)})
+%   -- ({\rO*sin(\phA)*cos(\thA)},{\rO*sin(\phA)*sin(\thA)},{\rO*cos(\phA)})
+%   -- ({\rO*sin(\phA)*cos(\thB)},{\rO*sin(\phA)*sin(\thB)},{\rO*cos(\phA)})
+%   -- ({\rI*sin(\phA)*cos(\thB)},{\rI*sin(\phA)*sin(\thB)},{\rI*cos(\phA)}) -- cycle;
+% % phi=phB face (bottom)
+% \fill[orange!20,opacity=0.65]
+%   ({\rI*sin(\phB)*cos(\thA)},{\rI*sin(\phB)*sin(\thA)},{\rI*cos(\phB)})
+%   -- ({\rO*sin(\phB)*cos(\thA)},{\rO*sin(\phB)*sin(\thA)},{\rO*cos(\phB)})
+%   -- ({\rO*sin(\phB)*cos(\thB)},{\rO*sin(\phB)*sin(\thB)},{\rO*cos(\phB)})
+%   -- ({\rI*sin(\phB)*cos(\thB)},{\rI*sin(\phB)*sin(\thB)},{\rI*cos(\phB)}) -- cycle;
+% % theta=thA face (front meridian)
+% \fill[green!20,opacity=0.72]
+%   ({\rI*sin(\phA)*cos(\thA)},{\rI*sin(\phA)*sin(\thA)},{\rI*cos(\phA)})
+%   -- ({\rI*sin(\phB)*cos(\thA)},{\rI*sin(\phB)*sin(\thA)},{\rI*cos(\phB)})
+%   -- ({\rO*sin(\phB)*cos(\thA)},{\rO*sin(\phB)*sin(\thA)},{\rO*cos(\phB)})
+%   -- ({\rO*sin(\phA)*cos(\thA)},{\rO*sin(\phA)*sin(\thA)},{\rO*cos(\phA)}) -- cycle;
+% % theta=thB face (back)
+% \fill[green!15,opacity=0.55]
+%   ({\rI*sin(\phA)*cos(\thB)},{\rI*sin(\phA)*sin(\thB)},{\rI*cos(\phA)})
+%   -- ({\rI*sin(\phB)*cos(\thB)},{\rI*sin(\phB)*sin(\thB)},{\rI*cos(\phB)})
+%   -- ({\rO*sin(\phB)*cos(\thB)},{\rO*sin(\phB)*sin(\thB)},{\rO*cos(\phB)})
+%   -- ({\rO*sin(\phA)*cos(\thB)},{\rO*sin(\phA)*sin(\thB)},{\rO*cos(\phA)}) -- cycle;
+
+% % ---- Edges of the curved dV element ----
+% \draw[orange!90!black,very thick]
+%   ({\rI*sin(\phA)*cos(\thA)},{\rI*sin(\phA)*sin(\thA)},{\rI*cos(\phA)})
+%   -- ({\rI*sin(\phB)*cos(\thA)},{\rI*sin(\phB)*sin(\thA)},{\rI*cos(\phB)})
+%   -- ({\rO*sin(\phB)*cos(\thA)},{\rO*sin(\phB)*sin(\thA)},{\rO*cos(\phB)})
+%   -- ({\rO*sin(\phA)*cos(\thA)},{\rO*sin(\phA)*sin(\thA)},{\rO*cos(\phA)}) -- cycle;
+% \draw[orange!90!black,very thick]
+%   ({\rI*sin(\phA)*cos(\thB)},{\rI*sin(\phA)*sin(\thB)},{\rI*cos(\phA)})
+%   -- ({\rI*sin(\phB)*cos(\thB)},{\rI*sin(\phB)*sin(\thB)},{\rI*cos(\phB)})
+%   -- ({\rO*sin(\phB)*cos(\thB)},{\rO*sin(\phB)*sin(\thB)},{\rO*cos(\phB)})
+%   -- ({\rO*sin(\phA)*cos(\thB)},{\rO*sin(\phA)*sin(\thB)},{\rO*cos(\phA)}) -- cycle;
+% \draw[orange!90!black,very thick]
+%   ({\rI*sin(\phA)*cos(\thA)},{\rI*sin(\phA)*sin(\thA)},{\rI*cos(\phA)})
+%   -- ({\rI*sin(\phA)*cos(\thB)},{\rI*sin(\phA)*sin(\thB)},{\rI*cos(\phA)});
+% \draw[orange!90!black,very thick]
+%   ({\rI*sin(\phB)*cos(\thA)},{\rI*sin(\phB)*sin(\thA)},{\rI*cos(\phB)})
+%   -- ({\rI*sin(\phB)*cos(\thB)},{\rI*sin(\phB)*sin(\thB)},{\rI*cos(\phB)});
+% \draw[orange!90!black,very thick]
+%   ({\rO*sin(\phA)*cos(\thA)},{\rO*sin(\phA)*sin(\thA)},{\rO*cos(\phA)})
+%   -- ({\rO*sin(\phA)*cos(\thB)},{\rO*sin(\phA)*sin(\thB)},{\rO*cos(\phA)});
+% \draw[orange!90!black,very thick]
+%   ({\rO*sin(\phB)*cos(\thA)},{\rO*sin(\phB)*sin(\thA)},{\rO*cos(\phB)})
+%   -- ({\rO*sin(\phB)*cos(\thB)},{\rO*sin(\phB)*sin(\thB)},{\rO*cos(\phB)});
+
+% % ---- d_rho label: radial edge on front-top corner ----
+% \draw[red!70!black,<->,thick]
+%   ({\rI*sin(\phA)*cos(\thA)},{\rI*sin(\phA)*sin(\thA)},{\rI*cos(\phA)})
+%   -- ({\rO*sin(\phA)*cos(\thA)},{\rO*sin(\phA)*sin(\thA)},{\rO*cos(\phA)})
+%   node[midway,above,font=\scriptsize,red!70!black]{$d\rho$};
+
+% % ---- rho*d_phi label: phi-arc on front face (theta=thA, rho=rO) ----
+% % Draw the actual arc along phi direction
+% \draw[green!55!black,very thick]
+%   plot[domain=\phA:\phB,samples=8,variable=\p]
+%     ({\rO*sin(\p)*cos(\thA)},{\rO*sin(\p)*sin(\thA)},{\rO*cos(\p)});
+% \pgfmathsetmacro{\labphx}{\rO*sin(\phM)*cos(\thA)}
+% \pgfmathsetmacro{\labphy}{\rO*sin(\phM)*sin(\thA)}
+% \pgfmathsetmacro{\labphz}{\rO*cos(\phM)}
+% \node[green!55!black,font=\scriptsize,right] at (\labphx,\labphy,\labphz)
+%   {arc $= \rho\,d\phi$};
+
+% % ---- rho*sin(phi)*d_theta label: theta-arc on outer-bottom face (phi=phB, rho=rO) ----
+% % The horizontal circle at phi=phB has radius rO*sin(phB)
+% \draw[blue!65!black,very thick]
+%   plot[domain=\thA:\thB,samples=8,variable=\t]
+%     ({\rO*sin(\phB)*cos(\t)},{\rO*sin(\phB)*sin(\t)},{\rO*cos(\phB)});
+% \pgfmathsetmacro{\labthx}{\rO*sin(\phB)*cos(\thM)}
+% \pgfmathsetmacro{\labthy}{\rO*sin(\phB)*sin(\thM)}
+% \pgfmathsetmacro{\labthz}{\rO*cos(\phB)}
+% \node[blue!65!black,font=\scriptsize,below] at (\labthx,\labthy,{\labthz-0.05})
+%   {arc $= \rho\sin\phi\,d\theta$};
+
+% % ---- rho vector from origin to near element ----
+% \draw[violet,thick,->] (0,0,0)
+%   -- ({\rO*sin(\phA)*cos(\thA)},{\rO*sin(\phA)*sin(\thA)},{\rO*cos(\phA)})
+%   node[midway,above,font=\scriptsize,violet]{$\rho$};
+
+% % ---- phi angle arc (in meridian plane for thA edge) ----
+% % Draw arc from z-axis down to phi=phA
+% \draw[orange!70!black,thick,->]
+%   ({0.4*cos(0)},{0.4*sin(0)},{\rO*0.4/\rO})
+%   arc[start angle=90,delta angle={-\phA},radius=0.4];
+% \node[orange!70!black,font=\tiny] at ({0.28*sin(\phA/2)*cos(\thA)},{0.28*sin(\phA/2)*sin(\thA)},{0.42*cos(\phA/2)}) {$\phi$};
+
+% % ---- theta angle arc (on equatorial plane, inner ring) ----
+% \draw[blue!55!black,thick,->]
+%   ({0.55*cos(\thA)},{0.55*sin(\thA)},0) arc[start angle=\thA,end angle=\thB,radius=0.55];
+% \node[blue!55!black,font=\tiny] at ({0.5*cos(\thM)},{0.5*sin(\thM)},0.18) {$d\theta$};
+
+% % Dashed z-axis reference
+% \draw[gray!45,dashed,thin] (0,0,0) -- (0,0,{\rO+0.3}) node[above,font=\tiny,gray!45]{$z$};
+
+% % ---- dV formula annotation ----
+% \node[font=\scriptsize,align=left,orange!80!black] at (1.8,-0.5,1.7) {
+%   $dV = d\rho$\\[2pt]
+%   $\;\times\;\rho\,d\phi$\\[2pt]
+%   $\;\times\;\rho\sin\!\phi\,d\theta$\\[4pt]
+%   $= \rho^2\!\sin\phi\;d\rho\,d\phi\,d\theta$
+% };
+
+% \end{tikzpicture}
+% \end{center}
+
+\textbf{The three tiny edge lengths} of the spherical box with volume $dV$ are: 
+
+\begin{enumerate}
+
+\item A purely radial step $d\rho$, as the radius changes outward from $\rho$ to $\rho + d\rho$;
+\item a ``meridional'' (vertical) arc of length $\rho\,d\phi$ (sweeping angle $d\phi$ along a circle of radius $\rho$); 
+\item and an ``azimuthal'' (horizontal) arc of length $\rho\sin\phi\,d\theta$ (sweeping angle $d\theta$ along the horizontal circle at colatitude $\phi$.
+
+\end{enumerate}
+
+Alltogether this makes the linearization $dV = \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$.
 
 \begin{problem}
-The spherical volume element $dV = \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$ has:
-
-An extra factor of $\rho^2$: \wordChoice{\choice[correct]{Yes}\choice{No}}
-
-An extra factor of $\sin\phi$: \wordChoice{\choice[correct]{Yes}\choice{No}}
-
-These factors account for:
-\begin{multipleChoice}
-    \choice{Mathematical complexity}
-    \choice[correct]{The geometry of spherical shells and how they expand with radius}
-    \choice{Random constants}
-\end{multipleChoice}
-
-\begin{feedback}
-The $\rho^2\sin\phi$ factor is crucial! It accounts for how spherical volume elements grow with radius and latitude.
-\end{feedback}
-\end{problem}
-
-\begin{problem}
-Explore spherical coordinates visually.
+Now check the ``Show Sphere'' box to explore spherical coordinates visually.
 
 \begin{expandable}{stuff}{GeoGebra Instructions}
     Select ``Show Sphere'' view. Use sliders for $\rho$, $\phi$, $\theta$. Zoom to see the volume element shape—it's like a tiny curved box on a sphere!
@@ -997,28 +992,27 @@ Find the mass of a sphere of radius $R$ with variable density $\delta(\rho) = k\
 
 In spherical coordinates, the sphere is simply: $0 \leq \rho \leq \answer{R}$
 
-Full angular coverage: $0 \leq \phi \leq \answer{\pi}$, $0 \leq \theta \leq \answer{2\pi}$
+Keep in mind that for the ``vertical'' rotation downward, we only need to rotate around half the circle. The full circular rotation happens in the ``horizontal'' rotation next. 
 
-The mass element is $dM = \delta(\rho)\,dV = k\rho \cdot \rho^2\sin\phi\,d\rho\,d\phi\,d\theta = k\rho^3\sin\phi\,d\rho\,d\phi\,d\theta$.
+So the bounds of $\phi$ are from $0 \leq \phi \leq \answer{\pi}$, 
 
-$$M = \int_0^{2\pi}\int_0^{\pi}\int_0^R k\rho^3\sin\phi\,d\rho\,d\phi\,d\theta$$
+The full rotation in $\theta$ is $0 \leq \theta \leq \answer{2\pi}$.
 
-\textbf{Inner integral (w.r.t. $\rho$):}
-$$\int_0^R k\rho^3\,d\rho = \left[\frac{k\rho^4}{4}\right]_0^R = \answer{kR^4/4}$$
+The mass element is $dM = \delta(\rho)\,dV = \answer{k\rho \cdot \rho^2\sin(\phi)}\,d\rho\,d\phi\,d\theta = k\rho^3\sin\phi\,d\rho\,d\phi\,d\theta$.
 
-\textbf{Middle integral (w.r.t. $\phi$):}
-$$\int_0^{\pi} \frac{kR^4}{4}\sin\phi\,d\phi = \frac{kR^4}{4}[-\cos\phi]_0^{\pi} = \frac{kR^4}{4}[1-(-1)] = \answer{kR^4/2}$$
+This makes the integral for total mass:
 
-\textbf{Outer integral (w.r.t. $\theta$):}
-$$\int_0^{2\pi} \frac{kR^4}{2}\,d\theta = \frac{kR^4}{2} \cdot 2\pi = \answer{k\pi R^4}$$
+$$M = \int_{\answer{0}}^{\answer{2\pi}}\int_{\answer{0}}^{\answer{\pi}}\int_{\answer{0}}^{\answer{R}} \answer{k\rho^3\sin(\phi)}\,d\rho\,d\phi\,d\theta$$
 
-So the total mass is $M = k\pi R^4$.
+\textbf{Inner integral (in $\rho$):}
+$$\int_0^R k\rho^3\sin(\phi)\,d\rho = \sin(\phi)\left[\answer{\frac{k\rho^4}{4}}\right]_0^R = \answer{\sin(\phi)kR^4/4}$$
 
-Notice: if you set $k=0$ (uniform zero density), $M=0$. If you use $\delta=k$ (constant density), the standard volume formula gives $V = \frac{4}{3}\pi R^3$, and $M = kV = \frac{4k\pi R^3}{3}$. The variable density $\delta=k\rho$ shifts mass toward the outer shell.
+\textbf{Middle integral (in $\phi$):}
+$$\int_0^{\pi} \frac{kR^4}{4}\sin\phi\,d\phi = \frac{kR^4}{4}[\answer{-\cos\phi}]_0^{\pi} = \answer{kR^4/2}$$
 
-\begin{feedback}
-Spherical coordinates turned what would have been a nightmare integral (with $\sqrt{x^2+y^2+z^2}$ in the density) into a clean separable integral with constant bounds! The 3D wedge diagram shows the three physical edge lengths: $d\rho$, $\rho\,d\phi$, and $\rho\sin\phi\,d\theta$, whose product gives the volume element $\rho^2\sin\phi\,d\rho\,d\phi\,d\theta$.
-\end{feedback}
+\textbf{Outer integral (in $\theta$):}
+$$\int_0^{2\pi} \frac{kR^4}{2}\,d\theta = \answer{k\pi R^4}$$
+
 \end{problem}
 
 
