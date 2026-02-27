@@ -325,13 +325,13 @@ The following diagram re-emphasizes the basic idea of the coordinate system chan
     node[midway,right,font=\small]{$\Delta z$};
 
   % Bounding box (tight around prism only, mirroring green box on left)
-  \draw[red!60!black,rounded corners,thick] (-0.2,-0.55) rectangle (1.85,{\zt+0.35});
+  \draw[red!60!black,rounded corners,thick] (-0.1,-0.55) rectangle (1.85,{\zt+0.35});
   \node[font=\small,align=center,below] at (0.85,{-0.55})
         {\textbf{Coordinate space} $(x,y,z)$};
 
   % Volume annotation to the RIGHT (mirroring left side)
-  \node[red!70!black,font=\small,align=center] at (2.65,{\zt/2-0.25}) {Volume};
-  \node[red!70!black,font=\small,align=center] at (2.65,{\zt/2-0.4}) {$\approx r\cdot\Delta r\cdot\Delta\theta\cdot\Delta z$};
+  \node[red!70!black,font=\small,align=center] at (2.65,{\zt/2-.7}) {Volume};
+  \node[red!70!black,font=\small,align=center] at (3.65,{\zt/2-.95}) {$\approx r\cdot\Delta r\cdot\Delta\theta\cdot\Delta z$};
 \end{scope}
 
 \end{scope}
@@ -339,7 +339,9 @@ The following diagram re-emphasizes the basic idea of the coordinate system chan
 \end{tikzpicture}
 \end{center}
 
-\textbf{The key comparison:} The parameter-space box has sides $\Delta r$, $\Delta\theta$, $\Delta z$ --- we'd naively compute $\Delta r \cdot \Delta\theta \cdot \Delta z$.  But in coordinate space the angular side becomes an \emph{arc} of length $r\,\Delta\theta$, so the linear approximation of the prism's volume is $r\,\Delta r\,\Delta\theta\,\Delta z$.  As the cell shrinks, we treat the arc as straight and get exactly $dV = r\,dr\,d\theta\,dz$.
+The parameter-space box has sides $\Delta r$, $\Delta\theta$, $\Delta z$ --- we'd naively compute $\Delta r \cdot \Delta\theta \cdot \Delta z$.  
+
+But in cylindrical coordinates the angular side becomes an \emph{arc} of length $r\,\Delta\theta$, so the linear approximation of the prism's volume is $r\,\Delta r\,\Delta\theta\,\Delta z$.  As the cell shrinks, we treat the arc as straight and get exactly $dV = r\,dr\,d\theta\,dz$.
 
 \begin{problem}
 Cylindrical coordinates are built from:
@@ -356,10 +358,6 @@ The volume element $dV = r\,dr\,d\theta\,dz$ comes from:
     \choice[correct]{Taking a polar area element $dA = r\,dr\,d\theta$ and extending it by height $dz$}
     \choice{Spherical geometry}
 \end{multipleChoice}
-
-\begin{feedback}
-Cylindrical coordinates = polar coordinates + vertical height! The volume element is literally $(r\,dr\,d\theta) \times dz$.
-\end{feedback}
 \end{problem}
 
 \begin{problem}
@@ -392,6 +390,12 @@ Before going through some examples, here is a quick video visualizing the main i
 
 
 \textbf{Mass of Fluid in a Rotating Container}
+
+A cylindrical container (radius 2 m, height 5 m) rotates, causing the fluid density to vary:
+$$\delta(r,z) = 1000 + 50r^2 - 20z \text{ kg/m}^3$$
+
+where $(r, \theta, z)$ are cylindrical coordinates.
+
 
 \begin{center}
 \begin{tikzpicture}[x={(0.8cm,-0.4cm)}, y={(0.8cm,0.4cm)}, z={(0cm,1.1cm)}, scale=1.3]
@@ -515,25 +519,14 @@ Before going through some examples, here is a quick video visualizing the main i
 \end{tikzpicture}
 \end{center}
 
-A cylindrical container (radius 2 m, height 5 m) rotates, causing the fluid density to vary:
-$$\delta(r,z) = 1000 + 50r^2 - 20z \text{ kg/m}^3$$
-
-where $(r, \theta, z)$ are cylindrical coordinates.
 
 In cylindrical coordinates, the volume element is:
 $$dV = \answer{r}\,dr\,d\theta\,dz$$
 
 \begin{problem}
 
-Why does $r$ appear here?
-\begin{multipleChoice}
-    \choice{It's always there in 3D}
-    \choice[correct]{The cylindrical shell at radius $r$ has circumference $2\pi r$, making volume proportional to $r$}
-    \choice{To account for rotation}
-    \choice{It's a mistake}
-\end{multipleChoice}
 
-The small mass element: $dM = \delta(r,z) \cdot dV = (1000 + 50r^2 - 20z) \cdot \answer{r}\,dr\,d\theta\,dz$
+The small mass element: $dM = \delta(r,z) \cdot dV = \answer{(1000 + 50r^2 - 20z) \cdot r}\,dr\,d\theta\,dz$
 
 The integral setup for total mass:
 $$M = \int_{\answer{0}}^{\answer{2\pi}} \int_{\answer{0}}^{\answer{5}} \int_{\answer{0}}^{\answer{2}} (1000 + 50r^2 - 20z) \cdot r\,dr\,dz\,d\theta$$
