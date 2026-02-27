@@ -5,1050 +5,1050 @@
 
 \begin{document}
 \begin{abstract}
-In this activity we learn how to compute the Jacobian determinant for coordinate transformations and understand its geometric meaning as a scaling factor for area and volume.
+We explore how coordinate transformations stretch and skew space, building geometric intuition for the Jacobian as a measure of local area and volume distortion --- starting with polar, cylindrical, and spherical coordinates before moving to general transformations.
 \end{abstract}
 \maketitle
 
+%----------------------------------------------------------------------
+\section*{The Big Question: How Much Does a Transformation Skew Space?}
+%----------------------------------------------------------------------
 
+Every time we switch from Cartesian coordinates to polar, cylindrical, or spherical coordinates, we are applying a \emph{transformation} --- a rule that maps one coordinate system to another.  When we integrate over a transformed region, we can't just swap the symbols; we have to account for the fact that the transformation \emph{changes sizes}.  A small square in $(r,\theta)$-space does \emph{not} correspond to a same-sized square in $(x,y)$-space.
 
-\section*{The General Problem}
+The \textbf{Jacobian determinant} is the precise answer to: \emph{how much does this transformation locally skew area (or volume)?}
+
+We'll discover it naturally by studying the three most important coordinate systems first.
+
+%----------------------------------------------------------------------
+\section*{Part I: The Polar Transformation}
+%----------------------------------------------------------------------
+
+\subsection*{Parameter Space vs.\ Coordinate Space}
+
+The polar transformation is:
+\[
+  x = r\cos\theta, \qquad y = r\sin\theta.
+\]
+
+Think of $(r,\theta)$ as \emph{parameter space} and $(x,y)$ as \emph{coordinate space}.  A small rectangle in parameter space gets mapped to a \emph{curved patch} in coordinate space:
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+
+%--- LEFT: parameter space ---
+\begin{scope}[xshift=0cm]
+  \draw[->] (-0.2,0) -- (3.5,0) node[right] {$r$};
+  \draw[->] (0,-0.2) -- (0,3.2) node[above] {$\theta$};
+
+  % small rectangle
+  \def\ro{1.6}
+  \def\tho{1.4}
+  \def\dr{0.7}
+  \def\dth{0.65}
+
+  \fill[blue!20] (\ro,\tho) rectangle (\ro+\dr,\tho+\dth);
+  \draw[blue!70!black, thick] (\ro,\tho) rectangle (\ro+\dr,\tho+\dth);
+
+  % tick marks on axes
+  \draw (\ro, 0.05) -- (\ro,-0.05) node[below] {$r$};
+  \draw (\ro+\dr, 0.05) -- (\ro+\dr,-0.05) node[below] {$r{+}\Delta r$};
+  \draw (0.05,\tho) -- (-0.05,\tho) node[left] {$\theta$};
+  \draw (0.05,\tho+\dth) -- (-0.05,\tho+\dth) node[left] {$\theta{+}\Delta\theta$};
+
+  % dimension arrows
+  \draw[<->, orange!80!black, thick] (\ro, \tho-0.22) -- (\ro+\dr, \tho-0.22)
+        node[midway,below] {$\Delta r$};
+  \draw[<->, orange!80!black, thick] (\ro+\dr+0.18, \tho) -- (\ro+\dr+0.18, \tho+\dth)
+        node[midway,right] {$\Delta\theta$};
+
+  \node[blue!70!black] at (\ro+\dr/2, \tho+\dth/2) {$\Delta r\,\Delta\theta$};
+
+  \node[below] at (1.7,-0.55) {\textbf{Parameter space} $(r,\theta)$};
+\end{scope}
+
+%--- arrow in the middle ---
+\begin{scope}[xshift=3.8cm, yshift=1.3cm]
+  \draw[->, very thick, gray!70] (0,0) -- (1.1,0)
+        node[midway,above] {$T$};
+\end{scope}
+
+%--- RIGHT: coordinate space ---
+\begin{scope}[xshift=5.3cm]
+  \draw[->] (-0.3,0) -- (3.6,0) node[right] {$x$};
+  \draw[->] (0,-0.3) -- (0,3.4) node[above] {$y$};
+
+  % parameters (in degrees for tikz arc)
+  % r0=1.6, r1=2.3,  theta0=80deg, theta1=117deg
+  \def\rIn{1.6}
+  \def\rOut{2.3}
+  \def\thIn{80}
+  \def\thOut{117}
+
+  % Curved patch
+  \fill[blue!20]
+      ({\rIn*cos(\thIn)},{\rIn*sin(\thIn)})
+   -- ({\rOut*cos(\thIn)},{\rOut*sin(\thIn)})
+      arc[start angle=\thIn, end angle=\thOut, radius=\rOut]
+   -- ({\rIn*cos(\thOut)},{\rIn*sin(\thOut)})
+      arc[start angle=\thOut, end angle=\thIn, radius=\rIn]
+      -- cycle;
+
+  \draw[blue!70!black, thick]
+      ({\rIn*cos(\thIn)},{\rIn*sin(\thIn)})
+   -- ({\rOut*cos(\thIn)},{\rOut*sin(\thIn)})
+      arc[start angle=\thIn, end angle=\thOut, radius=\rOut]
+   -- ({\rIn*cos(\thOut)},{\rIn*sin(\thOut)})
+      arc[start angle=\thOut, end angle=\thIn, radius=\rIn]
+      -- cycle;
+
+  % label radial side: Delta r
+  \draw[<->, orange!80!black, thick]
+      ({(\rIn+0.05)*cos(\thIn+1)},{(\rIn+0.05)*sin(\thIn+1)})
+   -- ({(\rOut-0.05)*cos(\thIn+1)},{(\rOut-0.05)*sin(\thIn+1)})
+      node[midway,below right, xshift=2pt] {$\Delta r$};
+
+  % label arc side
+  \pgfmathsetmacro{\thMid}{(\thIn+\thOut)/2}
+  \node[orange!80!black, right] at ({(\rOut+0.28)*cos(\thMid)},{(\rOut+0.28)*sin(\thMid)})
+        {$r\,\Delta\theta$};
+
+  % label the area
+  \node[blue!70!black, font=\small] at
+        ({((\rIn+\rOut)/2)*cos(\thMid)},{((\rIn+\rOut)/2)*sin(\thMid)})
+        {$\approx r\,\Delta r\,\Delta\theta$};
+
+  \node[below] at (1.7,-0.55) {\textbf{Coordinate space} $(x,y)$};
+\end{scope}
+
+\end{tikzpicture}
+\end{center}
 
 \begin{problem}
-Consider a transformation $T$ from $uv$-coordinates to $xy$-coordinates:
-\begin{align*}
-x &= x(u,v)\\
-y &= y(u,v)
-\end{align*}
+Look at the diagram above.
 
-We want to evaluate:
-$$\iint_R f(x,y)\,dx\,dy$$
+The small \textbf{blue rectangle} in parameter space has:
+\begin{itemize}
+  \item width $= \Delta r$ (a change in radius)
+  \item height $= \Delta\theta$ (a change in angle)
+  \item area $= \answer{\Delta r \, \Delta\theta}$
+\end{itemize}
 
-But the region $R$ is easier to describe in $uv$-coordinates!
+After the transformation, the image in coordinate space is a \textbf{curved wedge}.
+What are its approximate side lengths?
 
-The transformation allows us to write:
-$$\iint_R f(x,y)\,dx\,dy = \iint_S f(x(u,v), y(u,v)) \cdot \answer{|J|} \,du\,dv$$
+\begin{itemize}
+  \item The radial sides still have length $\approx \answer{\Delta r}$.
+  \item The arc sides have length $\approx \answer{r\,\Delta\theta}$ (arc length = radius $\times$ angle).
+\end{itemize}
 
-where $|J|$ is the \wordChoice{\choice{derivative}\choice{partial derivative}\choice[correct]{Jacobian determinant}\choice{gradient}}.
+So the area of the curved wedge is approximately:
+$$\Delta A \approx \answer{r} \cdot \Delta r\,\Delta\theta$$
 
 \begin{feedback}
-The Jacobian determinant $|J|$ is the multivariable analog of $g'(x)$ from u-substitution!
+The arc of a circle at radius $r$ subtending angle $\Delta\theta$ has length $r\,\Delta\theta$.  So the curved patch is approximately a rectangle of sides $\Delta r$ and $r\,\Delta\theta$, giving area $r\,\Delta r\,\Delta\theta$.
 \end{feedback}
 \end{problem}
 
-\section*{Visualizing Transformations}
-
 \begin{problem}
-A transformation $T: (u,v) \mapsto (x,y)$ can:
+Now let's see what happens to the \emph{ratio} of areas:
+$$\text{(area in coordinate space)} = \answer{r} \cdot \text{(area in parameter space)}$$
+
+This ratio $r$ depends on \wordChoice{\choice{neither $r$ nor $\theta$}\choice{only $\theta$}\choice[correct]{the position $r$}\choice{a constant}}
+
+So the polar transformation:
 \begin{selectAll}
-    \choice[correct]{Stretch regions}
-    \choice[correct]{Rotate regions}
-    \choice[correct]{Shear regions}
-    \choice[correct]{Change areas}
-    \choice{Create area from nothing}
+  \choice[correct]{Stretches area near large $r$ more than near small $r$}
+  \choice{Stretches all regions by the same factor}
+  \choice[correct]{Compresses thin rings near the origin to tiny areas}
+  \choice{Preserves area everywhere}
 \end{selectAll}
 
-Example transformations:
+\begin{feedback}
+This is why the polar area element is $dA = r\,dr\,d\theta$, not just $dr\,d\theta$!  The factor $r$ is the \emph{Jacobian} --- the local area scaling factor of the polar transformation.
+\end{feedback}
+\end{problem}
+
+\subsection*{The Polar Area Element Derived from Geometry}
+
+\begin{problem}
+Let's make this exact. As $\Delta r \to 0$ and $\Delta\theta \to 0$, the curved wedge becomes infinitesimally thin. In that limit:
+$$dA = \lim_{\Delta r, \Delta\theta \to 0} r\,\Delta r\,\Delta\theta = r\,dr\,d\theta$$
+
+Since the transformation $T:(r,\theta)\mapsto(x,y)$ maps an area element $dr\,d\theta$ to an area element $r\,dr\,d\theta$, we write:
+$$dx\,dy = r\,dr\,d\theta$$
+
+Complete the change of variables formula for polar:
+$$\iint_R f(x,y)\,dx\,dy = \iint_S f(r\cos\theta, r\sin\theta) \cdot \answer{r}\,dr\,d\theta$$
+
+The factor $r$ is the \textbf{Jacobian} of the polar transformation. It tells us:
+\begin{multipleChoice}
+  \choice{How fast the function $f$ changes}
+  \choice{The radius of the region}
+  \choice[correct]{How much the transformation locally scales area at radius $r$}
+  \choice{The arc length}
+\end{multipleChoice}
+
+\begin{feedback}
+The Jacobian of polar coordinates is $J = r$.  It equals zero at the origin because the origin is a single point in $(x,y)$-space even though all angles $\theta$ map there --- the transformation collapses the entire line $r=0$ to a single point!
+\end{feedback}
+\end{problem}
+
+%----------------------------------------------------------------------
+\section*{Part II: The Cylindrical Transformation}
+%----------------------------------------------------------------------
+
+\subsection*{A Small Box in Cylindrical Parameter Space}
+
+The cylindrical transformation adds the $z$-direction to polar:
+\[
+  x = r\cos\theta,\quad y = r\sin\theta,\quad z = z.
+\]
+
+A small box $\Delta r \times \Delta\theta \times \Delta z$ in $(r,\theta,z)$-space maps to a \emph{curved prism} in $(x,y,z)$-space:
+
+\begin{center}
+\begin{tikzpicture}[x={(0.9cm,-0.35cm)}, y={(0.9cm,0.35cm)}, z={(0cm,1cm)}, scale=1.5]
+
+%--- LEFT: parameter space box ---
+\begin{scope}[xshift=-4.5cm]
+  \def\bx{0}  \def\by{0}  \def\bz{0}
+  \def\bw{1.2} \def\bd{1.0} \def\bh{1.1}
+
+  %bottom face
+  \fill[blue!15]  (\bx,\by,\bz) -- (\bx+\bw,\by,\bz) -- (\bx+\bw,\by+\bd,\bz) -- (\bx,\by+\bd,\bz) -- cycle;
+  \draw[blue!60!black] (\bx,\by,\bz) -- (\bx+\bw,\by,\bz) -- (\bx+\bw,\by+\bd,\bz) -- (\bx,\by+\bd,\bz) -- cycle;
+  %top face
+  \fill[blue!25] (\bx,\by,\bz+\bh) -- (\bx+\bw,\by,\bz+\bh) -- (\bx+\bw,\by+\bd,\bz+\bh) -- (\bx,\by+\bd,\bz+\bh) -- cycle;
+  \draw[blue!60!black] (\bx,\by,\bz+\bh) -- (\bx+\bw,\by,\bz+\bh) -- (\bx+\bw,\by+\bd,\bz+\bh) -- (\bx,\by+\bd,\bz+\bh) -- cycle;
+  %vertical edges
+  \draw[blue!60!black] (\bx,\by,\bz) -- (\bx,\by,\bz+\bh);
+  \draw[blue!60!black] (\bx+\bw,\by,\bz) -- (\bx+\bw,\by,\bz+\bh);
+  \draw[blue!60!black] (\bx+\bw,\by+\bd,\bz) -- (\bx+\bw,\by+\bd,\bz+\bh);
+  \draw[blue!60!black] (\bx,\by+\bd,\bz) -- (\bx,\by+\bd,\bz+\bh);
+
+  % labels
+  \node[orange!80!black] at (\bx+\bw/2, \by-0.25, \bz) {$\Delta r$};
+  \node[orange!80!black] at (\bx+\bw+0.2, \by+\bd/2, \bz) {$\Delta\theta$};
+  \node[orange!80!black] at (\bx-0.3, \by, \bz+\bh/2) {$\Delta z$};
+  \node[blue!70!black, font=\small] at (\bx+\bw/2, \by+\bd/2, \bz+\bh/2) {$\Delta r\,\Delta\theta\,\Delta z$};
+
+  \node at (0.6, 0.5, -0.6) {\small \textbf{Param.\ space} $(r,\theta,z)$};
+\end{scope}
+
+%--- arrow ---
+\begin{scope}[xshift=-0.5cm]
+  \draw[->, very thick, gray!70] (0,0,0.7) -- (1.1,0,0.7) node[midway,above] {$T$};
+\end{scope}
+
+%--- RIGHT: coordinate space curved prism ---
+\begin{scope}[xshift=1.8cm]
+  \def\rIn{1.4}
+  \def\rOt{2.0}
+  \def\thA{25}
+  \def\thB{50}
+  \def\zz{0}
+  \def\zt{1.1}
+
+  % Bottom curved face
+  \fill[blue!15]
+    ({\rIn*cos(\thA)},{\rIn*sin(\thA)},\zz)
+    -- ({\rOt*cos(\thA)},{\rOt*sin(\thA)},\zz)
+    arc[start angle=\thA, end angle=\thB, radius=\rOt]
+    -- ({\rIn*cos(\thB)},{\rIn*sin(\thB)},\zz)
+    arc[start angle=\thB, end angle=\thA, radius=\rIn]
+    -- cycle;
+  \draw[blue!60!black]
+    ({\rIn*cos(\thA)},{\rIn*sin(\thA)},\zz)
+    -- ({\rOt*cos(\thA)},{\rOt*sin(\thA)},\zz)
+    arc[start angle=\thA, end angle=\thB, radius=\rOt]
+    -- ({\rIn*cos(\thB)},{\rIn*sin(\thB)},\zz)
+    arc[start angle=\thB, end angle=\thA, radius=\rIn]
+    -- cycle;
+
+  % Top curved face
+  \fill[blue!25]
+    ({\rIn*cos(\thA)},{\rIn*sin(\thA)},\zt)
+    -- ({\rOt*cos(\thA)},{\rOt*sin(\thA)},\zt)
+    arc[start angle=\thA, end angle=\thB, radius=\rOt]
+    -- ({\rIn*cos(\thB)},{\rIn*sin(\thB)},\zt)
+    arc[start angle=\thB, end angle=\thA, radius=\rIn]
+    -- cycle;
+  \draw[blue!60!black]
+    ({\rIn*cos(\thA)},{\rIn*sin(\thA)},\zt)
+    -- ({\rOt*cos(\thA)},{\rOt*sin(\thA)},\zt)
+    arc[start angle=\thA, end angle=\thB, radius=\rOt]
+    -- ({\rIn*cos(\thB)},{\rIn*sin(\thB)},\zt)
+    arc[start angle=\thB, end angle=\thA, radius=\rIn]
+    -- cycle;
+
+  % Vertical edges
+  \draw[blue!60!black]
+    ({\rIn*cos(\thA)},{\rIn*sin(\thA)},\zz) -- ({\rIn*cos(\thA)},{\rIn*sin(\thA)},\zt);
+  \draw[blue!60!black]
+    ({\rOt*cos(\thA)},{\rOt*sin(\thA)},\zz) -- ({\rOt*cos(\thA)},{\rOt*sin(\thA)},\zt);
+  \draw[blue!60!black]
+    ({\rIn*cos(\thB)},{\rIn*sin(\thB)},\zz) -- ({\rIn*cos(\thB)},{\rIn*sin(\thB)},\zt);
+  \draw[blue!60!black]
+    ({\rOt*cos(\thB)},{\rOt*sin(\thB)},\zz) -- ({\rOt*cos(\thB)},{\rOt*sin(\thB)},\zt);
+
+  % labels
+  \pgfmathsetmacro{\thM}{(\thA+\thB)/2}
+  \node[orange!80!black, font=\small] at
+        ({(\rIn+\rOt)/2*cos(\thA)-0.1},{(\rIn+\rOt)/2*sin(\thA)-0.15},0)
+        {$\Delta r$};
+  \node[orange!80!black, font=\small] at
+        ({(\rOt+0.35)*cos(\thM+3)},{(\rOt+0.35)*sin(\thM+3)},\zz)
+        {$r\,\Delta\theta$};
+  \node[orange!80!black, font=\small] at
+        ({\rOt*cos(\thA)+0.1},{\rOt*sin(\thA)+0.1},\zt/2)
+        {$\Delta z$};
+
+  \node[blue!70!black, font=\footnotesize] at
+        ({(\rIn+\rOt)/2*cos(\thM)},{(\rIn+\rOt)/2*sin(\thM)},\zt/2)
+        {$\approx r\,\Delta r\,\Delta\theta\,\Delta z$};
+
+  \node at (0.5, 1.7, -0.5) {\small \textbf{Coord.\ space} $(x,y,z)$};
+\end{scope}
+
+\end{tikzpicture}
+\end{center}
+
+\begin{problem}
+In cylindrical coordinates, the $z$-direction is \emph{unchanged} by the transformation.  So the volume element in cylindrical coordinates is built by:
 \begin{enumerate}
-    \item \textbf{Scaling:} $x = 2u$, $y = 3v$
-    
-    A $1 \times 1$ square in the $uv$-plane becomes a $\answer{2} \times \answer{3}$ rectangle in the $xy$-plane.
-    
-    The area scales by a factor of: $\answer{6}$
-    
-    \item \textbf{Rotation by $\pi/4$:} $x = \frac{u-v}{\sqrt{2}}$, $y = \frac{u+v}{\sqrt{2}}$
-    
-    Rotations preserve area: the scaling factor is $\answer{1}$
-    
-    \item \textbf{Polar:} $x = r\cos\theta$, $y = r\sin\theta$
-    
-    The scaling factor depends on position and equals: $\answer{r}$
+  \item Taking the polar area element in the $(x,y)$-plane: $\answer{r}\,dr\,d\theta$
+  \item Multiplying by the height element: $dz$
 \end{enumerate}
 
-\begin{feedback}
-Different transformations affect areas differently! The Jacobian captures exactly how much the area changes.
-\end{feedback}
-\end{problem}
-
-\section*{Worked Example: Linear Transformation}
-
-\begin{problem}
-Consider the transformation:
-\begin{align*}
-x &= 2u + v\\
-y &= u + 3v
-\end{align*}
-
-Let's compute the Jacobian step by step (we'll learn the formula in the next activity).
-
-The transformation maps the square $0 \leq u,v \leq 1$ to a parallelogram in the $xy$-plane.
-
-\textbf{Find the corners:}
-
-$(u,v) = (0,0) \mapsto (x,y) = (\answer{0}, \answer{0})$
-
-$(u,v) = (1,0) \mapsto (x,y) = (\answer{2}, \answer{1})$
-
-$(u,v) = (0,1) \mapsto (x,y) = (\answer{1}, \answer{3})$
-
-$(u,v) = (1,1) \mapsto (x,y) = (\answer{3}, \answer{4})$
-
-The Jacobian determinant for this linear transformation is $|J| = 5$.
-
-If we integrate $f(x,y) = 1$ over the parallelogram to find its area:
-$$\text{Area} = \iint_{\text{parallelogram}} dx\,dy = \int_0^1\int_0^1 |J|\,du\,dv = \int_0^1\int_0^1 5\,du\,dv = \answer{5}$$
-
-\begin{feedback}
-The Jacobian told us that the $1 \times 1$ square (area = 1) in the $uv$-plane maps to a parallelogram with area = 5 in the $xy$-plane!
-\end{feedback}
-\end{problem}
-
-\section*{Setting Up Integrals with Change of Variables}
-
-Here's an applet for reference
-
-% https://www.geogebra.org/m/bqqfyjdm
-% https://www.geogebra.org/m/sebfhwzx
-% https://www.geogebra.org/m/xqrs44yg
-% https://www.geogebra.org/m/hv9rk7hj
-% https://www.geogebra.org/m/sgevexqr
-% https://www.geogebra.org/m/yukegeqk
-% https://www.geogebra.org/m/rwjghwbb
-
-\begin{problem}
-To change variables in a double integral, follow these steps:
-
-\textbf{Step 1:} Identify the transformation
-$$x = x(u,v), \quad y = y(u,v)$$
-
-\textbf{Step 2:} Find the Jacobian determinant $|J|$
-
-\textbf{Step 3:} Express the function in new coordinates
-$$f(x,y) = f(x(u,v), y(u,v))$$
-
-\textbf{Step 4:} Determine the new bounds (region $S$ in $uv$-plane)
-
-\textbf{Step 5:} Write the transformed integral
-$$\iint_R f(x,y)\,dx\,dy = \iint_S f(x(u,v), y(u,v)) |J|\,du\,dv$$
-
-Which step is most critical?
-\begin{multipleChoice}
-    \choice{Step 1 - identifying the transformation}
-    \choice[correct]{Step 2 - computing the Jacobian (all steps are important!)}
-    \choice{Step 3 - substituting the function}
-    \choice{Step 4 - finding new bounds}
-\end{multipleChoice}
-
-\begin{feedback}
-Actually, all steps are crucial! Miss any one and the integral will be wrong. But the Jacobian is what makes the integral correct.
-\end{feedback}
-\end{problem}
-
-\section*{Example: Ellipse to Circle}
-
-\begin{problem}
-Integrate $f(x,y) = 1$ over the ellipse $\frac{x^2}{4} + y^2 \leq 1$.
-
-\textbf{Bad approach:} Use rectangular coordinates directly. The bounds are messy!
-
-\textbf{Better approach:} Transform the ellipse to a circle.
-
-Define: $u = \frac{x}{2}$, $v = y$
-
-Then: $x = \answer{2u}$, $y = \answer{v}$
-
-The ellipse becomes: $u^2 + v^2 \leq \answer{1}$ (a unit circle!)
-
-Now we can use polar: $u = r\cos\theta$, $v = r\sin\theta$
-
-Chain the transformations:
-\begin{align*}
-x &= 2u = 2r\cos\theta\\
-y &= v = r\sin\theta
-\end{align*}
-
-The combined Jacobian is: $|J| = 2r$ (we'll verify this in the next activity)
-
-The integral becomes:
-$$\text{Area} = \int_0^{2\pi}\int_0^1 2r\,dr\,d\theta$$
-
-Evaluate:
-$$= \int_0^{2\pi} \left[\answer{r^2}\right]_0^1 d\theta = \int_0^{2\pi} 1\,d\theta = \answer{2\pi}$$
-
-This is the area of an ellipse with semi-axes $a=2, b=1$: Area $= \pi ab = \pi(2)(1) = 2\pi$ \checkmark
-
-\begin{feedback}
-By transforming to simpler coordinates, we turned a difficult integral into an easy one!
-\end{feedback}
-\end{problem}
-
-\section*{Triple Integrals: Cylindrical Coordinates}
-
-\begin{problem}
-For cylindrical coordinates:
-\begin{align*}
-x &= r\cos\theta\\
-y &= r\sin\theta\\
-z &= z
-\end{align*}
-
-The volume element transforms as:
+This gives:
 $$dV = dx\,dy\,dz = \answer{r}\,dr\,d\theta\,dz$$
 
-This is really just:
+The cylindrical Jacobian (volume scaling factor) is:
+$$J_{\text{cyl}} = \answer{r}$$
+
+Why is it the same as the polar Jacobian?
 \begin{multipleChoice}
-    \choice{A random formula}
-    \choice[correct]{Polar in the $xy$-plane, times $dz$ for height}
-    \choice{Spherical coordinates}
-\end{multipleChoice}
-
-Evaluate: $\displaystyle\iiint_E z\,dV$ where $E$ is the cylinder $x^2 + y^2 \leq 4$, $0 \leq z \leq 3$.
-
-In cylindrical coordinates:
-\begin{itemize}
-    \item $0 \leq r \leq \answer{2}$
-    \item $0 \leq \theta \leq \answer{2\pi}$
-    \item $0 \leq z \leq \answer{3}$
-\end{itemize}
-
-$$\iiint_E z\,dV = \int_0^{2\pi}\int_0^2\int_0^3 z \cdot r\,dz\,dr\,d\theta$$
-
-Evaluate from inside out:
-$$\int_0^3 z\,dz = \left[\frac{z^2}{2}\right]_0^3 = \answer{9/2}$$
-
-$$\int_0^2 \frac{9r}{2}\,dr = \frac{9}{2}\left[\frac{r^2}{2}\right]_0^2 = \frac{9}{2} \cdot 2 = \answer{9}$$
-
-$$\int_0^{2\pi} 9\,d\theta = 9 \cdot 2\pi = \answer{18\pi}$$
-
-\begin{feedback}
-Cylindrical coordinates turned this into a straightforward computation with constant bounds!
-\end{feedback}
-\end{problem}
-
-\section*{Triple Integrals: Spherical Coordinates}
-
-\begin{problem}
-For spherical coordinates:
-\begin{align*}
-x &= \rho\sin\phi\cos\theta\\
-y &= \rho\sin\phi\sin\theta\\
-z &= \rho\cos\phi
-\end{align*}
-
-The volume element is:
-$$dV = dx\,dy\,dz = \answer{\rho^2\sin\phi}\,d\rho\,d\phi\,d\theta$$
-
-The Jacobian $\rho^2\sin\phi$ accounts for:
-\begin{selectAll}
-    \choice[correct]{How spherical shells expand with radius}
-    \choice[correct]{The latitude effect (circles are smaller near poles)}
-    \choice{Random factors}
-    \choice[correct]{The geometry of spherical coordinates}
-\end{selectAll}
-
-Find the volume of a cone: $z \geq \sqrt{x^2+y^2}$, $0 \leq z \leq 1$.
-
-In spherical coordinates, $z = \rho\cos\phi$ and $\sqrt{x^2+y^2} = \rho\sin\phi$.
-
-The condition $z \geq \sqrt{x^2+y^2}$ becomes:
-$$\rho\cos\phi \geq \rho\sin\phi \Rightarrow \cos\phi \geq \sin\phi$$
-
-This is satisfied when $\phi \leq \answer{\pi/4}$ (the cone angle from the $z$-axis).
-
-The condition $0 \leq z \leq 1$ with $z = \rho\cos\phi$ gives $\rho \leq \frac{1}{\cos\phi}$ (for $\phi \leq \pi/4$).
-
-Bounds:
-\begin{itemize}
-    \item $0 \leq \rho \leq \frac{1}{\cos\phi}$
-    \item $0 \leq \phi \leq \pi/4$
-    \item $0 \leq \theta \leq 2\pi$
-\end{itemize}
-
-$$V = \int_0^{2\pi}\int_0^{\pi/4}\int_0^{1/\cos\phi} \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$$
-
-This evaluates to $V = \frac{\pi(2-\sqrt{2})}{3}$ (computation omitted).
-
-\begin{feedback}
-Spherical coordinates naturally describe cones and spheres with their radial and angular structure!
-\end{feedback}
-\end{problem}
-
-\section*{When to Change Variables}
-
-\begin{problem}
-Consider changing variables when:
-\begin{selectAll}
-    \choice[correct]{The region has circular, cylindrical, or spherical symmetry}
-    \choice[correct]{The function simplifies in other coordinates ($x^2+y^2$ suggests polar)}
-    \choice[correct]{The bounds become constants in new coordinates}
-    \choice[correct]{An ellipse can be transformed to a circle}
-    \choice{You want to make the problem harder}
-    \choice[correct]{The Jacobian is easy to compute}
-\end{selectAll}
-
-Match the coordinate system to the region:
-
-\textbf{1. Cylinder $x^2+y^2 \leq R^2$, $0 \leq z \leq H$:}
-\wordChoice{\choice{Rectangular}\choice[correct]{Cylindrical}\choice{Spherical}}
-
-\textbf{2. Sphere $x^2+y^2+z^2 \leq R^2$:}
-\wordChoice{\choice{Rectangular}\choice{Cylindrical}\choice[correct]{Spherical}}
-
-\textbf{3. Rectangle $0 \leq x \leq a$, $0 \leq y \leq b$:}
-\wordChoice{\choice[correct]{Rectangular}\choice{Cylindrical}\choice{Spherical}}
-
-\textbf{4. Disk $x^2+y^2 \leq R^2$:}
-\wordChoice{\choice{Rectangular}\choice[correct]{Polar}\choice{Spherical}}
-
-\begin{feedback}
-Match the coordinate system to the geometry! This is the key to simplifying integrals.
-\end{feedback}
-\end{problem}
-
-\section*{Converting Between Coordinate Systems}
-
-\begin{problem}
-\textbf{From Cylindrical to Spherical Coordinates}
-
-Sometimes a problem is initially set up in one coordinate system but would be simpler in another!
-
-Consider the integral in cylindrical coordinates:
-$$I = \int_0^{2\pi} \int_0^{\pi/4} \int_0^{2\cos z} r\sqrt{r^2+z^2}\,dr\,dz\,d\theta$$
-
-The region is complicated in cylindrical coordinates. Let's analyze it:
-\begin{itemize}
-    \item The bound $0 \leq r \leq 2\cos z$ suggests the radius depends on height
-    \item The expression $\sqrt{r^2+z^2}$ appears—this is the distance from the origin!
-\end{itemize}
-
-In cylindrical coordinates: $r$ (radial from $z$-axis), $\theta$ (angle), $z$ (height)
-
-In spherical coordinates: $\rho$ (distance from origin), $\phi$ (angle from $z$-axis), $\theta$ (azimuthal angle)
-
-The relationship between systems:
-\begin{align*}
-r &= \rho\sin\phi\\
-z &= \rho\cos\phi\\
-\theta &= \theta
-\end{align*}
-
-Importantly: $r^2 + z^2 = \rho^2\sin^2\phi + \rho^2\cos^2\phi = \answer{\rho^2}$
-
-So $\sqrt{r^2+z^2} = \answer{\rho}$ (assuming $\rho \geq 0$)
-
-The integrand simplifies: $r\sqrt{r^2+z^2} = (\rho\sin\phi)(\rho) = \answer{\rho^2\sin\phi}$
-
-\textbf{Converting the bounds:}
-
-The upper bound $r = 2\cos z$ becomes:
-$$\rho\sin\phi = 2\cos(\rho\cos\phi)$$
-
-Wait, this is messy! Let's reconsider the region description.
-
-Actually, for $0 \leq z \leq \pi/4$ and $0 \leq r \leq 2\cos z$, as $z$ increases from 0 to $\pi/4$:
-\begin{itemize}
-    \item When $z = 0$: $r$ can be from 0 to $2\cos(0) = 2$
-    \item When $z = \pi/4$: $r$ can be from 0 to $2\cos(\pi/4) = \sqrt{2}$
-\end{itemize}
-
-In spherical coordinates, $\phi$ is angle from the $z$-axis, so:
-\begin{itemize}
-    \item $0 \leq \phi \leq \answer{\pi/4}$ (covers the cone-like region)
-    \item $0 \leq \rho \leq \answer{2}$ (maximum radius)
-    \item $0 \leq \theta \leq \answer{2\pi}$ (full rotation)
-\end{itemize}
-
-The volume element transforms: $r\,dr\,dz\,d\theta \to \answer{\rho^2\sin\phi}\,d\rho\,d\phi\,d\theta$
-
-The integral becomes:
-$$I = \int_0^{2\pi} \int_0^{\pi/4} \int_0^{2} \rho^2\sin\phi \cdot \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$$
-
-Simplifying: $\rho^2\sin\phi \cdot \rho^2\sin\phi = \answer{\rho^4\sin^2\phi}$
-
-$$I = \int_0^{2\pi} \int_0^{\pi/4} \int_0^{2} \rho^4\sin^2\phi\,d\rho\,d\phi\,d\theta$$
-
-This is much easier to evaluate! The bounds are constants, and the integrand separates nicely.
-
-\begin{feedback}
-Converting between coordinate systems requires understanding how the variables relate and how volume elements transform. The key insight was recognizing that $\sqrt{r^2+z^2} = \rho$ in spherical coordinates, which simplified the integrand dramatically!
-\end{feedback}
-\end{problem}
-
-\begin{problem}
-\textbf{Another Example: Ice Cream Cone}
-
-Evaluate the mass of an ``ice cream cone'' region:
-\begin{itemize}
-    \item Below the hemisphere $z = \sqrt{4 - x^2 - y^2}$ (radius 2, centered at origin)
-    \item Above the cone $z = \sqrt{x^2+y^2}$
-    \item With density $\delta = z$
-\end{itemize}
-
-This is initially in rectangular coordinates. Let's try cylindrical first:
-
-In cylindrical: $x^2+y^2 = r^2$, so:
-\begin{itemize}
-    \item Hemisphere: $z = \sqrt{4-r^2}$
-    \item Cone: $z = r$
-\end{itemize}
-
-The cone and hemisphere intersect when:
-$$r = \sqrt{4-r^2} \implies r^2 = 4-r^2 \implies 2r^2 = 4 \implies r = \answer{\sqrt{2}}$$
-
-In cylindrical coordinates:
-$$M = \int_0^{2\pi} \int_0^{\sqrt{2}} \int_r^{\sqrt{4-r^2}} z \cdot r\,dz\,dr\,d\theta$$
-
-The $z$-integral is: $\int_r^{\sqrt{4-r^2}} z\,dz = \left[\frac{z^2}{2}\right]_r^{\sqrt{4-r^2}} = \frac{4-r^2}{2} - \frac{r^2}{2} = \answer{2-r^2}$
-
-But what if we use spherical coordinates instead?
-
-In spherical coordinates:
-\begin{itemize}
-    \item The hemisphere is simply: $\rho = \answer{2}$
-    \item The cone $z = \sqrt{x^2+y^2}$ becomes: $\rho\cos\phi = \rho\sin\phi$, so $\tan\phi = 1$, giving $\phi = \answer{\pi/4}$
-\end{itemize}
-
-The density $\delta = z = \rho\cos\phi$
-
-In spherical:
-$$M = \int_0^{2\pi} \int_0^{\pi/4} \int_0^{2} (\rho\cos\phi) \cdot \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$$
-
-$$= \int_0^{2\pi} d\theta \int_0^{\pi/4} \cos\phi\sin\phi\,d\phi \int_0^{2} \rho^3\,d\rho$$
-
-Which coordinate system is easier here?
-\begin{multipleChoice}
-    \choice{Cylindrical - the bounds are more familiar}
-    \choice[correct]{Spherical - the bounds are constants and the integral separates}
-    \choice{Rectangular - it's always safest}
-    \choice{They're equally difficult}
-\end{multipleChoice}
-
-The spherical integral separates into three independent integrals:
-\begin{itemize}
-    \item $\int_0^{2\pi} d\theta = \answer{2\pi}$
-    \item $\int_0^{\pi/4} \cos\phi\sin\phi\,d\phi = \int_0^{\pi/4} \frac{1}{2}\sin(2\phi)\,d\phi = \answer{1/4}$
-    \item $\int_0^{2} \rho^3\,d\rho = \left[\frac{\rho^4}{4}\right]_0^2 = \answer{4}$
-\end{itemize}
-
-Total mass: $M = 2\pi \cdot \frac{1}{4} \cdot 4 = \answer{2\pi}$
-
-\begin{feedback}
-Excellent! The spherical coordinate system matched the geometry perfectly—both the hemisphere and cone had simple descriptions, and the integral separated into three easy pieces. This demonstrates the power of choosing the right coordinate system!
-\end{feedback}
-\end{problem}
-
-\section*{Summary of Coordinate Transformations}
-
-\begin{problem}
-Complete the transformation summary:
-
-\textbf{Polar Coordinates:}
-\begin{itemize}
-    \item Transformation: $x = r\cos\theta$, $y = r\sin\theta$
-    \item Jacobian: $|J| = \answer{r}$
-    \item Element: $dA = \answer{r\,dr\,d\theta}$
-\end{itemize}
-
-\textbf{Cylindrical Coordinates:}
-\begin{itemize}
-    \item Transformation: $x = r\cos\theta$, $y = r\sin\theta$, $z = z$
-    \item Jacobian: $|J| = \answer{r}$
-    \item Element: $dV = \answer{r\,dr\,d\theta\,dz}$
-\end{itemize}
-
-\textbf{Spherical Coordinates:}
-\begin{itemize}
-    \item Transformation: $x = \rho\sin\phi\cos\theta$, $y = \rho\sin\phi\sin\theta$, $z = \rho\cos\phi$
-    \item Jacobian: $|J| = \answer{\rho^2\sin\phi}$
-    \item Element: $dV = \answer{\rho^2\sin\phi\,d\rho\,d\phi\,d\theta}$
-\end{itemize}
-
-The Jacobian in each case tells us:
-\begin{multipleChoice}
-    \choice{The function value}
-    \choice[correct]{How volume elements scale under the transformation}
-    \choice{The bounds of integration}
-    \choice{The region shape}
+  \choice[correct]{Because the $z$-direction is untransformed, so only the horizontal area element gets scaled}
+  \choice{It's a coincidence}
+  \choice{Because cylindrical and polar are completely different}
+  \choice{Because $z$ cancels out}
 \end{multipleChoice}
 
 \begin{feedback}
-These standard transformations and their Jacobians should be memorized—they appear constantly in applications!
+Cylindrical coordinates are just polar in the horizontal plane, stacked up vertically.  The $z$-coordinate maps to itself, so its contribution to the Jacobian is $\frac{\partial z}{\partial z} = 1$ --- no stretching in the $z$-direction!
 \end{feedback}
 \end{problem}
 
-\section*{Final Practice}
-
 \begin{problem}
-Select all TRUE statements about changing variables:
+Geometrically, the curved prism has three distinct side lengths:
+\begin{itemize}
+  \item Radial side: $\answer{\Delta r}$
+  \item Arc side: $\answer{r\,\Delta\theta}$ (same as polar)
+  \item Vertical side: $\answer{\Delta z}$
+\end{itemize}
 
-\begin{selectAll}
-    \choice[correct]{The Jacobian accounts for how areas/volumes change}
-    \choice[correct]{Change of variables extends u-substitution to multiple dimensions}
-    \choice{The Jacobian is always 1}
-    \choice[correct]{Polar, cylindrical, and spherical are the most common transformations}
-    \choice[correct]{Good coordinate choice simplifies both bounds and integrands}
-    \choice{You can ignore the Jacobian if the transformation is simple}
-    \choice[correct]{The Jacobian can be computed using partial derivatives}
-    \choice[correct]{Linear transformations have constant Jacobians}
-\end{selectAll}
+So the approximate volume is:
+$$\Delta V \approx \answer{r\,\Delta r\,\Delta\theta\,\Delta z}$$
 
-\begin{feedback}
-Perfect! In the next activity, we'll learn exactly how to compute the Jacobian determinant for any transformation.
-\end{feedback}
-\end{problem}
-
-
-\section*{Introduction: What is a Jacobian?}
-
-The Jacobian is the multivariable calculus tool that tells us how areas and volumes change under coordinate transformations.
-
-\begin{problem}
-In single-variable u-substitution, we have:
-$$\int f(g(x)) g'(x)\,dx = \int f(u)\,du$$
-
-The derivative $g'(x)$ measures:
+At a larger radius $r$, the curved prism is:
 \begin{multipleChoice}
-    \choice{The value of the function}
-    \choice[correct]{How $dx$ stretches or compresses to become $du$}
-    \choice{The area under the curve}
-    \choice{Nothing important}
+  \choice{The same size as a prism near the origin}
+  \choice[correct]{Larger, because the arc $r\,\Delta\theta$ is longer}
+  \choice{Smaller}
+  \choice{Impossible to say}
 \end{multipleChoice}
 
-For transformations in multiple dimensions, we need to measure how:
-\begin{selectAll}
-    \choice[correct]{Areas change in 2D}
-    \choice[correct]{Volumes change in 3D}
-    \choice{Functions change}
-    \choice[correct]{Small regions stretch, compress, rotate, or shear}
-\end{selectAll}
-
 \begin{feedback}
-The Jacobian determinant is the multidimensional analog of the derivative $g'(x)$!
+This is exactly why we must include the factor of $r$ when integrating in cylindrical coordinates!  Near the origin, the same angular slice $\Delta\theta$ sweeps out much less area than the same slice far from the axis.
 \end{feedback}
 \end{problem}
 
-\section*{The Jacobian Matrix}
+%----------------------------------------------------------------------
+\section*{Part III: The Spherical Transformation}
+%----------------------------------------------------------------------
+
+\subsection*{Unwrapping the Spherical Volume Element}
+
+The spherical transformation is:
+\[
+  x = \rho\sin\phi\cos\theta,\quad
+  y = \rho\sin\phi\sin\theta,\quad
+  z = \rho\cos\phi.
+\]
+
+Here $\rho$ is the distance from the origin, $\phi$ is the angle \emph{from the north pole} (the $z$-axis), and $\theta$ is the usual azimuthal angle around the $z$-axis.
+
+Let's figure out the volume element geometrically by examining what the three parameter directions do to small distances:
+
+\begin{center}
+\begin{tikzpicture}[scale=2.1]
+  % Three edge vectors of the volume element
+
+  \draw[->, thick, red!70!black] (0,0) -- (1.1,0) node[right] {$\hat{\rho}$, length $d\rho$};
+  \draw[->, thick, green!60!black] (0,0) -- (-0.3, 0.9) node[above left] {$\hat{\phi}$, length $\rho\,d\phi$};
+  \draw[->, thick, blue!70!black] (0,0) -- (0.0,-0.75) node[below] {$\hat{\theta}$, length $\rho\sin\phi\,d\theta$};
+
+  % bottom face in rho-theta plane
+  \fill[blue!15, opacity=0.7]
+    (0,0) -- (1.1,0) -- (1.1,-0.75) -- (0,-0.75) -- cycle;
+  \draw[gray!60]
+    (0,0) -- (1.1,0) -- (1.1,-0.75) -- (0,-0.75) -- cycle;
+
+  % left face in phi-theta plane
+  \fill[green!15, opacity=0.7]
+    (0,0) -- (-0.3,0.9) -- (-0.3,0.15) -- (0,-0.75) -- cycle;
+  \draw[gray!60]
+    (0,0) -- (-0.3,0.9) -- (-0.3,0.15) -- (0,-0.75) -- cycle;
+
+  % top face in rho-phi plane
+  \fill[red!15, opacity=0.7]
+    (0,0) -- (1.1,0) -- (0.8,0.9) -- (-0.3,0.9) -- cycle;
+  \draw[gray!60]
+    (0,0) -- (1.1,0) -- (0.8,0.9) -- (-0.3,0.9) -- cycle;
+
+  % complete far faces
+  \fill[blue!10, opacity=0.5]
+    (-0.3,0.9) -- (0.8,0.9) -- (0.8,0.15) -- (-0.3,0.15) -- cycle;
+  \draw[gray!60]
+    (-0.3,0.9) -- (0.8,0.9) -- (0.8,0.15) -- (-0.3,0.15) -- cycle;
+
+  \fill[red!10, opacity=0.5]
+    (1.1,0) -- (0.8,0.9) -- (0.8,0.15) -- (1.1,-0.75) -- cycle;
+  \draw[gray!60]
+    (1.1,0) -- (0.8,0.9) -- (0.8,0.15) -- (1.1,-0.75) -- cycle;
+
+  % Volume label
+  \node[font=\small] at (0.4, 0.07) {$dV \approx d\rho \cdot \rho\,d\phi \cdot \rho\sin\phi\,d\theta$};
+  \node[font=\small] at (0.4, -0.2) {$= \rho^2\sin\phi\; d\rho\,d\phi\,d\theta$};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{problem}
+The key to the spherical volume element is understanding what a small step in each parameter direction does in \emph{actual distance}.
+
+Match each parameter step to its corresponding actual length:
+
+\begin{itemize}
+  \item $d\rho$ (step outward along a radius): actual distance $= \answer{d\rho}$ (just the step itself)
+  \item $d\phi$ (step in polar angle from the north pole): actual arc distance $= \answer{\rho}\,d\phi$ (radius $\times$ angle)
+  \item $d\theta$ (step in azimuthal angle): actual arc distance $= \rho\sin\phi\,d\theta$
+\end{itemize}
+
+Why is the $d\theta$ arc length $\rho\sin\phi\,d\theta$ rather than $\rho\,d\theta$?
+
+\begin{multipleChoice}
+  \choice{Because $\theta$ is a different kind of angle}
+  \choice[correct]{Because horizontal circles at latitude $\phi$ have radius $\rho\sin\phi$, not $\rho$}
+  \choice{Because of a computational error}
+  \choice{Because spheres are weird}
+\end{multipleChoice}
+
+\begin{feedback}
+At angle $\phi$ from the north pole, you are at height $z = \rho\cos\phi$ and horizontal distance $r = \rho\sin\phi$ from the $z$-axis.  So the horizontal circle at that latitude has radius $\rho\sin\phi$.  An angular step $d\theta$ around that circle sweeps arc length $\rho\sin\phi\,d\theta$.
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Now multiply the three side lengths of the infinitesimal box to get the volume:
+$$dV = (\text{radial}) \times (\text{polar arc}) \times (\text{azimuthal arc})$$
+$$= \answer{\rho^2\sin\phi}\,d\rho\,d\phi\,d\theta$$
+
+The spherical Jacobian is:
+$$J_{\text{sph}} = \answer{\rho^2\sin\phi}$$
+
+The factor $\rho^2$ means:
+\begin{multipleChoice}
+  \choice{The sphere has radius $\rho^2$}
+  \choice[correct]{Spherical shells at large $\rho$ enclose much more volume per unit $d\rho$}
+  \choice{A random scaling}
+  \choice{The Jacobian equals the volume}
+\end{multipleChoice}
+
+The factor $\sin\phi$ means:
+\begin{multipleChoice}
+  \choice[correct]{Near the poles ($\phi \approx 0$ or $\phi \approx \pi$), area elements are compressed because horizontal circles are small}
+  \choice{Near the equator, volume vanishes}
+  \choice{The Jacobian is zero at the poles for no reason}
+  \choice{$\phi$ cancels out}
+\end{multipleChoice}
+
+\begin{feedback}
+Both factors perfectly capture the geometry of the sphere: the $\rho^2$ accounts for the quadratic growth of shell area with radius, and the $\sin\phi$ accounts for the shrinking horizontal circles as we approach the poles.  This is why $dV = \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$.
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Now let's see the spherical volume element in action.
+
+\textbf{The volume of a sphere of radius $R$:}
+$$V = \int_0^{2\pi}\int_0^{\pi}\int_0^R \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$$
+
+Evaluate the $\rho$ integral first:
+$$\int_0^R \rho^2\,d\rho = \answer{R^3/3}$$
+
+Now evaluate the $\phi$ integral:
+$$\int_0^{\pi} \sin\phi\,d\phi = \Big[-\cos\phi\Big]_0^{\pi} = \answer{2}$$
+
+Finally the $\theta$ integral:
+$$\int_0^{2\pi} d\theta = \answer{2\pi}$$
+
+Putting it all together:
+$$V = \frac{R^3}{3} \cdot 2 \cdot 2\pi = \answer{\frac{4\pi R^3}{3}}$$
+
+\begin{feedback}
+The spherical Jacobian $\rho^2\sin\phi$ does all the geometric heavy lifting!  Without it we'd just get $2\pi^2 R^3$ --- completely wrong.
+\end{feedback}
+\end{problem}
+
+%----------------------------------------------------------------------
+\section*{Part IV: The Jacobian --- The General Story}
+%----------------------------------------------------------------------
+
+\subsection*{From Geometry to Algebra}
+
+We saw the Jacobian emerge geometrically for polar, cylindrical, and spherical coordinates.  Now let's see where it comes from in general.
+
+Given \emph{any} transformation $T:(u,v)\mapsto(x,y)$:
+\[
+  x = x(u,v),\qquad y = y(u,v),
+\]
+how does a small $\Delta u \times \Delta v$ rectangle transform?
+
+The two edges of the rectangle map approximately to:
+\[
+  \vec{e}_u = \left(\frac{\partial x}{\partial u}\Delta u,\; \frac{\partial y}{\partial u}\Delta u\right), \qquad
+  \vec{e}_v = \left(\frac{\partial x}{\partial v}\Delta v,\; \frac{\partial y}{\partial v}\Delta v\right).
+\]
+
+The image is approximately a \emph{parallelogram} spanned by $\vec{e}_u$ and $\vec{e}_v$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.05]
+
+%--- LEFT: small rectangle in uv-space ---
+\begin{scope}[xshift=0cm]
+  \draw[->](-0.2,0)--(3.3,0) node[right]{$u$};
+  \draw[->](0,-0.2)--(0,2.8) node[above]{$v$};
+
+  \fill[blue!20] (1.2,0.9) rectangle (2.5,2.0);
+  \draw[blue!60!black, thick] (1.2,0.9) rectangle (2.5,2.0);
+
+  \draw[->, orange!80!black, very thick] (1.2,0.9) -- (2.5,0.9)
+        node[midway, below]{$\Delta u$};
+  \draw[->, violet!80!black, very thick] (1.2,0.9) -- (1.2,2.0)
+        node[midway, left]{$\Delta v$};
+
+  \node[blue!70!black] at (1.85, 1.45) {$\Delta A = \Delta u\,\Delta v$};
+  \node[below] at (1.5, -0.35) {\textbf{Parameter space}};
+\end{scope}
+
+%--- ARROW ---
+\begin{scope}[xshift=3.7cm, yshift=0.9cm]
+  \draw[->,very thick,gray!70](0,0)--(1.1,0) node[midway,above]{$T$};
+  \node[gray!70, font=\small] at (0.55,-0.25) {local linear};
+\end{scope}
+
+%--- RIGHT: parallelogram in xy-space ---
+\begin{scope}[xshift=5.2cm]
+  \draw[->](-0.2,0)--(3.3,0) node[right]{$x$};
+  \draw[->](0,-0.2)--(0,2.8) node[above]{$y$};
+
+  \coordinate (A) at (0.7,0.6);
+  \coordinate (B) at (2.1,1.0);
+  \coordinate (C) at (1.1,1.9);
+  \coordinate (D) at (2.5,2.3);
+
+  \fill[blue!20] (A)--(B)--(D)--(C)--cycle;
+  \draw[blue!60!black, thick] (A)--(B)--(D)--(C)--cycle;
+
+  \draw[->, orange!80!black, very thick] (A)--(B)
+        node[midway, below right, xshift=2pt, font=\small]
+        {$\vec{e}_u = \tfrac{\partial(x,y)}{\partial u}\Delta u$};
+  \draw[->, violet!80!black, very thick] (A)--(C)
+        node[midway, left, font=\small]{$\vec{e}_v$};
+
+  \node[blue!70!black, font=\small] at (1.6, 1.45)
+        {$\Delta A \approx |J|\,\Delta u\,\Delta v$};
+
+  \node[below] at (1.6, -0.35) {\textbf{Coordinate space}};
+\end{scope}
+
+\end{tikzpicture}
+\end{center}
 
 \begin{definition}
-For a transformation from $(u,v)$ to $(x,y)$:
-\begin{align*}
-x &= x(u,v)\\
-y &= y(u,v)
-\end{align*}
-
-The \textbf{Jacobian matrix} is:
-$$\mathbf{J} = \begin{bmatrix} 
-\frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\[8pt]
-\frac{\partial y}{\partial u} & \frac{\partial y}{\partial v}
-\end{bmatrix}$$
-
-This matrix contains all first-order partial derivatives of the transformation.
-\end{definition}
-
-\begin{problem}
-The Jacobian matrix tells us how:
-\begin{selectAll}
-    \choice[correct]{Small displacements in the $uv$-plane map to the $xy$-plane}
-    \choice[correct]{The transformation behaves locally (at each point)}
-    \choice{The function values change}
-    \choice[correct]{Vectors transform under the change of coordinates}
-\end{selectAll}
-
-For a transformation $(u,v) \to (x,y)$, the Jacobian matrix has:
-\begin{itemize}
-    \item $\answer{2}$ rows
-    \item $\answer{2}$ columns
-    \item $\answer{4}$ entries (partial derivatives)
-\end{itemize}
-
-\begin{feedback}
-The Jacobian matrix is a linear approximation to the transformation at each point!
-\end{feedback}
-\end{problem}
-
-\section*{The Jacobian Determinant}
-
-\begin{definition}
-The \textbf{Jacobian determinant} (or just the ``Jacobian'') is:
-$$J = \det(\mathbf{J}) = \frac{\partial(x,y)}{\partial(u,v)} = \frac{\partial x}{\partial u}\frac{\partial y}{\partial v} - \frac{\partial x}{\partial v}\frac{\partial y}{\partial u}$$
-
-The absolute value $|J|$ gives the area scaling factor.
-\end{definition}
-
-\begin{problem}
-For a $2 \times 2$ matrix $\begin{bmatrix} a & b \\ c & d \end{bmatrix}$, the determinant is:
-
-$$\det = ad - bc = \answer{ad - bc}$$
-
-This is the formula we use for the Jacobian determinant!
-
-Why do we use $|J|$ (absolute value) in integrals?
-\begin{multipleChoice}
-    \choice{Because determinants are always negative}
-    \choice{To make the math easier}
-    \choice[correct]{Because we want the magnitude of scaling, not the sign (which indicates orientation)}
-    \choice{It's a random convention}
-\end{multipleChoice}
-
-\begin{feedback}
-The absolute value ensures we get a positive area scaling factor. The sign of $J$ tells us about orientation (which way the transformation ``flips'' things).
-\end{feedback}
-\end{problem}
-
-\begin{problem}
-\textbf{Electric Charge on an Ellipse}
-
-An elliptical region defined by $\frac{x^2}{9} + \frac{y^2}{4} \leq 1$ has surface charge density:
-$$\sigma(x,y) = \frac{5}{1 + x^2} \text{ charge per square meter}$$
-
-\textbf{Strategy: Use a transformation!}
-
-Let $u = \frac{x}{3}$ and $v = \frac{y}{2}$. Then the ellipse transforms to the unit circle: $u^2 + v^2 \leq 1$.
-
-From the transformations: $x = \answer{3u}$ and $y = \answer{2v}$
-
-The Jacobian is:
-$$J = \frac{\partial(x,y)}{\partial(u,v)} = \begin{vmatrix} \frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\ \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v} \end{vmatrix} = \begin{vmatrix} \answer{3} & \answer{0} \\ \answer{0} & \answer{2} \end{vmatrix} = \answer{6}$$
-
-The differential element transforms: $dA = dx\,dy = |J|\,du\,dv = \answer{6}\,du\,dv$
-
-The charge density in new coordinates: $\sigma(x,y) = \frac{5}{1+x^2} = \frac{5}{1+(3u)^2} = \frac{5}{1+9u^2}$
-
-The small charge element: $dQ = \sigma(x,y)\,dA = \frac{5}{1+9u^2} \cdot \answer{6}\,du\,dv$
-
-Total charge (using polar coordinates $u = r\cos\theta$, $v = r\sin\theta$ in the unit circle):
-$$Q = \int_0^{2\pi} \int_0^1 \frac{5}{1+9r^2\cos^2\theta} \cdot 6 \cdot \answer{r}\,dr\,d\theta$$
-
-The key steps were:
-\begin{selectAll}
-    \choice[correct]{Transform the ellipse to a circle}
-    \choice[correct]{Compute the Jacobian for area scaling}
-    \choice[correct]{Express the charge density in new coordinates}
-    \choice[correct]{Use polar coordinates in the unit circle}
-    \choice{Ignore the geometry}
-\end{selectAll}
-
-\begin{feedback}
-Outstanding! You've combined coordinate transformations with careful differential construction. The ellipse problem became manageable by transforming to a circle, but you had to track how $dA$ changes (via the Jacobian) and how the charge density function transforms!
-\end{feedback}
-\end{problem}
-
-
-\section*{Computing Jacobians: Step by Step}
-
-\begin{problem}
-Let's compute the Jacobian for polar coordinates:
-\begin{align*}
-x &= r\cos\theta\\
-y &= r\sin\theta
-\end{align*}
-
-\textbf{Step 1: Compute partial derivatives}
-
-$$\frac{\partial x}{\partial r} = \answer{\cos\theta}$$
-
-$$\frac{\partial x}{\partial \theta} = \answer{-r\sin\theta}$$
-
-$$\frac{\partial y}{\partial r} = \answer{\sin\theta}$$
-
-$$\frac{\partial y}{\partial \theta} = \answer{r\cos\theta}$$
-
-\textbf{Step 2: Form the Jacobian matrix}
-
+For a transformation $T:(u,v)\mapsto(x,y)$ defined by $x = x(u,v)$, $y = y(u,v)$, the \textbf{Jacobian matrix} is:
 $$\mathbf{J} = \begin{bmatrix}
-\cos\theta & -r\sin\theta\\
-\sin\theta & r\cos\theta
+\dfrac{\partial x}{\partial u} & \dfrac{\partial x}{\partial v}\\[10pt]
+\dfrac{\partial y}{\partial u} & \dfrac{\partial y}{\partial v}
 \end{bmatrix}$$
 
-\textbf{Step 3: Compute the determinant}
+The \textbf{Jacobian determinant} is:
+$$J = \det(\mathbf{J}) = \dfrac{\partial x}{\partial u}\dfrac{\partial y}{\partial v} - \dfrac{\partial x}{\partial v}\dfrac{\partial y}{\partial u}$$
 
-$$J = (\cos\theta)(r\cos\theta) - (-r\sin\theta)(\sin\theta)$$
-$$= r\cos^2\theta + r\sin^2\theta = r(\cos^2\theta + \sin^2\theta) = \answer{r}$$
+The absolute value $|J|$ is the \textbf{local area scaling factor}: the transformation maps a tiny area element $du\,dv$ to an area element $|J|\,du\,dv$ in the $(x,y)$-plane.
+\end{definition}
 
-Therefore, $|J| = r$ (assuming $r \geq 0$).
+\begin{problem}
+The parallelogram spanned by vectors $\vec{e}_u = (a,b)$ and $\vec{e}_v = (c,d)$ has area:
+$$\text{Area} = |ad - bc|$$
 
-This confirms: $dA = dx\,dy = \answer{r}\,dr\,d\theta$
+This is exactly the absolute value of the $2\times 2$ determinant $\begin{vmatrix} a & c \\ b & d \end{vmatrix}$.
+
+The area of the image parallelogram (scaling by $\Delta u\,\Delta v$) is:
+$$\Delta A \approx \left|\frac{\partial x}{\partial u}\frac{\partial y}{\partial v} - \frac{\partial x}{\partial v}\frac{\partial y}{\partial u}\right|\Delta u\,\Delta v = \answer{|J|}\,\Delta u\,\Delta v$$
+
+So the Jacobian determinant is:
+\begin{multipleChoice}
+  \choice{An arbitrary formula}
+  \choice{The length of the image vectors}
+  \choice[correct]{The area of the parallelogram formed by the images of the unit basis vectors}
+  \choice{The sum of the partial derivatives}
+\end{multipleChoice}
 
 \begin{feedback}
-We derived the polar area element from first principles using the Jacobian!
+This is the deep geometric meaning of the Jacobian: it is the area of the parallelogram formed when you push the two parameter-space unit vectors through the (locally linearized) transformation.  A large Jacobian means the transformation is stretching; a small Jacobian means it's compressing.
 \end{feedback}
 \end{problem}
 
-\section*{Example: Linear Transformation}
-
 \begin{problem}
-Compute the Jacobian for:
-\begin{align*}
-x &= 3u - 2v\\
-y &= u + 4v
-\end{align*}
+Let's verify that the polar Jacobian comes from this formula.
 
-\textbf{Partial derivatives:}
+For $x = r\cos\theta$, $y = r\sin\theta$:
 
-$$\frac{\partial x}{\partial u} = \answer{3}, \quad \frac{\partial x}{\partial v} = \answer{-2}$$
+$$\frac{\partial x}{\partial r} = \answer{\cos\theta}, \quad \frac{\partial x}{\partial \theta} = \answer{-r\sin\theta}$$
 
-$$\frac{\partial y}{\partial u} = \answer{1}, \quad \frac{\partial y}{\partial v} = \answer{4}$$
+$$\frac{\partial y}{\partial r} = \answer{\sin\theta}, \quad \frac{\partial y}{\partial \theta} = \answer{r\cos\theta}$$
 
-\textbf{Jacobian determinant:}
+The Jacobian determinant is:
+$$J = (\cos\theta)(r\cos\theta) - (-r\sin\theta)(\sin\theta) = r\cos^2\theta + r\sin^2\theta = \answer{r}$$
 
-$$J = (3)(4) - (-2)(1) = 12 + 2 = \answer{14}$$
+This matches the geometric derivation. $\checkmark$
 
-Since this is a linear transformation, $|J| = \answer{14}$ is constant everywhere.
+The two column vectors of $\mathbf{J}$ are $\vec{e}_r = (\cos\theta,\sin\theta)$ and $\vec{e}_\theta = (-r\sin\theta, r\cos\theta)$.
 
-This means:
+Their lengths:
 \begin{itemize}
-    \item A region with area $A$ in the $uv$-plane maps to area $\answer{14A}$ in the $xy$-plane
-    \item The unit square ($1 \times 1$) maps to a parallelogram with area $\answer{14}$
+  \item $|\vec{e}_r| = \answer{1}$ (unit radial vector)
+  \item $|\vec{e}_\theta| = \answer{r}$ (tangent to a circle of radius $r$)
 \end{itemize}
 
+These vectors are perpendicular (polar coordinates are \emph{orthogonal}), so the parallelogram is a rectangle of area $1 \cdot r = r$ --- exactly the Jacobian! $\checkmark$
+
 \begin{feedback}
-Linear transformations have constant Jacobians! The transformation uniformly scales all areas by the same factor.
+For orthogonal coordinate systems (polar, cylindrical, spherical), the Jacobian is simply the product of the scale factors along each coordinate direction.  For polar: scale factors are $1$ (radial) and $r$ (angular), giving $J = 1 \cdot r = r$.
 \end{feedback}
 \end{problem}
 
-\section*{Example: Nonlinear Transformation}
+%----------------------------------------------------------------------
+\section*{Part V: Arbitrary Transformations --- Visual Effects in 2D}
+%----------------------------------------------------------------------
+
+\subsection*{How Different Transformations Warp the Grid}
+
+Let's visualize how specific transformations distort a uniform grid.  In each case, the Jacobian tells us how much local area is scaled at each point.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.82]
+
+%=== (1) SCALING: x=2u, y=3v ===
+\begin{scope}[xshift=0cm, yshift=0cm]
+  \begin{scope}
+    \draw[gray!40, very thin] (-0.1,-0.1) grid[step=0.5] (2.1,2.1);
+    \draw[->](-0.15,0)--(2.3,0) node[right, font=\tiny]{$u$};
+    \draw[->](0,-0.15)--(0,2.3) node[above, font=\tiny]{$v$};
+    \fill[blue!30, opacity=0.5] (0,0) rectangle (0.5,0.5);
+    \draw[blue!60!black, thick] (0,0) rectangle (0.5,0.5);
+    \node[font=\tiny, blue!70!black] at (0.25,0.25) {$1$};
+    \node[font=\scriptsize, below] at (1, -0.35) {param.\ space};
+  \end{scope}
+
+  \draw[->,thick,gray!70] (2.35,1.05) -- (3.05,1.05) node[midway,above,font=\tiny]{$T$};
+
+  \begin{scope}[xshift=3.2cm]
+    \draw[gray!40, very thin] (-0.1,-0.1) grid[step=0.5] (2.1,2.1);
+    \draw[->](-0.15,0)--(2.3,0) node[right, font=\tiny]{$x$};
+    \draw[->](0,-0.15)--(0,2.3) node[above, font=\tiny]{$y$};
+    \fill[red!30, opacity=0.5] (0,0) rectangle (1.0,1.5);
+    \draw[red!70!black, thick] (0,0) rectangle (1.0,1.5);
+    \node[font=\tiny, red!70!black] at (0.5,0.75) {$6$};
+    \node[font=\scriptsize, below] at (1, -0.35) {coord.\ space};
+  \end{scope}
+
+  \node[font=\small, align=center] at (3.3,-0.75) {\textbf{(1) Scaling:}\\$x=2u,\;y=3v,\;|J|=6$};
+\end{scope}
+
+%=== (2) SHEAR: x=u+v, y=v ===
+\begin{scope}[xshift=7.5cm, yshift=0cm]
+  \begin{scope}
+    \draw[gray!40, very thin] (-0.1,-0.1) grid[step=0.5] (2.1,2.1);
+    \draw[->](-0.15,0)--(2.3,0) node[right, font=\tiny]{$u$};
+    \draw[->](0,-0.15)--(0,2.3) node[above, font=\tiny]{$v$};
+    \fill[blue!30, opacity=0.5] (0,0) rectangle (0.5,0.5);
+    \draw[blue!60!black, thick] (0,0) rectangle (0.5,0.5);
+    \node[font=\tiny, blue!70!black] at (0.25,0.25) {$1$};
+    \node[font=\scriptsize, below] at (1, -0.35) {param.\ space};
+  \end{scope}
+
+  \draw[->,thick,gray!70] (2.35,1.05) -- (3.05,1.05) node[midway,above,font=\tiny]{$T$};
+
+  \begin{scope}[xshift=3.2cm]
+    \draw[gray!40, very thin] (-0.1,-0.1) grid[step=0.5] (2.1,2.1);
+    \draw[->](-0.15,0)--(2.3,0) node[right, font=\tiny]{$x$};
+    \draw[->](0,-0.15)--(0,2.3) node[above, font=\tiny]{$y$};
+    \fill[red!30, opacity=0.5]
+      (0,0) -- (0.5,0) -- (1.0,0.5) -- (0.5,0.5) -- cycle;
+    \draw[red!70!black, thick]
+      (0,0) -- (0.5,0) -- (1.0,0.5) -- (0.5,0.5) -- cycle;
+    \node[font=\tiny, red!70!black] at (0.5,0.25) {$1$};
+    \node[font=\scriptsize, below] at (1, -0.35) {coord.\ space};
+  \end{scope}
+
+  \node[font=\small, align=center] at (3.3,-0.75) {\textbf{(2) Shear:}\\$x=u+v,\;y=v,\;|J|=1$};
+\end{scope}
+
+%=== (3) NONLINEAR: x=u^2/2, y=v ===
+\begin{scope}[xshift=0cm, yshift=-4.8cm]
+  \begin{scope}
+    \draw[gray!40, very thin] (-0.1,-0.1) grid[step=0.5] (2.1,2.1);
+    \draw[->](-0.15,0)--(2.3,0) node[right, font=\tiny]{$u$};
+    \draw[->](0,-0.15)--(0,2.3) node[above, font=\tiny]{$v$};
+    \foreach \i in {0,1,2,3} {
+      \foreach \j in {0,1,2,3} {
+        \pgfmathsetmacro{\xA}{\i*0.5}
+        \pgfmathsetmacro{\yA}{\j*0.5}
+        \fill[blue!20, opacity=0.4] (\xA,\yA) rectangle (\xA+0.5,\yA+0.5);
+        \draw[blue!50!black, thin] (\xA,\yA) rectangle (\xA+0.5,\yA+0.5);
+      }
+    }
+    \node[font=\scriptsize, below] at (1, -0.35) {param.\ space};
+    \node[font=\tiny, gray] at (1, 1) {equal squares};
+  \end{scope}
+
+  \draw[->,thick,gray!70] (2.35,1.05) -- (3.05,1.05)
+        node[midway,above,font=\scriptsize]{$T$}
+        node[midway,below,font=\tiny]{$x=\tfrac{1}{2}u^2$};
+
+  \begin{scope}[xshift=3.2cm]
+    \draw[gray!40, very thin] (-0.1,-0.1) grid[step=0.5] (2.1,2.1);
+    \draw[->](-0.15,0)--(2.3,0) node[right, font=\tiny]{$x$};
+    \draw[->](0,-0.15)--(0,2.3) node[above, font=\tiny]{$y$};
+    \foreach \i in {0,1,2,3} {
+      \foreach \j in {0,1,2,3} {
+        \pgfmathsetmacro{\uA}{\i*0.5}
+        \pgfmathsetmacro{\uB}{\uA+0.5}
+        \pgfmathsetmacro{\vA}{\j*0.5}
+        \pgfmathsetmacro{\vB}{\vA+0.5}
+        \pgfmathsetmacro{\xA}{\uA*\uA/2}
+        \pgfmathsetmacro{\xB}{\uB*\uB/2}
+        \pgfmathsetmacro{\yA}{\vA}
+        \pgfmathsetmacro{\yB}{\vB}
+        \pgfmathsetmacro{\cc}{mod(\i+\j,2)*30+20}
+        \fill[red!\cc!orange, opacity=0.5]
+          (\xA,\yA) -- (\xB,\yA) -- (\xB,\yB) -- (\xA,\yB) -- cycle;
+        \draw[red!60!black, thin]
+          (\xA,\yA) -- (\xB,\yA) -- (\xB,\yB) -- (\xA,\yB) -- cycle;
+      }
+    }
+    \node[font=\scriptsize, below] at (1, -0.35) {coord.\ space};
+    \draw[<->, gray!60, thin] (0.05, 2.2) -- (0.48, 2.2) node[midway,above,font=\tiny]{thin};
+    \draw[<->, gray!60, thin] (1.12, 2.2) -- (2.0, 2.2) node[midway,above,font=\tiny]{wide};
+  \end{scope}
+
+  \node[font=\small, align=center] at (3.3,-0.75)
+        {\textbf{(3) Nonlinear:}\\$x=\tfrac{1}{2}u^2,\;y=v,\;|J|=u$ (varies)};
+\end{scope}
+
+%=== (4) POLAR: x=r cos theta, y=r sin theta ===
+\begin{scope}[xshift=7.5cm, yshift=-4.8cm]
+  \begin{scope}
+    \draw[gray!40, very thin] (-0.1,-0.1) grid[step=0.5] (2.1,2.1);
+    \draw[->](-0.15,0)--(2.3,0) node[right, font=\tiny]{$r$};
+    \draw[->](0,-0.15)--(0,2.3) node[above, font=\tiny]{$\theta$};
+    \foreach \i in {0,1,2,3} {
+      \foreach \j in {0,1,2,3} {
+        \pgfmathsetmacro{\xA}{\i*0.5}
+        \pgfmathsetmacro{\yA}{\j*0.5}
+        \fill[blue!20, opacity=0.4] (\xA,\yA) rectangle (\xA+0.5,\yA+0.5);
+        \draw[blue!50!black, thin] (\xA,\yA) rectangle (\xA+0.5,\yA+0.5);
+      }
+    }
+    \node[font=\scriptsize, below] at (1, -0.35) {param.\ space};
+    \node[font=\tiny, gray] at (1, 1) {equal squares};
+  \end{scope}
+
+  \draw[->,thick,gray!70] (2.35,1.05) -- (3.05,1.05)
+        node[midway,above,font=\tiny]{$T$}
+        node[midway,below,font=\tiny]{polar};
+
+  \begin{scope}[xshift=3.2cm]
+    \draw[gray!40, very thin] (-2.2,-0.1) -- (2.2,-0.1);
+    \draw[->](-2.2,0)--(2.2,0) node[right, font=\tiny]{$x$};
+    \draw[->](0,-0.1)--(0,2.2) node[above, font=\tiny]{$y$};
+    \foreach \ri in {0,1,2,3} {
+      \foreach \thi in {0,1,2,3} {
+        \pgfmathsetmacro{\rIn}{(\ri)*0.45+0.1}
+        \pgfmathsetmacro{\rOt}{\rIn+0.45}
+        \pgfmathsetmacro{\thA}{\thi*45}
+        \pgfmathsetmacro{\thB}{\thA+45}
+        \pgfmathsetmacro{\cc}{mod(\ri+\thi,2)*30+20}
+        \fill[red!\cc!orange, opacity=0.55]
+          ({\rIn*cos(\thA)},{\rIn*sin(\thA)})
+          -- ({\rOt*cos(\thA)},{\rOt*sin(\thA)})
+          arc[start angle=\thA, end angle=\thB, radius=\rOt]
+          -- ({\rIn*cos(\thB)},{\rIn*sin(\thB)})
+          arc[start angle=\thB, end angle=\thA, radius=\rIn]
+          -- cycle;
+        \draw[red!60!black, thin]
+          ({\rIn*cos(\thA)},{\rIn*sin(\thA)})
+          -- ({\rOt*cos(\thA)},{\rOt*sin(\thA)})
+          arc[start angle=\thA, end angle=\thB, radius=\rOt]
+          -- ({\rIn*cos(\thB)},{\rIn*sin(\thB)})
+          arc[start angle=\thB, end angle=\thA, radius=\rIn]
+          -- cycle;
+      }
+    }
+    \node[font=\scriptsize, below] at (0, -0.35) {coord.\ space};
+    \node[font=\tiny, gray, align=center] at (1.0, 0.35) {small\\near $O$};
+    \node[font=\tiny, gray, align=center] at (-0.5, 1.7) {larger\\far out};
+  \end{scope}
+
+  \node[font=\small, align=center] at (3.3,-0.75)
+        {\textbf{(4) Polar:}\\$x=r\cos\theta,\;y=r\sin\theta,\;|J|=r$};
+\end{scope}
+
+\end{tikzpicture}
+\end{center}
 
 \begin{problem}
-Compute the Jacobian for:
-\begin{align*}
-x &= u^2 - v^2\\
-y &= 2uv
-\end{align*}
+Study the four transformation pictures above.
 
-(This is related to the complex function $z \mapsto z^2$!)
+\textbf{(1) Scaling} ($x=2u$, $y=3v$):  The unit square maps to a $\answer{2}\times\answer{3}$ rectangle.  The Jacobian is $|J| = \answer{6}$.  This Jacobian is \wordChoice{\choice[correct]{constant everywhere}\choice{position-dependent}}.
 
-\textbf{Partial derivatives:}
+\textbf{(2) Shear} ($x=u+v$, $y=v$):  The unit square maps to a parallelogram.  The shear \wordChoice{\choice{changes}\choice[correct]{preserves}} area, so $|J| = \answer{1}$.
 
+\textbf{(3) Nonlinear} ($x = \tfrac{1}{2}u^2$, $y=v$):  The squares near $u=0$ become very \wordChoice{\choice[correct]{narrow}\choice{wide}} while squares at large $u$ become wide because:
+$$\frac{\partial x}{\partial u} = u, \quad \frac{\partial y}{\partial v} = 1, \quad J = u \cdot 1 - 0\cdot 0 = \answer{u}$$
+
+\textbf{(4) Polar}: Equal squares in $(r,\theta)$-space map to curved patches that are \wordChoice{\choice{equal-sized}\choice[correct]{larger as $r$ increases}} because $|J| = r$.
+
+\begin{feedback}
+These four pictures capture the main behaviors of transformations: uniform scaling, area-preserving shearing, nonlinear stretching, and polar warping.  In each case, the Jacobian determinant perfectly quantifies the local area distortion.
+\end{feedback}
+\end{problem}
+
+\begin{problem}
+Now consider the \emph{complex squaring map}: $x = u^2 - v^2$, $y = 2uv$.
+
+Compute the Jacobian:
 $$\frac{\partial x}{\partial u} = \answer{2u}, \quad \frac{\partial x}{\partial v} = \answer{-2v}$$
-
 $$\frac{\partial y}{\partial u} = \answer{2v}, \quad \frac{\partial y}{\partial v} = \answer{2u}$$
 
-\textbf{Jacobian determinant:}
+$$J = (2u)(2u) - (-2v)(2v) = \answer{4u^2 + 4v^2} = 4(u^2+v^2)$$
 
-$$J = (2u)(2u) - (-2v)(2v) = 4u^2 + 4v^2 = \answer{4(u^2 + v^2)}$$
-
-Therefore: $|J| = 4(u^2 + v^2)$
-
-This Jacobian:
-\begin{multipleChoice}
-    \choice{Is constant}
-    \choice[correct]{Depends on position $(u,v)$}
-    \choice{Is always zero}
-    \choice{Is always one}
-\end{multipleChoice}
-
-Where is the scaling factor largest?
-\begin{multipleChoice}
-    \choice{At the origin}
-    \choice[correct]{Far from the origin (large $u^2+v^2$)}
-    \choice{It's the same everywhere}
-\end{multipleChoice}
-
-\begin{feedback}
-Nonlinear transformations have variable Jacobians—the scaling changes from point to point!
-\end{feedback}
-\end{problem}
-
-\section*{Geometric Interpretation}
-
-\begin{problem}
-The Jacobian determinant $|J|$ represents:
-
-The factor by which \wordChoice{\choice{length}\choice[correct]{area}\choice{volume}\choice{angle}} is scaled locally.
-
-Consider a small rectangle in the $uv$-plane with area $\Delta u \cdot \Delta v$.
-
-After transformation to the $xy$-plane, the area becomes approximately:
-$$\Delta A \approx \answer{|J|} \cdot \Delta u \cdot \Delta v$$
-
-As $\Delta u, \Delta v \to 0$, this becomes exact:
-$$dA = dx\,dy = |J|\,du\,dv$$
-
-The Jacobian captures:
+So $|J| = 4(u^2+v^2)$.  This tells us:
 \begin{selectAll}
-    \choice[correct]{Local stretching}
-    \choice[correct]{Local compression}
-    \choice{Global behavior}
-    \choice[correct]{How small areas transform}
-    \choice{The function values}
+  \choice[correct]{Area scaling grows quadratically with distance from the origin}
+  \choice{Near the origin, area is stretched the most}
+  \choice[correct]{Near the origin, the transformation almost collapses area to zero}
+  \choice[correct]{The transformation is degenerate ($J=0$) only at the origin}
 \end{selectAll}
 
 \begin{feedback}
-Think of the Jacobian as the "magnification factor" for infinitesimal areas under the transformation!
+This is the complex squaring map $z \mapsto z^2$.  It doubles angles and squares magnitudes.  Near the origin it crushes area to zero (folds two distinct points $z$ and $-z$ onto the same image) --- which is exactly why $J=0$ there.
 \end{feedback}
 \end{problem}
 
-\section*{Three Dimensions: Triple Integrals}
+%----------------------------------------------------------------------
+\section*{Part VI: Finding Transformations and Computing Jacobians}
+%----------------------------------------------------------------------
 
-\begin{definition}
-For a transformation from $(u,v,w)$ to $(x,y,z)$, the Jacobian matrix is:
-$$\mathbf{J} = \begin{bmatrix}
-\frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} & \frac{\partial x}{\partial w}\\[8pt]
-\frac{\partial y}{\partial u} & \frac{\partial y}{\partial v} & \frac{\partial y}{\partial w}\\[8pt]
-\frac{\partial z}{\partial u} & \frac{\partial z}{\partial v} & \frac{\partial z}{\partial w}
-\end{bmatrix}$$
+The strategy for applying a change of variables:
 
-The Jacobian determinant is computed using the $3 \times 3$ determinant formula.
-\end{definition}
+\begin{enumerate}
+  \item \textbf{Look at the boundary curves} of your region.  If they look like level curves of some simple expressions in $u,v$, set those expressions equal to constants.
+  \item \textbf{Solve for $x$ and $y$} in terms of $u$ and $v$.
+  \item \textbf{Compute the Jacobian} of that transformation.
+  \item \textbf{Set up the transformed integral} with the new bounds.
+\end{enumerate}
 
-\begin{problem}
-For a $3 \times 3$ matrix, the determinant calculation is more complex.
-
-The transformation rule for triple integrals is:
-$$\iiint_R f(x,y,z)\,dx\,dy\,dz = \iiint_S f(x(u,v,w), y(u,v,w), z(u,v,w)) \cdot \answer{|J|}\,du\,dv\,dw$$
-
-The Jacobian $|J|$ measures:
-\begin{multipleChoice}
-    \choice{Area scaling}
-    \choice[correct]{Volume scaling}
-    \choice{Length scaling}
-    \choice{Angle changes}
-\end{multipleChoice}
-
-\begin{feedback}
-In 3D, the Jacobian tells us how volumes (not areas) scale under the transformation!
-\end{feedback}
-\end{problem}
-
-\section*{Cylindrical Coordinates Jacobian}
+\subsection*{Example 1: The Tilted Parallelogram}
 
 \begin{problem}
-Verify the Jacobian for cylindrical coordinates:
-\begin{align*}
-x &= r\cos\theta\\
-y &= r\sin\theta\\
-z &= z
-\end{align*}
+The region $R$ is bounded by:
+$$x - y = 0,\quad x - y = 2,\quad x + y = 1,\quad x + y = 3$$
 
-\textbf{Jacobian matrix:}
-$$\mathbf{J} = \begin{bmatrix}
-\frac{\partial x}{\partial r} & \frac{\partial x}{\partial \theta} & \frac{\partial x}{\partial z}\\[8pt]
-\frac{\partial y}{\partial r} & \frac{\partial y}{\partial \theta} & \frac{\partial y}{\partial z}\\[8pt]
-\frac{\partial z}{\partial r} & \frac{\partial z}{\partial \theta} & \frac{\partial z}{\partial z}
-\end{bmatrix} = \begin{bmatrix}
-\answer{\cos\theta} & \answer{-r\sin\theta} & \answer{0}\\[8pt]
-\answer{\sin\theta} & \answer{r\cos\theta} & \answer{0}\\[8pt]
-\answer{0} & \answer{0} & \answer{1}
-\end{bmatrix}$$
+This is a parallelogram whose sides are parallel to the diagonals.  Introduce:
+$$u = x - y, \qquad v = x + y$$
 
-Computing the $3 \times 3$ determinant (expand along the third row for simplicity):
-$$J = 1 \cdot \begin{vmatrix} \cos\theta & -r\sin\theta \\ \sin\theta & r\cos\theta \end{vmatrix}$$
+Then the new bounds for the region are:
+$$\answer{0} \leq u \leq \answer{2}, \qquad \answer{1} \leq v \leq \answer{3}$$
 
-We already know this $2 \times 2$ determinant from polar coordinates:
-$$J = 1 \cdot r = \answer{r}$$
+\textbf{Solve for $x$ and $y$:}
 
-Therefore: $dV = dx\,dy\,dz = \answer{r}\,dr\,d\theta\,dz$
+Adding: $u + v = 2x$, so $x = \dfrac{u+v}{\answer{2}}$.
 
-This makes sense because:
-\begin{multipleChoice}
-    \choice{It's a random result}
-    \choice[correct]{Cylindrical = polar ($r\,dr\,d\theta$) in the $xy$-plane times height ($dz$)}
-    \choice{All Jacobians equal $r$}
-\end{multipleChoice}
-
-\begin{feedback}
-The cylindrical Jacobian is just the polar Jacobian, extended by the trivial $z$ direction!
-\end{feedback}
-\end{problem}
-
-\section*{Spherical Coordinates Jacobian}
-
-\begin{problem}
-For spherical coordinates:
-\begin{align*}
-x &= \rho\sin\phi\cos\theta\\
-y &= \rho\sin\phi\sin\theta\\
-z &= \rho\cos\phi
-\end{align*}
-
-The Jacobian matrix is:
-$$\mathbf{J} = \begin{bmatrix}
-\sin\phi\cos\theta & \rho\cos\phi\cos\theta & -\rho\sin\phi\sin\theta\\
-\sin\phi\sin\theta & \rho\cos\phi\sin\theta & \rho\sin\phi\cos\theta\\
-\cos\phi & -\rho\sin\phi & 0
-\end{bmatrix}$$
-
-Computing this $3 \times 3$ determinant (details omitted) gives:
-$$J = \rho^2\sin\phi$$
-
-Therefore: $dV = dx\,dy\,dz = \answer{\rho^2\sin\phi}\,d\rho\,d\phi\,d\theta$
-
-The factors in the Jacobian represent:
-\begin{selectAll}
-    \choice[correct]{$\rho^2$: shells expand quadratically with radius}
-    \choice[correct]{$\sin\phi$: circles shrink near the poles}
-    \choice{Random mathematical constants}
-    \choice[correct]{Geometric properties of the sphere}
-\end{selectAll}
-
-\begin{feedback}
-The spherical Jacobian $\rho^2\sin\phi$ captures the beautiful geometry of spherical coordinates!
-\end{feedback}
-\end{problem}
-
-\section*{Using Jacobians in Practice}
-
-\begin{problem}
-To evaluate $\displaystyle\iint_R e^{(x-y)/(x+y)}\,dA$ where $R$ is the square with vertices $(0,0)$, $(1,1)$, $(2,0)$, $(0,2)$.
-
-This region is a rotated square. Let's try:
-\begin{align*}
-u &= x + y\\
-v &= x - y
-\end{align*}
-
-Solve for $x$ and $y$:
-$$x = \frac{u+v}{2} = \answer{(u+v)/2}$$
-$$y = \frac{u-v}{2} = \answer{(u-v)/2}$$
+Subtracting: $v - u = 2y$, so $y = \dfrac{v-u}{\answer{2}}$.
 
 \textbf{Compute the Jacobian:}
+$$\frac{\partial x}{\partial u} = \answer{1/2}, \quad \frac{\partial x}{\partial v} = \answer{1/2}, \quad \frac{\partial y}{\partial u} = \answer{-1/2}, \quad \frac{\partial y}{\partial v} = \answer{1/2}$$
 
-$$\frac{\partial x}{\partial u} = \answer{1/2}, \quad \frac{\partial x}{\partial v} = \answer{1/2}$$
+$$J = \frac{1}{2}\cdot\frac{1}{2} - \frac{1}{2}\cdot\left(-\frac{1}{2}\right) = \answer{1/2}$$
 
-$$\frac{\partial y}{\partial u} = \answer{1/2}, \quad \frac{\partial y}{\partial v} = \answer{-1/2}$$
-
-$$J = \left(\frac{1}{2}\right)\left(-\frac{1}{2}\right) - \left(\frac{1}{2}\right)\left(\frac{1}{2}\right) = -\frac{1}{4} - \frac{1}{4} = -\frac{1}{2}$$
-
-Therefore: $|J| = \answer{1/2}$
-
-The function becomes:
-$$e^{(x-y)/(x+y)} = e^{v/u}$$
-
-The vertices transform:
-\begin{itemize}
-    \item $(0,0) \to (u,v) = (0,0)$
-    \item $(1,1) \to (u,v) = (\answer{2}, \answer{0})$
-    \item $(2,0) \to (u,v) = (\answer{2}, \answer{2})$
-    \item $(0,2) \to (u,v) = (\answer{2}, \answer{-2})$
-\end{itemize}
-
-The rotated square in the $xy$-plane maps to a rectangle in the $uv$-plane!
-
-The integral becomes:
-$$\iint_R e^{(x-y)/(x+y)}\,dA = \int_{-2}^{2}\int_0^2 e^{v/u} \cdot \frac{1}{2}\,du\,dv$$
-
-Much easier to set up with nice rectangular bounds!
+\textbf{Area of the parallelogram $R$:}
+$$\text{Area} = \int_1^3\int_0^2 \frac{1}{2}\,du\,dv = \frac{1}{2}\cdot\answer{2}\cdot\answer{2} = \answer{2}$$
 
 \begin{feedback}
-Choosing the right transformation can turn a difficult region into a simple rectangle!
+The transformation $u=x-y$, $v=x+y$ rotates the parallelogram into a nice axis-aligned rectangle.  The Jacobian $\frac{1}{2}$ says the $(u,v)$-rectangle has \emph{twice} the area of the parallelogram --- so we multiply by $\frac{1}{2}$ to correct for that.
 \end{feedback}
 \end{problem}
 
-\section*{When is the Jacobian Zero?}
+\subsection*{Example 2: The Ellipse to a Circle}
 
 \begin{problem}
-If $J = 0$ at a point, the transformation is:
-\begin{multipleChoice}
-    \choice{Perfect}
-    \choice{One-to-one}
-    \choice[correct]{Degenerate (collapses dimensions)}
-    \choice{Conformal}
-\end{multipleChoice}
+Integrate over the ellipse $\dfrac{x^2}{9} + \dfrac{y^2}{4} \leq 1$.
 
-Example: $x = u^2$, $y = u^2$
+\textbf{Step 1: Transform.}  Let $u = \dfrac{x}{3}$, $v = \dfrac{y}{2}$, so $u^2+v^2 \leq 1$ (unit disk).
 
-This maps the entire $uv$-plane onto:
-\begin{multipleChoice}
-    \choice{The entire $xy$-plane}
-    \choice{A circle}
-    \choice[correct]{A line ($y = x$)}
-    \choice{A parabola}
-\end{multipleChoice}
+$$x = \answer{3u}, \qquad y = \answer{2v}$$
 
-The Jacobian is:
-$$J = \frac{\partial x}{\partial u}\frac{\partial y}{\partial v} - \frac{\partial x}{\partial v}\frac{\partial y}{\partial u} = (2u)(0) - (0)(2u) = \answer{0}$$
+\textbf{Step 2: Jacobian.}
+$$\mathbf{J} = \begin{bmatrix} \answer{3} & \answer{0} \\ \answer{0} & \answer{2} \end{bmatrix}, \qquad J = \answer{6}$$
 
-When $J = 0$:
+\textbf{Step 3: Area of the ellipse.}
+$$\text{Area} = \iint_{\text{ellipse}} dx\,dy = \iint_{\text{unit disk}} 6\,du\,dv = 6 \cdot \answer{\pi} = \answer{6\pi}$$
+
+Check: $\pi ab = \pi(3)(2) = 6\pi$ \checkmark
+
+\textbf{Step 4: Integrate $f(x,y) = x^2$ over the ellipse.}
+
+In new coordinates, $f = (3u)^2 = \answer{9u^2}$.
+
+Using polar in the unit disk ($u = r\cos\theta$, $v = r\sin\theta$):
+$$\iint_{\text{ellipse}} x^2\,dx\,dy = \int_0^{2\pi}\int_0^1 9r^2\cos^2\theta \cdot 6 \cdot \answer{r}\,dr\,d\theta$$
+$$= 54\int_0^{2\pi}\cos^2\theta\,d\theta \cdot \int_0^1 r^3\,dr = 54 \cdot \answer{\pi} \cdot \answer{1/4} = \answer{27\pi/2}$$
+
+\begin{feedback}
+Chaining two transformations (ellipse $\to$ circle, then circle $\to$ polar) with Jacobians $6$ and $r$ respectively is very powerful.  The combined Jacobian is $6r$.
+\end{feedback}
+\end{problem}
+
+\subsection*{Example 3: Using the Inverse Jacobian}
+
+\begin{problem}
+Integrate over the region bounded by $xy = 1$, $xy = 3$, $y = x$, $y = 3x$.
+
+Let $u = xy$ and $v = y/x$.
+
+\textbf{Step 1: New bounds.}
+$$\answer{1} \leq u \leq \answer{3}, \qquad \answer{1} \leq v \leq \answer{3}$$
+
+\textbf{Step 2: Solve for $x$ and $y$.}
+
+$uv = (xy)(y/x) = y^2$, so $y = \sqrt{uv}$.  Then $x = u/y = \sqrt{u/v}$.
+
+\textbf{Step 3: Compute the inverse Jacobian} $\partial(u,v)/\partial(x,y)$ (easier here).
+
+With $u = xy$ and $v = y/x$:
+$$\frac{\partial u}{\partial x} = \answer{y}, \quad \frac{\partial u}{\partial y} = \answer{x}, \quad \frac{\partial v}{\partial x} = \answer{-y/x^2}, \quad \frac{\partial v}{\partial y} = \answer{1/x}$$
+
+$$J^{-1} = \frac{\partial(u,v)}{\partial(x,y)} = y\cdot\frac{1}{x} - x\cdot\left(-\frac{y}{x^2}\right) = \frac{y}{x}+\frac{y}{x} = \answer{2v}$$
+
+Forward Jacobian: $J = \dfrac{1}{2v}$, so $|J| = \dfrac{1}{2v}$.
+
+\textbf{Step 4: Area of the region.}
+$$\text{Area} = \int_1^3\int_1^3 \frac{1}{2v}\,du\,dv = \int_1^3 \frac{1}{2v}\,dv \cdot \int_1^3 du = \frac{\ln 3}{2} \cdot 2 = \answer{\ln 3}$$
+
+\begin{feedback}
+When the forward transformation $(u,v)\to(x,y)$ is messy to differentiate, compute the inverse Jacobian $\partial(u,v)/\partial(x,y)$ instead and take the reciprocal.
+\end{feedback}
+\end{problem}
+
+\subsection*{Example 4: Matching the Integrand}
+
+\begin{problem}
+Evaluate $\displaystyle\iint_R e^{(x-y)/(x+y)}\,dA$ where $R$ is the triangle with vertices $(0,0)$, $(2,0)$, $(0,2)$.
+
+\textbf{Step 1: Choose the transformation.}
+
+Let $u = x - y$ and $v = x + y$.  The function becomes $e^{u/v}$.
+
+Identify the new bounds:
+\begin{itemize}
+  \item On $x+y = 2$ (hypotenuse): $v = \answer{2}$
+  \item On $y = 0$: $u = x = v$, so $u = \answer{v}$
+  \item On $x = 0$: $u = -y = -v$, so $u = \answer{-v}$
+\end{itemize}
+
+The region becomes:
+$$0 \leq v \leq 2, \qquad \answer{-v} \leq u \leq \answer{v}$$
+
+\textbf{Step 2: Solve for $x$ and $y$.}
+$$x = \frac{u+v}{2}, \qquad y = \frac{v-u}{2}$$
+
+\textbf{Step 3: Jacobian.}  (same calculation as Example 1):
+$$|J| = \answer{1/2}$$
+
+\textbf{Step 4: Evaluate.}
+$$\iint_R e^{(x-y)/(x+y)}\,dA = \int_0^2\int_{-v}^{v} e^{u/v} \cdot \frac{1}{2}\,du\,dv$$
+
+Inner integral:
+$$\int_{-v}^{v} e^{u/v}\,du = \left[\answer{v\,e^{u/v}}\right]_{-v}^{v} = v\bigl(e - e^{-1}\bigr)$$
+
+Full integral:
+$$\frac{1}{2}\int_0^2 v\bigl(e - e^{-1}\bigr)\,dv = \frac{e-e^{-1}}{2}\cdot\Bigl[\frac{v^2}{2}\Bigr]_0^2 = \frac{e-e^{-1}}{2}\cdot 2 = \answer{e - 1/e}$$
+
+\begin{feedback}
+The choice $u = x-y$, $v = x+y$ was motivated entirely by the integrand: the exponent is $(x-y)/(x+y) = u/v$ in the new coordinates.  Good transformation choices make the integrand simple \emph{and} the region simple simultaneously.
+\end{feedback}
+\end{problem}
+
+%----------------------------------------------------------------------
+\section*{Summary: The Jacobian as a Skew-Space Detector}
+%----------------------------------------------------------------------
+
+\begin{problem}
+Select all TRUE statements:
+
 \begin{selectAll}
-    \choice[correct]{The transformation is not one-to-one}
-    \choice[correct]{Area is collapsed}
-    \choice{We can still use the transformation}
-    \choice[correct]{We need to be careful about the domain}
+  \choice[correct]{The Jacobian $|J|$ is the local area (or volume) scaling factor of the transformation}
+  \choice[correct]{For polar coordinates, $|J| = r$ because the arc length at radius $r$ is $r\,\Delta\theta$}
+  \choice[correct]{For cylindrical coordinates, $|J| = r$ because only the horizontal plane is stretched}
+  \choice[correct]{For spherical coordinates, $|J| = \rho^2\sin\phi$ because of expanding shells and shrinking polar circles}
+  \choice[correct]{The Jacobian is the determinant of the matrix of all first partial derivatives}
+  \choice{The Jacobian is always constant}
+  \choice[correct]{A Jacobian of zero indicates the transformation locally collapses dimensions}
+  \choice[correct]{For inverse transformations, the Jacobians are reciprocals}
+  \choice[correct]{Linear transformations have constant Jacobians}
+  \choice[correct]{The Jacobian extends single-variable $u$-substitution to multiple dimensions}
 \end{selectAll}
 
 \begin{feedback}
-A zero Jacobian indicates that the transformation collapses higher-dimensional regions onto lower-dimensional sets!
+The Jacobian is the multivariable heart of change-of-variables.  It measures how a transformation locally warps space --- stretching near large values, compressing near zero --- so that integrals in the new coordinates correctly represent the same geometric quantity as the original integral.
 \end{feedback}
 \end{problem}
 
-\section*{Inverse Transformations}
-
 \begin{problem}
-If we have $x = x(u,v)$ and $y = y(u,v)$, sometimes we can invert to get $u = u(x,y)$ and $v = v(x,y)$.
+Complete the key formulas:
 
-The Jacobians of a transformation and its inverse are related:
-$$J_{uv \to xy} \cdot J_{xy \to uv} = \answer{1}$$
+\textbf{General change of variables (2D):}
+$$\iint_R f(x,y)\,dx\,dy = \iint_S f(x(u,v),y(u,v))\cdot\answer{|J|}\,du\,dv$$
 
-Or: $J_{xy \to uv} = \frac{1}{J_{uv \to xy}}$
+\textbf{Polar:}
+$$dA = \answer{r}\,dr\,d\theta$$
 
-For polar coordinates:
-\begin{itemize}
-    \item Forward: $(r,\theta) \to (x,y)$ has $J = r$
-    \item Inverse: $(x,y) \to (r,\theta)$ has $J = \answer{1/r}$
-\end{itemize}
+\textbf{Cylindrical:}
+$$dV = \answer{r}\,dr\,d\theta\,dz$$
 
-This relationship means:
-\begin{multipleChoice}
-    \choice{Both Jacobians are always 1}
-    \choice[correct]{If one transformation expands, the inverse contracts}
-    \choice{Jacobians are independent}
-\end{multipleChoice}
+\textbf{Spherical:}
+$$dV = \answer{\rho^2\sin\phi}\,d\rho\,d\phi\,d\theta$$
+
+\textbf{General 2D Jacobian:}
+$$J = \frac{\partial x}{\partial u}\cdot\frac{\partial y}{\partial v} - \answer{\frac{\partial x}{\partial v}\cdot\frac{\partial y}{\partial u}}$$
 
 \begin{feedback}
-The inverse transformation "undoes" the scaling—if one expands by factor $r$, the other contracts by factor $1/r$!
-\end{feedback}
-\end{problem}
-
-\section*{Summary and Key Formulas}
-
-\begin{problem}
-Complete the Jacobian summary:
-
-\textbf{Definition (2D):}
-$$J = \frac{\partial(x,y)}{\partial(u,v)} = \frac{\partial x}{\partial u}\frac{\partial y}{\partial v} - \answer{\frac{\partial x}{\partial v}\frac{\partial y}{\partial u}}$$
-
-\textbf{In integrals:}
-$$\iint_R f(x,y)\,dx\,dy = \iint_S f(x(u,v), y(u,v)) \cdot \answer{|J|}\,du\,dv$$
-
-\textbf{Standard Jacobians:}
-\begin{itemize}
-    \item Polar: $|J| = \answer{r}$
-    \item Cylindrical: $|J| = \answer{r}$
-    \item Spherical: $|J| = \answer{\rho^2\sin\phi}$
-\end{itemize}
-
-\textbf{The Jacobian measures:}
-\begin{selectAll}
-    \choice[correct]{How areas scale (in 2D)}
-    \choice[correct]{How volumes scale (in 3D)}
-    \choice[correct]{Local magnification factor}
-    \choice{Function values}
-    \choice[correct]{The determinant of the transformation's derivative matrix}
-\end{selectAll}
-
-\begin{feedback}
-The Jacobian determinant is essential for any change of variables in multiple integrals!
-\end{feedback}
-\end{problem}
-
-\section*{Final Check}
-
-\begin{problem}
-Select all TRUE statements about Jacobians:
-
-\begin{selectAll}
-    \choice[correct]{The Jacobian matrix contains all first partial derivatives}
-    \choice[correct]{The Jacobian determinant gives the scaling factor}
-    \choice{The Jacobian is always positive}
-    \choice[correct]{We use $|J|$ in integrals to ensure positive scaling}
-    \choice[correct]{Linear transformations have constant Jacobians}
-    \choice{The Jacobian is the same as the gradient}
-    \choice[correct]{A zero Jacobian indicates a degenerate transformation}
-    \choice[correct]{Polar, cylindrical, and spherical Jacobians should be memorized}
-    \choice[correct]{The Jacobian extends the concept of $g'(x)$ from u-substitution}
-\end{selectAll}
-
-\begin{feedback}
-Perfect! You now understand how to compute and use Jacobians for any coordinate transformation in multiple integrals!
+Memorize the polar, cylindrical, and spherical Jacobians.  For general transformations, always fall back to the definition: form the $2\times2$ (or $3\times3$) matrix of partial derivatives and take the determinant.
 \end{feedback}
 \end{problem}
 
