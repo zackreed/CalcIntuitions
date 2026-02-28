@@ -240,11 +240,11 @@ The following diagram re-emphasizes the basic idea of the coordinate system chan
   \draw[<->,orange!80!black,thick] (0,-0.25)--(\W,-0.25) node[midway,below]{$\Delta r$};
   \draw[<->,orange!80!black,thick] (-0.25,0)--(-0.25,\H) node[midway,left]{$\Delta z$};
   \draw[<->,orange!80!black,thick] ({\W+0.15},{0.08*\D})--({\W+\D*0.45+0.15},{\D*0.45+0.08*\D})
-        node[midway,right,font=\small]{$\Delta\theta$};
+        node[midway,right,font=\small]{$r \Delta\theta$};
 
   % Volume annotation
   \node[blue!70!black,font=\small,align=center] at ({-1.5},{\H/2-.5}) {Volume};
-  \node[blue!70!black,font=\small,align=center] at ({-1.5},{-0.3}) {$= \Delta r\cdot\Delta\theta\cdot\Delta z$};
+  \node[blue!70!black,font=\small,align=center] at ({-1.5},{-0.3}) {$= r\Delta r\cdot\Delta\theta\cdot\Delta z$};
 
   \draw[green!50!black,rounded corners,thick] (-.1,-.7) rectangle ({\W+\D*0.45+0.25},{\H+\D*0.45+0.2});
   \node[green!50!black,font=\small] at ({\W/2},-0.9) {sides simply multiply};
@@ -584,13 +584,13 @@ For the cone with density $\delta = 3 + 2z$ (where $z$ is height from tip):
 
 In cylindrical coordinates, the volume element is: $dV = \answer{r}\,dr\,d\theta\,dz$
 
-The mass element is: $dM = \delta \cdot dV = (3 + 2z) \cdot \answer{r}\,dr\,d\theta\,dz$
+The mass element is: $dM = \delta \cdot dV = \answer{(3 + 2z) \cdot r}\,dr\,d\theta\,dz$
 
 At height $z$, the cone's radius varies. If the base has radius 4 m at height 5 m, then at height $z$:
 $$r_{\text{max}}(z) = \frac{4z}{5}$$
 
 The mass integral setup is:
-$$M = \int_0^{\answer{2\pi}} \int_0^{\answer{5}} \int_0^{4z/5} (3+2z) \cdot r\,dr\,dz\,d\theta$$
+$$M = \int_{\answer{0}}^{\answer{2\pi}} \int_{0}^{5} \int_{0}^{4z/5} \answer{(3+2z) \cdot r}\,dr\,dz\,d\theta$$
 
 
 \end{problem}
@@ -998,17 +998,17 @@ So the bounds of $\phi$ are from $0 \leq \phi \leq \answer{\pi}$,
 
 The full rotation in $\theta$ is $0 \leq \theta \leq \answer{2\pi}$.
 
-The mass element is $dM = \delta(\rho)\,dV = \answer{k\rho \cdot \rho^2\sin(\phi)}\,d\rho\,d\phi\,d\theta = k\rho^3\sin\phi\,d\rho\,d\phi\,d\theta$.
+The mass element is $dM = \delta(\rho)\,dV = k\cdot \rho^3 \cdot \sin(\phi)\,d\rho\,d\phi\,d\theta$.
 
 This makes the integral for total mass:
 
-$$M = \int_{\answer{0}}^{\answer{2\pi}}\int_{\answer{0}}^{\answer{\pi}}\int_{\answer{0}}^{\answer{R}} \answer{k\rho^3\sin(\phi)}\,d\rho\,d\phi\,d\theta$$
+$$M = \int_{\answer{0}}^{\answer{2\pi}}\int_{\answer{0}}^{\answer{\pi}}\int_{\answer{0}}^{\answer{R}} k\cdot \rho^3\cdot \sin(\phi)\,d\rho\,d\phi\,d\theta$$
 
 \textbf{Inner integral (in $\rho$):}
-$$\int_0^R k\rho^3\sin(\phi)\,d\rho = \sin(\phi)\left[\answer{\frac{k\rho^4}{4}}\right]_0^R = \answer{\sin(\phi)kR^4/4}$$
+$$\int_0^R k\rho^3\sin(\phi)\,d\rho = \sin(\phi)\left[\answer{\frac{k\rho^4}{4}}\right]_0^R = \sin(\phi)\answer{k R^4/4}$$
 
 \textbf{Middle integral (in $\phi$):}
-$$\int_0^{\pi} \frac{kR^4}{4}\sin\phi\,d\phi = \frac{kR^4}{4}[\answer{-\cos\phi}]_0^{\pi} = \answer{kR^4/2}$$
+$$\int_0^{\pi} \frac{kR^4}{4}\sin\phi\,d\phi = \frac{kR^4}{4}[\answer{-\cos(\phi)}]_0^{\pi}= \answer{kR^4/2}$$
 
 \textbf{Outer integral (in $\theta$):}
 $$\int_0^{2\pi} \frac{kR^4}{2}\,d\theta = \answer{k\pi R^4}$$

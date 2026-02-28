@@ -55,10 +55,10 @@ If we change variables, we also need to know how to re-compute the differential 
 
 When we change coordinate systems, we need to know how to compute the new area and volume elements $dA$ and $dV$.
 
-\section*{Revisiting Mass Under a Paraboloid}
+\section*{Revisiting Mass of a Paraboloid}
 
 \begin{problem}
-\textbf{Mass Under a Paraboloid (Revisited)}
+\textbf{Mass of a Paraboloid (Revisited)}
 
 In the last module, we tried to find the mass of a solid bounded below by the $xy$-plane and above by the paraboloid $z = 4 - x^2 - y^2$, with a circular base of radius 1 with density $\rho(x,y,z) = z$ (denser at higher altitudes).
 
@@ -219,7 +219,7 @@ Here's a visual breakdown that further emphasizes when polar coordinates might b
 \begin{tikzpicture}[scale=1.2]
 
 %--- LEFT: Cartesian grid over unit disk ---
-\begin{scope}[xshift=-2.0cm]
+\begin{scope}[xshift=-3.0cm]
   % Draw grid squares partially inside disk
   \def\step{0.25}
   \foreach \ix in {-4,-3,...,3} {
@@ -250,7 +250,7 @@ Here's a visual breakdown that further emphasizes when polar coordinates might b
 \end{scope}
 
 %--- RIGHT: Polar grid over unit disk ---
-\begin{scope}[xshift=2.0cm]
+\begin{scope}[xshift=3.0cm]
   \draw[->](-1.2,0)--(1.2,0) node[right,font=\tiny]{$x$};
   \draw[->](0,-1.2)--(0,1.2) node[above,font=\tiny]{$y$};
   % concentric circles
@@ -279,7 +279,7 @@ Here's a visual breakdown that further emphasizes when polar coordinates might b
   }
   \draw[black,thick] (0,0) circle (1);
   \node[font=\scriptsize,align=center,below] at (0,-1.35)
-        {Polar: easy for curved boundary, need to account for increasing radius \\ $dA=r\,dr\,d\theta$};
+        {Polar: easy for curved boundary, need to \\ account for increasing radius $dA=r\,dr\,d\theta$};
 \end{scope}
 
 \end{tikzpicture}
@@ -288,7 +288,7 @@ Here's a visual breakdown that further emphasizes when polar coordinates might b
 
 
 \begin{problem}
-Why use polar coordinates for integration?
+Why use polar coordinates for integration? (select all that apply)
 \begin{selectAll}
     \choice[correct]{Circular regions have simpler bounds: $0 \leq r \leq R$, $0 \leq \theta \leq 2\pi$}
     \choice{Polar coordinates always make integrals easier}
@@ -340,10 +340,10 @@ So we need to figure out how to compute the area of a small polar region in term
   % annotation box
   \draw[green!50!black,thick,rounded corners] (-.8,-0.5) rectangle (4.2,-0.1);
   \node[green!50!black,font=\small,align=center] at (1.7,-0.3)
-        {Incorrect Area just multiplies sides};
+        {Area just multiplies sides};
 
   \node[font=\small,align=center,below] at (1.7,-0.55)
-        {\textbf{Parameter space} $(r,\theta)$\\equal rectangles everywhere};
+        {\textbf{Parameter space} $(r,\theta)$\\Assumes rectangles everywhere};
 \end{scope}
 
 %=== ARROW ===
@@ -496,7 +496,7 @@ Whereas this integral still requires a little bit of algebra, it is far more eas
 
 Go ahead and go through the algebra (either some distributing or a simple u-substitution) to evaluate this integral:
 
-$$\int_0^1 \frac{r(4-r^2)^2}{2}\,dr=\answer{[tolerance=.01]\frac{37}{12}}$$
+$$\int_0^1 \frac{r(4-r^2)^2}{2}\,dr=\answer[tolerance=.01]{\frac{37}{12}}$$
 
 \textbf{Outer integral ($\theta$):}
 $$M = \int_0^{2\pi} \frac{37}{12}\,d\theta = \answer[tolerance=.01]{\frac{37\pi}{6}}$$
@@ -516,14 +516,14 @@ The shading shows the sign of $xy$: equal positive (red) and negative (blue) are
 Let's integrate $f(x,y) = xy$ over the top half of the unit disk $x^2 + y^2 \leq 1$, $y \geq 0$.
 
 \textbf{In rectangular coordinates:}
-$$\int_{-1}^1\int_{-\sqrt{1-x^2}}^{0} xy\,dy\,dx$$
+$$\int_{-1}^1\int_{0}^{\sqrt{1-x^2}} xy\,dy\,dx$$
 
 \textbf{In polar coordinates:}
 \begin{itemize}
     \item Region: $\answer{0} \leq r \leq \answer{1}$, $\answer{0} \leq \theta \leq \answer{\pi}$
     \item Remember the transformation: $x = r\cos\theta$, $y = r\sin\theta$
     
-    Function: $f(x,y) = xy = (r\cos\theta)(r\sin\theta) = \answer{r^2 \sin\theta \cos\theta}$
+    Function: $f(x,y) = xy = \answer{r^2 \sin\theta \cos\theta}$
     \item Area element: $dA = \answer{r}\,dr\,d\theta$
 \end{itemize}
 
