@@ -10,118 +10,647 @@ We explore how coordinate transformations stretch and skew space, building geome
 \maketitle
 
 %----------------------------------------------------------------------
-\section*{The Big Question: How Much Does a Transformation Skew Space?}
+\section*{How Much Do Coordinate Transformations Skew Space?}
 %----------------------------------------------------------------------
 
-Every time we switch from Cartesian coordinates to polar, cylindrical, or spherical coordinates, we are applying a \emph{transformation} --- a rule that maps one coordinate system to another.  When we integrate over a transformed region, we can't just swap the symbols; we have to account for the fact that the transformation \emph{changes sizes}.  A small square in $(r,\theta)$-space does \emph{not} correspond to a same-sized square in $(x,y)$-space.
+When we switch from Cartesian coordinates to polar, cylindrical, spherical, or other more general cooridnates, we are applying a \emph{transformation}: a rule that maps one coordinate system to another.  
 
-The \textbf{Jacobian determinant} is the precise answer to: \emph{how much does this transformation locally skew area (or volume)?}
+For polar coordinates, the transformation was from the variables $(r,\theta)$ to the variables $(x,y)$, given by the formulas
 
-We'll discover it naturally by studying the three most important coordinate systems first.
+\[x = r\cos\theta, \qquad y = r\sin\theta.\]
+
+We measured the area of a small region in polar space by the area $dA = r\,dr\,d\theta$. 
+
+
+\begin{center}
+\begin{tikzpicture}[scale=1.05]
+
+%=== LEFT: parameter space (r,theta) rectangle ===
+\begin{scope}[xshift=-1cm]
+  \draw[->](-0.25,0)--(3.6,0) node[right]{$r$};
+  \draw[->](0,-0.25)--(0,3.2) node[above]{$\theta$};
+
+  % grid lines
+  \draw[gray!30,thin] (0,0) grid[step=0.6] (3.4,3.0);
+
+  % highlight one small rectangle
+  \def\ro{1.8}  \def\tho{1.2}  \def\dr{0.6}  \def\dth{0.6}
+  \fill[blue!20] (\ro,\tho) rectangle (\ro+\dr,\tho+\dth);
+  \draw[blue!70!black,very thick] (\ro,\tho) rectangle (\ro+\dr,\tho+\dth);
+
+  % dimension labels
+  \draw[<->,orange!80!black,thick] (\ro,\tho-0.2) -- (\ro+\dr,\tho-0.2)
+        node[midway,below]{$\Delta r$};
+  \draw[<->,orange!80!black,thick] (\ro+\dr+0.15,\tho) -- (\ro+\dr+0.15,\tho+\dth)
+        node[midway,right]{$r\Delta\theta$};
+
+  % area label
+  % \node[blue!70!black,font=\small] at (\ro+\dr/2,\tho+\dth/2)
+  %       {$\Delta r\,\Delta\theta$};
+
+  % annotation box
+  \draw[green!50!black,thick,rounded corners] (-.8,-0.5) rectangle (4.2,-0.1);
+  \node[green!50!black,font=\small,align=center] at (1.7,-0.3)
+        {Area just multiplies sides};
+
+  \node[font=\small,align=center,below] at (1.7,-0.55)
+        {\textbf{Parameter space} $(r,\theta)$\\Assumes rectangles everywhere};
+\end{scope}
+
+%=== ARROW ===
+\begin{scope}[xshift=4.0cm,yshift=1cm]
+  \draw[->,very thick,gray!60](0,0)--(1.2,0) node[midway,above,font=\small]{$T$};
+  \node[gray!60,font=\scriptsize,align=center] at (0.6,-0.3){$x=r\cos\theta$\\$y=r\sin\theta$};
+\end{scope}
+
+%=== RIGHT: coordinate space (x,y) curved patch ===
+\begin{scope}[xshift=6.4cm]
+  \draw[->](-0.25,0)--(3.6,0) node[right]{$x$};
+  \draw[->](0,-0.25)--(0,3.2) node[above]{$y$};
+
+  % Draw several annular sectors to show the non-uniform grid
+  \foreach \ri/\rn in {0.55/1.15, 1.15/1.75, 1.75/2.35, 2.35/2.95} {
+    \foreach \ta/\tb in {10/37, 37/64, 64/91, 91/118} {
+      \pgfmathsetmacro{\cc}{(\ri+\rn)/2*15}
+      \fill[blue!\cc!white,opacity=0.35]
+        ({\ri*cos(\ta)},{\ri*sin(\ta)})
+        -- ({\rn*cos(\ta)},{\rn*sin(\ta)})
+        arc[start angle=\ta, end angle=\tb, radius=\rn]
+        -- ({\ri*cos(\tb)},{\ri*sin(\tb)})
+        arc[start angle=\tb, end angle=\ta, radius=\ri]
+        -- cycle;
+      \draw[blue!60!black,thin]
+        ({\ri*cos(\ta)},{\ri*sin(\ta)})
+        -- ({\rn*cos(\ta)},{\rn*sin(\ta)})
+        arc[start angle=\ta, end angle=\tb, radius=\rn]
+        -- ({\ri*cos(\tb)},{\ri*sin(\tb)})
+        arc[start angle=\tb, end angle=\ta, radius=\ri]
+        -- cycle;
+    }
+  }
+
+  % Highlight one specific patch: r=1.75..2.35, theta=37..64 deg
+  \fill[blue!25]
+    ({1.75*cos(37)},{1.75*sin(37)})
+    -- ({2.35*cos(37)},{2.35*sin(37)})
+    arc[start angle=37, end angle=64, radius=2.35]
+    -- ({1.75*cos(64)},{1.75*sin(64)})
+    arc[start angle=64, end angle=37, radius=1.75]
+    -- cycle;
+  \draw[blue!70!black,very thick]
+    ({1.75*cos(37)},{1.75*sin(37)})
+    -- ({2.35*cos(37)},{2.35*sin(37)})
+    arc[start angle=37, end angle=64, radius=2.35]
+    -- ({1.75*cos(64)},{1.75*sin(64)})
+    arc[start angle=64, end angle=37, radius=1.75]
+    -- cycle;
+
+  % Label radial side
+  \pgfmathsetmacro{\rmid}{(1.75+2.35)/2}
+  \pgfmathsetmacro{\tmid}{(37+64)/2}
+  \draw[<->,orange!80!black,thick]
+    ({1.77*cos(36)},{1.77*sin(36)}) -- ({2.33*cos(36)},{2.33*sin(36)})
+    node[midway,below,font=\small]{$\Delta r$};
+
+  % Label arc side (outer arc at r=2.35)#medium font
+  \node[orange!80!black,font=\small] at ({2.75*cos(\tmid)},{2.75*sin(\tmid)})
+        {$r\Delta\theta$};
+  \draw[orange!70!black,very thick,<->]
+    ({2.4*cos(37)},{2.4*sin(37)}) arc[start angle=37,end angle=64,radius=2.4];
+
+  % annotation box below
+  \draw[red!60!black,thick,rounded corners] (-.35,-0.55) rectangle (3.75,-.15);
+  \node[red!60!black,font=\small,align=center] at (1.7,-0.35)
+        {Arc $= r\Delta\theta$ so area $\approx r\,\Delta r\,\Delta\theta$};
+
+  \node[font=\small,align=center,below] at (1.7,-0.6)
+        {\textbf{Coordinate space} $(x,y)$\\patches grow with $r$};
+\end{scope}
+
+\end{tikzpicture}
+\end{center}
+
+
+In cylindrical coordinates, the transformation was from the variables $(r,\theta,z)$ to the variables $(x,y,z)$, given by the formulas
+
+\[x = r\cos\theta, \qquad y = r\sin\theta, \qquad z = z.\]
+
+We simply added a small height change $dz$ to the polar area, so the volume of a small box in cylindrical space was $dV = r\,dr\,d\theta\,dz$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.95]
+
+%=== LEFT: parameter space (r, theta, z) rectangular box ===
+\begin{scope}[xshift=0cm]
+  % Draw as a simple 3D oblique box
+  % using a pseudo-3D projection: x-axis goes right, y-axis goes up, z-axis goes upper-right
+  % basis: e_r = (1,0), e_theta = (0,1), e_z = (0.45, 0.45)
+  \def\er{(1,0)}  \def\et{(0,1)}  \def\ez{(0.45,0.45)}
+  \def\W{1.4}  \def\H{1.1}  \def\D{0.7}
+  % The eight corners (origin + combinations)
+  % O = (0,0), A=W*er, B=H*et, C=D*ez, AB=A+B, AC=A+C, BC=B+C, ABC=A+B+C
+  \coordinate (O) at (0,0);
+  \coordinate (A) at (\W,0);
+  \coordinate (B) at (0,\H);
+  \coordinate (C) at ({\D*0.45},{\D*0.45});
+  \coordinate (AB) at (\W,\H);
+  \coordinate (AC) at ({\W+\D*0.45},{\D*0.45});
+  \coordinate (BC) at ({\D*0.45},{\H+\D*0.45});
+  \coordinate (ABC) at ({\W+\D*0.45},{\H+\D*0.45});
+
+  % Fill faces
+  \fill[blue!15] (O)--(A)--(AB)--(B)--cycle;
+  \fill[blue!25] (A)--(AC)--(ABC)--(AB)--cycle;
+  \fill[blue!10] (B)--(AB)--(ABC)--(BC)--cycle;
+
+  % Draw edges
+  \draw[blue!70!black,thick] (O)--(A)--(AB)--(B)--cycle;
+  \draw[blue!70!black,thick] (A)--(AC)--(ABC)--(AB);
+  \draw[blue!70!black,thick] (B)--(BC)--(ABC);
+  \draw[blue!70!black,dashed] (O)--(C)--(AC);
+  \draw[blue!70!black,dashed] (C)--(BC);
+
+  % Dimension labels
+  \draw[<->,orange!80!black,thick] (0,-0.25)--(\W,-0.25) node[midway,below]{$\Delta r$};
+  \draw[<->,orange!80!black,thick] (-0.25,0)--(-0.25,\H) node[midway,left]{$\Delta z$};
+  \draw[<->,orange!80!black,thick] ({\W+0.15},{0.08*\D})--({\W+\D*0.45+0.15},{\D*0.45+0.08*\D})
+        node[midway,right,font=\small]{$r \Delta\theta$};
+
+  % Volume annotation
+  \node[blue!70!black,font=\small,align=center] at ({-1.5},{\H/2-.5}) {Volume};
+  \node[blue!70!black,font=\small,align=center] at ({-1.5},{-0.3}) {$= r\Delta r\cdot\Delta\theta\cdot\Delta z$};
+
+  \draw[green!50!black,rounded corners,thick] (-.1,-.7) rectangle ({\W+\D*0.45+0.25},{\H+\D*0.45+0.2});
+  \node[green!50!black,font=\small] at ({\W/2},-0.9) {sides simply multiply};
+  \node[font=\small,align=center,below] at ({(\W+\D*0.45)/2},-1.15)
+        {\textbf{Parameter space} $(r,\theta,z)$};
+\end{scope}
+
+%=== ARROW ===
+\begin{scope}[xshift=3.8cm]
+  \draw[->,very thick,gray!60](0,0.55)--(1.4,0.55)
+    node[midway,above,align=center,font=\small]{Cylindrical\\Transformation};
+
+%=== RIGHT: coordinate space (x,y,z) curved prism ===
+\begin{scope}[xshift=3.5cm, yshift=-0.3cm]
+  % Draw using standard 3D oblique: x goes right, y goes upper-right, z goes up
+  % A curved prism: bottom face is a polar wedge, extruded up by Delta z
+  % r_in=0.7, r_out=1.5, theta_a=25, theta_b=55, z_bot=0, z_top=1.1
+  \def\rI{0.7}  \def\rO{1.5}  \def\thA{25}  \def\thB{55}  \def\zt{1.15}
+  % Project 3D (x,y,z) -> 2D: px = x + 0.4*y, py = z + 0.25*y
+  % bottom face corners: 4 points at z=0
+  % IL = inner-left, IR = inner-right, OL = outer-left, OR = outer-right
+  \pgfmathsetmacro{\ILx}{\rI*cos(\thA)}  \pgfmathsetmacro{\ILy}{\rI*sin(\thA)}
+  \pgfmathsetmacro{\IRx}{\rI*cos(\thB)}  \pgfmathsetmacro{\IRy}{\rI*sin(\thB)}
+  \pgfmathsetmacro{\OLx}{\rO*cos(\thA)}  \pgfmathsetmacro{\OLy}{\rO*sin(\thA)}
+  \pgfmathsetmacro{\ORx}{\rO*cos(\thB)}  \pgfmathsetmacro{\ORy}{\rO*sin(\thB)}
+  % 2D projected coords (px, py) = (x + 0.38*y, 0 + 0.28*y) for z=0
+  % and (x + 0.38*y, zt + 0.28*y) for z=zt
+  \pgfmathsetmacro{\pILx}{\ILx+0.38*\ILy}  \pgfmathsetmacro{\pILy}{0.28*\ILy}
+  \pgfmathsetmacro{\pIRx}{\IRx+0.38*\IRy}  \pgfmathsetmacro{\pIRy}{0.28*\IRy}
+  \pgfmathsetmacro{\pOLx}{\OLx+0.38*\OLy}  \pgfmathsetmacro{\pOLy}{0.28*\OLy}
+  \pgfmathsetmacro{\pORx}{\ORx+0.38*\ORy}  \pgfmathsetmacro{\pORy}{0.28*\ORy}
+  % Top versions (add zt to z component -> add zt to py)
+  \pgfmathsetmacro{\tILy}{\pILy+\zt}  \pgfmathsetmacro{\tIRy}{\pIRy+\zt}
+  \pgfmathsetmacro{\tOLy}{\pOLy+\zt}  \pgfmathsetmacro{\tORy}{\pORy+\zt}
+
+  % Back face (for visibility order)
+  \fill[red!10]
+    (\pOLx,\pOLy) -- (\pORx,\pORy) -- (\pORx,\tORy) -- (\pOLx,\tOLy) -- cycle;
+  \fill[red!15]
+    (\pILx,\pILy) -- (\pOLx,\pOLy) -- (\pOLx,\tOLy) -- (\pILx,\tILy) -- cycle;
+
+  % Bottom curved face (approximate with straight lines)
+  \fill[red!20]
+    (\pILx,\pILy) -- (\pOLx,\pOLy) -- (\pORx,\pORy) -- (\pIRx,\pIRy) -- cycle;
+
+  % Top curved face
+  \fill[red!25]
+    (\pILx,\tILy) -- (\pOLx,\tOLy) -- (\pORx,\tORy) -- (\pIRx,\tIRy) -- cycle;
+
+  % Draw all edges
+  \draw[red!70!black,thick]
+    (\pILx,\pILy) -- (\pOLx,\pOLy) -- (\pORx,\pORy) -- (\pIRx,\pIRy) -- cycle;
+  \draw[red!70!black,thick]
+    (\pILx,\tILy) -- (\pOLx,\tOLy) -- (\pORx,\tORy) -- (\pIRx,\tIRy) -- cycle;
+  \draw[red!70!black,thick] (\pILx,\pILy)--(\pILx,\tILy);
+  \draw[red!70!black,thick] (\pIRx,\pIRy)--(\pIRx,\tIRy);
+  \draw[red!70!black,thick] (\pOLx,\pOLy)--(\pOLx,\tOLy);
+  \draw[red!70!black,thick] (\pORx,\pORy)--(\pORx,\tORy);
+
+  % Dimension labels
+  \pgfmathsetmacro{\rmid}{(\rI+\rO)/2}
+  \pgfmathsetmacro{\tmid}{(\thA+\thB)/2}
+  \pgfmathsetmacro{\pmx}{\rmid*cos(\thA)+0.38*\rmid*sin(\thA)}
+  \pgfmathsetmacro{\pmy}{0.28*\rmid*sin(\thA)}
+  \draw[<->,orange!80!black,thick]
+    ({\pILx-0.1},{\pILy-0.22}) -- ({\pOLx-0.1},{\pOLy-0.22})
+    node[midway,below,font=\small]{$\Delta r$};
+
+  % arc label
+  \pgfmathsetmacro{\pARCx}{\rO*cos(\tmid)+0.38*\rO*sin(\tmid)+0.2}
+  \pgfmathsetmacro{\pARCy}{0.28*\rO*sin(\tmid)}
+  \node[orange!80!black,right,font=\small] at (\pARCx,\pARCy) {$r\Delta\theta$};
+  \draw[orange!80!black,->,thin] (\pARCx-0.18,\pARCy) -- (\pORx+0.05,\pORy+0.05);
+
+  % height label
+  \draw[<->,orange!80!black,thick]
+    ({\pILx+0.18},{\pILy}) -- ({\pILx+0.18},{\tILy})
+    node[midway,right,font=\small]{$\Delta z$};
+
+  % Bounding box (tight around prism only, mirroring green box on left)
+  \draw[red!60!black,rounded corners,thick] (-0.1,-0.55) rectangle (1.85,{\zt+0.35});
+  \node[font=\small,align=center,below] at (0.85,{-0.55})
+        {\textbf{Coordinate space} $(x,y,z)$};
+
+  % Volume annotation to the RIGHT (mirroring left side)
+  \node[red!70!black,font=\small,align=center] at (2.65,{\zt/2-.7}) {Volume};
+  \node[red!70!black,font=\small,align=center] at (3.65,{\zt/2-.95}) {$\approx r\cdot\Delta r\cdot\Delta\theta\cdot\Delta z$};
+\end{scope}
+
+\end{scope}
+
+\end{tikzpicture}
+\end{center}
+
+In spherical coordinates, the transformation was from the variables $(\rho,\phi,\theta)$ to the variables $(x,y,z)$, given by the formulas
+
+\[x = \rho\sin\phi\cos\theta, \qquad y = \rho\sin\phi\sin\theta, \qquad z = \rho\cos\phi.\]
+
+The geometry of the transformation gave us that the measure of a small volume wedge in spherical space was $dV = \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$.
+
+\begin{center}
+\begin{tikzpicture}[x={(0.8cm,-0.4cm)}, y={(0.8cm,0.4cm)}, z={(0cm,1.1cm)}, scale=1.4]
+% Sphere wireframe + one highlighted dV wedge element — no axes, minimal wireframe
+\def\RS{2.0}
+
+% --- Back hemisphere wireframe (thin dashed — more lines for rounder look) ---
+\foreach \ph in {20,40,60,80,100,120,140,160} {
+  \pgfmathsetmacro{\rr}{\RS*sin(\ph)}
+  \pgfmathsetmacro{\zz}{\RS*cos(\ph)}
+  \draw[blue!20!black,ultra thin,dashed,domain=90:270,smooth,samples=13,variable=\t]
+    plot ({\rr*cos(\t)},{\rr*sin(\t)},\zz);
+}
+\foreach \th in {90,120,150,180,210,240,270} {
+  \draw[blue!20!black,ultra thin,dashed,domain=0:180,smooth,samples=13,variable=\p]
+    plot ({\RS*sin(\p)*cos(\th)},{\RS*sin(\p)*sin(\th)},{\RS*cos(\p)});
+}
+
+% Light fill on back hemisphere (very faint)
+\foreach \ph in {0,40,...,160} {
+  \pgfmathsetmacro{\phn}{\ph+40}
+  \pgfmathsetmacro{\ra}{\RS*sin(\ph)} \pgfmathsetmacro{\za}{\RS*cos(\ph)}
+  \pgfmathsetmacro{\rb}{\RS*sin(\phn)} \pgfmathsetmacro{\zb}{\RS*cos(\phn)}
+  \foreach \th in {90,180,240} {
+    \pgfmathsetmacro{\thn}{\th+60}
+    \fill[blue!12!cyan,opacity=0.10]
+      ({\ra*cos(\th)},{\ra*sin(\th)},\za)
+      -- ({\rb*cos(\th)},{\rb*sin(\th)},\zb)
+      -- ({\rb*cos(\thn)},{\rb*sin(\thn)},\zb)
+      -- ({\ra*cos(\thn)},{\ra*sin(\thn)},\za) -- cycle;
+  }
+}
+
+% --- Front hemisphere (thin lines only — more lines for rounder look) ---
+\foreach \ph in {20,40,60,80,100,120,140,160} {
+  \pgfmathsetmacro{\rr}{\RS*sin(\ph)}
+  \pgfmathsetmacro{\zz}{\RS*cos(\ph)}
+  \draw[blue!30!black,ultra thin,domain=-90:90,smooth,samples=13,variable=\t]
+    plot ({\rr*cos(\t)},{\rr*sin(\t)},\zz);
+}
+\foreach \th in {-90,-60,-30,0,30,60,90} {
+  \draw[blue!30!black,ultra thin,domain=0:180,smooth,samples=13,variable=\p]
+    plot ({\RS*sin(\p)*cos(\th)},{\RS*sin(\p)*sin(\th)},{\RS*cos(\p)});
+}
+
+% Light fill on front hemisphere (gentle)
+\foreach \ph in {0,40,...,160} {
+  \pgfmathsetmacro{\phn}{\ph+40}
+  \pgfmathsetmacro{\ra}{\RS*sin(\ph)} \pgfmathsetmacro{\za}{\RS*cos(\ph)}
+  \pgfmathsetmacro{\rb}{\RS*sin(\phn)} \pgfmathsetmacro{\zb}{\RS*cos(\phn)}
+  \foreach \th in {-90,-30,...,60} {
+    \pgfmathsetmacro{\thn}{\th+60}
+    \fill[blue!18!cyan,opacity=0.12]
+      ({\ra*cos(\th)},{\ra*sin(\th)},\za)
+      -- ({\rb*cos(\th)},{\rb*sin(\th)},\zb)
+      -- ({\rb*cos(\thn)},{\rb*sin(\thn)},\zb)
+      -- ({\ra*cos(\thn)},{\ra*sin(\thn)},\za) -- cycle;
+  }
+}
+
+% --- Highlighted dV wedge element ---
+% rho in [1.1,1.5], phi in [45,65 deg], theta in [15,50 deg]
+\def\rI{1.1} \def\rO{1.5}
+\def\phA{45} \def\phB{65}
+\def\thA{15} \def\thB{50}
+
+% 8 corner coordinates (pre-compute with helper macros)
+% inner/outer, phi low/high, theta low/high: notation (rho, ph, th)
+% We draw 6 faces as quads
+
+% Face 1: inner sphere face (rho=rI, phi, theta sweep)
+\fill[yellow!50,opacity=0.80]
+  ({\rI*sin(\phA)*cos(\thA)},{\rI*sin(\phA)*sin(\thA)},{\rI*cos(\phA)})
+  -- ({\rI*sin(\phB)*cos(\thA)},{\rI*sin(\phB)*sin(\thA)},{\rI*cos(\phB)})
+  -- ({\rI*sin(\phB)*cos(\thB)},{\rI*sin(\phB)*sin(\thB)},{\rI*cos(\phB)})
+  -- ({\rI*sin(\phA)*cos(\thB)},{\rI*sin(\phA)*sin(\thB)},{\rI*cos(\phA)}) -- cycle;
+
+% Face 2: outer sphere face (rho=rO)
+\fill[yellow!60,opacity=0.85]
+  ({\rO*sin(\phA)*cos(\thA)},{\rO*sin(\phA)*sin(\thA)},{\rO*cos(\phA)})
+  -- ({\rO*sin(\phB)*cos(\thA)},{\rO*sin(\phB)*sin(\thA)},{\rO*cos(\phB)})
+  -- ({\rO*sin(\phB)*cos(\thB)},{\rO*sin(\phB)*sin(\thB)},{\rO*cos(\phB)})
+  -- ({\rO*sin(\phA)*cos(\thB)},{\rO*sin(\phA)*sin(\thB)},{\rO*cos(\phA)}) -- cycle;
+
+% Face 3: phi=phA (upper cone face)
+\fill[yellow!40,opacity=0.75]
+  ({\rI*sin(\phA)*cos(\thA)},{\rI*sin(\phA)*sin(\thA)},{\rI*cos(\phA)})
+  -- ({\rO*sin(\phA)*cos(\thA)},{\rO*sin(\phA)*sin(\thA)},{\rO*cos(\phA)})
+  -- ({\rO*sin(\phA)*cos(\thB)},{\rO*sin(\phA)*sin(\thB)},{\rO*cos(\phA)})
+  -- ({\rI*sin(\phA)*cos(\thB)},{\rI*sin(\phA)*sin(\thB)},{\rI*cos(\phA)}) -- cycle;
+
+% Face 4: phi=phB (lower cone face)
+\fill[yellow!40,opacity=0.75]
+  ({\rI*sin(\phB)*cos(\thA)},{\rI*sin(\phB)*sin(\thA)},{\rI*cos(\phB)})
+  -- ({\rO*sin(\phB)*cos(\thA)},{\rO*sin(\phB)*sin(\thA)},{\rO*cos(\phB)})
+  -- ({\rO*sin(\phB)*cos(\thB)},{\rO*sin(\phB)*sin(\thB)},{\rO*cos(\phB)})
+  -- ({\rI*sin(\phB)*cos(\thB)},{\rI*sin(\phB)*sin(\thB)},{\rI*cos(\phB)}) -- cycle;
+
+% Face 5: theta=thA (front meridian face)
+\fill[yellow!55,opacity=0.82]
+  ({\rI*sin(\phA)*cos(\thA)},{\rI*sin(\phA)*sin(\thA)},{\rI*cos(\phA)})
+  -- ({\rI*sin(\phB)*cos(\thA)},{\rI*sin(\phB)*sin(\thA)},{\rI*cos(\phB)})
+  -- ({\rO*sin(\phB)*cos(\thA)},{\rO*sin(\phB)*sin(\thA)},{\rO*cos(\phB)})
+  -- ({\rO*sin(\phA)*cos(\thA)},{\rO*sin(\phA)*sin(\thA)},{\rO*cos(\phA)}) -- cycle;
+
+% Face 6: theta=thB (back face of wedge -- draw at lower opacity)
+\fill[yellow!45,opacity=0.65]
+  ({\rI*sin(\phA)*cos(\thB)},{\rI*sin(\phA)*sin(\thB)},{\rI*cos(\phA)})
+  -- ({\rI*sin(\phB)*cos(\thB)},{\rI*sin(\phB)*sin(\thB)},{\rI*cos(\phB)})
+  -- ({\rO*sin(\phB)*cos(\thB)},{\rO*sin(\phB)*sin(\thB)},{\rO*cos(\phB)})
+  -- ({\rO*sin(\phA)*cos(\thB)},{\rO*sin(\phA)*sin(\thB)},{\rO*cos(\phA)}) -- cycle;
+
+% Draw wedge edges
+\draw[orange!90!black,very thick]
+  ({\rI*sin(\phA)*cos(\thA)},{\rI*sin(\phA)*sin(\thA)},{\rI*cos(\phA)})
+  -- ({\rI*sin(\phB)*cos(\thA)},{\rI*sin(\phB)*sin(\thA)},{\rI*cos(\phB)})
+  -- ({\rO*sin(\phB)*cos(\thA)},{\rO*sin(\phB)*sin(\thA)},{\rO*cos(\phB)})
+  -- ({\rO*sin(\phA)*cos(\thA)},{\rO*sin(\phA)*sin(\thA)},{\rO*cos(\phA)}) -- cycle;
+\draw[orange!90!black,very thick]
+  ({\rI*sin(\phA)*cos(\thB)},{\rI*sin(\phA)*sin(\thB)},{\rI*cos(\phA)})
+  -- ({\rI*sin(\phB)*cos(\thB)},{\rI*sin(\phB)*sin(\thB)},{\rI*cos(\phB)})
+  -- ({\rO*sin(\phB)*cos(\thB)},{\rO*sin(\phB)*sin(\thB)},{\rO*cos(\phB)})
+  -- ({\rO*sin(\phA)*cos(\thB)},{\rO*sin(\phA)*sin(\thB)},{\rO*cos(\phA)}) -- cycle;
+\draw[orange!90!black,very thick]
+  ({\rI*sin(\phA)*cos(\thA)},{\rI*sin(\phA)*sin(\thA)},{\rI*cos(\phA)})
+  -- ({\rI*sin(\phA)*cos(\thB)},{\rI*sin(\phA)*sin(\thB)},{\rI*cos(\phA)});
+\draw[orange!90!black,very thick]
+  ({\rI*sin(\phB)*cos(\thA)},{\rI*sin(\phB)*sin(\thA)},{\rI*cos(\phB)})
+  -- ({\rI*sin(\phB)*cos(\thB)},{\rI*sin(\phB)*sin(\thB)},{\rI*cos(\phB)});
+\draw[orange!90!black,very thick]
+  ({\rO*sin(\phA)*cos(\thA)},{\rO*sin(\phA)*sin(\thA)},{\rO*cos(\phA)})
+  -- ({\rO*sin(\phA)*cos(\thB)},{\rO*sin(\phA)*sin(\thB)},{\rO*cos(\phA)});
+\draw[orange!90!black,very thick]
+  ({\rO*sin(\phB)*cos(\thA)},{\rO*sin(\phB)*sin(\thA)},{\rO*cos(\phB)})
+  -- ({\rO*sin(\phB)*cos(\thB)},{\rO*sin(\phB)*sin(\thB)},{\rO*cos(\phB)});
+
+% Labels: edge dimensions on front face
+\draw[red!70!black,<->,thick]
+  ({\rI*sin(\phA)*cos(\thA)},{\rI*sin(\phA)*sin(\thA)},{\rI*cos(\phA)})
+  -- ({\rO*sin(\phA)*cos(\thA)},{\rO*sin(\phA)*sin(\thA)},{\rO*cos(\phA)})
+  node[midway,above,font=\scriptsize,red!70!black]{$d\rho$};
+
+\draw[green!60!black,<->,thick]
+  ({\rO*sin(\phA)*cos(\thA)},{\rO*sin(\phA)*sin(\thA)},{\rO*cos(\phA)})
+  -- ({\rO*sin(\phB)*cos(\thA)},{\rO*sin(\phB)*sin(\thA)},{\rO*cos(\phB)})
+  node[midway,right,font=\scriptsize,green!50!black]{$\rho\,d\phi$};
+
+% theta arc label
+\node[font=\scriptsize,blue!70!black,align=center] at
+  ({(\rO+0.25)*sin(55)*cos(\thA)},{(\rO+0.25)*sin(55)*sin(\thA)},{(\rO+0.25)*cos(55)})
+  {$\rho\sin\phi$\\$d\theta$};
+
+% dV label
+\node[font=\small,orange!80!black,align=center] at (2.0,-1.3,0.5)
+  {$dV = \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$};
+\draw[orange!70!black,->,thin]
+  (1.5,-1.0,0.7) -- ({\rO*sin(55)*cos(32)},{\rO*sin(55)*sin(32)},{\rO*cos(55)});
+
+% rho vector to P
+\draw[violet,thick,->] (0,0,0) -- ({\rO*sin(\phA)*cos(\thA)},{\rO*sin(\phA)*sin(\thA)},{\rO*cos(\phA)})
+  node[above right,font=\scriptsize,violet]{$\rho$};
+
+\node[font=\small,align=center,below] at (0.2,-2.0,-0.6)
+  {\textbf{Sphere with variable density} $\delta(\rho)=k\rho$};
+\end{tikzpicture}
+\end{center}
+
+
+Multi-varialbe integrations, such as $\iiint f\cdot dV$ or $\iint f\cdot dA$ require a way to measure the size of the tiny input regions of the domain (such as $dA$ and $dV$).
+
+Whereas last module we analyzed the geometries of polar and spherical coordiantes to determine the size measures $dA=r\,dr\,d\theta$ and $dV = \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$, in this module we will discover a more general process for determining the domain measures of size: The \textbf{Jacobian} matrix and its \emph{determinant}.
+
+\section*{Matrices and Linear Transformations}
+
+The key ideas that allow us to efficiently determine the differential measures like $dA$ and $dV$ are that:
+
+\begin{enumerate}
+  \item Derivatives skew space linearly
+  \item Linear transformations can be represented by matrices
+\end{enumerate}
+
+In single-variable calculus, we created linear versions of functions $f$ by the differential $df = f'(x)dx$. 
+
+Now, we're going to do the same thing to coordinate transformations $T$ using what is called the \textbf{Jacobian matrix} $J$ of $T$. The Jacobian matrix is the matrix of all partial derivatives of the transformation $T$.
+
+If $T$ maps $(u,v)$ to $(x,y)$, then the Jacobian matrix is:
+
+$$J = \begin{bmatrix}\frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\[6pt] \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v}\end{bmatrix}$$
+
+We can use $J$ to find the measures such as $dA$ and $dV$ in a similar differential relationship:
+
+$$dA = |\det(J)|\,du\,dv$$
+
+Here, $\det(J)$ refers to the \emph{determinant} of the Jacobian matrix.
+
+But why all the fuss about a matrix $J$ of derivatives?
+
+And why does the determinant of $J$ give us the measure of area or volume? 
+
+We need to dig in to the idea of linear transformations and matrix multiplication to understand this.
+
+The following video by 3Blue1Brown gives a great breakdown of how to think about matrices as linear transformations and how matrix multiplication efficiently captures how matrices transform all of space:
+
+\youtube{kYB8IZa5AuE?si=bEjVUFTC9psmBwH6}
+
+
+
+\begin{problem}
+  Let's practice using matrix multiplication to transform vectors.
+  \begin{enumerate}
+    \item The matrix $A = \begin{bmatrix}2 & 0 \\ 0 & 1\end{bmatrix}$ sends the input vector $\vec{v} = \begin{bmatrix}1 \\ 1\end{bmatrix}$ to the output vector $\vec{w}$ from the multiplication
+    
+    $$\vec{w} = A\vec{v}= \begin{bmatrix}2 & 0 \\ 0 & 1\end{bmatrix}\begin{bmatrix}1 \\ 1\end{bmatrix}$$
+
+    $$=\answer{1}\begin{bmatrix}
+      \answer{2} \\ \answer{1}
+    \end{bmatrix} + \answer{1}\begin{bmatrix}
+      \answer{0} \\ \answer{1}
+    \end{bmatrix} = \begin{bmatrix}
+      \answer{2} \\ \answer{1}
+    \end{bmatrix}$$
+
+  \item The matrix $B = \begin{bmatrix}1 & 1 \\ 0 & 1\end{bmatrix}$ sends the input vector $\vec{v} = \begin{bmatrix}1 \\ 1\end{bmatrix}$ to the output vector $\vec{w}$ from the multiplication
+
+    $$\vec{w} = B\vec{v}= \begin{bmatrix}1 & 1 \\ 0 & 1\end{bmatrix}\begin{bmatrix}1 \\ 1\end{bmatrix}$$
+
+    $$=\answer{1}\begin{bmatrix}
+      \answer{1} \\ \answer{0}
+    \end{bmatrix} + \answer{1}\begin{bmatrix}
+      \answer{1} \\ \answer{1}
+    \end{bmatrix} = \begin{bmatrix}
+      \answer{2} \\ \answer{1}
+    \end{bmatrix}$$
+  \end{enumerate}
+\end{problem}
 
 %----------------------------------------------------------------------
-\section*{Part I: The Polar Transformation}
+\section*{The Polar Transformation Differential}
 %----------------------------------------------------------------------
 
 \subsection*{Parameter Space vs.\ Coordinate Space}
 
 The polar transformation is:
+
 \[
   x = r\cos\theta, \qquad y = r\sin\theta.
 \]
 
-Think of $(r,\theta)$ as \emph{parameter space} and $(x,y)$ as \emph{coordinate space}.  A small rectangle in parameter space gets mapped to a \emph{curved patch} in coordinate space:
+Because derivatives give us accurate linear approximations, the Jacobian matrix $J$ gives us a linear approximation of the transformation $T$ near any point $(r,\theta)$ in the parameter space.
 
+\begin{problem}
+Let's calcualte the Jacobian matrix $J$ of the polar transformation $T$:
+
+\[
+  J = \begin{bmatrix}
+    \frac{\partial x}{\partial r} & \frac{\partial x}{\partial \theta} \\[6pt]
+    \frac{\partial y}{\partial r} & \frac{\partial y}{\partial \theta}
+  \end{bmatrix}
+  = \begin{bmatrix}
+    \answer{\cos(\theta)} & \answer{-r\cdot\sin(\theta)} \\[6pt]
+    \answer{\sin(\theta)} & \answer{r\cdot \cos(\theta)}
+  \end{bmatrix}.
+\]
+\end{problem}
+
+% --- Linearized Polar Transformation Figure ---
+% Shows parameter-space rectangle → Jacobian parallelogram in xy-space
+% Evaluated at (r_0, theta_0) = (2, 30°).
+% J columns: e_r = (cos θ_0, sin θ_0)Δr  and  e_θ = (−r_0 sinθ_0, r_0 cosθ_0)Δθ
 \begin{center}
-\begin{tikzpicture}[scale=1.0]
+\begin{tikzpicture}[scale=1.2]
 
-%--- LEFT: parameter space ---
-\begin{scope}[xshift=0cm]
-  \draw[->] (-0.2,0) -- (3.5,0) node[right] {$r$};
-  \draw[->] (0,-0.2) -- (0,3.2) node[above] {$\theta$};
+% Display scale factor applied to J column vectors
+\pgfmathsetmacro{\thz}{30}   % theta_0 (degrees)
+\pgfmathsetmacro{\rz}{2}     % r_0
+\pgfmathsetmacro{\sc}{1.35}  % visual length scale
 
-  % small rectangle
-  \def\ro{1.6}
-  \def\tho{1.4}
-  \def\dr{0.7}
-  \def\dth{0.65}
+% Column 1 of J (image of Δr * ê_r): (cos θ_0, sin θ_0)
+\pgfmathsetmacro{\erx}{cos(\thz)*\sc}
+\pgfmathsetmacro{\ery}{sin(\thz)*\sc}
+% Column 2 of J (image of Δθ * ê_θ): (−r_0 sinθ_0, r_0 cosθ_0)  scaled by sc/r_0 for display
+\pgfmathsetmacro{\etx}{-\rz*sin(\thz)*\sc/\rz}
+\pgfmathsetmacro{\ety}{\rz*cos(\thz)*\sc/\rz}
 
-  \fill[blue!20] (\ro,\tho) rectangle (\ro+\dr,\tho+\dth);
-  \draw[blue!70!black, thick] (\ro,\tho) rectangle (\ro+\dr,\tho+\dth);
+%=== LEFT: parameter (r, theta) space ===
+\begin{scope}[xshift=-0.5cm]
+  \draw[->](-0.2,0)--(3.2,0) node[right]{$r$};
+  \draw[->](0,-0.2)--(0,2.8) node[above]{$\theta$};
+  \draw[gray!30,thin] (0,0) grid[step=0.6] (3.0,2.6);
 
-  % tick marks on axes
-  \draw (\ro, 0.05) -- (\ro,-0.05) node[below] {$r$};
-  \draw (\ro+\dr, 0.05) -- (\ro+\dr,-0.05) node[below] {$r{+}\Delta r$};
-  \draw (0.05,\tho) -- (-0.05,\tho) node[left] {$\theta$};
-  \draw (0.05,\tho+\dth) -- (-0.05,\tho+\dth) node[left] {$\theta{+}\Delta\theta$};
+  % Highlighted cell at roughly (r_0, θ_0) in the grid
+  \def\px{1.8}  \def\py{1.2}  \def\dg{0.6}
+  \fill[blue!20] (\px,\py) rectangle (\px+\dg,\py+\dg);
+  \draw[blue!60!black,thick] (\px,\py) rectangle (\px+\dg,\py+\dg);
 
-  % dimension arrows
-  \draw[<->, orange!80!black, thick] (\ro, \tho-0.22) -- (\ro+\dr, \tho-0.22)
-        node[midway,below] {$\Delta r$};
-  \draw[<->, orange!80!black, thick] (\ro+\dr+0.18, \tho) -- (\ro+\dr+0.18, \tho+\dth)
-        node[midway,right] {$\Delta\theta$};
+  % Basis step vectors in parameter space
+  \draw[->,orange!80!black,very thick] (\px,\py) -- (\px+\dg,\py)
+        node[midway,below,font=\small]{$\Delta r\,\hat{r}$};
+  \draw[->,violet!80!black,very thick] (\px,\py) -- (\px,\py+\dg)
+        node[midway,left,font=\small]{$\Delta\theta\,\hat{\theta}$};
 
-  \node[blue!70!black] at (\ro+\dr/2, \tho+\dth/2) {$\Delta r\,\Delta\theta$};
+  % Base point dot and label
+  \fill[black] (\px,\py) circle (1.5pt);
+  \node[font=\scriptsize,below left] at (\px,\py) {$(r_0,\theta_0)$};
 
-  \node[below] at (1.7,-0.55) {\textbf{Parameter space} $(r,\theta)$};
+  \node[font=\small,align=center,below] at (1.5,-0.5)
+        {\textbf{Parameter space} $(r,\theta)$\\orthogonal steps $\Delta r$ and $\Delta\theta$};
 \end{scope}
 
-%--- arrow in the middle ---
-\begin{scope}[xshift=3.8cm, yshift=1.3cm]
-  \draw[->, very thick, gray!70] (0,0) -- (1.1,0)
-        node[midway,above] {$T$};
+%=== ARROW with J label ===
+\begin{scope}[xshift=3.5cm, yshift=1.0cm]
+  \draw[->,very thick,gray!60](0,0)--(1.3,0) node[midway,above,font=\small]{$J$};
+  \node[gray!60,font=\scriptsize,align=center] at (0.65,-0.35)
+        {Jacobian\\matrix};
 \end{scope}
 
-%--- RIGHT: coordinate space ---
-\begin{scope}[xshift=5.3cm]
-  \draw[->] (-0.3,0) -- (3.6,0) node[right] {$x$};
-  \draw[->] (0,-0.3) -- (0,3.4) node[above] {$y$};
+%=== RIGHT: xy space — parallelogram (linearized image) ===
+\begin{scope}[xshift=5.4cm, yshift=0.1cm]
+  \draw[->](-0.2,0)--(3.2,0) node[right]{$x$};
+  \draw[->](0,-0.3)--(0,2.8) node[above]{$y$};
 
-  % parameters (in degrees for tikz arc)
-  % r0=1.6, r1=2.3,  theta0=80deg, theta1=117deg
-  \def\rIn{1.6}
-  \def\rOut{2.3}
-  \def\thIn{80}
-  \def\thOut{117}
+  % Base point
+  \coordinate (P) at (0.9, 0.55);
 
-  % Curved patch
-  \fill[blue!20]
-      ({\rIn*cos(\thIn)},{\rIn*sin(\thIn)})
-   -- ({\rOut*cos(\thIn)},{\rOut*sin(\thIn)})
-      arc[start angle=\thIn, end angle=\thOut, radius=\rOut]
-   -- ({\rIn*cos(\thOut)},{\rIn*sin(\thOut)})
-      arc[start angle=\thOut, end angle=\thIn, radius=\rIn]
-      -- cycle;
+  % Parallelogram vertices
+  \coordinate (Q) at ($(P)+(\erx,\ery)$);        % P + e_r
+  \coordinate (R) at ($(P)+(\etx,\ety)$);         % P + e_theta
+  \coordinate (S) at ($(P)+(\erx+\etx,\ery+\ety)$); % opposite corner
 
-  \draw[blue!70!black, thick]
-      ({\rIn*cos(\thIn)},{\rIn*sin(\thIn)})
-   -- ({\rOut*cos(\thIn)},{\rOut*sin(\thIn)})
-      arc[start angle=\thIn, end angle=\thOut, radius=\rOut]
-   -- ({\rIn*cos(\thOut)},{\rIn*sin(\thOut)})
-      arc[start angle=\thOut, end angle=\thIn, radius=\rIn]
-      -- cycle;
+  % Fill and outline
+  \fill[blue!20] (P)--(Q)--(S)--(R)--cycle;
+  \draw[blue!60!black,thick] (P)--(Q)--(S)--(R)--cycle;
 
-  % label radial side: Delta r
-  \draw[<->, orange!80!black, thick]
-      ({(\rIn+0.05)*cos(\thIn+1)},{(\rIn+0.05)*sin(\thIn+1)})
-   -- ({(\rOut-0.05)*cos(\thIn+1)},{(\rOut-0.05)*sin(\thIn+1)})
-      node[midway,below right, xshift=2pt] {$\Delta r$};
+  % Column vector 1: e_r
+  \draw[->,orange!80!black,very thick] (P)--(Q)
+        node[midway,below right,font=\footnotesize,align=left]
+        {$\vec{e}_r = \!\begin{pmatrix}\cos\theta_0\\\sin\theta_0\end{pmatrix}\!\Delta r$};
+  % Column vector 2: e_theta
+  \draw[->,violet!80!black,very thick] (P)--(R)
+        node[midway,left,font=\footnotesize,align=right]
+        {$\vec{e}_\theta = \!\begin{pmatrix}{-}r_0\sin\theta_0\\r_0\cos\theta_0\end{pmatrix}\!\Delta\theta$};
 
-  % label arc side
-  \pgfmathsetmacro{\thMid}{(\thIn+\thOut)/2}
-  \node[orange!80!black, right] at ({(\rOut+0.28)*cos(\thMid)},{(\rOut+0.28)*sin(\thMid)})
-        {$r\,\Delta\theta$};
+  % Base point dot
+  \fill[black] (P) circle (1.5pt);
+  \node[font=\scriptsize,below left] at (P) {$T(r_0,\theta_0)$};
 
-  % label the area
-  \node[blue!70!black, font=\small] at
-        ({((\rIn+\rOut)/2)*cos(\thMid)},{((\rIn+\rOut)/2)*sin(\thMid)})
-        {$\approx r\,\Delta r\,\Delta\theta$};
+  % Small right-angle marker (e_r ⊥ e_theta for polar)
+  \pgfmathsetmacro{\normEr}{sqrt(\erx*\erx+\ery*\ery)}
+  \pgfmathsetmacro{\ux}{\erx/\normEr*0.18}
+  \pgfmathsetmacro{\uy}{\ery/\normEr*0.18}
+  \pgfmathsetmacro{\normEt}{sqrt(\etx*\etx+\ety*\ety)}
+  \pgfmathsetmacro{\vx}{\etx/\normEt*0.18}
+  \pgfmathsetmacro{\vy}{\ety/\normEt*0.18}
+  \draw[gray!60,thin]
+    ($(P)+(\ux,\uy)$) -- ($(P)+(\ux+\vx,\uy+\vy)$) -- ($(P)+(\vx,\vy)$);
 
-  \node[below] at (1.7,-0.55) {\textbf{Coordinate space} $(x,y)$};
+  % Area label inside parallelogram
+  \node[blue!70!black,font=\small] at ($(P)+({(\erx+\etx)/2},{(\ery+\ety)/2})$)
+        {Area $= r_0\,\Delta r\,\Delta\theta$};
+
+  % Det annotation
+  \draw[red!60!black,thick,rounded corners] (-0.15,-0.85) rectangle (3.2,-0.5);
+  \node[red!60!black,font=\small] at (1.5,-0.67)
+        {$|\det J| = |\vec{e}_r||\vec{e}_\theta| = 1 \cdot r_0 = r_0$
+         \;($\vec{e}_r \perp \vec{e}_\theta$)};
+
+  \node[font=\small,align=center,below] at (1.5,-0.9)
+        {\textbf{Linearized image in $(x,y)$}\\perpendicular sides of lengths $\Delta r$ and $r_0\,\Delta\theta$};
 \end{scope}
 
 \end{tikzpicture}
 \end{center}
+
 
 \begin{problem}
 Look at the diagram above.
@@ -904,6 +1433,90 @@ The transformation $u=x-y$, $v=x+y$ rotates the parallelogram into a nice axis-a
 \end{feedback}
 \end{problem}
 
+% --- Linearized Tilted-Parallelogram Transformation ($u=x-y$, $v=x+y$) ---
+% T: (u,v) -> (x,y) with x=(u+v)/2, y=(v-u)/2.  J = 1/2 (constant).
+% e_u = (1/2, -1/2),  e_v = (1/2, 1/2)  (scaled by display factor for visibility)
+\begin{center}
+\begin{tikzpicture}[scale=1.3]
+
+% Column vectors of J (scaled ×2 for visibility)
+\def\euxA{1.0}  \def\euyA{-1.0}   % e_u = (1/2,-1/2) × 2
+\def\evxA{1.0}  \def\evyA{1.0}    % e_v = (1/2, 1/2) × 2
+
+%=== LEFT: parameter (u,v) space ===
+\begin{scope}[xshift=-0.4cm]
+  \draw[->](-0.2,0)--(3.2,0) node[right]{$u$};
+  \draw[->](0,-0.2)--(0,3.0) node[above]{$v$};
+  \draw[gray!30,thin] (0,0) grid[step=0.7] (3.0,2.8);
+
+  \fill[blue!20] (0.7,1.4) rectangle (1.4,2.1);
+  \draw[blue!60!black,thick] (0.7,1.4) rectangle (1.4,2.1);
+
+  \draw[->,orange!80!black,very thick] (0.7,1.4) -- (1.4,1.4)
+        node[midway,below,font=\small]{$\Delta u\,\hat{u}$};
+  \draw[->,violet!80!black,very thick] (0.7,1.4) -- (0.7,2.1)
+        node[midway,left,font=\small]{$\Delta v\,\hat{v}$};
+
+  \fill[black] (0.7,1.4) circle (1.5pt);
+  \node[font=\scriptsize,below left] at (0.7,1.4) {$(u_0,v_0)$};
+  \node[font=\small,align=center,below] at (1.5,-0.45)
+        {\textbf{Parameter space} $(u,v)$\\orthogonal unit rectangle};
+\end{scope}
+
+%=== ARROW ===
+\begin{scope}[xshift=3.5cm, yshift=1.2cm]
+  \draw[->,very thick,gray!60](0,0)--(1.2,0) node[midway,above,font=\small]{$J$};
+  \node[gray!60,font=\scriptsize,align=center] at (0.6,-0.35){$J=\tfrac{1}{2}$\\(constant)};
+\end{scope}
+
+%=== RIGHT: xy space — parallelogram ===
+\begin{scope}[xshift=5.2cm, yshift=0.4cm]
+  \draw[->](-0.2,0)--(3.4,0) node[right]{$x$};
+  \draw[->](0,-1.3)--(0,2.4) node[above]{$y$};
+
+  \coordinate (P) at (1.0, 0.0);
+  \coordinate (Q) at ($(P)+(\euxA,\euyA)$);              % P + e_u
+  \coordinate (R) at ($(P)+(\evxA,\evyA)$);              % P + e_v
+  \coordinate (S) at ($(P)+(\euxA+\evxA,\euyA+\evyA)$); % opposite corner
+
+  \fill[blue!20] (P)--(Q)--(S)--(R)--cycle;
+  \draw[blue!60!black,thick] (P)--(Q)--(S)--(R)--cycle;
+
+  \draw[->,orange!80!black,very thick] (P)--(Q)
+        node[midway,right,font=\footnotesize,align=left]
+        {$\vec{e}_u{=}\!\begin{pmatrix}\tfrac{1}{2}\\-\tfrac{1}{2}\end{pmatrix}\!\Delta u$};
+  \draw[->,violet!80!black,very thick] (P)--(R)
+        node[midway,left,font=\footnotesize,align=right]
+        {$\vec{e}_v{=}\!\begin{pmatrix}\tfrac{1}{2}\\\tfrac{1}{2}\end{pmatrix}\!\Delta v$};
+
+  \fill[black] (P) circle (1.5pt);
+  \node[font=\scriptsize,below right] at (P) {$T(u_0,v_0)$};
+
+  % Right-angle marker
+  \pgfmathsetmacro{\nEu}{sqrt(\euxA*\euxA+\euyA*\euyA)}
+  \pgfmathsetmacro{\uux}{\euxA/\nEu*0.2}  \pgfmathsetmacro{\uuy}{\euyA/\nEu*0.2}
+  \pgfmathsetmacro{\nEv}{sqrt(\evxA*\evxA+\evyA*\evyA)}
+  \pgfmathsetmacro{\uvx}{\evxA/\nEv*0.2}  \pgfmathsetmacro{\uvy}{\evyA/\nEv*0.2}
+  \draw[gray!60,thin]
+    ($(P)+(\uux,\uuy)$) -- ($(P)+(\uux+\uvx,\uuy+\uvy)$) -- ($(P)+(\uvx,\uvy)$);
+
+  % Area label
+  \node[blue!70!black,font=\small] at ($(P)+({(\euxA+\evxA)/2},{(\euyA+\evyA)/2})$)
+        {Area $= \tfrac{1}{2}\Delta u\,\Delta v$};
+
+  % Annotation box
+  \draw[red!60!black,thick,rounded corners] (-0.2,-1.2) rectangle (3.3,-0.85);
+  \node[red!60!black,font=\small] at (1.55,-1.02)
+        {$|\det J| = \tfrac{1}{2}\cdot\tfrac{1}{2}+\tfrac{1}{2}\cdot\tfrac{1}{2} = \tfrac{1}{2}$
+         \;($\vec{e}_u \perp \vec{e}_v$)};
+
+  \node[font=\small,align=center,below] at (1.55,-1.25)
+        {\textbf{Linearized image in $(x,y)$}\\rhombus, area halved relative to $(u,v)$ cell};
+\end{scope}
+
+\end{tikzpicture}
+\end{center}
+
 \subsection*{Example 2: The Ellipse to a Circle}
 
 \begin{problem}
@@ -933,6 +1546,88 @@ $$= 54\int_0^{2\pi}\cos^2\theta\,d\theta \cdot \int_0^1 r^3\,dr = 54 \cdot \answ
 Chaining two transformations (ellipse $\to$ circle, then circle $\to$ polar) with Jacobians $6$ and $r$ respectively is very powerful.  The combined Jacobian is $6r$.
 \end{feedback}
 \end{problem}
+
+% --- Linearized Ellipse-to-Circle Transformation ($x=3u$, $y=2v$) ---
+% T: (u,v) -> (x,y).  J = 6 (constant axis-aligned scaling).
+% e_u = (3,0)Δu,  e_v = (0,2)Δv
+\begin{center}
+\begin{tikzpicture}[scale=1.2]
+
+% Display scale: show Δu=Δv=1 → e_u=(3,0), e_v=(0,2) scaled by 0.55
+\def\euxB{1.65}  \def\euyB{0}     % e_u = (3,0) × 0.55
+\def\evxB{0}     \def\evyB{1.1}   % e_v = (0,2) × 0.55
+
+%=== LEFT: parameter (u,v) space — unit disk boundary sketched ===
+\begin{scope}[xshift=-0.6cm]
+  \draw[->](-1.4,0)--(1.6,0) node[right]{$u$};
+  \draw[->](0,-1.4)--(0,1.6) node[above]{$v$};
+  % Unit circle (parameter region)
+  \draw[blue!50!black,thick,dashed] (0,0) circle [radius=1.0];
+  \fill[blue!10,opacity=0.5] (0,0) circle [radius=1.0];
+  % Highlighted small square cell
+  \fill[blue!30,opacity=0.7] (0.35,0.35) rectangle (0.85,0.85);
+  \draw[blue!60!black,thick] (0.35,0.35) rectangle (0.85,0.85);
+  % Basis steps
+  \draw[->,orange!80!black,very thick] (0.35,0.35) -- (0.85,0.35)
+        node[midway,below,font=\small]{$\Delta u\,\hat{u}$};
+  \draw[->,violet!80!black,very thick] (0.35,0.35) -- (0.35,0.85)
+        node[midway,left,font=\small]{$\Delta v\,\hat{v}$};
+  \fill[black] (0.35,0.35) circle (1.5pt);
+  \node[font=\scriptsize,align=center] at (0,-1.7)
+        {\textbf{Parameter space} $(u,v)$\\unit disk $u^2+v^2 \leq 1$};
+\end{scope}
+
+%=== ARROW ===
+\begin{scope}[xshift=2.0cm, yshift=0.1cm]
+  \draw[->,very thick,gray!60](0,0)--(1.2,0) node[midway,above,font=\small]{$J$};
+  \node[gray!60,font=\scriptsize,align=center] at (0.6,-0.35){$J=6$\\(constant)};
+\end{scope}
+
+%=== RIGHT: xy space — stretched ellipse + parallelogram ===
+\begin{scope}[xshift=4.0cm, yshift=0cm]
+  \draw[->](-2.0,0)--(2.4,0) node[right]{$x$};
+  \draw[->](0,-1.4)--(0,1.6) node[above]{$y$};
+  % Ellipse (image of unit disk)
+  \draw[blue!50!black,thick,dashed] (0,0) ellipse [x radius=1.65, y radius=1.1];
+  \fill[blue!10,opacity=0.4] (0,0) ellipse [x radius=1.65, y radius=1.1];
+
+  % Parallelogram (image of highlighted cell — now an axis-aligned rectangle)
+  \coordinate (P2) at (0.58, 0.39);
+  \coordinate (Q2) at ($(P2)+(\euxB,\euyB)$);
+  \coordinate (R2) at ($(P2)+(\evxB,\evyB)$);
+  \coordinate (S2) at ($(P2)+(\euxB+\evxB,\euyB+\evyB)$);
+
+  \fill[blue!30,opacity=0.7] (P2)--(Q2)--(S2)--(R2)--cycle;
+  \draw[blue!60!black,thick] (P2)--(Q2)--(S2)--(R2)--cycle;
+
+  \draw[->,orange!80!black,very thick] (P2)--(Q2)
+        node[midway,below,font=\footnotesize]
+        {$\vec{e}_u = \!\begin{pmatrix}3\\0\end{pmatrix}\!\Delta u$};
+  \draw[->,violet!80!black,very thick] (P2)--(R2)
+        node[midway,left,font=\footnotesize]
+        {$\vec{e}_v = \!\begin{pmatrix}0\\2\end{pmatrix}\!\Delta v$};
+
+  % Right-angle box
+  \draw[gray!60,thin]
+    ($(P2)+(0.18,0)$) -- ($(P2)+(0.18,0.18)$) -- ($(P2)+(0,0.18)$);
+
+  \fill[black] (P2) circle (1.5pt);
+
+  % Area label
+  \node[blue!70!black,font=\small] at ($(P2)+({(\euxB+\evxB)/2},{(\euyB+\evyB)/2})$)
+        {$6\,\Delta u\,\Delta v$};
+
+  % Annotation box
+  \draw[red!60!black,thick,rounded corners] (-1.9,-1.65) rectangle (2.3,-1.3);
+  \node[red!60!black,font=\small] at (0.2,-1.47)
+        {$|\det J| = 3\cdot2 - 0\cdot0 = 6$\;(axis-aligned stretch)};
+
+  \node[font=\small,align=center,below] at (0.2,-1.68)
+        {\textbf{Coordinate space} $(x,y)$\\ellipse; rectangle cells stretched by factor 6};
+\end{scope}
+
+\end{tikzpicture}
+\end{center}
 
 \subsection*{Example 3: Using the Inverse Jacobian}
 
@@ -964,6 +1659,109 @@ $$\text{Area} = \int_1^3\int_1^3 \frac{1}{2v}\,du\,dv = \int_1^3 \frac{1}{2v}\,d
 When the forward transformation $(u,v)\to(x,y)$ is messy to differentiate, compute the inverse Jacobian $\partial(u,v)/\partial(x,y)$ instead and take the reciprocal.
 \end{feedback}
 \end{problem}
+
+% --- Linearized Hyperbolic-Region Transformation ($u=xy$, $v=y/x$) ---
+% T: (u,v) -> (x,y) with x=sqrt(u/v), y=sqrt(uv).  J = 1/(2v).
+% Evaluated at (u_0,v_0)=(2,2): x_0=1, y_0=2.
+%   e_u = (∂x/∂u, ∂y/∂u) = (1/(2√(uv)), √v/(2√u)) = (1/4, 1/2)  at (2,2)
+%   e_v = (∂x/∂v, ∂y/∂v) = (-√u/(2v^{3/2}), √u/(2√v)) = (-1/4, 1/2) at (2,2)
+% |J| = 1/(2v_0) = 1/4.
+\begin{center}
+\begin{tikzpicture}[scale=1.25]
+
+% Column vectors of J at (u0,v0)=(2,2), scaled ×4 for visibility
+\def\euxC{1.0}   \def\euyC{2.0}    % e_u = (1/4, 1/2)×4
+\def\evxC{-1.0}  \def\evyC{2.0}    % e_v = (-1/4,1/2)×4
+
+%=== LEFT: parameter (u,v) space ===
+\begin{scope}[xshift=-0.3cm]
+  \draw[->](-0.2,0)--(3.4,0) node[right]{$u$};
+  \draw[->](0,-0.2)--(0,3.4) node[above]{$v$};
+  % Hyperbolic region boundary lines (u=1,3 and v=1,3 are straight in uv-space)
+  \fill[blue!10,opacity=0.6] (0.5,0.5) rectangle (1.5,1.5);
+  \draw[blue!40!black,thick,dashed] (0.5,0) -- (0.5,3.2) node[above,font=\tiny]{$u=1$};
+  \draw[blue!40!black,thick,dashed] (1.5,0) -- (1.5,3.2) node[above,font=\tiny]{$u=3$};
+  \draw[blue!40!black,thick,dashed] (0,0.5) -- (3.2,0.5) node[right,font=\tiny]{$v=1$};
+  \draw[blue!40!black,thick,dashed] (0,1.5) -- (3.2,1.5) node[right,font=\tiny]{$v=3$};
+
+  % Highlighted cell centered near (u0,v0)=(2,2)
+  \fill[blue!25,opacity=0.8] (0.9,0.9) rectangle (1.25,1.25);
+  \draw[blue!60!black,thick] (0.9,0.9) rectangle (1.25,1.25);
+
+  \draw[->,orange!80!black,very thick] (0.9,0.9) -- (1.25,0.9)
+        node[midway,below,font=\small]{$\Delta u$};
+  \draw[->,violet!80!black,very thick] (0.9,0.9) -- (0.9,1.25)
+        node[midway,left,font=\small]{$\Delta v$};
+
+  \fill[black] (0.9,0.9) circle (1.5pt);
+  \node[font=\scriptsize,below right] at (0.9,0.9) {$(u_0,v_0)$};
+  \node[font=\small,align=center,below] at (1.5,-0.45)
+        {\textbf{Parameter space} $(u,v)$\\rectangle; $1\leq u\leq3$, $1\leq v\leq3$};
+\end{scope}
+
+%=== ARROW ===
+\begin{scope}[xshift=3.6cm, yshift=1.5cm]
+  \draw[->,very thick,gray!60](0,0)--(1.2,0) node[midway,above,font=\small]{$J$};
+  \node[gray!60,font=\scriptsize,align=center] at (0.6,-0.38)
+        {$|J|=\tfrac{1}{2v}$\\(varies)};
+\end{scope}
+
+%=== RIGHT: xy space — parallelogram (non-rectangular!) ===
+\begin{scope}[xshift=5.4cm, yshift=-0.8cm]
+  \draw[->](-0.3,0)--(2.8,0) node[right]{$x$};
+  \draw[->](0,-0.3)--(0,3.4) node[above]{$y$};
+
+  % Hyperbolic region boundaries in xy-space (sketched)
+  % xy=1 (hyperbola), xy=3, y=x, y=3x
+  \clip (-0.2,-0.2) rectangle (2.7,3.3);
+  \draw[blue!40!black,thin,dashed,domain=0.15:2.6,samples=60]
+        plot (\x, {1/\x}) node[right,font=\tiny]{$xy=1$};
+  \draw[blue!40!black,thin,dashed,domain=0.5:2.6,samples=60]
+        plot (\x, {3/\x}) node[right,font=\tiny]{$xy=3$};
+  \draw[blue!40!black,thin,dashed,domain=0.1:2.1]
+        plot (\x, \x) node[right,font=\tiny]{$y=x$};
+  \draw[blue!40!black,thin,dashed,domain=0.1:1.0]
+        plot (\x, {3*\x}) node[right,font=\tiny]{$y=3x$};
+
+  % Parallelogram at base point T(u0,v0)=(x0,y0)=(1,2)
+  \coordinate (P3) at (1.0, 2.0);
+  % Scale column vectors by 0.25 for display (going from ×4 back to ×1)
+  \pgfmathsetmacro{\euxCs}{\euxC*0.25}
+  \pgfmathsetmacro{\euiCs}{\euyC*0.25}
+  \pgfmathsetmacro{\evxCs}{\evxC*0.25}
+  \pgfmathsetmacro{\evyCs}{\evyC*0.25}
+  \coordinate (Q3) at ($(P3)+(\euxCs,\euiCs)$);
+  \coordinate (R3) at ($(P3)+(\evxCs,\evyCs)$);
+  \coordinate (S3) at ($(P3)+(\euxCs+\evxCs,\euiCs+\evyCs)$);
+
+  \fill[blue!25,opacity=0.8] (P3)--(Q3)--(S3)--(R3)--cycle;
+  \draw[blue!60!black,thick] (P3)--(Q3)--(S3)--(R3)--cycle;
+
+  \draw[->,orange!80!black,very thick] (P3)--(Q3)
+        node[midway,right,font=\footnotesize,xshift=2pt]
+        {$\vec{e}_u{=}\!\begin{pmatrix}\tfrac{1}{4}\\\tfrac{1}{2}\end{pmatrix}\!\Delta u$};
+  \draw[->,violet!80!black,very thick] (P3)--(R3)
+        node[midway,left,font=\footnotesize]
+        {$\vec{e}_v{=}\!\begin{pmatrix}{-\tfrac{1}{4}}\\\tfrac{1}{2}\end{pmatrix}\!\Delta v$};
+
+  \fill[black] (P3) circle (1.5pt);
+  \node[font=\scriptsize,right] at (P3) {\;$(x_0,y_0)$};
+
+  % Area label
+  \node[blue!70!black,font=\small] at ($(P3)+({(\euxCs+\evxCs)/2},{(\euiCs+\evyCs)/2})+(0.4,0)$)
+        {Area $= \tfrac{1}{4}\Delta u\,\Delta v$};
+
+  % Annotation box
+  \draw[red!60!black,thick,rounded corners] (-0.2,-0.55) rectangle (2.65,-0.2);
+  \node[red!60!black,font=\small] at (1.2,-0.37)
+        {$|\det J|{=}\tfrac{1}{4}\cdot\tfrac{1}{2}-({-}\tfrac{1}{4})\cdot\tfrac{1}{2}{=}\tfrac{1}{4}$ at $(u_0,v_0){=}(2,2)$};
+
+  \node[font=\small,align=center,below] at (1.2,-0.58)
+        {\textbf{Linearized image in $(x,y)$}\\non-rectangular; $\vec{e}_u$ and $\vec{e}_v$ not perpendicular};
+\end{scope}
+
+\end{tikzpicture}
+\end{center}
 
 \subsection*{Example 4: Matching the Integrand}
 
@@ -1003,6 +1801,102 @@ $$\frac{1}{2}\int_0^2 v\bigl(e - e^{-1}\bigr)\,dv = \frac{e-e^{-1}}{2}\cdot\Bigl
 The choice $u = x-y$, $v = x+y$ was motivated entirely by the integrand: the exponent is $(x-y)/(x+y) = u/v$ in the new coordinates.  Good transformation choices make the integrand simple \emph{and} the region simple simultaneously.
 \end{feedback}
 \end{problem}
+
+% --- Linearized Triangle Transformation ($u=x-y$, $v=x+y$) ---
+% Same linear map as Example 1: e_u=(1/2,-1/2), e_v=(1/2,1/2), |J|=1/2.
+% This time, the region in (u,v)-space is the triangle 0≤v≤2, -v≤u≤v.
+\begin{center}
+\begin{tikzpicture}[scale=1.25]
+
+% Column vectors (same J as Ex.1, scaled ×2 for display)
+\def\euxD{1.0}   \def\euyD{-1.0}   % e_u=(1/2,-1/2)×2
+\def\evxD{1.0}   \def\evyD{1.0}    % e_v=(1/2, 1/2)×2
+
+%=== LEFT: parameter (u,v) space — triangular region ===
+\begin{scope}[xshift=-0.3cm]
+  \draw[->](-1.6,0)--(1.8,0) node[right]{$u$};
+  \draw[->](0,-0.2)--(0,2.8) node[above]{$v$};
+  % Triangle: 0≤v≤2, -v≤u≤v  (in display units: scale by 0.9)
+  \fill[blue!10,opacity=0.6] (0,0) -- (1.8,1.8) -- (-1.8,1.8) -- cycle;
+  \draw[blue!50!black,thick,dashed] (0,0)--(1.8,1.8) node[right,font=\tiny]{$u=v$};
+  \draw[blue!50!black,thick,dashed] (0,0)--(-1.8,1.8) node[left,font=\tiny]{$u=-v$};
+  \draw[blue!50!black,thick,dashed] (-1.8,1.8)--(1.8,1.8) node[right,font=\tiny]{$v=2$};
+
+  % Small highlighted cell
+  \fill[blue!25,opacity=0.8] (0.3,1.1) rectangle (0.7,1.5);
+  \draw[blue!60!black,thick] (0.3,1.1) rectangle (0.7,1.5);
+
+  \draw[->,orange!80!black,very thick] (0.3,1.1) -- (0.7,1.1)
+        node[midway,below,font=\small]{$\Delta u$};
+  \draw[->,violet!80!black,very thick] (0.3,1.1) -- (0.3,1.5)
+        node[midway,left,font=\small]{$\Delta v$};
+
+  \fill[black] (0.3,1.1) circle (1.5pt);
+  \node[font=\scriptsize,right] at (0.3,1.1) {\;$(u_0,v_0)$};
+
+  \node[font=\small,align=center,below] at (0,-0.45)
+        {\textbf{Parameter space} $(u,v)$\\triangular region};
+\end{scope}
+
+%=== ARROW ===
+\begin{scope}[xshift=2.8cm, yshift=0.8cm]
+  \draw[->,very thick,gray!60](0,0)--(1.2,0) node[midway,above,font=\small]{$J$};
+  \node[gray!60,font=\scriptsize,align=center] at (0.6,-0.35){$J=\tfrac{1}{2}$\\(constant)};
+\end{scope}
+
+%=== RIGHT: xy space — triangle + parallelogram ===
+\begin{scope}[xshift=5.0cm, yshift=0cm]
+  \draw[->](-0.3,0)--(2.8,0) node[right]{$x$};
+  \draw[->](0,-1.3)--(0,2.4) node[above]{$y$};
+  % Image of triangle: vertices (0,0),(2,0),(0,2)
+  \fill[blue!10,opacity=0.5] (0,0)--(2,0)--(0,2)--cycle;
+  \draw[blue!50!black,thick,dashed] (0,0)--(2,0) node[right,font=\tiny]{$y=0$};
+  \draw[blue!50!black,thick,dashed] (0,0)--(0,2) node[above,font=\tiny]{$x=0$};
+  \draw[blue!50!black,thick,dashed] (2,0)--(0,2) node[midway,above right,font=\tiny]{$x+y=2$};
+
+  % Parallelogram at T(u0,v0)
+  \coordinate (P4) at (1.0, 0.2);
+  \pgfmathsetmacro{\euxDs}{\euxD*0.25}  \pgfmathsetmacro{\euyDs}{\euyD*0.25}
+  \pgfmathsetmacro{\evxDs}{\evxD*0.25}  \pgfmathsetmacro{\evyDs}{\evyD*0.25}
+  \coordinate (Q4) at ($(P4)+(\euxDs,\euyDs)$);
+  \coordinate (R4) at ($(P4)+(\evxDs,\evyDs)$);
+  \coordinate (S4) at ($(P4)+(\euxDs+\evxDs,\euyDs+\evyDs)$);
+
+  \fill[blue!30,opacity=0.7] (P4)--(Q4)--(S4)--(R4)--cycle;
+  \draw[blue!60!black,thick] (P4)--(Q4)--(S4)--(R4)--cycle;
+
+  \draw[->,orange!80!black,very thick] (P4)--(Q4)
+        node[midway,below right,font=\footnotesize]
+        {$\vec{e}_u{=}\!\begin{pmatrix}\tfrac{1}{2}\\-\tfrac{1}{2}\end{pmatrix}\!\Delta u$};
+  \draw[->,violet!80!black,very thick] (P4)--(R4)
+        node[midway,left,font=\footnotesize]
+        {$\vec{e}_v{=}\!\begin{pmatrix}\tfrac{1}{2}\\\tfrac{1}{2}\end{pmatrix}\!\Delta v$};
+
+  % Right-angle marker
+  \pgfmathsetmacro{\nEuD}{sqrt(\euxDs*\euxDs+\euyDs*\euyDs)}
+  \pgfmathsetmacro{\uuDx}{\euxDs/\nEuD*0.18} \pgfmathsetmacro{\uuDy}{\euyDs/\nEuD*0.18}
+  \pgfmathsetmacro{\nEvD}{sqrt(\evxDs*\evxDs+\evyDs*\evyDs)}
+  \pgfmathsetmacro{\uvDx}{\evxDs/\nEvD*0.18} \pgfmathsetmacro{\uvDy}{\evyDs/\nEvD*0.18}
+  \draw[gray!60,thin]
+    ($(P4)+(\uuDx,\uuDy)$)--($(P4)+(\uuDx+\uvDx,\uuDy+\uvDy)$)--($(P4)+(\uvDx,\uvDy)$);
+
+  \fill[black] (P4) circle (1.5pt);
+
+  % Area label
+  \node[blue!70!black,font=\small] at ($(P4)+({(\euxDs+\evxDs)/2},{(\euyDs+\evyDs)/2})+(0.45,0)$)
+        {$\tfrac{1}{2}\Delta u\,\Delta v$};
+
+  % Annotation box
+  \draw[red!60!black,thick,rounded corners] (-0.2,-1.2) rectangle (2.65,-0.85);
+  \node[red!60!black,font=\small] at (1.2,-1.02)
+        {$|\det J|=\tfrac{1}{2}$ (same linear map as Example~1)};
+
+  \node[font=\small,align=center,below] at (1.2,-1.25)
+        {\textbf{Linearized image in $(x,y)$}\\rhombus; image triangle has vertices $(0,0),(2,0),(0,2)$};
+\end{scope}
+
+\end{tikzpicture}
+\end{center}
 
 %----------------------------------------------------------------------
 \section*{Summary: The Jacobian as a Skew-Space Detector}
