@@ -451,7 +451,7 @@ Whereas last module we analyzed the geometries of polar and spherical coordiante
 
 \section*{Matrices and Linear Transformations}
 
-The key ideas that allow us to efficiently determine the differential measures like $dA$ and $dV$ are that:
+The key ideas that allow us to efficiently determine the differential measures like $dA$ and $dV$ are:
 
 \begin{enumerate}
   \item Derivatives skew space linearly
@@ -658,18 +658,18 @@ For this, we need the \textbf{determinant} of the Jacobian matrix $J$.
 Determinants measure how much a linear transformation stretches or compresses space. For our purposes, this directly measures how much the original rectangle $dr\,d\theta$ in parameter space is stretched or compressed when transformed into coordinate space.
 
 \begin{definition}
-The \emph{determinant} of a matrix 
+For a $2\times 2$ matrix, $M$:
 
 $$M=\begin{bmatrix} a & c \\ b & d \end{bmatrix}$$
 
-is given by:
+The determinant is given by:
 $$\text{det}(M) = ad - bc$$
 
 The determinant measures how much area is scaled by the linear transformation represented by $M$.
 
 \end{definition}
 
-This means that we can directly measure the $dA$ under the transformation $T$ by taking the absolute value of the determinant of the Jacobian matrix $J$ of $T$.
+This means that we can directly measure the differential area $dA$ under the transformation $T$ by taking the absolute value of the determinant of the Jacobian matrix $J$ of $T$.
 
 \section*{Re-deriving the Polar Area Element}
 
@@ -680,40 +680,49 @@ $$J = \begin{bmatrix}
     \sin(\theta) & r\cos(\theta)
   \end{bmatrix}$$
 
+\begin{problem}
+
 The measure of the differential area $dA$ in coordinate space is given by:
 
 $$dA=|\det(J)|\,dr\,d\theta$$
 
 from our definition, 
 
-$$\det(J) = \cos(\theta)\cdot r\cos(\theta) - (-r\sin(\theta))\cdot \sin(\theta)$$
+$$\det(J) = \answer{\cos(\theta)\cdot r\cos(\theta) - (-r\sin(\theta))\cdot \sin(\theta)}$$
 
-using the Pythagorean Identity we get
+using the Pythagorean Identity ($\cos^2(\theta) + \sin^2(\theta) = 1$) we get
 
-$$r\cos^2(\theta) + r\sin^2(\theta) = r.$$
+$$\det(J) = \answer{r}.$$
 
 This is the same result we found originally for the polar area element $dA = r\,dr\,d\theta$!
+\end{problem}
 
 \section*{General Transformations}
 
 Given \emph{any} transformation $T:(u,v)\mapsto(x,y)$:
 \[
-  x = x(u,v),\qquad y = y(u,v),
+  x = f(u,v),\qquad y = g(u,v),
 \]
 how does a small $du\,dv$ rectangle transform?
 
 We again use the Jacobian matrix:
 
 $$J=\begin{bmatrix}
-    \frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\[6pt]
-    \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v}
+    \frac{\partial f}{\partial u} & \frac{\partial f}{\partial v} \\[6pt]
+    \frac{\partial g}{\partial u} & \frac{\partial g}{\partial v}
   \end{bmatrix}$$
 
 We then find the transformed area using the determinant of $J$:
 
-$$dA = \left|\det(J)\right|\,du\,dv = \left|\frac{\partial x}{\partial u}\frac{\partial y}{\partial v} - \frac{\partial x}{\partial v}\frac{\partial y}{\partial u}\right|\,du\,dv.$$
+$$dA = \left|\det(J)\right|\,du\,dv = \left|\frac{\partial f}{\partial u}\frac{\partial g}{\partial v} - \frac{\partial f}{\partial v}\frac{\partial g}{\partial u}\right|\,du\,dv.$$
 
-The image is approximately a \emph{parallelogram} spanned by $\vec{e}_u$ and $\vec{e}_v$.
+The image is approximately a \emph{parallelogram} created by the transformed unit vectors $\begin{bmatrix}
+    \frac{\partial f}{\partial u} \\[6pt]
+    \frac{\partial g}{\partial u}
+  \end{bmatrix}$ and $\begin{bmatrix}
+    \frac{\partial f}{\partial v} \\[6pt]
+    \frac{\partial g}{\partial v}
+\end{bmatrix}$.
 
 \begin{center}
 \begin{tikzpicture}[scale=1.05]
@@ -727,13 +736,13 @@ The image is approximately a \emph{parallelogram} spanned by $\vec{e}_u$ and $\v
   \draw[blue!60!black, thick] (1.2,0.9) rectangle (2.5,2.0);
 
   \draw[->, orange!80!black, very thick] (1.2,0.9) -- (2.5,0.9)
-        node[midway, below, font=\small]{$\begin{bmatrix} \Delta u \\ 0 \end{bmatrix}$};
+        node[midway, below, font=\small]{$\begin{bmatrix} du \\ 0 \end{bmatrix}$};
   \draw[->, violet!80!black, very thick] (1.2,0.9) -- (1.2,2.0)
-        node[midway, left, font=\small]{$\begin{bmatrix} 0 \\ \Delta v \end{bmatrix}$};
+        node[midway, left, font=\small]{$\begin{bmatrix} 0 \\ dv \end{bmatrix}$};
 
   \fill[black] (1.2,0.9) circle (1.5pt);
   \node[font=\scriptsize,below left] at (1.2,0.9) {$(u_0,v_0)$};
-  \node[blue!70!black, font=\small] at (1.85, 1.45) {$\Delta A = \Delta u\,\Delta v$};
+
   \node[below] at (1.5, -0.35) {\textbf{Parameter space}};
 \end{scope}
 
@@ -748,10 +757,10 @@ The image is approximately a \emph{parallelogram} spanned by $\vec{e}_u$ and $\v
   \draw[->](-0.2,0)--(3.3,0) node[right]{$x$};
   \draw[->](0,-0.2)--(0,2.8) node[above]{$y$};
 
-  \coordinate (A) at (0.7,0.6);
-  \coordinate (B) at (2.1,1.0);
-  \coordinate (C) at (1.1,1.9);
-  \coordinate (D) at (2.5,2.3);
+  \coordinate (A) at (1.5,0.6);
+  \coordinate (B) at (2.9,1.0);
+  \coordinate (C) at (1.9,1.9);
+  \coordinate (D) at (3.3,2.3);
 
   \fill[blue!20] (A)--(B)--(D)--(C)--cycle;
   \draw[blue!60!black, thick] (A)--(B)--(D)--(C)--cycle;
@@ -761,13 +770,11 @@ The image is approximately a \emph{parallelogram} spanned by $\vec{e}_u$ and $\v
 
   \draw[->, orange!80!black, very thick] (A)--(B)
         node[midway, below right, xshift=2pt, font=\small]
-        {$\Delta u\begin{bmatrix} \partial x/\partial u \\ \partial y/\partial u \end{bmatrix}$};
+        {$du\begin{bmatrix} \partial f/\partial u \\ \partial g/\partial u \end{bmatrix}$};
   \draw[->, violet!80!black, very thick] (A)--(C)
         node[midway, left, font=\small]
-        {$\Delta v\begin{bmatrix} \partial x/\partial v \\ \partial y/\partial v \end{bmatrix}$};
+        {$dv\begin{bmatrix} \partial f/\partial v \\ \partial g/\partial v \end{bmatrix}$};
 
-  \node[blue!70!black, font=\small] at (1.6, 1.45)
-        {$\Delta A \approx |J|\,\Delta u\,\Delta v$};
 
   \node[below] at (1.6, -0.35) {\textbf{Coordinate space}};
 \end{scope}
@@ -775,58 +782,17 @@ The image is approximately a \emph{parallelogram} spanned by $\vec{e}_u$ and $\v
 \end{tikzpicture}
 \end{center}
 
+\begin{remark}
+  We tend to use $x$ and $y$ for both the variables in coordinate space and also the functions that define the transformation.  
 
-\begin{problem}
-So the Jacobian determinant is:
-\begin{multipleChoice}
-  \choice{An arbitrary formula}
-  \choice{The length of the image vectors}
-  \choice[correct]{The area of the parallelogram formed by the images of the unit basis vectors}
-  \choice{The sum of the partial derivatives}
-\end{multipleChoice}
-\end{problem}
+  So we tend to denote the Jacobian as 
 
-\begin{problem}
-Let's verify that the polar Jacobian comes from this formula.
+$$J = \begin{bmatrix}
+    \frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\[6pt]
+    \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v}
+  \end{bmatrix}$$
+\end{remark}
 
-For $x = r\cos\theta$, $y = r\sin\theta$:
-
-$$\frac{\partial x}{\partial r} = \answer{\cos\theta}, \quad \frac{\partial x}{\partial \theta} = \answer{-r\sin\theta}$$
-
-$$\frac{\partial y}{\partial r} = \answer{\sin\theta}, \quad \frac{\partial y}{\partial \theta} = \answer{r\cos\theta}$$
-
-The Jacobian determinant is:
-$$J = (\cos\theta)(r\cos\theta) - (-r\sin\theta)(\sin\theta) = r\cos^2\theta + r\sin^2\theta = \answer{r}$$
-
-This matches the geometric derivation. $\checkmark$
-
-The two column vectors of $\mathbf{J}$ are $\vec{e}_r = (\cos\theta,\sin\theta)$ and $\vec{e}_\theta = (-r\sin\theta, r\cos\theta)$.
-
-Their lengths:
-\begin{itemize}
-  \item $|\vec{e}_r| = \answer{1}$ (unit radial vector)
-  \item $|\vec{e}_\theta| = \answer{r}$ (tangent to a circle of radius $r$)
-\end{itemize}
-
-These vectors are perpendicular (polar coordinates are \emph{orthogonal}), so the parallelogram is a rectangle of area $1 \cdot r = r$ --- exactly the Jacobian! $\checkmark$
-
-\begin{feedback}
-For orthogonal coordinate systems (polar, cylindrical, spherical), the Jacobian is simply the product of the scale factors along each coordinate direction.  For polar: scale factors are $1$ (radial) and $r$ (angular), giving $J = 1 \cdot r = r$.
-\end{feedback}
-\end{problem}
-
-
-For a transformation $T:(u,v)\mapsto(x,y)$ defined by $x = x(u,v)$, $y = y(u,v)$, the \textbf{Jacobian matrix} is:
-$$\mathbf{J} = \begin{bmatrix}
-\dfrac{\partial x}{\partial u} & \dfrac{\partial x}{\partial v}\\[10pt]
-\dfrac{\partial y}{\partial u} & \dfrac{\partial y}{\partial v}
-\end{bmatrix}$$
-
-The \textbf{Jacobian determinant} is:
-$$J = \det(\mathbf{J}) = \dfrac{\partial x}{\partial u}\dfrac{\partial y}{\partial v} - \dfrac{\partial x}{\partial v}\dfrac{\partial y}{\partial u}$$
-
-The absolute value $|J|$ is the \textbf{local area scaling factor}: the transformation maps a tiny area element $du\,dv$ to an area element $|J|\,du\,dv$ in the $(x,y)$-plane.
-%----------------------------------------------------------------------
 \section*{More Transformations}
 %----------------------------------------------------------------------
 
@@ -838,14 +804,14 @@ Compute the Jacobian:
 $$\frac{\partial x}{\partial u} = \answer{2u}, \quad \frac{\partial x}{\partial v} = \answer{-2v}$$
 $$\frac{\partial y}{\partial u} = \answer{2v}, \quad \frac{\partial y}{\partial v} = \answer{2u}$$
 
-$$J = (2u)(2u) - (-2v)(2v) = \answer{4u^2 + 4v^2} = 4(u^2+v^2)$$
+$$J = \answer{4u^2 + 4v^2}$$
 
-So $|J| = 4(u^2+v^2)$.  This tells us:
+This tells us:(Select all that are true)
 \begin{selectAll}
   \choice[correct]{Area scaling grows quadratically with distance from the origin}
   \choice{Near the origin, area is stretched the most}
-  \choice[correct]{Near the origin, the transformation almost collapses area to zero}
-  \choice[correct]{The transformation is degenerate ($J=0$) only at the origin}
+  \choice[correct]{Near the origin, area is stretched very little}
+  \choice{The transformation stretches area by a constant amount.}
 \end{selectAll}
 
 \end{problem}
@@ -875,7 +841,7 @@ So $|J| = 4(u^2+v^2)$.  This tells us:
   \fill[green!35,opacity=0.75] (0.7,0.4) rectangle (0.9,0.6);
   \draw[green!60!black,thick] (0.7,0.4) rectangle (0.9,0.6);
   \node[font=\small,align=center,below] at (0,-1.75)
-        {\textbf{Parameter space} $(u,v)$\\equal rectangular cells};
+        {\textbf{Parameter space} $(u,v)$\\ rectangular cells};
 \end{scope}
 
 %=== ARROW ===
@@ -886,7 +852,7 @@ So $|J| = 4(u^2+v^2)$.  This tells us:
 \end{scope}
 
 %=== RIGHT: image grid ===
-\begin{scope}[xshift=3.2cm]
+\begin{scope}[xshift=4.7cm]
   \draw[->](-1.5,0)--(1.5,0) node[right,font=\small]{$x$};
   \draw[->](0,-1.5)--(0,1.5) node[above,font=\small]{$y$};
   \begin{scope}
@@ -929,18 +895,11 @@ So $|J| = 4(u^2+v^2)$.  This tells us:
   \fill[black] (0,0) circle (1.5pt);
   \node[font=\tiny,below right] at (0,0) {$0$};
   \node[font=\small,align=center,below] at (0,-1.75)
-        {\textbf{Image under $T$}\\straight lines $\to$ parabolas;
-         \\cells grow with distance from origin};
+        {\textbf{Image under $T$}\\straight lines $\to$ parabolas};
 \end{scope}
 
 \end{tikzpicture}
 \end{center}
-
-\begin{itemize}
-  \item \textbf{Conformal:} the orange and violet families of parabolas intersect at right angles everywhere --- the squaring map preserves angles.
-  \item \textbf{Area scaling:} $|J| = 4(u^2+v^2)$ grows quadratically, so cells near the origin get squished while cells farther out get stretched.
-  \item \textbf{Degenerate at origin:} $J(0,0) = 0$, the map collapses area there (the two families both send the axes to the $x$-axis).
-\end{itemize}
 
 \textbf{Local linear (Jacobian) approximation at $(u_0,v_0)=(1,\tfrac{1}{2})$:}
 
@@ -966,15 +925,15 @@ So $|J| = 4(u^2+v^2)$.  This tells us:
   \draw[blue!60!black,thick] (\px,\py) rectangle (\px+\dg,\py+\dg);
 
   \draw[->,orange!80!black,very thick] (\px,\py) -- (\px+\dg,\py)
-        node[midway,below,font=\small]{$\begin{bmatrix}\Delta u \\ 0\end{bmatrix}$};
+        node[midway,below,font=\small]{$\begin{bmatrix}du \\ 0\end{bmatrix}$};
   \draw[->,violet!80!black,very thick] (\px,\py) -- (\px,\py+\dg)
-        node[midway,left,font=\small]{$\begin{bmatrix}0 \\ \Delta v\end{bmatrix}$};
+        node[midway,left,font=\small]{$\begin{bmatrix}0 \\ dv\end{bmatrix}$};
 
   \fill[black] (\px,\py) circle (1.5pt);
   \node[font=\scriptsize,below left] at (\px,\py) {$(u_0,v_0)$};
 
   \node[font=\small,align=center,below] at (1.5,-0.5)
-        {\textbf{Parameter space} $(u,v)$\\cell at $(1,\tfrac{1}{2})$};
+        {\textbf{Parameter space} $(u,v)$\\at $(1,\tfrac{1}{2})$};
 \end{scope}
 
 %=== ARROW ===
@@ -999,10 +958,10 @@ So $|J| = 4(u^2+v^2)$.  This tells us:
 
   \draw[->,orange!80!black,very thick] (PE)--(QE)
         node[midway,below right,font=\footnotesize,align=left]
-        {$\Delta u\begin{bmatrix}2\\1\end{bmatrix}$};
+        {$du\begin{bmatrix}2\\1\end{bmatrix}$};
   \draw[->,violet!80!black,very thick] (PE)--(RE)
         node[midway,left,font=\footnotesize,align=right]
-        {$\Delta v\begin{bmatrix}-1\\2\end{bmatrix}$};
+        {$dv\begin{bmatrix}-1\\2\end{bmatrix}$};
 
   \fill[black] (PE) circle (1.5pt);
   \node[font=\scriptsize,below left] at (PE) {$T(u_0,v_0)$};
@@ -1017,12 +976,12 @@ So $|J| = 4(u^2+v^2)$.  This tells us:
   \draw[gray!60,thin]
     ($(PE)+(\uuEx,\uuEy)$) -- ($(PE)+(\uuEx+\uvEx,\uuEy+\uvEy)$) -- ($(PE)+(\uvEx,\uvEy)$);
 
-  \draw[red!60!black,thick,rounded corners] (-0.15,-0.55) rectangle (3.15,-0.1);
+  \draw[red!60!black,thick,rounded corners] (-1.2,-0.55) rectangle (4.5,-0.1);
   \node[red!60!black,font=\small] at (1.5,-0.32)
         {$|\det J|{=}(2)(2){-}({-}1)(1){=}5$ at $(u_0,v_0){=}(1,\tfrac{1}{2})$};
 
   \node[font=\small,align=center,below] at (1.5,-0.58)
-        {\textbf{Linearized image in $(x,y)$}\\perpendicular sides; $\vec{e}_u\perp\vec{e}_v$ (conformal)};
+        {\textbf{Linearized image in $(x,y)$}\\perpendicular sides};
 \end{scope}
 
 \end{tikzpicture}
@@ -1032,7 +991,7 @@ Let's practice finding the differential areas $dA$ for other transformations.
 
 \begin{problem}
 The region $R$ is bounded by:
-$$x - y = 0,\quad x - y = 2,\quad x + y = 1,\quad x + y = 3$$
+$$x = y,\quad x = 2+y,\quad x = 1-y,\quad x = 3-y$$
 
 This is a parallelogram whose sides are parallel to the diagonals.  Introduce:
 $$u = x - y, \qquad v = x + y$$
@@ -1042,9 +1001,9 @@ $$\answer{0} \leq u \leq \answer{2}, \qquad \answer{1} \leq v \leq \answer{3}$$
 
 \textbf{Solve for $x$ and $y$:}
 
-Adding: $u + v = 2x$, so $x = \dfrac{u+v}{\answer{2}}$.
+$u + v = 2x$, so $x = \answer{\frac{u+v}{2}}$.
 
-Subtracting: $v - u = 2y$, so $y = \dfrac{v-u}{\answer{2}}$.
+$v - u = 2y$, so $y = \answer{\frac{v-u}{2}}$.
 
 \textbf{Compute the Jacobian:}
 $$\frac{\partial x}{\partial u} = \answer{1/2}, \quad \frac{\partial x}{\partial v} = \answer{1/2}, \quad \frac{\partial y}{\partial u} = \answer{-1/2}, \quad \frac{\partial y}{\partial v} = \answer{1/2}$$
@@ -1054,9 +1013,7 @@ $$J = \frac{1}{2}\cdot\frac{1}{2} - \frac{1}{2}\cdot\left(-\frac{1}{2}\right) = 
 \textbf{Area of the parallelogram $R$:}
 $$\text{Area} = \int_1^3\int_0^2 \frac{1}{2}\,du\,dv = \frac{1}{2}\cdot\answer{2}\cdot\answer{2} = \answer{2}$$
 
-\begin{feedback}
-The transformation $u=x-y$, $v=x+y$ rotates the parallelogram into a nice axis-aligned rectangle.  The Jacobian $\frac{1}{2}$ says the $(u,v)$-rectangle has \emph{twice} the area of the parallelogram --- so we multiply by $\frac{1}{2}$ to correct for that.
-\end{feedback}
+
 \end{problem}
 
 % --- Linearized Tilted-Parallelogram Transformation ($u=x-y$, $v=x+y$) ---
@@ -1079,9 +1036,9 @@ The transformation $u=x-y$, $v=x+y$ rotates the parallelogram into a nice axis-a
   \draw[blue!60!black,thick] (0.7,1.4) rectangle (1.4,2.1);
 
   \draw[->,orange!80!black,very thick] (0.7,1.4) -- (1.4,1.4)
-        node[midway,below,font=\small]{$\begin{bmatrix}\Delta u \\ 0\end{bmatrix}$};
+        node[midway,below,font=\small]{$\begin{bmatrix}du \\ 0\end{bmatrix}$};
   \draw[->,violet!80!black,very thick] (0.7,1.4) -- (0.7,2.1)
-        node[midway,left,font=\small]{$\begin{bmatrix}0 \\ \Delta v\end{bmatrix}$};
+        node[midway,left,font=\small]{$\begin{bmatrix}0 \\ dv\end{bmatrix}$};
 
   \fill[black] (0.7,1.4) circle (1.5pt);
   \node[font=\scriptsize,below left] at (0.7,1.4) {$(u_0,v_0)$};
@@ -1096,7 +1053,7 @@ The transformation $u=x-y$, $v=x+y$ rotates the parallelogram into a nice axis-a
 \end{scope}
 
 %=== RIGHT: xy space — parallelogram ===
-\begin{scope}[xshift=5.2cm, yshift=0.4cm]
+\begin{scope}[xshift=5.2cm, yshift=0.6cm]
   \draw[->](-0.2,0)--(3.4,0) node[right]{$x$};
   \draw[->](0,-1.3)--(0,2.4) node[above]{$y$};
 
@@ -1110,13 +1067,13 @@ The transformation $u=x-y$, $v=x+y$ rotates the parallelogram into a nice axis-a
 
   \draw[->,orange!80!black,very thick] (P)--(Q)
         node[midway,right,font=\footnotesize,align=left]
-        {$\Delta u\begin{bmatrix}\tfrac{1}{2}\\-\tfrac{1}{2}\end{bmatrix}$};
+        {$du\begin{bmatrix}\tfrac{1}{2}\\-\tfrac{1}{2}\end{bmatrix}$};
   \draw[->,violet!80!black,very thick] (P)--(R)
         node[midway,left,font=\footnotesize,align=right]
-        {$\Delta v\begin{bmatrix}\tfrac{1}{2}\\\tfrac{1}{2}\end{bmatrix}$};
+        {$dv\begin{bmatrix}\tfrac{1}{2}\\\tfrac{1}{2}\end{bmatrix}$};
 
   \fill[black] (P) circle (1.5pt);
-  \node[font=\scriptsize,below right] at (P) {$T(u_0,v_0)$};
+  \node[font=\scriptsize,below left] at (P) {$T(u_0,v_0)$};
 
   % Right-angle marker
   \pgfmathsetmacro{\nEu}{sqrt(\euxA*\euxA+\euyA*\euyA)}
@@ -1126,51 +1083,33 @@ The transformation $u=x-y$, $v=x+y$ rotates the parallelogram into a nice axis-a
   \draw[gray!60,thin]
     ($(P)+(\uux,\uuy)$) -- ($(P)+(\uux+\uvx,\uuy+\uvy)$) -- ($(P)+(\uvx,\uvy)$);
 
-  % Area label
-  \node[blue!70!black,font=\small] at ($(P)+({(\euxA+\evxA)/2},{(\euyA+\evyA)/2})$)
-        {Area $= \tfrac{1}{2}\Delta u\,\Delta v$};
-
   % Annotation box
-  \draw[red!60!black,thick,rounded corners] (-0.2,-1.2) rectangle (3.3,-0.85);
-  \node[red!60!black,font=\small] at (1.55,-1.02)
-        {$|\det J| = \tfrac{1}{2}\cdot\tfrac{1}{2}+\tfrac{1}{2}\cdot\tfrac{1}{2} = \tfrac{1}{2}$
-         \;($\vec{e}_u \perp \vec{e}_v$)};
+  \draw[red!60!black,thick,rounded corners] (-0.15,-1.3) rectangle (3.3,-0.85);
+  \node[red!60!black,font=\small] at (1.55,-1.12)
+        {$|\det J| = \tfrac{1}{2}\cdot\tfrac{1}{2}+\tfrac{1}{2}\cdot\tfrac{1}{2} = \tfrac{1}{2}$};
 
-  \node[font=\small,align=center,below] at (1.55,-1.25)
+  \node[font=\small,align=center,below] at (1.55,-1.35)
         {\textbf{Linearized image in $(x,y)$}\\rhombus, area halved relative to $(u,v)$ cell};
 \end{scope}
 
 \end{tikzpicture}
 \end{center}
 
-\subsection*{Example 2: The Ellipse to a Circle}
+\subsection*{The Ellipse to a Circle}
 
 \begin{problem}
 Integrate over the ellipse $\dfrac{x^2}{9} + \dfrac{y^2}{4} \leq 1$.
 
-\textbf{Step 1: Transform.}  Let $u = \dfrac{x}{3}$, $v = \dfrac{y}{2}$, so $u^2+v^2 \leq 1$ (unit disk).
+\textbf{Transform.}  Let $u = \dfrac{x}{3}$, $v = \dfrac{y}{2}$, so $u^2+v^2 \leq 1$ (unit disk).
 
 $$x = \answer{3u}, \qquad y = \answer{2v}$$
 
-\textbf{Step 2: Jacobian.}
+\textbf{Find the Jacobian.}
 $$\mathbf{J} = \begin{bmatrix} \answer{3} & \answer{0} \\ \answer{0} & \answer{2} \end{bmatrix}, \qquad J = \answer{6}$$
 
-\textbf{Step 3: Area of the ellipse.}
+\textbf{Calculate the Area of the ellipse.}
 $$\text{Area} = \iint_{\text{ellipse}} dx\,dy = \iint_{\text{unit disk}} 6\,du\,dv = 6 \cdot \answer{\pi} = \answer{6\pi}$$
 
-Check: $\pi ab = \pi(3)(2) = 6\pi$ \checkmark
-
-\textbf{Step 4: Integrate $f(x,y) = x^2$ over the ellipse.}
-
-In new coordinates, $f = (3u)^2 = \answer{9u^2}$.
-
-Using polar in the unit disk ($u = r\cos\theta$, $v = r\sin\theta$):
-$$\iint_{\text{ellipse}} x^2\,dx\,dy = \int_0^{2\pi}\int_0^1 9r^2\cos^2\theta \cdot 6 \cdot \answer{r}\,dr\,d\theta$$
-$$= 54\int_0^{2\pi}\cos^2\theta\,d\theta \cdot \int_0^1 r^3\,dr = 54 \cdot \answer{\pi} \cdot \answer{1/4} = \answer{27\pi/2}$$
-
-\begin{feedback}
-Chaining two transformations (ellipse $\to$ circle, then circle $\to$ polar) with Jacobians $6$ and $r$ respectively is very powerful.  The combined Jacobian is $6r$.
-\end{feedback}
 \end{problem}
 
 % --- Linearized Ellipse-to-Circle Transformation ($x=3u$, $y=2v$) ---
@@ -1195,9 +1134,9 @@ Chaining two transformations (ellipse $\to$ circle, then circle $\to$ polar) wit
   \draw[blue!60!black,thick] (0.35,0.35) rectangle (0.85,0.85);
   % Basis steps
   \draw[->,orange!80!black,very thick] (0.35,0.35) -- (0.85,0.35)
-        node[midway,below,font=\small]{$\begin{bmatrix}\Delta u \\ 0\end{bmatrix}$};
+        node[midway,below,font=\small]{$\begin{bmatrix}du \\ 0\end{bmatrix}$};
   \draw[->,violet!80!black,very thick] (0.35,0.35) -- (0.35,0.85)
-        node[midway,left,font=\small]{$\begin{bmatrix}0 \\ \Delta v\end{bmatrix}$};
+        node[midway,left,font=\small]{$\begin{bmatrix}0 \\ dv\end{bmatrix}$};
   \fill[black] (0.35,0.35) circle (1.5pt);
   \node[font=\scriptsize,align=center] at (0,-1.7)
         {\textbf{Parameter space} $(u,v)$\\unit disk $u^2+v^2 \leq 1$};
@@ -1218,7 +1157,7 @@ Chaining two transformations (ellipse $\to$ circle, then circle $\to$ polar) wit
   \fill[blue!10,opacity=0.4] (0,0) ellipse [x radius=1.65, y radius=1.1];
 
   % Parallelogram (image of highlighted cell — now an axis-aligned rectangle)
-  \coordinate (P2) at (0.58, 0.39);
+  \coordinate (P2) at (0.7, 0.45);
   \coordinate (Q2) at ($(P2)+(\euxB,\euyB)$);
   \coordinate (R2) at ($(P2)+(\evxB,\evyB)$);
   \coordinate (S2) at ($(P2)+(\euxB+\evxB,\euyB+\evyB)$);
@@ -1228,10 +1167,10 @@ Chaining two transformations (ellipse $\to$ circle, then circle $\to$ polar) wit
 
   \draw[->,orange!80!black,very thick] (P2)--(Q2)
         node[midway,below,font=\footnotesize]
-        {$\Delta u\begin{bmatrix}3\\0\end{bmatrix}$};
+        {$du\begin{bmatrix}3\\0\end{bmatrix}$};
   \draw[->,violet!80!black,very thick] (P2)--(R2)
         node[midway,left,font=\footnotesize]
-        {$\Delta v\begin{bmatrix}0\\2\end{bmatrix}$};
+        {$dv\begin{bmatrix}0\\2\end{bmatrix}$};
 
   % Right-angle box
   \draw[gray!60,thin]
@@ -1241,12 +1180,12 @@ Chaining two transformations (ellipse $\to$ circle, then circle $\to$ polar) wit
 
   % Area label
   \node[blue!70!black,font=\small] at ($(P2)+({(\euxB+\evxB)/2},{(\euyB+\evyB)/2})$)
-        {$6\,\Delta u\,\Delta v$};
+        {$6\,du\,dv$};
 
   % Annotation box
-  \draw[red!60!black,thick,rounded corners] (-1.9,-1.65) rectangle (2.3,-1.3);
+  \draw[red!60!black,thick,rounded corners] (-1.5,-1.65) rectangle (2,-1.3);
   \node[red!60!black,font=\small] at (0.2,-1.47)
-        {$|\det J| = 3\cdot2 - 0\cdot0 = 6$\;(axis-aligned stretch)};
+        {$|\det J| = 3\cdot2 - 0\cdot0 = 6$};
 
   \node[font=\small,align=center,below] at (0.2,-1.68)
         {\textbf{Coordinate space} $(x,y)$\\ellipse; rectangle cells stretched by factor 6};
@@ -1255,148 +1194,16 @@ Chaining two transformations (ellipse $\to$ circle, then circle $\to$ polar) wit
 \end{tikzpicture}
 \end{center}
 
-\subsection*{Example 3: Using the Inverse Jacobian}
-
-\begin{problem}
-Integrate over the region bounded by $xy = 1$, $xy = 3$, $y = x$, $y = 3x$.
-
-Let $u = xy$ and $v = y/x$.
-
-\textbf{Step 1: New bounds.}
-$$\answer{1} \leq u \leq \answer{3}, \qquad \answer{1} \leq v \leq \answer{3}$$
-
-\textbf{Step 2: Solve for $x$ and $y$.}
-
-$uv = (xy)(y/x) = y^2$, so $y = \sqrt{uv}$.  Then $x = u/y = \sqrt{u/v}$.
-
-\textbf{Step 3: Compute the inverse Jacobian} $\partial(u,v)/\partial(x,y)$ (easier here).
-
-With $u = xy$ and $v = y/x$:
-$$\frac{\partial u}{\partial x} = \answer{y}, \quad \frac{\partial u}{\partial y} = \answer{x}, \quad \frac{\partial v}{\partial x} = \answer{-y/x^2}, \quad \frac{\partial v}{\partial y} = \answer{1/x}$$
-
-$$J^{-1} = \frac{\partial(u,v)}{\partial(x,y)} = y\cdot\frac{1}{x} - x\cdot\left(-\frac{y}{x^2}\right) = \frac{y}{x}+\frac{y}{x} = \answer{2v}$$
-
-Forward Jacobian: $J = \dfrac{1}{2v}$, so $|J| = \dfrac{1}{2v}$.
-
-\textbf{Step 4: Area of the region.}
-$$\text{Area} = \int_1^3\int_1^3 \frac{1}{2v}\,du\,dv = \int_1^3 \frac{1}{2v}\,dv \cdot \int_1^3 du = \frac{\ln 3}{2} \cdot 2 = \answer{\ln 3}$$
-
-\begin{feedback}
-When the forward transformation $(u,v)\to(x,y)$ is messy to differentiate, compute the inverse Jacobian $\partial(u,v)/\partial(x,y)$ instead and take the reciprocal.
-\end{feedback}
-\end{problem}
-
-% --- Linearized Hyperbolic-Region Transformation ($u=xy$, $v=y/x$) ---
-% T: (u,v) -> (x,y) with x=sqrt(u/v), y=sqrt(uv).  J = 1/(2v).
-% Evaluated at (u_0,v_0)=(2,2): x_0=1, y_0=2.
-%   e_u = (∂x/∂u, ∂y/∂u) = (1/(2√(uv)), √v/(2√u)) = (1/4, 1/2)  at (2,2)
-%   e_v = (∂x/∂v, ∂y/∂v) = (-√u/(2v^{3/2}), √u/(2√v)) = (-1/4, 1/2) at (2,2)
-% |J| = 1/(2v_0) = 1/4.
-\begin{center}
-\begin{tikzpicture}[scale=1.25]
-
-% Column vectors of J at (u0,v0)=(2,2), scaled ×4 for visibility
-\def\euxC{1.0}   \def\euyC{2.0}    % e_u = (1/4, 1/2)×4
-\def\evxC{-1.0}  \def\evyC{2.0}    % e_v = (-1/4,1/2)×4
-
-%=== LEFT: parameter (u,v) space ===
-\begin{scope}[xshift=-0.3cm]
-  \draw[->](-0.2,0)--(3.4,0) node[right]{$u$};
-  \draw[->](0,-0.2)--(0,3.4) node[above]{$v$};
-  % Hyperbolic region boundary lines (u=1,3 and v=1,3 are straight in uv-space)
-  \fill[blue!10,opacity=0.6] (0.5,0.5) rectangle (1.5,1.5);
-  \draw[blue!40!black,thick,dashed] (0.5,0) -- (0.5,3.2) node[above,font=\tiny]{$u=1$};
-  \draw[blue!40!black,thick,dashed] (1.5,0) -- (1.5,3.2) node[above,font=\tiny]{$u=3$};
-  \draw[blue!40!black,thick,dashed] (0,0.5) -- (3.2,0.5) node[right,font=\tiny]{$v=1$};
-  \draw[blue!40!black,thick,dashed] (0,1.5) -- (3.2,1.5) node[right,font=\tiny]{$v=3$};
-
-  % Highlighted cell centered near (u0,v0)=(2,2)
-  \fill[blue!25,opacity=0.8] (0.9,0.9) rectangle (1.25,1.25);
-  \draw[blue!60!black,thick] (0.9,0.9) rectangle (1.25,1.25);
-
-  \draw[->,orange!80!black,very thick] (0.9,0.9) -- (1.25,0.9)
-        node[midway,below,font=\small]{$\begin{bmatrix}\Delta u \\ 0\end{bmatrix}$};
-  \draw[->,violet!80!black,very thick] (0.9,0.9) -- (0.9,1.25)
-        node[midway,left,font=\small]{$\begin{bmatrix}0 \\ \Delta v\end{bmatrix}$};
-
-  \fill[black] (0.9,0.9) circle (1.5pt);
-  \node[font=\scriptsize,below right] at (0.9,0.9) {$(u_0,v_0)$};
-  \node[font=\small,align=center,below] at (1.5,-0.45)
-        {\textbf{Parameter space} $(u,v)$\\rectangle; $1\leq u\leq3$, $1\leq v\leq3$};
-\end{scope}
-
-%=== ARROW ===
-\begin{scope}[xshift=3.6cm, yshift=1.5cm]
-  \draw[->,very thick,gray!60](0,0)--(1.2,0) node[midway,above,font=\small]{$J$};
-  \node[gray!60,font=\scriptsize,align=center] at (0.6,-0.38)
-        {$|J|=\tfrac{1}{2v}$\\(varies)};
-\end{scope}
-
-%=== RIGHT: xy space — parallelogram (non-rectangular!) ===
-\begin{scope}[xshift=5.4cm, yshift=-0.8cm]
-  \draw[->](-0.3,0)--(2.8,0) node[right]{$x$};
-  \draw[->](0,-0.3)--(0,3.4) node[above]{$y$};
-
-  % Hyperbolic region boundaries in xy-space (sketched)
-  % xy=1 (hyperbola), xy=3, y=x, y=3x
-  \clip (-0.2,-0.2) rectangle (2.7,3.3);
-  \draw[blue!40!black,thin,dashed,domain=0.15:2.6,samples=60]
-        plot (\x, {1/\x}) node[right,font=\tiny]{$xy=1$};
-  \draw[blue!40!black,thin,dashed,domain=0.5:2.6,samples=60]
-        plot (\x, {3/\x}) node[right,font=\tiny]{$xy=3$};
-  \draw[blue!40!black,thin,dashed,domain=0.1:2.1]
-        plot (\x, \x) node[right,font=\tiny]{$y=x$};
-  \draw[blue!40!black,thin,dashed,domain=0.1:1.0]
-        plot (\x, {3*\x}) node[right,font=\tiny]{$y=3x$};
-
-  % Parallelogram at base point T(u0,v0)=(x0,y0)=(1,2)
-  \coordinate (P3) at (1.0, 2.0);
-  % Scale column vectors by 0.25 for display (going from ×4 back to ×1)
-  \pgfmathsetmacro{\euxCs}{\euxC*0.25}
-  \pgfmathsetmacro{\euiCs}{\euyC*0.25}
-  \pgfmathsetmacro{\evxCs}{\evxC*0.25}
-  \pgfmathsetmacro{\evyCs}{\evyC*0.25}
-  \coordinate (Q3) at ($(P3)+(\euxCs,\euiCs)$);
-  \coordinate (R3) at ($(P3)+(\evxCs,\evyCs)$);
-  \coordinate (S3) at ($(P3)+(\euxCs+\evxCs,\euiCs+\evyCs)$);
-
-  \fill[blue!25,opacity=0.8] (P3)--(Q3)--(S3)--(R3)--cycle;
-  \draw[blue!60!black,thick] (P3)--(Q3)--(S3)--(R3)--cycle;
-
-  \draw[->,orange!80!black,very thick] (P3)--(Q3)
-        node[midway,right,font=\footnotesize,xshift=2pt]
-        {$\Delta u\begin{bmatrix}\tfrac{1}{4}\\\tfrac{1}{2}\end{bmatrix}$};
-  \draw[->,violet!80!black,very thick] (P3)--(R3)
-        node[midway,left,font=\footnotesize]
-        {$\Delta v\begin{bmatrix}-\tfrac{1}{4}\\\tfrac{1}{2}\end{bmatrix}$};
-
-  \fill[black] (P3) circle (1.5pt);
-  \node[font=\scriptsize,right] at (P3) {\;$(x_0,y_0)$};
-
-  % Area label
-  \node[blue!70!black,font=\small] at ($(P3)+({(\euxCs+\evxCs)/2},{(\euiCs+\evyCs)/2})+(0.4,0)$)
-        {Area $= \tfrac{1}{4}\Delta u\,\Delta v$};
-
-  % Annotation box
-  \draw[red!60!black,thick,rounded corners] (-0.2,-0.55) rectangle (2.65,-0.2);
-  \node[red!60!black,font=\small] at (1.2,-0.37)
-        {$|\det J|{=}\tfrac{1}{4}\cdot\tfrac{1}{2}-({-}\tfrac{1}{4})\cdot\tfrac{1}{2}{=}\tfrac{1}{4}$ at $(u_0,v_0){=}(2,2)$};
-
-  \node[font=\small,align=center,below] at (1.2,-0.58)
-        {\textbf{Linearized image in $(x,y)$}\\non-rectangular; $\vec{e}_u$ and $\vec{e}_v$ not perpendicular};
-\end{scope}
-
-\end{tikzpicture}
-\end{center}
-
-\subsection*{Example 4: Matching the Integrand}
+\subsection*{Simplifying an Integrand}
 
 \begin{problem}
 Evaluate $\displaystyle\iint_R e^{(x-y)/(x+y)}\,dA$ where $R$ is the triangle with vertices $(0,0)$, $(2,0)$, $(0,2)$.
 
+If we strategically choose our variables, we can make an integral easier to compute.
+
 \textbf{Step 1: Choose the transformation.}
 
-Let $u = x - y$ and $v = x + y$.  The function becomes $e^{u/v}$.
+Let $u = x - y$ and $v = x + y$.  The integrand becomes $\answer{e^{u/v}}$.
 
 Identify the new bounds:
 \begin{itemize}
@@ -1409,23 +1216,20 @@ The region becomes:
 $$0 \leq v \leq 2, \qquad \answer{-v} \leq u \leq \answer{v}$$
 
 \textbf{Step 2: Solve for $x$ and $y$.}
-$$x = \frac{u+v}{2}, \qquad y = \frac{v-u}{2}$$
+$$x = \answer{\frac{u+v}{2}}, \qquad y = \answer{\frac{v-u}{2}}$$
 
 \textbf{Step 3: Jacobian.}  (same calculation as Example 1):
 $$|J| = \answer{1/2}$$
 
 \textbf{Step 4: Evaluate.}
-$$\iint_R e^{(x-y)/(x+y)}\,dA = \int_0^2\int_{-v}^{v} e^{u/v} \cdot \frac{1}{2}\,du\,dv$$
+$$\iint_R e^{(x-y)/(x+y)}\,dA = \int_0^2\int_{-v}^{v} \answer{e^{u/v} \cdot \frac{1}{2}}\,du\,dv$$
 
 Inner integral:
-$$\int_{-v}^{v} e^{u/v}\,du = \left[\answer{v\,e^{u/v}}\right]_{-v}^{v} = v\bigl(e - e^{-1}\bigr)$$
+$$\frac{1}{2}\int_{-v}^{v} e^{u/v}\,du = \frac{1}{2}\left[\answer{v\,e^{u/v}}\right]_{-v}^{v} = \answer{\frac{1}{2}\cdot v\cdot (e - e^{-1})$$
 
-Full integral:
-$$\frac{1}{2}\int_0^2 v\bigl(e - e^{-1}\bigr)\,dv = \frac{e-e^{-1}}{2}\cdot\Bigl[\frac{v^2}{2}\Bigr]_0^2 = \frac{e-e^{-1}}{2}\cdot 2 = \answer{e - 1/e}$$
+Outer integral:
+$$\frac{1}{2}\int_0^2 v\bigl(e - e^{-1}\bigr)\,dv = \frac{e-e^{-1}}{2}\cdot\Bigl[\answer{\frac{v^2}{2}}\Bigr]_0^2 = \answer{e - 1/e}$$
 
-\begin{feedback}
-The choice $u = x-y$, $v = x+y$ was motivated entirely by the integrand: the exponent is $(x-y)/(x+y) = u/v$ in the new coordinates.  Good transformation choices make the integrand simple \emph{and} the region simple simultaneously.
-\end{feedback}
 \end{problem}
 
 % --- Linearized Triangle Transformation ($u=x-y$, $v=x+y$) ---
@@ -1453,12 +1257,12 @@ The choice $u = x-y$, $v = x+y$ was motivated entirely by the integrand: the exp
   \draw[blue!60!black,thick] (0.3,1.1) rectangle (0.7,1.5);
 
   \draw[->,orange!80!black,very thick] (0.3,1.1) -- (0.7,1.1)
-        node[midway,below,font=\small]{$\begin{bmatrix}\Delta u \\ 0\end{bmatrix}$};
+        node[midway,below,font=\small]{$\begin{bmatrix}du \\ 0\end{bmatrix}$};
   \draw[->,violet!80!black,very thick] (0.3,1.1) -- (0.3,1.5)
-        node[midway,left,font=\small]{$\begin{bmatrix}0 \\ \Delta v\end{bmatrix}$};
+        node[midway,left,font=\small]{$\begin{bmatrix}0 \\ dv\end{bmatrix}$};
 
   \fill[black] (0.3,1.1) circle (1.5pt);
-  \node[font=\scriptsize,right] at (0.3,1.1) {\;$(u_0,v_0)$};
+  \node[font=\scriptsize,below left] at (0.3,1.1) {\;$(u_0,v_0)$};
 
   \node[font=\small,align=center,below] at (0,-0.45)
         {\textbf{Parameter space} $(u,v)$\\triangular region};
@@ -1493,10 +1297,10 @@ The choice $u = x-y$, $v = x+y$ was motivated entirely by the integrand: the exp
 
   \draw[->,orange!80!black,very thick] (P4)--(Q4)
         node[midway,below right,font=\footnotesize]
-        {$\Delta u\begin{bmatrix}\tfrac{1}{2}\\-\tfrac{1}{2}\end{bmatrix}$};
+        {$du\begin{bmatrix}\tfrac{1}{2}\\-\tfrac{1}{2}\end{bmatrix}$};
   \draw[->,violet!80!black,very thick] (P4)--(R4)
         node[midway,left,font=\footnotesize]
-        {$\Delta v\begin{bmatrix}\tfrac{1}{2}\\\tfrac{1}{2}\end{bmatrix}$};
+        {$dv\begin{bmatrix}\tfrac{1}{2}\\\tfrac{1}{2}\end{bmatrix}$};
 
   % Right-angle marker
   \pgfmathsetmacro{\nEuD}{sqrt(\euxDs*\euxDs+\euyDs*\euyDs)}
@@ -1508,17 +1312,13 @@ The choice $u = x-y$, $v = x+y$ was motivated entirely by the integrand: the exp
 
   \fill[black] (P4) circle (1.5pt);
 
-  % Area label
-  \node[blue!70!black,font=\small] at ($(P4)+({(\euxDs+\evxDs)/2},{(\euyDs+\evyDs)/2})+(0.45,0)$)
-        {$\tfrac{1}{2}\Delta u\,\Delta v$};
-
   % Annotation box
-  \draw[red!60!black,thick,rounded corners] (-0.2,-1.2) rectangle (2.65,-0.85);
+  \draw[red!60!black,thick,rounded corners] (.5,-1.2) rectangle (2,-0.85);
   \node[red!60!black,font=\small] at (1.2,-1.02)
-        {$|\det J|=\tfrac{1}{2}$ (same linear map as Example~1)};
+        {$|\det J|=\tfrac{1}{2}$};
 
   \node[font=\small,align=center,below] at (1.2,-1.25)
-        {\textbf{Linearized image in $(x,y)$}\\rhombus; image triangle has vertices $(0,0),(2,0),(0,2)$};
+        {\textbf{Linearized image in $(x,y)$}};
 \end{scope}
 
 \end{tikzpicture}
