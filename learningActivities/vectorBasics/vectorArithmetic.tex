@@ -97,7 +97,7 @@ Think about moving along one vector, and then moving along the other vector star
         \end{selectAll}
 
         \item For $\vec{v}=[1,6]$ and $\vec{u}=[5,-2]$, select all correct visualizations of the way to build $\vec{v}-\vec{u}$ from $\vec{v}$ and $\vec{u}$:
-        \begin{selectAll}
+        \begin{multipleChoice}
             \choice{
                 \begin{tikzpicture}[scale=0.75, thick, >=stealth]
                     \draw[->] (0,0) -- (6,4) node[midway,above left] {$\vec{v}-\vec{u}$};
@@ -107,7 +107,7 @@ Think about moving along one vector, and then moving along the other vector star
                     \draw[gray,dashed] (0,-3) -- (0,13);
                 \end{tikzpicture}
             }
-            \choice[correct]{
+            \choice{
                 \begin{tikzpicture}[scale=0.75, thick, >=stealth]
                     \draw[->] (0,0) -- (5,-2) node[midway,below] {$\vec{u}$};
                     \draw[->] (5,-2) -- (6,4) node[midway,right] {$\vec{v}$};
@@ -135,7 +135,7 @@ Think about moving along one vector, and then moving along the other vector star
                     \draw[gray,dashed] (0,-1) -- (0,10);
                 \end{tikzpicture}
             }
-        \end{selectAll}
+        \end{multipleChoice}
     \end{enumerate}
     
     \begin{feedback}
@@ -155,8 +155,8 @@ Now let's use the context of momentum to learn about scaling vectors.
     If Riley and Taylor have a combined mass of $60$kg, and the box has a mass of $80$kg, with velocity vectors $\vec{v}_{RT}=[-5,2]$ and $\vec{v}_B=[5,2]$, in which direction will the box and boys move together after the collision?
     \begin{multipleChoice}
         \choice{They will move to the left and upwards.}
-        \choice[correct]{They will move directly upwards.}
-        \choice{They will move to the right and upwards.}
+        \choice{They will move directly upwards.}
+        \choice[correct]{They will move to the right and upwards.}
         \choice{They will stop moving.}
     \end{multipleChoice}
     \begin{feedback}
